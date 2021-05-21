@@ -16,6 +16,7 @@ namespace Manage.Core.Repository.Base
         Task<IReadOnlyList<T>> GetAsync(Expression<Func<T, bool>> predicate);
 
         Task UpdateAsync(T entity);
+       
         Task DeleteAsync(T entity);
 
     }

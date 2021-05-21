@@ -1,0 +1,18 @@
+﻿using AutoMapper;
+using Manage.Application.Models;
+using Manage.Core.Entities;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Manage.Application.Mapper
+{
+   public class EmployeeProfile : Profile
+    {
+        public EmployeeProfile()
+        {
+            CreateMap<ApplicationUserModel, ApplicationUser>().ReverseMap();
+            CreateMap<DepartmentModel, Department>().ReverseMap();
+        }
+    }
+}

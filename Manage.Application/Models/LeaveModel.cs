@@ -1,19 +1,19 @@
-﻿using Manage.Core.Entities.Base;
+﻿using Manage.Application.Models.Base;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace Manage.Core.Entities
+namespace Manage.Application.Models
 {
-   public class Leave : Entity
-   {
+   public class LeaveModel : BaseModel
+    {
         [DisplayName("Date Applied")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime CurrentDate { get; set; }
 
-        public Leave()
+        public LeaveModel()
         {
             CurrentDate = DateTime.Now;
         }
@@ -40,7 +40,7 @@ namespace Manage.Core.Entities
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
         public DateTime JoiningDate { get; set; }
 
-        //collection
-        public ICollection<EmployeeLeave> EmployeeLeaves { get; set; }
+        //Navigation property
+        public ICollection<EmployeeLeaveModel> EmployeeLeaves { get; set; }
     }
 }
