@@ -39,7 +39,7 @@ namespace Manage.Infrastructure.Repository
         {
             var employee = await _manageContext.Users.FindAsync(userId);
             var empDepartment =  _manageContext.Departments.Where(x => x.Id == employee.DepartmentId).FirstOrDefault();
-            return empDepartment; 
+            return empDepartment;
         }
     }
 }
