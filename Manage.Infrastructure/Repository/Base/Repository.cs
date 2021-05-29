@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Manage.Infrastructure.Repository.Base
 {
-    public class Repository<T> : IRepository<T> where T : Entity
+    public class Repository<T> : IRepository<T> where T : class
     {
         private readonly ManageContext _manageContext;
 

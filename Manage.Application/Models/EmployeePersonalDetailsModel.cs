@@ -7,9 +7,10 @@ using System.Text;
 
 namespace Manage.Application.Models
 {
-  public class EmployeePersonalDetailsModel : BaseModel
+  public class EmployeePersonalDetailsModel 
     {
 
+        public string Id { get; set; }
         //Personal Details
         public string PhotoPath { get; set; }
         //public string FilePath { get; set; }

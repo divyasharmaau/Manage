@@ -7,8 +7,9 @@ using System.Text;
 
 namespace Manage.Core.Entities
 {
-   public class Leave : Entity
+   public class Leave 
    {
+        public int Id { get; set; }
         [DisplayName("Date Applied")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime CurrentDate { get; set; }

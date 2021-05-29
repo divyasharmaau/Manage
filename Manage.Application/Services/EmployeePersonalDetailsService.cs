@@ -30,7 +30,7 @@ namespace Manage.Application.Services
             return empDetailsModel;
         }
 
-        public async Task<EmployeePersonalDetailsModel> GetEmployeeById(int employeeId)
+        public async Task<EmployeePersonalDetailsModel> GetEmployeeById(string employeeId)
         {
 
            var empEntity = await _employeePersonalDetailsRepository.GetEmployeeById(employeeId);

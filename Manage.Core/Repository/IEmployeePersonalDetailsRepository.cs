@@ -10,7 +10,7 @@ namespace Manage.Core.Repository
 {
     public interface IEmployeePersonalDetailsRepository : IRepository<EmployeePersonalDetails>
     {
-        Task<EmployeePersonalDetails> GetEmployeeById(int id);
+        Task<EmployeePersonalDetails> GetEmployeeById(string id);
 
     }
 }

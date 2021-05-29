@@ -34,7 +34,7 @@ namespace Manage.Application.Services
            
         }
 
-        public async Task<DepartmentModel> GetEmployeeDepartment(int employeeId)
+        public async Task<DepartmentModel> GetEmployeeDepartment(string employeeId)
         {
             var empDept = await _departmentRepository.GetEmployeeDepartment(employeeId);
             var employeeDept = _mapper.Map<DepartmentModel>(empDept);

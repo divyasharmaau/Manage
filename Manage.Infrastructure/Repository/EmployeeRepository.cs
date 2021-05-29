@@ -36,7 +36,7 @@ namespace Manage.Infrastructure.Repository
             return emp;
         }
 
-        public async  Task<ApplicationUser> GetEmployeeById(int id)
+        public async  Task<ApplicationUser> GetEmployeeById(string id)
         {
             var employee = await _userManager.FindByIdAsync(id.ToString());
             return employee;

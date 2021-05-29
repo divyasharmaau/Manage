@@ -12,7 +12,7 @@ namespace Manage.Core.Repository
     {
         Task<IEnumerable<ApplicationUser>> GetAllEmployeeList();
         Task<IdentityResult> Create(ApplicationUser user, string password);
-        Task<ApplicationUser> GetEmployeeById(int id);
+        Task<ApplicationUser> GetEmployeeById(string id);
         Task<IdentityResult> Update(ApplicationUser user);
     }
 }

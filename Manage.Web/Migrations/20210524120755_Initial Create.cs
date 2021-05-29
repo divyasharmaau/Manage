@@ -11,8 +11,7 @@ namespace Manage.Web.Migrations
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(nullable: false),
                     Name = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(maxLength: 256, nullable: true),
                     ConcurrencyStamp = table.Column<string>(nullable: true)
@@ -26,23 +25,24 @@ namespace Manage.Web.Migrations
                 name: "Department",
                 columns: table => new
                 {
-                    ID = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Department", x => x.ID);
+                    table.PrimaryKey("PK_Department", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Leave",
                 columns: table => new
                 {
-                    ID = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CurrentDate = table.Column<DateTime>(nullable: false),
                     LeaveType = table.Column<string>(nullable: false),
+                    LeaveStatus = table.Column<string>(nullable: true),
                     FromDate = table.Column<DateTime>(nullable: false),
                     TillDate = table.Column<DateTime>(nullable: false),
                     Duration = table.Column<string>(nullable: false),
@@ -55,7 +55,7 @@ namespace Manage.Web.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Leave", x => x.ID);
+                    table.PrimaryKey("PK_Leave", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -64,7 +64,7 @@ namespace Manage.Web.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleId = table.Column<int>(nullable: false),
+                    RoleId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
                 },
@@ -83,8 +83,7 @@ namespace Manage.Web.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(nullable: false),
                     UserName = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
                     Email = table.Column<string>(maxLength: 256, nullable: true),
@@ -120,7 +119,7 @@ namespace Manage.Web.Migrations
                         name: "FK_AspNetUsers_Department_DepartmentId",
                         column: x => x.DepartmentId,
                         principalTable: "Department",
-                        principalColumn: "ID",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -130,7 +129,7 @@ namespace Manage.Web.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(nullable: false),
+                    UserId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
                 },
@@ -152,7 +151,7 @@ namespace Manage.Web.Migrations
                     LoginProvider = table.Column<string>(nullable: false),
                     ProviderKey = table.Column<string>(nullable: false),
                     ProviderDisplayName = table.Column<string>(nullable: true),
-                    UserId = table.Column<int>(nullable: false)
+                    UserId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -169,8 +168,8 @@ namespace Manage.Web.Migrations
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(nullable: false),
-                    RoleId = table.Column<int>(nullable: false)
+                    UserId = table.Column<string>(nullable: false),
+                    RoleId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -193,7 +192,7 @@ namespace Manage.Web.Migrations
                 name: "AspNetUserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(nullable: false),
+                    UserId = table.Column<string>(nullable: false),
                     LoginProvider = table.Column<string>(nullable: false),
                     Name = table.Column<string>(nullable: false),
                     Value = table.Column<string>(nullable: true)
@@ -213,9 +212,9 @@ namespace Manage.Web.Migrations
                 name: "EmployeeLeave",
                 columns: table => new
                 {
-                    EmployeeId = table.Column<int>(nullable: false),
+                    EmployeeId = table.Column<string>(nullable: false),
                     LeaveId = table.Column<int>(nullable: false),
-                    ID = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -230,7 +229,7 @@ namespace Manage.Web.Migrations
                         name: "FK_EmployeeLeave_Leave_LeaveId",
                         column: x => x.LeaveId,
                         principalTable: "Leave",
-                        principalColumn: "ID",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -238,7 +237,7 @@ namespace Manage.Web.Migrations
                 name: "EmployeePersonalDetails",
                 columns: table => new
                 {
-                    ID = table.Column<int>(nullable: false),
+                    Id = table.Column<string>(nullable: false),
                     PhotoPath = table.Column<string>(nullable: true),
                     DateOfBirth = table.Column<DateTime>(nullable: false),
                     Nationality = table.Column<string>(nullable: true),
@@ -269,10 +268,10 @@ namespace Manage.Web.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EmployeePersonalDetails", x => x.ID);
+                    table.PrimaryKey("PK_EmployeePersonalDetails", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_EmployeePersonalDetails_AspNetUsers_ID",
-                        column: x => x.ID,
+                        name: "FK_EmployeePersonalDetails_AspNetUsers_Id",
+                        column: x => x.Id,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);

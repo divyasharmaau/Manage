@@ -1,14 +1,20 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace Manage.Core.Entities
+namespace Manage.Web.ViewModels
 {
-   public class ApplicationUser : IdentityUser
-   {
+   public class ApplicationUserViewModel
+    {
+        public string Email { get; set; }
+        public string UserName { get; set; }
+        public int Id { get; set; }
+
+        public bool EmailConfirmed { get; set; }
+        public bool LockoutEnabled { get; set; }
         public string Title { get; set; }
 
         [DisplayName("First Name")]
@@ -45,21 +51,13 @@ namespace Manage.Core.Entities
         public string ConfirmPassword { get; set; }
 
 
-        //[Required]
-        //[RegularExpression(@"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?",
-        //    ErrorMessage = "plz enter a valid email")]
-        //public string Email { get; set; }
-
 
         //NAVIGATION PROPERTIES
         //n-1 relationship
         public int? DepartmentId { get; set; }
-        public Department Department { get; set; }
+        public DepartmentViewModel DepartmentViewModel { get; set; }
         ////1-1 relationship
-        public EmployeePersonalDetails EmployeePersonalDetails { get; set; }
-
-        //n-n relationship
-        public ICollection<EmployeeLeave> EmployeeLeaves { get; set; }
-
+        public EmployeePersonalDetailsViewModel EmployeePersonalDetailsViewModel { get; set; }
+        public ICollection<EmployeeLeaveViewModel> EmployeeLeavesViewModel { get; set; }
     }
 }

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Manage.Core.Entities.Base
+namespace Manage.Web.ViewModels
 {
-   public class Entity : EntityBase<string>
+   public class EmployeeLeaveViewModel
    {
    }
 }

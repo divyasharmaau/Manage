@@ -32,8 +32,9 @@ namespace Manage.Web
 
             services.AddDbContextPool<ManageContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ManageConnection"), x => x.MigrationsAssembly("Manage.Web")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole<int>>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddRoles<IdentityRole<int>>()
+            services.AddIdentity<ApplicationUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddRoles<IdentityRole>()
+               //.AddRoles<IdentityRole>()
                .AddEntityFrameworkStores<ManageContext>()
                .AddDefaultTokenProviders();
 

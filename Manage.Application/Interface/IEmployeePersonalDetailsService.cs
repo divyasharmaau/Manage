@@ -9,7 +9,7 @@ namespace Manage.Application.Interface
 {
    public interface IEmployeePersonalDetailsService
     {
-        Task<EmployeePersonalDetailsModel> GetEmployeeById(int employeeId);
+        Task<EmployeePersonalDetailsModel> GetEmployeeById(string employeeId);
         Task<EmployeePersonalDetailsModel> AddAsync(EmployeePersonalDetailsModel model);
         Task UpdateAsync(EmployeePersonalDetailsModel model);
     }

@@ -7,11 +7,12 @@ using System.Text;
 
 namespace Manage.Application.Models
 {
-   public class ApplicationUserModel : BaseModel
+   public class ApplicationUserModel 
+
     {
         public string Email { get; set; }
         public string UserName { get; set; }
-       // public int Id { get; set; }
+        public string Id { get; set; }
 
         public bool EmailConfirmed { get; set; }
         public bool LockoutEnabled { get; set; }

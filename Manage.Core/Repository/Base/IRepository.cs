@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Manage.Core.Repository.Base
 {
-   public interface IRepository<T> where T : Entity
+   public interface IRepository<T> where T : class
     { 
         Task<T> AddAsync(T entity);
         Task<T> GetByIdAsync(int id);

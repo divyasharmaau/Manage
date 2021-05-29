@@ -35,10 +35,10 @@ namespace Manage.Infrastructure.Repository
             return departmentList;
         }
 
-        public async Task<Department> GetEmployeeDepartment(int userId)
+        public async Task<Department> GetEmployeeDepartment(string userId)
         {
             var employee = await _manageContext.Users.FindAsync(userId);
-            var empDepartment =  _manageContext.Departments.Where(x => x.ID == employee.DepartmentId).FirstOrDefault();
+            var empDepartment =  _manageContext.Departments.Where(x => x.Id == employee.DepartmentId).FirstOrDefault();
             return empDepartment;
         }
     }

@@ -30,7 +30,7 @@ namespace Manage.Application.Services
             
         }
 
-        public async Task<ApplicationUserModel> GetEmployeeById(int id)
+        public async Task<ApplicationUserModel> GetEmployeeById(string id)
         {
                var employee = await _employeeRepository.GetEmployeeById(id);
                var empModel =  _mapper.Map<ApplicationUserModel>(employee);

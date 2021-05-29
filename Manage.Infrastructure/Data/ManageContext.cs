@@ -9,8 +9,8 @@ using System.Text;
 
 namespace Manage.Infrastructure.Data
 {
-   public class ManageContext : IdentityDbContext<ApplicationUser,IdentityRole<int>,int> 
-   {
+   public class ManageContext : IdentityDbContext<ApplicationUser>
+    {
         public ManageContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
         {
 
@@ -45,7 +45,7 @@ namespace Manage.Infrastructure.Data
             builder.Entity<ApplicationUser>()
                 .HasOne<EmployeePersonalDetails>(p => p.EmployeePersonalDetails)
                 .WithOne(s => s.ApplicationUser)
-                .HasForeignKey<EmployeePersonalDetails>(e => e.ID);
+                .HasForeignKey<EmployeePersonalDetails>(e => e.Id);
 
             builder.Entity<EmployeeLeave>()
                 .HasKey(el => new { el.EmployeeId, el.LeaveId });

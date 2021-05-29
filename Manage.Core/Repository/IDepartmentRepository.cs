@@ -9,7 +9,7 @@ namespace Manage.Core.Repository
 {
     public interface IDepartmentRepository : IRepository<Department>
     {
-        Task<Department> GetEmployeeDepartment(int id);
+        Task<Department> GetEmployeeDepartment(string employeeId);
         Task<IEnumerable<Department>> GetDepartmentList();
         Task<Department> GetDepartment(int departmentId);
     }

@@ -7,8 +7,11 @@ using System.Text;
 
 namespace Manage.Core.Entities
 {
-   public class EmployeePersonalDetails :Entity
+   public class EmployeePersonalDetails 
    {
+
+        public string Id { get; set; }
+
         //Personal Details
         public string PhotoPath { get; set; }
         //public string FilePath { get; set; }

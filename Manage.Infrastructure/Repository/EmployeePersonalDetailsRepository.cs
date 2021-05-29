@@ -27,12 +27,12 @@ namespace Manage.Infrastructure.Repository
             _userManager = userManager;
           
         }
-        public async Task<EmployeePersonalDetails> GetEmployeeById(int id)
+        public async Task<EmployeePersonalDetails> GetEmployeeById(string id)
         {
             var employee = await _manageContext.EmployeePersonalDetails
                 .Include(a => a.ApplicationUser)
                 .ThenInclude(d => d.Department)
-                .Where(x => x.ID == id)
+                .Where(x => x.Id == id)
                 .FirstOrDefaultAsync();
             return employee;
         }

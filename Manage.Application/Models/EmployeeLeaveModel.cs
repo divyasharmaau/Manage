@@ -5,9 +5,10 @@ using System.Text;
 
 namespace Manage.Application.Models
 {
-   public class EmployeeLeaveModel : BaseModel
+   public class EmployeeLeaveModel 
     {
-        public int EmployeeId { get; set; }
+        public int Id { get; set; }
+        public string EmployeeId { get; set; }
         public ApplicationUserModel Employee { get; set; }
         public int LeaveId { get; set; }
         public LeaveModel Leave { get; set; }

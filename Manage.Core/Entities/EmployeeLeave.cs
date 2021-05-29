@@ -5,9 +5,10 @@ using System.Text;
 
 namespace Manage.Core.Entities
 {
-   public class EmployeeLeave : Entity
+   public class EmployeeLeave 
    {
-        public int EmployeeId { get; set; }
+        public int Id { get; set; }
+        public string EmployeeId { get; set; }
         public ApplicationUser Employee { get; set; }
         public int LeaveId { get; set; }
         public Leave Leave { get; set; }
