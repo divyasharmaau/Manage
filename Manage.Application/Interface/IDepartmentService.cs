@@ -9,7 +9,7 @@ namespace Manage.Application.Interface
 {
    public interface IDepartmentService
     {
-        Task<DepartmentModel> GetEmployeeDepartment(int id);
+        Task<DepartmentModel> GetEmployeeDepartment(string employeeId);
         Task<IEnumerable<DepartmentModel>> GetDepartmentList();
         Task<DepartmentModel> GetDepartment(int departmentId);
 

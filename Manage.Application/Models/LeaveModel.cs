@@ -9,7 +9,6 @@ namespace Manage.Application.Models
 {
    public class LeaveModel 
     {
-
         public int Id { get; set; }
         [DisplayName("Date Applied")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
