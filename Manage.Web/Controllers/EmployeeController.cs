@@ -46,5 +46,54 @@ namespace Manage.Web.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> CreateEmployee(CreateEmployeeViewModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                ApplicationUserViewModel user = new ApplicationUserViewModel();
+                user.Id = Guid.NewGuid().ToString();
+
+                if (user.Status == "Full-Time")
+                {
+                    user.DaysWorkedInWeek = 5;
+                    user.NumberOfHoursOfPerDay = 7.6;
+                }
+                else
+                {
+                    user.DaysWorkedInWeek = model.DaysWorkedInWeek;
+                    user.NumberOfHoursOfPerDay = model.NumberOfHoursWorkedPerDay;
+                }
+                
+                user.Title = model.Title;
+                user.FirstName = model.FirstName;
+                user.MiddleName = model.MiddleName;
+                user.LastName = model.LastName;
+                user.Email = model.Email;
+                user.UserName = model.UserName;
+                user.Password = model.Password;
+                user.ConfirmPassword = model.ConfirmPassword;
+                user.JoiningDate = model.JoiningDate;
+                user.JobTitle = model.JobTitle;
+                user.Status = model.Status;
+                user.DepartmentId = model.DepartmentId;
+                user.Manager = model.Manager;
+
+                var result = await _employeePageService.CreateEmployee(user, user.Password);
+                if (result.Succeeded)
+                {
+                    //return RedirectToAction("ListEmployees", "Employee");
+                    return View(model);
+                }
+                foreach (var errors in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, errors.Description);
+                }
+
+            }
+
+
+            return View(model);
+        }
     }
 }

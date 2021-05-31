@@ -9,6 +9,7 @@ namespace Manage.Core.Entities
 {
    public class ApplicationUser : IdentityUser
    {
+        
         public string Title { get; set; }
 
         [DisplayName("First Name")]

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,6 +11,7 @@ namespace Manage.Web.ViewModels
 {
     public class CreateEmployeeViewModel
     {
+        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string Id { get; set; }
         public string Title { get; set; }
         [DisplayName("First Name")]
@@ -31,6 +33,7 @@ namespace Manage.Web.ViewModels
         public int DepartmentId { get; set; }
         public string Department { get; set; }
         public List<SelectListItem> departmentList { get; set; }
+        //public IEnumerable<DepartmentViewModel> departmentList2 { get; set; }
         [DisplayName("Working Days in Week")]
         public int DaysWorkedInWeek { get; set; }
         //public int WorkingDaysInWeek { get; set; }

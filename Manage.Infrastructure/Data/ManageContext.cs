@@ -42,6 +42,10 @@ namespace Manage.Infrastructure.Data
                 foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
             }
 
+            //builder.Entity<ApplicationUser>()
+            //    .Property(e => e.Id)
+            //    .ValueGeneratedOnAdd();
+
             builder.Entity<ApplicationUser>()
                 .HasOne<EmployeePersonalDetails>(p => p.EmployeePersonalDetails)
                 .WithOne(s => s.ApplicationUser)

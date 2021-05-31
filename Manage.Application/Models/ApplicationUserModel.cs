@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Manage.Application.Models
@@ -10,9 +11,11 @@ namespace Manage.Application.Models
    public class ApplicationUserModel 
 
     {
+        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public string Id { get; set; }
         public string Email { get; set; }
         public string UserName { get; set; }
-        public string Id { get; set; }
+   
 
         public bool EmailConfirmed { get; set; }
         public bool LockoutEnabled { get; set; }
