@@ -12,6 +12,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using Manage.Core.Repository.Base;
+using Manage.Infrastructure.Repository.Base;
+using Manage.Core.Repository;
+using Manage.Infrastructure.Repository;
+using Manage.Application.Interface;
+using Manage.Application.Services;
+using Manage.Web.Interface;
+using Manage.Web.Services;
 
 namespace Manage.Web
 {
@@ -27,6 +36,24 @@ namespace Manage.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper(typeof(Startup));
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            //manage.core
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddScoped<IEmployeePersonalDetailsRepository, EmployeePersonalDetailsRepository>();
+            services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            services.AddScoped<ILeaveRepository, LeaveRepository>();
+
+            //manage.application
+            services.AddScoped<IEmployeeService, EmployeeService>();
+            services.AddScoped<IDepartmentService, DepartmentService>();
+            services.AddScoped<IEmployeePersonalDetailsService, EmployeePersonalDetailsService>();
+
+            //manage.web
+            services.AddScoped<IEmployeePageService, EmployeePageService>();
+            services.AddScoped<IDepartmentPageService, DepartmentPageService>();
 
             services.AddControllersWithViews();
 
@@ -34,7 +61,6 @@ namespace Manage.Web
 
             services.AddIdentity<ApplicationUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddRoles<IdentityRole>()
-               //.AddRoles<IdentityRole>()
                .AddEntityFrameworkStores<ManageContext>()
                .AddDefaultTokenProviders();
 

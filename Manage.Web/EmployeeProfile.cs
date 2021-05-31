@@ -13,6 +13,7 @@ namespace Manage.Web
         public EmployeeProfile()
         {
             CreateMap<ApplicationUserModel, ApplicationUserViewModel>().ReverseMap();
+            CreateMap<DepartmentModel, DepartmentViewModel>().ReverseMap();
         }
     }
 }
