@@ -27,9 +27,9 @@ namespace Manage.Infrastructure.Repository
             return employeeList;
         }
 
-        public async Task<IdentityResult> Create(ApplicationUser user , string password)
+        public async Task<IdentityResult> Create(ApplicationUser user)
         {
-            var emp = await _userManager.CreateAsync(user, password);
+            var emp = await _userManager.CreateAsync(user);
             user.EmailConfirmed = true;
             user.LockoutEnabled = false;
             _manageContext.SaveChanges();

@@ -10,7 +10,7 @@ namespace Manage.Application.Interface
   public  interface IEmployeeService
     {
         Task<IEnumerable<ApplicationUserModel>> GetListOfAllEmployees();
-        Task<IdentityResult> Create(ApplicationUserModel user, string password);
+        Task<IdentityResult> Create(ApplicationUserModel user);
         Task<ApplicationUserModel> GetEmployeeById(string id);
         Task<IdentityResult> Update(ApplicationUserModel user);
     }

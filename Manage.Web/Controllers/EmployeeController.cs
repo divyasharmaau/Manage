@@ -79,7 +79,7 @@ namespace Manage.Web.Controllers
                 user.DepartmentId = model.DepartmentId;
                 user.Manager = model.Manager;
 
-                var result = await _employeePageService.CreateEmployee(user, user.Password);
+                var result = await _employeePageService.CreateEmployee(user);
                 if (result.Succeeded)
                 {
                     //return RedirectToAction("ListEmployees", "Employee");

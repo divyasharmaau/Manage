@@ -9,6 +9,6 @@ namespace Manage.Web.Interface
 {
    public interface IEmployeePageService
     {
-        Task<IdentityResult> CreateEmployee(ApplicationUserViewModel user, string password);
+        Task<IdentityResult> CreateEmployee(ApplicationUserViewModel user);
     }
 }

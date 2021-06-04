@@ -22,10 +22,10 @@ namespace Manage.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<IdentityResult> Create(ApplicationUserModel user, string password)
+        public async Task<IdentityResult> Create(ApplicationUserModel user)
         {
                 var emp =   _mapper.Map<ApplicationUser>(user);
-                var employee =   await _employeeRepository.Create(emp, password);
+                var employee =   await _employeeRepository.Create(emp);
                 return employee;
             
         }
