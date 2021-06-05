@@ -17,6 +17,7 @@ namespace Manage.Web
 
 
             CreateMap<ApplicationUserViewModel, EmployeeListViewModel>().ReverseMap();
+           
         }
     }
 }

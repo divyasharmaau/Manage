@@ -11,5 +11,6 @@ namespace Manage.Web.Interface
     {
         Task<IdentityResult> CreateEmployee(ApplicationUserViewModel user);
         Task<IEnumerable<ApplicationUserViewModel>> GetEmployeeList();
+        Task<ApplicationUserViewModel> GetEmployeeById(string empId);
     }
 }

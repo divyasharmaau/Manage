@@ -24,7 +24,32 @@ namespace Manage.Web.Controllers
             return View();
         }
 
-       [HttpGet]
+
+        public async Task<IActionResult> EmployeeList()
+        {
+            var empList = await _employeePageService.GetEmployeeList();
+
+            List<EmployeeListViewModel> employeeList = new List<EmployeeListViewModel>();
+            foreach (var emp in empList)
+            {
+                EmployeeListViewModel list = new EmployeeListViewModel();
+                list.Id = emp.Id;
+                list.FirstName = emp.FirstName;
+                list.MiddleName = emp.MiddleName;
+                list.LastName = emp.LastName;
+                list.Department = emp.Department;
+                list.JobTitle = emp.JobTitle;
+                list.Status = emp.Status;
+                list.Manager = emp.Manager;
+                list.Email = emp.Email;
+
+                employeeList.Add(list);
+            }
+            return View(employeeList);
+        }
+
+
+        [HttpGet]
         public async Task<IActionResult> CreateEmployee()
         {
             var dList = await _departmentPageService.GetDepartmentList();
@@ -57,12 +82,12 @@ namespace Manage.Web.Controllers
                 if (user.Status == "Full-Time")
                 {
                     user.DaysWorkedInWeek = 5;
-                    user.NumberOfHoursOfPerDay = 7.6;
+                    user.NumberOfHoursWorkedPerDay = 7.6;
                 }
                 else
                 {
                     user.DaysWorkedInWeek = model.DaysWorkedInWeek;
-                    user.NumberOfHoursOfPerDay = model.NumberOfHoursWorkedPerDay;
+                    user.NumberOfHoursWorkedPerDay = model.NumberOfHoursWorkedPerDay;
                 }
                 
                 user.Title = model.Title;
@@ -82,8 +107,7 @@ namespace Manage.Web.Controllers
                 var result = await _employeePageService.CreateEmployee(user);
                 if (result.Succeeded)
                 {
-                    //return RedirectToAction("ListEmployees", "Employee");
-                    return View(model);
+                   return RedirectToAction("EmployeeList", "Employee");
                 }
                 foreach (var errors in result.Errors)
                 {
@@ -93,27 +117,24 @@ namespace Manage.Web.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> EmployeeList()
+        public async Task<IActionResult>EmployeeOfficialDetails(string employeeId)
         {
-            var empList = await _employeePageService.GetEmployeeList();
-
-            List<EmployeeListViewModel> employeeList = new List<EmployeeListViewModel>();
-            foreach (var emp in empList)
+           var employeeDetails =  await _employeePageService.GetEmployeeById(employeeId);
+            if(employeeDetails != null)
             {
-                EmployeeListViewModel list = new EmployeeListViewModel();
-
-                list.FirstName = emp.FirstName;
-                list.MiddleName = emp.MiddleName;
-                list.LastName = emp.LastName;
-                list.Department = emp.Department;
-                list.JobTitle = emp.JobTitle;
-                list.Status = emp.Status;
-                list.Manager = emp.Manager;
-                list.Email = emp.Email;
-
-                employeeList.Add(list);
+                return View(employeeDetails);
             }
-            return View(employeeList);
+            else
+            {
+                return View();
+            }
+           
         }
+        public async Task<IActionResult> EditEmployeeOfficialDetails(string employeeId)
+        {
+           var employeeDetails =  await _employeePageService.GetEmployeeById(employeeId);
+            return View();
+        }
+      
     }
 }

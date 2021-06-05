@@ -36,5 +36,12 @@ namespace Manage.Web.Services
             var employeeList = _mapper.Map<IEnumerable<ApplicationUserViewModel>>(empList);
             return employeeList;
         }
+
+        public async Task<ApplicationUserViewModel> GetEmployeeById(string empId)
+        {
+            var emp = await _employeeService.GetEmployeeById(empId);
+            var employeeDetails = _mapper.Map<ApplicationUserViewModel>(emp);
+            return employeeDetails;
+        }
     }
 }

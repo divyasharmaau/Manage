@@ -39,7 +39,7 @@ namespace Manage.Core.Entities
         public int DaysWorkedInWeek { get; set; }
 
         [DisplayName("Number of Hours Per Day")]
-        public double NumberOfHoursOfPerDay { get; set; }
+        public double NumberOfHoursWorkedPerDay { get; set; }
         public string Manager { get; set; }
 
         public string Password { get; set; }
