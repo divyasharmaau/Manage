@@ -10,5 +10,6 @@ namespace Manage.Web.Interface
    public interface IEmployeePageService
     {
         Task<IdentityResult> CreateEmployee(ApplicationUserViewModel user);
+        Task<IEnumerable<ApplicationUserViewModel>> GetEmployeeList();
     }
 }

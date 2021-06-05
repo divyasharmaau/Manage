@@ -23,7 +23,11 @@ namespace Manage.Infrastructure.Repository
 
         public async Task<IEnumerable<ApplicationUser>> GetAllEmployeeList()
         {
-            var employeeList = await _manageContext.Users.ToListAsync();
+            var employeeList = await _manageContext.Users
+                                    .Include(x => x.Department)
+                                    .Include(y => y.EmployeePersonalDetails)
+                                    .ToListAsync();
+          
             return employeeList;
         }
 
@@ -38,7 +42,11 @@ namespace Manage.Infrastructure.Repository
 
         public async  Task<ApplicationUser> GetEmployeeById(string id)
         {
-            var employee = await _userManager.FindByIdAsync(id.ToString());
+            //var employee = await _userManager.FindByIdAsync(id.ToString());
+            var employee = await _manageContext.Users
+                                    .Include(x => x.Department)
+                                    .Include(y => y.EmployeePersonalDetails)
+                                    .SingleOrDefaultAsync(x => x.Id == id);
             return employee;
         }
 

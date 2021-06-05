@@ -28,5 +28,13 @@ namespace Manage.Web.Services
             var newEmployee = await _employeeService.Create(empMapped);
             return newEmployee;
         }
+
+        public async Task<IEnumerable<ApplicationUserViewModel>> GetEmployeeList()
+        {
+           
+            var empList =   await _employeeService.GetListOfAllEmployees();
+            var employeeList = _mapper.Map<IEnumerable<ApplicationUserViewModel>>(empList);
+            return employeeList;
+        }
     }
 }

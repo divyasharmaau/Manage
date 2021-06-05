@@ -57,7 +57,7 @@ namespace Manage.Application.Models
         //NAVIGATION PROPERTIES
         //n-1 relationship
         public int? DepartmentId { get; set; }
-        public DepartmentModel DepartmentModel { get; set; }
+        public DepartmentModel Department { get; set; }
         ////1-1 relationship
         public EmployeePersonalDetailsModel EmployeePersonalDetails { get; set; }
         //n-n relationship

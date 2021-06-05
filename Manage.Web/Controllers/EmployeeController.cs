@@ -89,11 +89,31 @@ namespace Manage.Web.Controllers
                 {
                     ModelState.AddModelError(string.Empty, errors.Description);
                 }
-
             }
-
-
             return View(model);
+        }
+
+        public async Task<IActionResult> EmployeeList()
+        {
+            var empList = await _employeePageService.GetEmployeeList();
+
+            List<EmployeeListViewModel> employeeList = new List<EmployeeListViewModel>();
+            foreach (var emp in empList)
+            {
+                EmployeeListViewModel list = new EmployeeListViewModel();
+
+                list.FirstName = emp.FirstName;
+                list.MiddleName = emp.MiddleName;
+                list.LastName = emp.LastName;
+                list.Department = emp.Department;
+                list.JobTitle = emp.JobTitle;
+                list.Status = emp.Status;
+                list.Manager = emp.Manager;
+                list.Email = emp.Email;
+
+                employeeList.Add(list);
+            }
+            return View(employeeList);
         }
     }
 }
