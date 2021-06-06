@@ -1,4 +1,5 @@
-﻿using Manage.Web.Interface;
+﻿using AutoMapper;
+using Manage.Web.Interface;
 using Manage.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -13,11 +14,13 @@ namespace Manage.Web.Controllers
     {
         private readonly IEmployeePageService _employeePageService;
         private readonly IDepartmentPageService _departmentPageService;
+        private readonly IMapper _mapper;
 
-        public EmployeeController(IEmployeePageService employeePageService , IDepartmentPageService departmentPageService)
+        public EmployeeController(IEmployeePageService employeePageService , IDepartmentPageService departmentPageService , IMapper mapper)
         {
             _employeePageService = employeePageService;
             _departmentPageService = departmentPageService;
+            _mapper = mapper;
         }
         public IActionResult Index()
         {
@@ -130,10 +133,38 @@ namespace Manage.Web.Controllers
             }
            
         }
+
+        [HttpGet]
+        public async Task<IActionResult>EditEmployeeOfficialDetailsAdmin(string employeeId)
+        {
+            var empDetails = await _employeePageService.GetEmployeeById(employeeId);
+            var employeeDetails = _mapper.Map<EditEmployeeOfficialDetailsAdminViewModel>(empDetails);
+            var dList = await _departmentPageService.GetDepartmentList();
+
+            var deptList = dList.Select(dept => new SelectListItem()
+            {
+                Text = dept.Name,
+                Value = dept.Id.ToString()
+            }).ToList();
+
+            deptList.Insert(0, new SelectListItem()
+            {
+                Text = "----Select----",
+                Value = string.Empty
+            });
+            EditEmployeeOfficialDetailsAdminViewModel model = new EditEmployeeOfficialDetailsAdminViewModel();
+            model.departmentList = deptList;
+            return View(employeeDetails);
+        }
+
+
+        [HttpGet]
         public async Task<IActionResult> EditEmployeeOfficialDetails(string employeeId)
         {
-           var employeeDetails =  await _employeePageService.GetEmployeeById(employeeId);
-            return View();
+           var empDetails =  await _employeePageService.GetEmployeeById(employeeId);
+            var employeeDetails = _mapper.Map<EditEmployeeOfficialDetailsViewModel>(empDetails);
+            
+            return View(employeeDetails);
         }
       
     }
