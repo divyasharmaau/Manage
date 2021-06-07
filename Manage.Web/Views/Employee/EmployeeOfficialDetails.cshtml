@@ -24,16 +24,13 @@
                             </tr>
                         </table>
                     </div>
-
                     <!--Employee Details Form-->
                     <div class="form-row">
                         <div class="form-group col-md-4">
                             <label asp-for="Title"></label>
                             <p asp-for="Title" class="form-control">@Model.Title</p>
                         </div>
-
                     </div>
-
                     <div class="form row">
                         <div class="form-group col-md-4">
                             <label asp-for="FirstName" class="col-auto col-form-label small form-text"></label>
@@ -42,22 +39,17 @@
                                 <p asp-for="FirstName" class="form-control">@Model.FirstName</p>
                             </div>
                         </div>
-
                         <div class="form-group col-md-4">
                             <label asp-for="MiddleName" class="col-auto col-form-label small form-text"></label>
                             <div class="col">
                                 <p asp-for="MiddleName" class="form-control">@Model.MiddleName</p>
                             </div>
                         </div>
-
                         <div class="form-group col-md-4">
                             <label asp-for="LastName" class="col-auto col-form-label small form-text"></label>
                             <p asp-for="LastName" class="form-control">@Model.LastName</p>
                         </div>
                     </div>
-
-
-
                     <div class="form-row mt-3">
                         <div class="form-group col-md-6">
                             <label asp-for="UserName" class="col-auto col-form-label small form-text"></label>
@@ -65,7 +57,6 @@
                                 <p asp-for="UserName" class="form-control">@Model.UserName</p>
                             </div>
                         </div>
-
                         <div class="form-group col-md-6">
                             <label asp-for="Email" class="col-auto col-form-label small form-text"></label>
                             <div class="col">
@@ -73,44 +64,34 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="form-row mt-3">
                         <div class="form-group col-md-6">
                             <label asp-for="Password" class="col-auto col-form-label small form-text"></label>
                             <div class="col">
-                                <p asp-for="Password" class="form-control"></p>
+                                <p asp-for="Password" class="form-control">*********</p>
                             </div>
                         </div>
-
                         <div class="form-group col-md-6">
                             <label asp-for="ConfirmPassword" class="col-auto col-form-label small form-text"></label>
                             <div class="col">
-                                <p asp-for="ConfirmPassword" class="form-control"></p>
-
+                                <p asp-for="ConfirmPassword" class="form-control">********</p>
                             </div>
                         </div>
                     </div>
-
-
                     <div class="form-row  mt-3">
                         <div class="form-group col-md-6">
                             <label asp-for="JoiningDate" class="col-auto col-form-label small form-text"></label>
                             <div class="col">
-
                                 <p asp-for="JoiningDate" class="form-control">@Model.JoiningDate.ToShortDateString()</p>
                             </div>
                         </div>
-
-
                         <div class="form-group col-md-6">
                             <label asp-for="JobTitle" class="col-auto col-form-label small form-text"></label>
                             <div class="col">
                                 <p asp-for="JobTitle" class="form-control">@Model.JobTitle</p>
                             </div>
                         </div>
-
                     </div>
-
                     <div class="form-row  mt-3">
                         <div class="form-group col-md-4">
                             <label asp-for="Status" class="col-auto col-form-label small form-text"></label>
@@ -118,7 +99,6 @@
                                 <p asp-for="Status">@Model.Status</p>
                             </div>
                         </div>
-
                         <div class="form-group col-md-4">
                             <label asp-for="DaysWorkedInWeek" class="col-auto col-form-label small form-text"></label>
                             <div class="col">
@@ -131,23 +111,16 @@
                                 <p asp-for="NumberOfHoursOfPerDay">@Model.NumberOfHoursWorkedPerDay</p>
                             </div>
                         </div>
-
-
                     </div>
-
                     <div class="form-row mt-3">
-
                         <div class="form-group col-md-6">
                             <label asp-for="Department" class="col-auto col-form-label small form-text"></label>
                             <div class="col">
-
                                 <p asp-for="Department" class="form-control">@Model.Department.Name</p>
-
                             </div>
                         </div>
                         <div class="form-group col-md-6">
                             <label asp-for="Manager" class="col-auto col-form-label small form-text"></label>
-
                             <div class="col">
                                 <p asp-for="Manager" class="form-control">@Model.Manager</p>
                                 @*<input asp-for="Manager" class="form-control" placeholder="Manager" />
@@ -155,11 +128,12 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="form-row mt-3 text-center">
-
                         <div class="col-md-4">
                             <a type="submit" class="btn btn-outline-info m-5" asp-action="EditEmployeeOfficialDetailsAdmin" asp-controller="Employee" asp-route-id="@Model.Id">Edit</a>
+                        </div>
+                        <div class="col-md-4">
+                            <a type="submit" class="btn btn-outline-info m-5" asp-action="EditEmployeeOfficialDetails" asp-controller="Employee" asp-route-id="@Model.Id">EditByEmp</a>
                         </div>
                         <div class="col-md-4">
                             <a asp-action="EmployeeList" asp-controller="Employee" class="btn btn-outline-secondary m-5 ">Cancel</a>
@@ -167,13 +141,8 @@
                         <div class="col-md-4">
                             <a asp-action="EmployeePersonalDetail" asp-controller="Employee" asp-route-id="@Model.Id" class="btn btn-outline-success m-5 ">Next</a>
                         </div>
-                        @*<div class="col-md-4">
-                <a asp-action="EditEmployeePersonalDetail" asp-controller="Employee" asp-route-id="@Model.Id" class="btn btn-outline-success m-5 ">Next</a>
-            </div>*@
                     </div>
-
                 </div>
-            
                 <!--/.card-body-->
             </div>
             <!--/.card-->

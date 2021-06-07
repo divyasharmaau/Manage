@@ -171,8 +171,7 @@ namespace Manage.Web.Controllers
 
         [HttpPost]
         public async Task<IActionResult> EditEmployeeOfficialDetailsAdmin(EditEmployeeOfficialDetailsAdminViewModel model)
-        {
-            
+        { 
             if(ModelState.IsValid)
             {
                 var mapped = _mapper.Map<ApplicationUserViewModel>(model);
@@ -180,8 +179,6 @@ namespace Manage.Web.Controllers
                 return RedirectToAction("EmployeeOfficialDetails", new { id = mapped.Id });
             }
             return View();
-
-           
         }
 
         [HttpGet]
