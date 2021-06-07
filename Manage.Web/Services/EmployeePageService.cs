@@ -43,5 +43,21 @@ namespace Manage.Web.Services
             var employeeDetails = _mapper.Map<ApplicationUserViewModel>(emp);
             return employeeDetails;
         }
+
+        //public async Task<IdentityResult> Update(ApplicationUserViewModel model)
+        //{
+        //    var emp = _mapper.Map<ApplicationUserModel>(model);
+        //   var result = await  _employeeService.Update(emp);
+        //    return result;
+
+        //} 
+
+        public async Task Update(ApplicationUserViewModel model)
+        {
+            var emp = _mapper.Map<ApplicationUserModel>(model);
+            await _employeeService.Update(emp);
+           
+
+        }
     }
 }

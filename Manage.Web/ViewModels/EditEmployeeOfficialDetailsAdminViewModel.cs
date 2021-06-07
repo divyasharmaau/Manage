@@ -28,8 +28,7 @@ namespace Manage.Web.ViewModels
         [DisplayName("Job Title")]
         public string JobTitle { get; set; }
         public string Status { get; set; }
-        public int DepartmentId { get; set; }
-        public DepartmentViewModel Department { get; set; }
+       
         public List<SelectListItem> departmentList { get; set; }
         //public IEnumerable<DepartmentViewModel> departmentList2 { get; set; }
         [DisplayName("Working Days in Week")]
@@ -43,8 +42,11 @@ namespace Manage.Web.ViewModels
         public string ConfirmPassword { get; set; }
         public string Email { get; set; }
         public string UserName { get; set; }
-        
-      
+
+        public int? DepartmentId { get; set; }
+        public DepartmentViewModel Department { get; set; }
+
+
 
     }
 }

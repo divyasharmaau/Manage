@@ -49,6 +49,18 @@ namespace Manage.Web.Controllers
                 employeeList.Add(list);
             }
             return View(employeeList);
+
+            //var model = new EditEmployeeOfficialDetailsAdminViewModel
+            //{
+            //    Title = "Blah Blah",
+            //    Id = "a9067a75-b6ee-4c23-a3e2-f19648957347"
+            //};
+
+            //var mapped = _mapper.Map<ApplicationUserViewModel>(model);
+
+            //await _employeePageService.Update(mapped);
+
+            //return null;
         }
 
 
@@ -120,9 +132,9 @@ namespace Manage.Web.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult>EmployeeOfficialDetails(string employeeId)
+        public async Task<IActionResult>EmployeeOfficialDetails(string id)
         {
-           var employeeDetails =  await _employeePageService.GetEmployeeById(employeeId);
+           var employeeDetails =  await _employeePageService.GetEmployeeById(id);
             if(employeeDetails != null)
             {
                 return View(employeeDetails);
@@ -135,9 +147,9 @@ namespace Manage.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult>EditEmployeeOfficialDetailsAdmin(string employeeId)
+        public async Task<IActionResult>EditEmployeeOfficialDetailsAdmin(string id)
         {
-            var empDetails = await _employeePageService.GetEmployeeById(employeeId);
+            var empDetails = await _employeePageService.GetEmployeeById(id);
             var employeeDetails = _mapper.Map<EditEmployeeOfficialDetailsAdminViewModel>(empDetails);
             var dList = await _departmentPageService.GetDepartmentList();
 
@@ -152,18 +164,31 @@ namespace Manage.Web.Controllers
                 Text = "----Select----",
                 Value = string.Empty
             });
-            EditEmployeeOfficialDetailsAdminViewModel model = new EditEmployeeOfficialDetailsAdminViewModel();
-            model.departmentList = deptList;
+            employeeDetails.departmentList = deptList;
+           
             return View(employeeDetails);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> EditEmployeeOfficialDetailsAdmin(EditEmployeeOfficialDetailsAdminViewModel model)
+        {
+            
+            if(ModelState.IsValid)
+            {
+                var mapped = _mapper.Map<ApplicationUserViewModel>(model);
+                await  _employeePageService.Update(mapped);
+                return RedirectToAction("EmployeeOfficialDetails", new { id = mapped.Id });
+            }
+            return View();
+
+           
+        }
 
         [HttpGet]
-        public async Task<IActionResult> EditEmployeeOfficialDetails(string employeeId)
+        public async Task<IActionResult> EditEmployeeOfficialDetails(string id)
         {
-           var empDetails =  await _employeePageService.GetEmployeeById(employeeId);
+            var empDetails =  await _employeePageService.GetEmployeeById(id);
             var employeeDetails = _mapper.Map<EditEmployeeOfficialDetailsViewModel>(empDetails);
-            
             return View(employeeDetails);
         }
       

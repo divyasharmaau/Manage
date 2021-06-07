@@ -12,6 +12,7 @@ namespace Manage.Application.Interface
         Task<IEnumerable<ApplicationUserModel>> GetListOfAllEmployees();
         Task<IdentityResult> Create(ApplicationUserModel user);
         Task<ApplicationUserModel> GetEmployeeById(string id);
-        Task<IdentityResult> Update(ApplicationUserModel user);
+        //Task<IdentityResult> Update(ApplicationUserModel user);
+        Task Update(ApplicationUserModel user);
     }
 }

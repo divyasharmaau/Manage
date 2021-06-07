@@ -13,6 +13,7 @@ namespace Manage.Core.Repository
         Task<IEnumerable<ApplicationUser>> GetAllEmployeeList();
         Task<IdentityResult> Create(ApplicationUser user);
         Task<ApplicationUser> GetEmployeeById(string id);
-        Task<IdentityResult> Update(ApplicationUser user);
+        //Task<IdentityResult> Update(ApplicationUser user);
+        Task Update(ApplicationUser user);
     }
 }

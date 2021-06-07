@@ -166,10 +166,11 @@
             <div class="form-row mt-3 text-center">
 
                 <div class="col-md-4">
-                    <a type="submit" class="btn btn-outline-info m-5" asp-action="EmployeeOfficialDetails" asp-controller="Employee" asp-route-employeeId="@Model.Id">Back</a>
+                    <a type="submit" class="btn btn-outline-info m-5" asp-action="EmployeeOfficialDetails" asp-controller="Employee" asp-route-id="@Model.Id">Back</a>
                 </div>
                 <div class="col-md-4">
-                    <a asp-action="EmployeeList" asp-controller="Employee" class="btn btn-outline-secondary m-5 ">Save</a>
+                    @*<a asp-action="EmployeeList" asp-controller="Employee" class="btn btn-outline-secondary m-5 ">Save</a>*@
+                    <button type="submit" class="btn btn-outline-info m-5">Save</button>
                 </div>
                 <div class="col-md-4">
                     <a asp-action="EditEmployeePersonalDetails" asp-controller="Employee" class="btn btn-outline-success m-5">Next</a>
