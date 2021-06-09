@@ -223,21 +223,26 @@ namespace Manage.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateEmployeePersonalDetails(CreateEmployeePersonalDetailsViewModel model)
         {
-            //upload image
-            var uniqueFileName = "";
-            //to get to the path of the wwwwrootfolder
-           var uploadsFolder =  Path.Combine(_webHostEnvironmwnt.WebRootPath, "dist/img");
-            //append GUID value  and undersacore for unique File Name
-            uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
-            string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-            //copy file to images folder
-            model.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
-            //mapping
-            var empDetails = _mapper.Map<EmployeePersonalDetailsViewModel>(model);
-            empDetails.PhotoPath = uniqueFileName;
 
-            var employeePersonalDetails =  await _employeePersonalDetailsPageService.AddAsync(empDetails);
-            
+            if(ModelState.IsValid)
+            {
+                //upload image
+                var uniqueFileName = "";
+                //to get to the path of the wwwwrootfolder
+                var uploadsFolder = Path.Combine(_webHostEnvironmwnt.WebRootPath, "dist/img");
+                //append GUID value  and undersacore for unique File Name
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                //copy file to images folder
+                model.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
+                //mapping
+                var empDetails = _mapper.Map<EmployeePersonalDetailsViewModel>(model);
+                empDetails.PhotoPath = uniqueFileName;
+
+                var employeePersonalDetails = await _employeePersonalDetailsPageService.AddAsync(empDetails);
+
+               
+            }
             return View();
         }
 
