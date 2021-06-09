@@ -223,7 +223,6 @@ namespace Manage.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateEmployeePersonalDetails(CreateEmployeePersonalDetailsViewModel model)
         {
-
             if(ModelState.IsValid)
             {
                 //upload image
@@ -238,16 +237,27 @@ namespace Manage.Web.Controllers
                 //mapping
                 var empDetails = _mapper.Map<EmployeePersonalDetailsViewModel>(model);
                 empDetails.PhotoPath = uniqueFileName;
-
                 var employeePersonalDetails = await _employeePersonalDetailsPageService.AddAsync(empDetails);
-
-               
+                return View();
             }
-            return View();
+            else
+            {
+                return View();
+            }
+           
         }
 
 
-       
+        public async Task<IActionResult> EmployeePersonalDetails(string id)
+        {
+            var emp = await _employeePageService.GetEmployeeById(id);
+            var employee = await _employeePersonalDetailsPageService.GetEmployeePersonalDetailsById(id);
+          
+                employee.FullName = emp.FullName;
+                return View(employee);
+        
+          
+        }
 
     }
 }

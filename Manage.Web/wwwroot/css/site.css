@@ -84,3 +84,11 @@ body {
     height: 150px;
 }
 
+
+.imageThumbnail {
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    margin-right: 50px;
+    object-fit: cover
+}

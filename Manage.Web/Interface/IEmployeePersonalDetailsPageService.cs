@@ -9,5 +9,6 @@ namespace Manage.Web.Interface
    public interface IEmployeePersonalDetailsPageService
    {
         Task<EmployeePersonalDetailsViewModel> AddAsync(EmployeePersonalDetailsViewModel model);
+        Task<EmployeePersonalDetailsViewModel> GetEmployeePersonalDetailsById(string id);
    }
 }

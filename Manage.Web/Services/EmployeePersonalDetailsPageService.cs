@@ -24,10 +24,15 @@ namespace Manage.Web.Services
         public async Task<EmployeePersonalDetailsViewModel> AddAsync(EmployeePersonalDetailsViewModel model)
         {
             var empDetailsFromApp = _mapper.Map<EmployeePersonalDetailsModel>(model);
-           var mappedEmpDetails =   await _employeePersonalDetailsService.AddAsync(empDetailsFromApp);
-            //var employeePersonalDetails = _mapper.Map<EmployeePersonalDetailsViewModel>(mappedEmpDetails);
-            //return employeePersonalDetails;
+            var mappedEmpDetails =   await _employeePersonalDetailsService.AddAsync(empDetailsFromApp);
             return model;
         }
+
+        public async Task<EmployeePersonalDetailsViewModel>GetEmployeePersonalDetailsById(string id)
+        {
+           var empDetails =   await  _employeePersonalDetailsService.GetEmployeeById(id);
+           var employeePersonalDetails = _mapper.Map<EmployeePersonalDetailsViewModel>(empDetails);
+           return employeePersonalDetails;
+        } 
     }
 }
