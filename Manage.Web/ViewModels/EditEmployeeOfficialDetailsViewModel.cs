@@ -12,14 +12,14 @@ namespace Manage.Web.ViewModels
         public string Id { get; set; }
         public string Title { get; set; }
         [DisplayName("First Name")]
-        [Required, MaxLength(50, ErrorMessage = "Name cannot exceed 50 characters")]
+   
         public string FirstName { get; set; }
 
         [DisplayName("Middle Name")]
         public string MiddleName { get; set; }
 
         [DisplayName("Last Name")]
-        [Required]
+
         public string LastName { get; set; }
 
         public string FullName

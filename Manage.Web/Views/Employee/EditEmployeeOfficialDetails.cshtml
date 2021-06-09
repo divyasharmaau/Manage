@@ -8,141 +8,155 @@
 <section class="content">
     <div class="container-fluid">
         <div class="card card-default">
-            <div class="card-header">
-                <h3 class="card-title">Edit Employee Details: Official</h3>
-                <div class="table table-responsive table-borderless text-center">
-                    <table>
-                        <tr>
-                            <td style="float:right">
-                                photo
-                             </td>
-                            <td style="text-align:center; padding:30px">
-                                <h4>@Model.FullName</h4>
-                                <h5>@Model.Department.Name</h5>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-            <!-- /.card-header -->
-            <div class="card-body">
-                <div class="form-row">
-                    <div class="form-group col-md-4">
-                        <label asp-for="Title"></label>
-                        <p asp-for="Title" class="form-control">@Model.Title</p>
-                    </div>
-                </div>
-                <div class="form row">
-                    <div class="form-group col-md-4">
-                        <label asp-for="FirstName" class="col-auto col-form-label small form-text"></label>
-                        <div class="col">
-                            <p asp-for="FirstName" class="form-control">@Model.FirstName</p>
+            <form method="post" asp-action="EditEmployeeOfficialDetails" asp-controller="Employee" class="mt-5">
+                <input asp-for="Id" type="hidden"/>
+                    <div class="card-header">
+                        <h3 class="card-title">Edit Employee Details: Official</h3>
+                        <div class="table table-responsive table-borderless text-center">
+                            <table>
+                                <tr>
+                                    <td style="float:right">
+                                        photo
+                                    </td>
+                                    <td style="text-align:center; padding:30px">
+                                        <h4>@Model.FullName</h4>
+                                        <h5>@Model.Department.Name</h5>
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
-                    <div class="form-group col-md-4">
-                        <label asp-for="MiddleName" class="col-auto col-form-label small form-text"></label>
-                        <div class="col">
-                            <p asp-for="MiddleName" class="form-control">@Model.MiddleName</p>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label asp-for="Title"></label>
+                                @*<input asp-for="Title" class="form-control" readonly />*@
+                                @Html.TextBoxFor(m => m.Title, new { @readonly = "readonly", @class = "form-control" })
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group col-md-4">
-                        <label asp-for="LastName" class="col-auto col-form-label small form-text"></label>
-                        <p asp-for="LastName" class="form-control">@Model.LastName</p>
-                    </div>
-                </div>
-                <div class="form-row mt-3">
-                    <div class="form-group col-md-6">
-                        <label asp-for="UserName" class="col-auto col-form-label small form-text"></label>
-                        <div class="col">
-                            <p asp-for="UserName" class="form-control">@Model.UserName</p>
+                        <div class="form row">
+                            <div class="form-group col-md-4">
+                                <label asp-for="FirstName" class="col-auto col-form-label small form-text"></label>
+                                <div class="col">
+                                    <input asp-for="FirstName" class="form-control" readonly />
+                                </div>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label asp-for="MiddleName" class="col-auto col-form-label small form-text"></label>
+                                <div class="col">
+                                    <input asp-for="MiddleName" class="form-control" readonly />
+                                </div>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label asp-for="LastName" class="col-auto col-form-label small form-text"></label>
+                                <div class="col">
+                                    <input asp-for="LastName" class="form-control" readonly />
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label asp-for="Email" class="col-auto col-form-label small form-text"></label>
-                        <div class="col">
-                            <p asp-for="Email" class="form-control">@Model.Email</p>
+                        <div class="form-row mt-3">
+                            <div class="form-group col-md-6">
+                                <label asp-for="UserName" class="col-auto col-form-label small form-text"></label>
+                                <div class="col">
+                                    <input asp-for="UserName" class="form-control" readonly />
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label asp-for="Email" class="col-auto col-form-label small form-text"></label>
+                                <div class="col">
+                                    <input asp-for="Email" class="form-control" readonly />
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="form-row mt-3">
-                    <div class="form-group col-md-6">
-                        <label asp-for="Password" class="col-auto col-form-label small form-text"></label>
-                        <div class="col">
-                            <input type="password" asp-for="Password" class="form-control" />
-                        </div>
-                    </div>
+                        <div class="form-row mt-3">
+                            <div class="form-group col-md-6">
+                                <label asp-for="Password" class="col-auto col-form-label small form-text"></label>
+                                <div class="col">
+                                    <input type="password" asp-for="Password" class="form-control" />
+                                </div>
+                            </div>
 
-                    <div class="form-group col-md-6">
-                        <label asp-for="ConfirmPassword" class="col-auto col-form-label small form-text"></label>
-                        <div class="col">
-                            <input type="password" asp-for="ConfirmPassword" class="form-control" />
+                            <div class="form-group col-md-6">
+                                <label asp-for="ConfirmPassword" class="col-auto col-form-label small form-text"></label>
+                                <div class="col">
+                                    <input type="password" asp-for="ConfirmPassword" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row  mt-3">
+                            <div class="form-group col-md-6">
+                                <label asp-for="JoiningDate" class="col-auto col-form-label small form-text"></label>
+                                <div class="col">
+                                    @*<p asp-for="JoiningDate" class="form-control">@Model.JoiningDate.ToShortDateString()</p>*@
+                                    @*<input asp-for="JoiningDate" class="form-control" readonly />@Model.JoiningDate.ToShortDateString();*@
+                                    @{
+                                        string parameterValue = @Model.JoiningDate.ToShortDateString();
+                                    }
+                                    @*@Html.DisplayFor(modelItem => parameterValue)*@
+                                    @Html.TextBoxFor(m => parameterValue, new { @readonly = "readonly", @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label asp-for="JobTitle" class="col-auto col-form-label small form-text"></label>
+                                <div class="col">
+                                    <input asp-for="JobTitle" class="form-control" readonly />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row  mt-3">
+                            <div class="form-group col-md-4">
+                                <label asp-for="Status" class="col-auto col-form-label small form-text"></label>
+                                <div class="col">
+                                    <input asp-for="Status" class="form-control" readonly />
+                                </div>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label asp-for="DaysWorkedInWeek" class="col-auto col-form-label small form-text"></label>
+                                <div class="col">
+                                    <input asp-for="DaysWorkedInWeek" class="form-control" readonly />
+                                </div>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label asp-for="NumberOfHoursWorkedPerDay" class="col-auto col-form-label small form-text"></label>
+                                <div class="col">
+                                    <input asp-for="NumberOfHoursWorkedPerDay" class="form-control" readonly />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row mt-3">
+                            <div class="form-group col-md-6">
+                                <label asp-for="Department" class="col-auto col-form-label small form-text"></label>
+                                <div class="col">
+                                    <input asp-for="Department.Name" class="form-control" readonly />
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label asp-for="Manager" class="col-auto col-form-label small form-text"></label>
+                                <div class="col">
+                                    <input asp-for="Manager" class="form-control" readonly />
+                                    @*<input asp-for="Manager" class="form-control" placeholder="Manager" />
+        <span asp-validation-for="Manager"></span>*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row mt-3 text-center">
+                            <div class="col-md-4">
+                                <a type="submit" class="btn btn-outline-info m-5" asp-action="EmployeeOfficialDetails" asp-controller="Employee" asp-route-id="@Model.Id">Back</a>
+                            </div>
+                            <div class="col-md-4">
+                                @*<button type="submit" class="btn btn-outline-info m-5">Save</button>*@
+                                <input type="submit" class="btn btn-outline-info" m-5" value="Save"/>
+                            </div>
+                            <div class="col-md-4">
+                                <a asp-action="EditEmployeePersonalDetails" asp-controller="Employee" class="btn btn-outline-success m-5">Next</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-           
-            <div class="form-row  mt-3">
-                <div class="form-group col-md-6">
-                    <label asp-for="JoiningDate" class="col-auto col-form-label small form-text"></label>
-                    <div class="col">
-                        <p asp-for="JoiningDate" class="form-control">@Model.JoiningDate.ToShortDateString()</p>
-                    </div>
-                </div>
-                <div class="form-group col-md-6">
-                    <label asp-for="JobTitle" class="col-auto col-form-label small form-text"></label>
-                    <div class="col">
-                        <p asp-for="JobTitle" class="form-control">@Model.JobTitle</p>
-                    </div>
-                </div>
-            </div>
-            <div class="form-row  mt-3">
-                <div class="form-group col-md-4">
-                    <label asp-for="Status" class="col-auto col-form-label small form-text"></label>
-                    <div class="col">
-                        <p asp-for="Status">@Model.Status</p>
-                    </div>
-                </div>
-                <div class="form-group col-md-4">
-                    <label asp-for="DaysWorkedInWeek" class="col-auto col-form-label small form-text"></label>
-                    <div class="col">
-                        <p asp-for="DaysWorkedInWeek">@Model.DaysWorkedInWeek</p>
-                    </div>
-                </div>
-                <div class="form-group col-md-4">
-                    <label asp-for="NumberOfHoursWorkedPerDay" class="col-auto col-form-label small form-text"></label>
-                    <div class="col">
-                        <p asp-for="NumberOfHoursOfPerDay">@Model.NumberOfHoursWorkedPerDay</p>
-                    </div>
-                </div>
-            </div>
-            <div class="form-row mt-3">
-                <div class="form-group col-md-6">
-                    <label asp-for="Department" class="col-auto col-form-label small form-text"></label>
-                    <div class="col">
-                        <p asp-for="Department" class="form-control">@Model.Department.Name</p>
-                    </div>
-                </div>
-                <div class="form-group col-md-6">
-                    <label asp-for="Manager" class="col-auto col-form-label small form-text"></label>
-                    <div class="col">
-                        <p asp-for="Manager" class="form-control">@Model.Manager</p>
-                        @*<input asp-for="Manager" class="form-control" placeholder="Manager" />
-                            <span asp-validation-for="Manager"></span>*@
-                    </div>
-                </div>
-            </div>
-            <div class="form-row mt-3 text-center">
-                <div class="col-md-4">
-                    <a type="submit" class="btn btn-outline-info m-5" asp-action="EmployeeOfficialDetails" asp-controller="Employee" asp-route-id="@Model.Id">Back</a>
-                </div>
-                <div class="col-md-4">
-                    <button type="submit" class="btn btn-outline-info m-5">Save</button>
-                </div>
-                <div class="col-md-4">
-                    <a asp-action="EditEmployeePersonalDetails" asp-controller="Employee" class="btn btn-outline-success m-5">Next</a>
-                </div>
-            </div>
-        </div>
-        </div>
+                </form>
+
+</div>
         <!-- /.card-body -->
     </div>
     <!-- /.card -->

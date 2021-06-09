@@ -17,9 +17,9 @@ namespace Manage.Web
 
 
             CreateMap<ApplicationUserViewModel, EmployeeListViewModel>().ReverseMap();
-            CreateMap<ApplicationUserViewModel, EditEmployeeOfficialDetailsViewModel>();
-            CreateMap<EditEmployeeOfficialDetailsAdminViewModel , ApplicationUserViewModel>()
-                  .ForMember(x => x.Department, y => y.MapFrom(x => x.Department)).ReverseMap();
+            CreateMap<ApplicationUserViewModel, EditEmployeeOfficialDetailsViewModel>().ReverseMap();
+            CreateMap<EditEmployeeOfficialDetailsAdminViewModel, ApplicationUserViewModel>().ReverseMap();
+                  //.ForMember(x => x.Department, y => y.MapFrom(x => x.Department)).ReverseMap();
            
         }
     }

@@ -188,6 +188,19 @@ namespace Manage.Web.Controllers
             var employeeDetails = _mapper.Map<EditEmployeeOfficialDetailsViewModel>(empDetails);
             return View(employeeDetails);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> EditEmployeeOfficialDetails(EditEmployeeOfficialDetailsViewModel model)
+        {
+            if(ModelState.IsValid)
+            {
+               var mapped =  _mapper.Map<ApplicationUserViewModel>(model);
+                await _employeePageService.Update(mapped);
+                return RedirectToAction("EmployeeOfficialDetails", new { id = mapped.Id });
+            }
+            return View();
+
+        }
       
     }
 }
