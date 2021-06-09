@@ -3,12 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Manage.Web.ViewModels
 {
-   public class EmployeePersonalDetailsViewModel
-   {
+    public class CreateEmployeePersonalDetailsViewModel
+    {
         public string Id { get; set; }
         public string FullName { get; set; }
 
@@ -37,10 +38,11 @@ namespace Manage.Web.ViewModels
         public string ZipCode { get; set; }
         //Personal Details
         public string PhotoPath { get; set; }
-        // public string ExistingPhotoPath { get; set; }
-        // public IFormFile Photo { get; set; }
-        // public string FilePath { get; set; }
-
+        public string ExistingPhotoPath { get; set; }
+        public IFormFile Photo { get; set; }
+        //public string FilePath { get; set; }
+        //[DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
+        [DisplayName("Date of Birth")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DateOfBirth { get; set; }
         public string Nationality { get; set; }
@@ -77,6 +79,5 @@ namespace Manage.Web.ViewModels
         // Navigation Property one to one relationship
         public int EmployeeId { get; set; }
         public ApplicationUserViewModel ApplicationUser { get; set; }
-
     }
 }

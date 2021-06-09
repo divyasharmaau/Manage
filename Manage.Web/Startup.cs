@@ -54,6 +54,7 @@ namespace Manage.Web
             //manage.web
             services.AddScoped<IEmployeePageService, EmployeePageService>();
             services.AddScoped<IDepartmentPageService, DepartmentPageService>();
+            services.AddScoped<IEmployeePersonalDetailsPageService, EmployeePersonalDetailsPageService>();
 
             services.AddControllersWithViews();
 

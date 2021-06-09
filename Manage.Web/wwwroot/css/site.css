@@ -71,12 +71,16 @@ body {
 }
 
 
-.img-box {
-    width: 300px;
-    min-height: 100px;
-    border: 2px solid #dddddd;
+
+
+.image-preview {
+    width: 150px;
+    height: 150px;
+   
 }
 
-.img-box img{
-    width:100%;
+.image-preview_image {
+    width: 150px;
+    height: 150px;
 }
+

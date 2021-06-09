@@ -14,12 +14,14 @@ namespace Manage.Web
         {
             CreateMap<ApplicationUserModel, ApplicationUserViewModel>().ReverseMap();
             CreateMap<DepartmentModel, DepartmentViewModel>().ReverseMap();
+            CreateMap<EmployeePersonalDetailsModel, EmployeePersonalDetailsViewModel>().ReverseMap();
 
 
             CreateMap<ApplicationUserViewModel, EmployeeListViewModel>().ReverseMap();
             CreateMap<ApplicationUserViewModel, EditEmployeeOfficialDetailsViewModel>().ReverseMap();
             CreateMap<EditEmployeeOfficialDetailsAdminViewModel, ApplicationUserViewModel>().ReverseMap();
-                  //.ForMember(x => x.Department, y => y.MapFrom(x => x.Department)).ReverseMap();
+            CreateMap<EmployeePersonalDetailsViewModel, CreateEmployeePersonalDetailsViewModel>().ReverseMap();
+            CreateMap<ApplicationUserViewModel, EmployeePersonalDetailsViewModel>().ReverseMap(); 
            
         }
     }

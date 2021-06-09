@@ -56,8 +56,7 @@ namespace Manage.Web.Services
         {
             var emp = _mapper.Map<ApplicationUserModel>(model);
             await _employeeService.Update(emp);
-           
-
         }
+
     }
 }

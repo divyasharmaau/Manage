@@ -26,6 +26,9 @@ namespace Manage.Web.ViewModels
         {
             get { return $"{this.FirstName} {this.MiddleName} {this.LastName}"; }
         }
+
+        [DisplayName("Joining Date")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime JoiningDate { get; set; }
         [DisplayName("Job Title")]
         public string JobTitle { get; set; }

@@ -30,7 +30,8 @@ namespace Manage.Web.ViewModels
         [DisplayName("Job Title")]
         public string JobTitle { get; set; }
         public string Status { get; set; }
-
+        [DisplayName("Joining Date")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime JoiningDate { get; set; }
 
         [DisplayName("Working Days in Week")]

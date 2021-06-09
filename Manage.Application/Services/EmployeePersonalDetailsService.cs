@@ -26,8 +26,9 @@ namespace Manage.Application.Services
         {
             var entity = _mapper.Map<EmployeePersonalDetails>(model);
             var empDetails = await _employeePersonalDetailsRepository.AddAsync(entity);
-            var empDetailsModel = _mapper.Map<EmployeePersonalDetailsModel>(empDetails);
-            return empDetailsModel;
+            //var empDetailsModel = _mapper.Map<EmployeePersonalDetailsModel>(empDetails);
+            //return empDetailsModel;
+            return model;
         }
 
         public async Task<EmployeePersonalDetailsModel> GetEmployeeById(string employeeId)

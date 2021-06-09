@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using Manage.Web.Interface;
 using Manage.Web.ViewModels;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,13 +16,19 @@ namespace Manage.Web.Controllers
     {
         private readonly IEmployeePageService _employeePageService;
         private readonly IDepartmentPageService _departmentPageService;
+        private readonly IEmployeePersonalDetailsPageService _employeePersonalDetailsPageService;
         private readonly IMapper _mapper;
+        private readonly IWebHostEnvironment _webHostEnvironmwnt;
 
-        public EmployeeController(IEmployeePageService employeePageService , IDepartmentPageService departmentPageService , IMapper mapper)
+        public EmployeeController(IEmployeePageService employeePageService , IDepartmentPageService departmentPageService  
+            ,IEmployeePersonalDetailsPageService employeePersonalDetailsPageService
+            , IMapper mapper , IWebHostEnvironment webHostEnvironmwnt)
         {
             _employeePageService = employeePageService;
             _departmentPageService = departmentPageService;
+            _employeePersonalDetailsPageService = employeePersonalDetailsPageService;
             _mapper = mapper;
+            _webHostEnvironmwnt = webHostEnvironmwnt;
         }
         public IActionResult Index()
         {
@@ -202,14 +210,39 @@ namespace Manage.Web.Controllers
 
         }
 
+
         [HttpGet]
         public async Task<IActionResult> CreateEmployeePersonalDetails(string id)
         {
             var user = await _employeePageService.GetEmployeeById(id);
-            EmployeePersonalDetailsViewModel model = new EmployeePersonalDetailsViewModel();
+            CreateEmployeePersonalDetailsViewModel model = new CreateEmployeePersonalDetailsViewModel();
             model.FullName = user.FullName;
             return View(model);
         }
       
+        [HttpPost]
+        public async Task<IActionResult> CreateEmployeePersonalDetails(CreateEmployeePersonalDetailsViewModel model)
+        {
+            //upload image
+            var uniqueFileName = "";
+            //to get to the path of the wwwwrootfolder
+           var uploadsFolder =  Path.Combine(_webHostEnvironmwnt.WebRootPath, "dist/img");
+            //append GUID value  and undersacore for unique File Name
+            uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
+            string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+            //copy file to images folder
+            model.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
+            //mapping
+            var empDetails = _mapper.Map<EmployeePersonalDetailsViewModel>(model);
+            empDetails.PhotoPath = uniqueFileName;
+
+            var employeePersonalDetails =  await _employeePersonalDetailsPageService.AddAsync(empDetails);
+            
+            return View();
+        }
+
+
+       
+
     }
 }
