@@ -201,6 +201,15 @@ namespace Manage.Web.Controllers
             return View();
 
         }
+
+        [HttpGet]
+        public async Task<IActionResult> CreateEmployeePersonalDetails(string id)
+        {
+            var user = await _employeePageService.GetEmployeeById(id);
+            EmployeePersonalDetailsViewModel model = new EmployeePersonalDetailsViewModel();
+            model.FullName = user.FullName;
+            return View(model);
+        }
       
     }
 }
