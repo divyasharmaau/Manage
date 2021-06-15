@@ -34,5 +34,12 @@ namespace Manage.Web.Services
            var employeePersonalDetails = _mapper.Map<EmployeePersonalDetailsViewModel>(empDetails);
            return employeePersonalDetails;
         } 
+
+        public async Task<EmployeePersonalDetailsViewModel>UpdateAsync(EmployeePersonalDetailsViewModel model)
+        {
+            var empPersonalDetailsMapped = _mapper.Map<EmployeePersonalDetailsModel>(model);
+            await _employeePersonalDetailsService.UpdateAsync(empPersonalDetailsMapped);
+            return model;
+        }
     }
 }

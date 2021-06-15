@@ -89,13 +89,8 @@
                             <div class="form-group col-md-6">
                                 <label asp-for="JoiningDate" class="col-auto col-form-label small form-text"></label>
                                 <div class="col">
-                                    @*<p asp-for="JoiningDate" class="form-control">@Model.JoiningDate.ToShortDateString()</p>*@
-                                    @*<input asp-for="JoiningDate" class="form-control" readonly />@Model.JoiningDate.ToShortDateString();*@
-                                    @{
-                                        string parameterValue = @Model.JoiningDate.ToShortDateString();
-                                    }
-                                    @*@Html.DisplayFor(modelItem => parameterValue)*@
-                                    @Html.TextBoxFor(m => parameterValue, new { @readonly = "readonly", @class = "form-control" })
+                                    <input asp-for="JoiningDate" class="form-control ui-datepicker" type="date"
+                                           placeholder="Joining Date" value="@Model.JoiningDate.ToString("yyyy-MM-dd")" />
                                 </div>
                             </div>
                             <div class="form-group col-md-6">
@@ -150,7 +145,7 @@
                                 <input type="submit" class="btn btn-outline-info" m-5" value="Save"/>
                             </div>
                             <div class="col-md-4">
-                                <a asp-action="EditEmployeePersonalDetails" asp-controller="Employee" class="btn btn-outline-success m-5">Next</a>
+                                <a asp-action="EmployeePersonalDetails" asp-controller="Employee" asp-route-id="@Model.Id" class="btn btn-outline-success m-5">Next</a>
                             </div>
                         </div>
                     </div>

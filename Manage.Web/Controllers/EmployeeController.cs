@@ -243,20 +243,58 @@ namespace Manage.Web.Controllers
             else
             {
                 return View();
-            }
-           
+            }  
         }
-
 
         public async Task<IActionResult> EmployeePersonalDetails(string id)
         {
             var emp = await _employeePageService.GetEmployeeById(id);
             var employee = await _employeePersonalDetailsPageService.GetEmployeePersonalDetailsById(id);
-          
-                employee.FullName = emp.FullName;
-                return View(employee);
-        
-          
+            employee.FullName = emp.FullName;
+            return View(employee);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditEmployeePersonalDetails(string id)
+        {
+            var emp = await _employeePageService.GetEmployeeById(id);
+            var empDetails = await _employeePersonalDetailsPageService.GetEmployeePersonalDetailsById(id);
+            var employeePersonalDetails =  _mapper.Map<EditEmployeePersonalDetailsViewModel>(empDetails);
+            employeePersonalDetails.FullName = emp.FullName;
+            employeePersonalDetails.ExistingPhotoPath = empDetails.PhotoPath;
+            return View(employeePersonalDetails);
+        }
+
+        public async Task<IActionResult> EditEmployeePersonalDetails(EditEmployeePersonalDetailsViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                //mapping
+                var empDetails = _mapper.Map<EmployeePersonalDetailsViewModel>(model);
+                //upload image
+                var uniqueFileName = "";
+                if (model.ExistingPhotoPath == null )
+                {
+                    //to get to the path of the wwwwrootfolder
+                    var uploadsFolder = Path.Combine(_webHostEnvironmwnt.WebRootPath, "dist/img");
+                    //append GUID value  and undersacore for unique File Name
+                    uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                    //copy file to images folder
+                    model.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
+                    empDetails.PhotoPath = uniqueFileName;
+                }
+                else
+                {
+                    empDetails.PhotoPath = model.ExistingPhotoPath;
+                }
+                var employeePersonalDetails = await _employeePersonalDetailsPageService.UpdateAsync(empDetails);
+                return RedirectToAction("EmployeePersonalDetails" , new { id = empDetails.Id });
+            }
+            else
+            {
+                return View();
+            }
         }
 
     }

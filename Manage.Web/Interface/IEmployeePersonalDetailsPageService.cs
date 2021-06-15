@@ -10,5 +10,6 @@ namespace Manage.Web.Interface
    {
         Task<EmployeePersonalDetailsViewModel> AddAsync(EmployeePersonalDetailsViewModel model);
         Task<EmployeePersonalDetailsViewModel> GetEmployeePersonalDetailsById(string id);
+        Task<EmployeePersonalDetailsViewModel> UpdateAsync(EmployeePersonalDetailsViewModel model);
    }
 }

@@ -2,6 +2,16 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    var photoPath = "";
+
+    if(Model.EmployeePersonalDetails == null)
+    {
+        photoPath = "~/dist/img/avatar.png";
+    }
+    else
+    {
+        photoPath = "~/dist/img/" +  Model.EmployeePersonalDetails.PhotoPath;
+    }
 }
 @model Manage.Web.ViewModels.ApplicationUserViewModel
     <!-- Main content -->
@@ -16,7 +26,7 @@
                     <div class="table table-responsive table-borderless text-center mt-3">
                         <table>
                             <tr>
-                                <td>Photo</td>
+                                <td><img src="@photoPath" asp-append-version="true" class="imageThumbnail" /></td>
                                 <td>
                                     <h4>@Model.FirstName</h4>
                                     <h5>Department:@Model.Department.Name</h5>
@@ -82,7 +92,8 @@
                         <div class="form-group col-md-6">
                             <label asp-for="JoiningDate" class="col-auto col-form-label small form-text"></label>
                             <div class="col">
-                                <p asp-for="JoiningDate" class="form-control">@Model.JoiningDate.ToShortDateString()</p>
+                                <p asp-for="JoiningDate" type="date" class="form-control" placeholder="Joining Date">@Model.JoiningDate.ToShortDateString()</p>
+                              
                             </div>
                         </div>
                         <div class="form-group col-md-6">
@@ -139,7 +150,7 @@
                             <a asp-action="EmployeeList" asp-controller="Employee" class="btn btn-outline-secondary m-5 ">Cancel</a>
                         </div>
                         <div class="col-md-4">
-                            <a asp-action="EmployeePersonalDetail" asp-controller="Employee" asp-route-id="@Model.Id" class="btn btn-outline-success m-5 ">Next</a>
+                            <a asp-action="EmployeePersonalDetails" asp-controller="Employee" asp-route-id="@Model.Id" class="btn btn-outline-success m-5 ">Next</a>
                         </div>
                     </div>
                 </div>

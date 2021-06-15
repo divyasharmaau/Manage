@@ -3,65 +3,97 @@
 *@
 @{
 }
+@model Manage.Web.ViewModels.EditEmployeePersonalDetailsViewModel
 
-@model Manage.Web.ViewModels.CreateEmployeePersonalDetailsViewModel
+@{
 
-@*@{ 
     var photoPath = "";
-
     if (Model == null)
     {
-        photoPath = "~/dist/img/UploadIcon.png";
+        photoPath = "~/dist/img/avatar.png";
     }
     else
     {
-        photoPath ="~/dist/img/"+ Model.Photo;
+        photoPath = "~/dist/img/" + (Model.ExistingPhotoPath);
     }
-}*@
+}
 
 <section class="content">
     <div class="container-fluid">
+
         <div class="card card-default">
             <div class="card-header">
-                <h3 class="card-title">Add Employee Personal Details</h3>
+                <h3 class="card-title">Edit Employee Personal Details</h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                <form enctype="multipart/form-data" asp-controller="Employee" asp-action="CreateEmployeePersonalDetails" method="post" class="mt-5">
-                    <input asp-for="Id" type="hidden" />
+
+                <form enctype="multipart/form-data" asp-controller="Employee" asp-action="EditEmployeePersonalDetails" method="post">
+
+
+                    <div>
+                        <input asp-for="Id" type="hidden" />
+                        <input hidden asp-for="@Model.ExistingPhotoPath" />
+
+                    </div>
+
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label asp-for="FullName">Employee Name</label>
+                            <label asp-for="FullName" class="col-auto col-form-label small form-text">Employee Name</label>
+
                             <div class="col">
-                                <input asp-for="FullName" class="form-control" readonly />
+                                <p asp-for="FullName" class="form-control" type="text">@Model.FullName</p>
                             </div>
                         </div>
+
                     </div>
-                    <div class="form-row">
+
+                    @* To upload a new photo *@
+                    <div class="form-row mt-3">
                         <div class="form-group col-md-6">
                             <label asp-for="Photo" class="col-auto col-form-label small form-text">Photograph</label>
-                            <div class="form-group">
+                            <div class="form-group col-md-12">
                                 <div class="col custom-file">
                                     <input asp-for="Photo" id="photo" class="form-control custom-file-input" />
-                                    <label class="custom-file-label">Choose File....</label>
+                                    <label class="custom-file-label">Click here to upload or choose a different photo...</label>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group col-md-3">
-                            <div class="col image-preview" id="imagePreview">
-                                <img src="~/dist/img/UploadIcon.png" alt="Image Preview"  id="imagePreviewImage" class="image-preview_image" />
-                                @*<span class="image-preview_default-text">Image Preview</span>*@
-                            </div>
+                        <div class="form-group  col-md-6" id="existingPhoto">
+                            <img src="@photoPath" asp-append-version="true" class="imageThumbnail" id="existingPhoto_image" />
                         </div>
+                        <!--<div class="form-group col-md-3">
+                            <div class="col image-preview" id="imagePreview">
+                                <img src="@photoPath" id="imagePreviewImage" class="image-preview_image" />-->
+                        @*<span class="image-preview_default-text">Image Preview</span>*@
+                        <!--</div>
+                        </div>-->
                     </div>
+
+
+
+                    @*<div class="form-group col-md-6">
+                            <label asp-for="Photo" class="col-auto col-form-label small form-text">Photograph</label>
+                            <div class="form-group col-md-12">
+                                <div class="col custom-file">
+                                    <input asp-for="Photo" class="form-control custom-file-input" />
+                                    <label class="custom-file-label">Choose file...</label>
+                                    <span asp-validation-for="Photo"></span>
+                                </div>
+                            </div>
+                        </div>*@
+
+
                     <div class="form row">
                         <div class="form-group col-md-6">
                             <label asp-for="DateOfBirth" class="col-auto col-form-label small form-text">Date Of Birth</label>
                             <div class="col">
-                                <input asp-for="DateOfBirth" class="form-control ui-datepicker" type="date" placeholder="Date of Birth" />
+                                <input asp-for="DateOfBirth" class="form-control ui-datepicker" type="date" 
+                                       placeholder="Date of Birth" value="@Model.DateOfBirth.ToString("yyyy-MM-dd")" />
                                 <span asp-validation-for="DateOfBirth"></span>
                             </div>
                         </div>
+
                         <div class="form-group col-md-6">
                             <label asp-for="Nationality" class="col-auto col-form-label small form-text"></label>
                             <div class="col">
@@ -70,6 +102,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="form row">
                         <div class="form-group col-md-6">
                             <label asp-for="MaritalStatus" class="col-auto col-form-label small form-text"></label>
@@ -84,6 +117,7 @@
                                 <span asp-validation-for="MaritalStatus"></span>
                             </div>
                         </div>
+
                         <div class="form-group col-md-6">
                             <label asp-for="Gender" class="col-auto col-form-label small form-text"></label>
                             <div class="col">
@@ -97,6 +131,7 @@
                                 <span asp-validation-for="Gender"></span>
                             </div>
                         </div>
+
                     </div>
 
                     <p>Employee Addresss</p>
@@ -114,10 +149,11 @@
                                     <label asp-for="Street" class="col-auto col-form-label small form-text"></label>
                                     <div class="col">
                                         <input asp-for="Street" class="form-control" placeholder="Street Number" />
-                                        <span asp-validation-for="Street"></span>
+
                                     </div>
                                 </div>
                             </div>
+
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label asp-for="City" class="col-auto col-form-label small form-text"></label>
@@ -141,7 +177,9 @@
                                         <span asp-validation-for="State"></span>
                                     </div>
                                 </div>
+
                             </div>
+
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label asp-for="Country" class="col-auto col-form-label small form-text"></label>
@@ -166,16 +204,20 @@
                         <div class="form-group col-md-6">
                             <label asp-for="BankName" class="col-auto col-form-label small form-text"></label>
                             <div class="col">
+
                                 <input asp-for="BankName" class="form-control" placeholder="BankName" />
                                 <span asp-validation-for="BankName"></span>
                             </div>
                         </div>
+
                         <div class="form-group col-md-6">
                             <label asp-for="Branch" class="col-auto col-form-label small form-text"></label>
                             <div class="col">
                                 <input asp-for="Branch" class="form-control" placeholder="Branch" />
                             </div>
                         </div>
+
+
                         <div class="form-group col-md-12">
                             <label asp-for="AccountName" class="col-auto col-form-label small form-text"></label>
                             <div class="col">
@@ -183,6 +225,7 @@
                                 <span asp-validation-for="AccountName"></span>
                             </div>
                         </div>
+
                         <div class="form-group col-md-6">
                             <label asp-for="BSB" class="col-auto col-form-label small form-text"></label>
                             <div class="col">
@@ -197,6 +240,7 @@
                                 <span asp-validation-for="AccountNumber"></span>
                             </div>
                         </div>
+
                     </div>
 
                     <p>Employee Emergency Contact Details</p>
@@ -214,6 +258,15 @@
                                 <div class="col">
                                     <input asp-for="Relationship" class="form-control" placeholder="Relationship" />
                                     <span asp-validation-for="Relationship"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label asp-for="EmergencyContactPhoneNumber" class="col-auto col-form-label small form-text"></label>
+                                <div class="col">
+                                    <input asp-for="EmergencyContactPhoneNumber" class="form-control" placeholder="EmergencyContactPhoneNumber" />
+                                    <span asp-validation-for="EmergencyContactPhoneNumber"></span>
                                 </div>
                             </div>
                         </div>
@@ -275,42 +328,43 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label asp-for="EmergencyContactPhoneNumber" class="col-auto col-form-label small form-text"></label>
-                                <div class="col">
-                                    <input asp-for="EmergencyContactPhoneNumber" class="form-control" placeholder="EmergencyContactPhoneNumber" />
-                                    <span asp-validation-for="EmergencyContactPhoneNumber"></span>
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
                     <div class="form-row mt-3 text-center">
                         <div class="col-md-4">
-                            <button type="submit" class="btn btn-outline-info m-5 ">Create</button>
+                            <button type="submit" class="btn btn-outline-info m-5 ">Save</button>
                         </div>
                         <div class="col-md-4">
-                            <a asp-action="CreateEmployeePersonalDetails" asp-controller="Employee" class="btn btn-outline-secondary m-5 ">Cancel</a>
+                            <a asp-action="EmployeePersonalDetail" asp-controller="Employee" class="btn btn-outline-secondary m-5" asp-route-id="@Model.Id">Cancel</a>
                         </div>
                         <div class="col-md-4">
-                            <a asp-action="EmployeeOfficialDetails" asp-controller="Employee" class="btn btn-outline-success m-5 ">Back</a>
+                            <a asp-action="EmployeeOfficialDetails" asp-controller="Employee" asp-route-id="@Model.Id" class="btn btn-outline-success m-5">Back</a>
                         </div>
                     </div>
                 </form>
             </div>
-            <!--/.card-body-->
+
+            <!-- /.card-body -->
+
         </div>
+        <!-- /.card -->
     </div>
 </section>
 
+@section Scripts {
 
-@section Scripts{
     <script>
-        const photo = document.getElementById("photo");
-        const previewContainer = document.getElementById("imagePreview");
-        const previewImage = previewContainer.querySelector(".image-preview_image");
+        //$(document).ready(function () {
+        //    $('.custom-file-input').on("change", function () {
+        //        var fileName = $(this).val().split("\\").pop();
+        //        $(this).next('.custom-file-label').html(fileName);
+        //    });
         
+        //});
+
+        const photo = document.getElementById("photo");
+        const previewImage = document.getElementById("existingPhoto_image");
+
         photo.addEventListener("change", function () {
             const file = this.files[0];
             if (file) {
@@ -321,14 +375,14 @@
                 reader.readAsDataURL(file);
             }
             else {
-
-              previewImage.setAttribute("src", '~/dist/img/UploadIcon.png');  
+                previewImage.setAttribute("src", '~/dist/img/UploadIcon.png');
             }
-           
-                var fileName = $(this).val().split("\\").pop();
-                $(this).next('.custom-file-label').html(fileName);
-                $('#img-preview').attr('src', fileName);
-        });
-    </script>
 
+            // set file name in box
+            var fileName = $(this).val().split("\\").pop();
+            $(this).next('.custom-file-label').html(fileName);
+            $('#img-preview').attr('src', fileName);
+        });
+
+    </script>
 }
