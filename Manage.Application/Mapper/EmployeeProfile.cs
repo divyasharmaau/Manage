@@ -14,6 +14,7 @@ namespace Manage.Application.Mapper
             CreateMap<ApplicationUserModel, ApplicationUser>().ReverseMap();
             CreateMap<DepartmentModel, Department>().ReverseMap();
             CreateMap<EmployeePersonalDetailsModel, EmployeePersonalDetails>().ReverseMap();
+            CreateMap<LeaveModel, Leave>().ReverseMap();
         }
     }
 }
