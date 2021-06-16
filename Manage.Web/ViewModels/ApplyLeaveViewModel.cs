@@ -12,7 +12,7 @@ namespace Manage.Web.ViewModels
     {
         [DisplayName("Date Applied")]
         //[DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        //[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime CurrentDate { get; set; }
         public ApplyLeaveViewModel()
         {
@@ -35,7 +35,7 @@ namespace Manage.Web.ViewModels
         [Required]
         public string Reason { get; set; }
         public string Comment { get; set; }
-        public IFormFile File { get; set; }
+        public List<IFormFile> File { get; set; }
         [DisplayName("Annual Leave")]
         public double BalanceAnnualLeave { get; set; }
         [DisplayName("Casual/Sick Leave")]
