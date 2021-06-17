@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace Manage.Web.ViewModels
 {
-    public class ApplyLeaveViewModel
+    public class LeaveViewModel
     {
         [DisplayName("Date Applied")]
         //[DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         //[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime CurrentDate { get; set; }
-        public ApplyLeaveViewModel()
+        public LeaveViewModel()
         {
             CurrentDate = DateTime.Now.Date;
         }
@@ -35,12 +35,10 @@ namespace Manage.Web.ViewModels
         [Required]
         public string Reason { get; set; }
         public string Comment { get; set; }
-        public IFormFile File { get; set; }
         public string FilePath { get; set; }
         [DisplayName("Annual Leave")]
         public double BalanceAnnualLeave { get; set; }
         [DisplayName("Casual/Sick Leave")]
         public double BalanceSickLeave { get; set; }
-
     }
 }

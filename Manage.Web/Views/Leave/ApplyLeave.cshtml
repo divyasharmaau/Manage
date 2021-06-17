@@ -21,14 +21,18 @@
                             @*<label class=" col-form-label small form-text">Date Applied On:</label>*@
                             <label asp-for="@Model.CurrentDate" class="col-form-label small form-text">Current Date:</label>
                             <div class="col">
-                                <p type="text" asp-for="@Model.CurrentDate">@Model.CurrentDate.ToShortDateString()</p>
+                                @*<p type="text" asp-for="@Model.CurrentDate">@Model.CurrentDate.ToShortDateString()</p>*@
+                                <input asp-for="CurrentDate" class="form-control" type="date" disabled
+                                       placeholder="Current Date" value="@Model.CurrentDate.ToString("yyyy-MM-dd")" />
                             </div>
                         </div>
 
                         <div class="form-group col-6">
+                            <label asp-for="@Model.JoiningDate" class="col-form-label small form-text">Joining Date:</label>
                             <div class="col">
-                                <label asp-for="@Model.JoiningDate" class="col-form-label small form-text">Joining Date:</label>
-                                <p type="text" asp-for="@Model.JoiningDate">@Model.JoiningDate.ToShortDateString()</p>
+                                @*<p type="text" asp-for="@Model.JoiningDate">@Model.JoiningDate.ToShortDateString()</p>*@
+                                <input asp-for="JoiningDate" class="form-control" type="date" readonly
+                                       placeholder="Joining Date" value="@Model.JoiningDate.ToString("yyyy-MM-dd")" />
                             </div>
                         </div>
                     </div>
@@ -129,7 +133,7 @@
                         <div class="form-group col-6">
                             <label asp-for="File" class="col-auto col-form-label small form-text">Attach Documents</label>
                             <div class="col custom-file">
-                                <input asp-for="File" multiple class="form-control custom-file-input" />
+                                <input asp-for="File"  class="form-control custom-file-input" />
                                 <label class="custom-file-label">Choose File...</label>
                             </div>
                         </div>
@@ -150,21 +154,14 @@
 
 
 @section Scripts{
-    <script>
 
+    <script>
         $(document).ready(function () {
             $('.custom-file-input').on("change", function () {
-                var fileLabel = $(this).next('.custom-file-label');
-                var files = $(this)[0].files;
-                if (files.length > 1) {
-                    fileLabel.html(files.length + ' files selected');
-                }
-                else if (files.length == 1) {
-                    fileLabel.html(files[0].name);
-                }
+                var fileName = $(this).val().split("\\").pop();
+                $(this).next('.custom-file-label').html(fileName);
             });
+
         });
-
     </script>
-
 }

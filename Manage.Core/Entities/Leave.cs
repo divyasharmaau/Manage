@@ -1,4 +1,5 @@
 ﻿using Manage.Core.Entities.Base;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -33,7 +34,10 @@ namespace Manage.Core.Entities
         [Required]
         public string Reason { get; set; }
         public string Comment { get; set; }
+
+        //public List<IFormFile> File { get; set; }
         public string FilePath { get; set; }
+       // public string FilePath { get; set; }
         [DisplayName("Annual Leave")]
         public double BalanceAnnualLeave { get; set; }
         [DisplayName("Sick Leave")]

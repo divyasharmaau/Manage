@@ -8,6 +8,6 @@ namespace Manage.Web.Interface
 {
    public interface ILeavePageService
     {
-        Task<ApplyLeaveViewModel> AddNewLeave(ApplyLeaveViewModel leaveViewModel);
+        Task<LeaveViewModel> AddNewLeave(LeaveViewModel leaveViewModel);
     }
 }

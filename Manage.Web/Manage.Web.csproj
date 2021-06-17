@@ -49,4 +49,8 @@
     <None Include="wwwroot\dist\js\pages\dashboard3.js" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\dist\files\" />
+  </ItemGroup>
+
 </Project>

@@ -18,17 +18,17 @@ namespace Manage.Web.Controllers
         private readonly IDepartmentPageService _departmentPageService;
         private readonly IEmployeePersonalDetailsPageService _employeePersonalDetailsPageService;
         private readonly IMapper _mapper;
-        private readonly IWebHostEnvironment _webHostEnvironmwnt;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
         public EmployeeController(IEmployeePageService employeePageService , IDepartmentPageService departmentPageService  
             ,IEmployeePersonalDetailsPageService employeePersonalDetailsPageService
-            , IMapper mapper , IWebHostEnvironment webHostEnvironmwnt)
+            , IMapper mapper , IWebHostEnvironment webHostEnvironment)
         {
             _employeePageService = employeePageService;
             _departmentPageService = departmentPageService;
             _employeePersonalDetailsPageService = employeePersonalDetailsPageService;
             _mapper = mapper;
-            _webHostEnvironmwnt = webHostEnvironmwnt;
+            _webHostEnvironment = webHostEnvironment;
         }
         public IActionResult Index()
         {
@@ -228,7 +228,7 @@ namespace Manage.Web.Controllers
                 //upload image
                 var uniqueFileName = "";
                 //to get to the path of the wwwwrootfolder
-                var uploadsFolder = Path.Combine(_webHostEnvironmwnt.WebRootPath, "dist/img");
+                var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "dist/img");
                 //append GUID value  and undersacore for unique File Name
                 uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
                 string filePath = Path.Combine(uploadsFolder, uniqueFileName);
@@ -276,7 +276,7 @@ namespace Manage.Web.Controllers
                 if (model.ExistingPhotoPath == null )
                 {
                     //to get to the path of the wwwwrootfolder
-                    var uploadsFolder = Path.Combine(_webHostEnvironmwnt.WebRootPath, "dist/img");
+                    var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "dist/img");
                     //append GUID value  and undersacore for unique File Name
                     uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
                     string filePath = Path.Combine(uploadsFolder, uniqueFileName);
