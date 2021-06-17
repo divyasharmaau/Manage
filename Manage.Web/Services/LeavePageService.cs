@@ -24,8 +24,9 @@ namespace Manage.Web.Services
         public async Task<LeaveViewModel> AddNewLeave(LeaveViewModel leaveViewModel)
         {
             var  newLeaveMappedWithApplicationModel =   _mapper.Map<LeaveModel>(leaveViewModel);
-            await _leaveService.AddNewLeave(newLeaveMappedWithApplicationModel);
-            return leaveViewModel;
+            var newLeave =  await _leaveService.AddNewLeave(newLeaveMappedWithApplicationModel);
+            var mappedNewLeave = _mapper.Map<LeaveViewModel>(newLeave);
+            return mappedNewLeave;
         }
     }
 }

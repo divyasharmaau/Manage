@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Manage.Core.Entities;
 using Manage.Web.Interface;
 using Manage.Web.ViewModels;
 using Microsoft.AspNetCore.Hosting;
@@ -19,16 +20,21 @@ namespace Manage.Web.Controllers
         private readonly IEmployeePageService _employeePageService;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IMapper _mapper;
+        private readonly IEmployeeLeavePageService _employeeLeavePageService;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public LeaveController(ILeavePageService leavePageService , IMapper mapper ,IEmployeePageService employeePageService 
-            ,IWebHostEnvironment webHostEnvironment
+            ,IWebHostEnvironment webHostEnvironment , IEmployeeLeavePageService employeeLeavePageService
+            , UserManager<ApplicationUser> userManager
             )
         {
             _leavePageService = leavePageService;
             _employeePageService = employeePageService;
             _webHostEnvironment = webHostEnvironment;
             _mapper = mapper;
-            
+            _employeeLeavePageService = employeeLeavePageService;
+            _userManager = userManager;
+
         }
 
         [HttpGet]
@@ -41,7 +47,7 @@ namespace Manage.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ApplyLeave(ApplyLeaveViewModel model)
+        public async Task<IActionResult> ApplyLeave(ApplyLeaveViewModel model , string id)
         {
 
             if (ModelState.IsValid)
@@ -58,7 +64,14 @@ namespace Manage.Web.Controllers
                 } 
                 var leaveApplied = _mapper.Map<LeaveViewModel>(model);
                 leaveApplied.FilePath = uniqueFileName;
-                await _leavePageService.AddNewLeave(leaveApplied);
+                var newLeave =   await _leavePageService.AddNewLeave(leaveApplied);
+
+                var user = await _employeePageService.GetEmployeeById(id);
+                //save the newAppliedLeave to the EmployeeLeave
+                EmployeeLeaveViewModel employeeLeaveViewModel = new EmployeeLeaveViewModel();
+                employeeLeaveViewModel.LeaveId = newLeave.Id;
+                employeeLeaveViewModel.EmployeeId = user.Id;
+                await _employeeLeavePageService.AddNewLeaveEmployeeLeave(employeeLeaveViewModel);
             }
             return View(model);
         }    
