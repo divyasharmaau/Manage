@@ -9,5 +9,6 @@ namespace Manage.Web.Interface
    public interface ILeavePageService
     {
         Task<LeaveViewModel> AddNewLeave(LeaveViewModel leaveViewModel);
+        Task<LeaveViewModel> GetMyLeaveDetails(int leaveId);
     }
 }
