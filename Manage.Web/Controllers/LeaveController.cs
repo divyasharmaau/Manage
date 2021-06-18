@@ -20,8 +20,10 @@ namespace Manage.Web.Controllers
         private readonly IEmployeePageService _employeePageService;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IMapper _mapper;
+        private readonly IEmployeeLeavePageService _employeeLeavePageService;
 
         public LeaveController(ILeavePageService leavePageService , IMapper mapper ,IEmployeePageService employeePageService 
+            ,IEmployeeLeavePageService employeeLeavePageService
             ,IWebHostEnvironment webHostEnvironment
             )
         {
@@ -29,7 +31,9 @@ namespace Manage.Web.Controllers
             _employeePageService = employeePageService;
             _webHostEnvironment = webHostEnvironment;
             _mapper = mapper;
-            
+            _employeeLeavePageService = employeeLeavePageService;
+
+
         }
 
         [HttpGet]

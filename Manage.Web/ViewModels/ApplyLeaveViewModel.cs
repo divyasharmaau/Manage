@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Manage.Web.Utilities;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,15 +24,18 @@ namespace Manage.Web.ViewModels
 
         [DisplayName("Leave Type")]
         public string LeaveType { get; set; }
+
         [Display(Name = "From Date")]
-        //[DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime FromDate { get; set; }
+
         [Display(Name = "Joining Date")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime JoiningDate { get; set; }
+
         [Display(Name = "Till Date")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [DateGreaterThan("FromDate","Till Date should be Greater than or Equal to From Date")]
         public DateTime TillDate { get; set; }
         public string Duration { get; set; }
         [Required]
