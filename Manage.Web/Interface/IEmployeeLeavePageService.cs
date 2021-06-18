@@ -11,6 +11,6 @@ namespace Manage.Web.Interface
         Task AddNewLeaveEmployeeLeave(EmployeeLeaveViewModel employeeLeaveViewModel);
         Task<EmployeeLeaveViewModel> GetLeaveById(int leaveId);
 
-
+       
     }
 }
