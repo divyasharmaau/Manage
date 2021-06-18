@@ -90,5 +90,15 @@ namespace Manage.Web.Controllers
             return View(leaveDetails);
 
         }
+
+        [HttpGet]
+        public async Task<IActionResult> EditMyLeave(int id)
+        {
+            var leaveDetails = await _employeeLeavePageService.GetLeaveById(id);
+            EditMyLeaveViewModel model = new EditMyLeaveViewModel();
+            var mappedModel = _mapper.Map<EditMyLeaveViewModel>(leaveDetails);
+            return View(mappedModel);
+
+        }
     }
 }
