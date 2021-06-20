@@ -34,5 +34,11 @@ namespace Manage.Application.Services
             return leaveMapped;
         }
 
+        public async Task Update(EmployeeLeaveModel employeeLeaveModel)
+        {
+            var employeeLeave = _mapper.Map<EmployeeLeave>(employeeLeaveModel);
+            await _employeeLeaveRepository.UpdateAsync(employeeLeave);
+        }
+
     }
 }

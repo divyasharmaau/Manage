@@ -33,21 +33,12 @@ namespace Manage.Web.Services
             var  leaveDetailsFromModel = await _employeeLeaveService.GetLeaveById(leaveId);
             var mappedLeaveDetails = _mapper.Map<EmployeeLeaveViewModel>(leaveDetailsFromModel);
             return mappedLeaveDetails;
+        }
 
-            //EmployeeLeaveViewModel model = new EmployeeLeaveViewModel();
-            //try
-            //{
-            //    var leaveModel = await _employeeLeaveService.GetLeaveByIdModel(leaveId);
-            //    //var leave = _mapper.Map<EmployeeLeaveViewModel>(leaveModel);
-            //    model = _mapper.Map<EmployeeLeaveViewModel>(leaveModel);
-            //    //return leave;
-            //}
-            //catch (Exception ex)
-            //{
-            //    Console.WriteLine(ex.Message);
-            //}
-
-            //return model;
+        public async Task Update(EmployeeLeaveViewModel employeeLeaveViewModel)
+        {
+            var employeeLeaveFromModel = _mapper.Map<EmployeeLeaveModel>(employeeLeaveViewModel);
+            await _employeeLeaveService.Update(employeeLeaveFromModel);
         }
     }
 }

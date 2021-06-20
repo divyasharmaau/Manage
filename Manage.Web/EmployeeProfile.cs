@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Manage.Application.Models;
+using Manage.Core.Entities;
 using Manage.Web.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -27,6 +28,8 @@ namespace Manage.Web
             CreateMap<EditEmployeePersonalDetailsViewModel, EmployeePersonalDetailsViewModel>().ReverseMap();
             CreateMap<LeaveViewModel, ApplyLeaveViewModel>().ReverseMap();
             CreateMap<EmployeeLeaveViewModel, EditMyLeaveViewModel>().ReverseMap();
+            CreateMap<Leave, LeaveViewModel>().ReverseMap();
+
            
         }
     }

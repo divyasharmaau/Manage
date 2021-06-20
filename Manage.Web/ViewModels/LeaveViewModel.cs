@@ -39,6 +39,7 @@ namespace Manage.Web.ViewModels
         public string Reason { get; set; }
         public string Comment { get; set; }
         public string FilePath { get; set; }
+        public string ExistingFilePath { get; set; }
         [DisplayName("Annual Leave")]
         public double BalanceAnnualLeave { get; set; }
         [DisplayName("Casual/Sick Leave")]

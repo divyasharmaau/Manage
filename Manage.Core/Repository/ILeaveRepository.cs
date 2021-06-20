@@ -11,5 +11,6 @@ namespace Manage.Core.Repository
    {
         Task<Leave> AddNewLeave(Leave leave);
         Task<Leave> GetMyLeaveDetails(int leaveId);
+        //Task<Leave> GetByIdAsyncLeave(int leaveId);
    }
 }

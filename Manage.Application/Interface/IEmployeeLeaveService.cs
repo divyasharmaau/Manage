@@ -10,5 +10,6 @@ namespace Manage.Application.Interface
     {
        Task AddNewLeaveEmployeeLeave(EmployeeLeaveModel employeeLeave);
         Task<EmployeeLeaveModel> GetLeaveById(int leaveId);
+        Task Update(EmployeeLeaveModel employeeLeaveModel);
     }   
 }

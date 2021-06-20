@@ -17,12 +17,9 @@
             <div class="card-body">
                 <form method="post" enctype="multipart/form-data" asp-action="EditMyLeave">
 
-
                     <input type="hidden" asp-for="LeaveId" />
+                    <input type="hidden" asp-for="@Model.Leave.Id" />
                     <input type="hidden" asp-for="EmployeeId" />
-
-
-
                     <div class="form-row ">
                         <div class="form-group col-md-6">
                             <div>
@@ -31,11 +28,8 @@
                         </div>
                     </div>
 
-
-
                     <div class="form-row mt-3">
                         <div class="form-group col-6">
-                            @*<label class=" col-form-label small form-text">Date Applied On:</label>*@
                             <label asp-for="@Model.Leave.CurrentDate" class="col-form-label small form-text">Date Applied:</label>
                             <div class="col">
                                 <input type="text" readonly class="form-control-plaintext" asp-for="@Model.Leave.CurrentDate">
@@ -43,19 +37,16 @@
                         </div>
                     </div>
 
-
                     <div class="form-label mt-3">
                         <label class="col-form-label small form-text">Date(s) Requested For:</label>
                     </div>
                     <div class="form-row">
-
                         <div class="form-group  col-md-6 ">
                             <label asp-for="@Model.Leave.FromDate" class="col-auto col-form-label small form-text">From Date:</label>
                             <div class="col">
                                 <input asp-for="@Model.Leave.FromDate" type="date" asp-format="{0:yyyy-MM-dd}" class="form-control datepicker" />
                             </div>
                         </div>
-
                         <div class="form-group col-md-6 ">
                             <label asp-for="@Model.Leave.TillDate" class="col-auto col-form-label small form-text">Till Date:</label>
                             <div class="col">
@@ -64,9 +55,6 @@
                         </div>
                     </div>
 
-
-
-
                     <div class="form-row  mt-3">
                         <div class="form-group col-4">
                             <label asp-for="@Model.Leave.LeaveType" class="col-auto col-form-label small form-text"></label>
@@ -74,16 +62,14 @@
                                 <select asp-for="@Model.Leave.LeaveType">
                                     <option>--Select--</option>
                                     <option value="Annual Leave">Annual Leave</option>
-                                    <option value="Casual Leave">Casual Leave</option>
                                     <option value="Sick Leave">Sick Leave</option>
                                     <option value="Maternity Leave">Maternity Leave</option>
                                     <option value="Parental Leave">Parental Leave</option>
+                                    <option value="Long Service Leave">Long Service Leave</option>
                                 </select>
                                 <span asp-validation-for="@Model.Leave.LeaveType" class="text-danger"></span>
                             </div>
                         </div>
-
-
                         <div class="form-group col-4">
                             <label asp-for="@Model.Leave.Duration" class="col-auto col-form-label small form-text"></label>
                             <div class="col">
@@ -106,7 +92,6 @@
                                 DateTime end = Model.Leave.TillDate;
                                 DateTime start = Model.Leave.FromDate;
 
-
                                 if (Model.Leave.Duration == "First Half Day" || Model.Leave.Duration == "Second Half Day")
                                 {
                                     numberOfDaysofLeave = (end - start).Days + 0.5;
@@ -119,8 +104,6 @@
                                 <div class="col">
                                     @numberOfDaysofLeave
                                 </div>
-
-
                             }
                         </div>
 
@@ -142,17 +125,6 @@
                             </div>
                         </div>
                     </div>
-
-
-                    @*<div class="form-row mt-3">
-                            <div class="form-group col-12">
-                                <label asp-for="@Model.Leave.Reason" class="col-auto col-form-label small form-text"></label>
-                                <div class="col">
-
-                                    <input type="text" id="Reason" name="Reason" class="leave-form-input-text form-control" asp-for="@Model.Leave.Reason"/>
-                                </div>
-                            </div>
-                        </div>*@
                     <div class="form-row mt-3">
                         <div class="form-group col-6">
                             <label class="col-auto col-form-label small form-text">Net Leave Balance</label>
@@ -160,8 +132,8 @@
                                 <ul>
                                     <li>
                                         Annual Leave balance : @Model.Leave.BalanceAnnualLeave @*@{
-                                                Math.Round(@Model.LeaveModel.BalanceAnnualLeave, 2);
-                                            };*@
+                            Math.Round(@Model.LeaveModel.BalanceAnnualLeave, 2);
+                        };*@
                                     </li>
                                     <li>
                                         Sick Leave balance : @Model.Leave.BalanceSickLeave
@@ -170,22 +142,34 @@
                                 </ul>
                             </div>
                         </div>
-
                         <div class="form-group col-6">
                             <label class="col-auto col-form-label small form-text">Status</label>
-                            <input type="hidden" name="LeaveStatus" id="LeaveStatus" value="@Model.Leave.LeaveStatus" />
-                            @*it just displays the data but not save the data, which is required to pass on to the edit viewmodel*@
                             <div class="col">
-                                @Model.Leave.LeaveStatus
+                                <input name="LeaveStatus" id="LeaveStatus" value="@Model.Leave.LeaveStatus" />
                             </div>
                         </div>
                     </div>
 
-                    @*Paste here*@
+
+                    <div class="form-row mt-3">
+                        <div class="form-group col-6">
+                            <label asp-for="File" class="col-auto col-form-label small form-text">Replace Documents</label>
+                            <div class="col custom-file">
+                                <input asp-for="File" class="form-control custom-file-input" />
+                                <label class="custom-file-label">Choose File...</label>
+                            </div>
+                        </div>
+                        <div class="=form-group col-6">
+                            <label asp-for="@Model.ExistingFilePath" class="col-auto col-form-label small form-text">Existing File</label>
+                            <div class="col">
+                                <input asp-for="@Model.ExistingFilePath" class="form-control readonly" />
+                            </div>
+                        </div>
+                    </div>
+
 
                     <div class="form-row mt-5">
                         <div class="form-group col-12 float-right">
-
                             <button type="submit" class="btn btn-outline-success ">Update</button>
                             <button type="submit" asp-action="GetAllMyLeaves" class="btn btn-outline-info ">Cancel</button>
                         </div>

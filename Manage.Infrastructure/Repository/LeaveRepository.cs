@@ -3,6 +3,7 @@ using Manage.Core.Repository;
 using Manage.Infrastructure.Data;
 using Manage.Infrastructure.Repository.Base;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -32,5 +33,18 @@ namespace Manage.Infrastructure.Repository
             var leaveDetails = await GetByIdAsync(leaveId);
             return leaveDetails;
         }
+        public async Task Update(Leave leave)
+        {
+            _manageContext.Entry(leave).State = EntityState.Modified;
+            await _manageContext.SaveChangesAsync();
+        }
+
+        //public async Task<Leave> GetMyLeaveDetails(int leaveId)
+        //{
+        //    var leaveDetails = await GetByIdAsyncLeave(leaveId);
+        //    return leaveDetails;
+        //return await _manageContext.Leaves.SingleOrDefaultAsync(x => x.Id == leaveId);
+        //}
+
     }
 }

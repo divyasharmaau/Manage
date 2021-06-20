@@ -37,7 +37,6 @@ namespace Manage.Core.Entities
 
         //public List<IFormFile> File { get; set; }
         public string FilePath { get; set; }
-       // public string FilePath { get; set; }
         [DisplayName("Annual Leave")]
         public double BalanceAnnualLeave { get; set; }
         [DisplayName("Sick Leave")]

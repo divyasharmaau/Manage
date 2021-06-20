@@ -30,9 +30,11 @@ namespace Manage.Infrastructure.Repository
                 .Include(e => e.Employee)
                 .Include(l => l.Leave)
                 .Where(x => x.LeaveId == leaveId)
-                .FirstOrDefaultAsync();
+                //.SingleOrDefaultAsync();
+            .FirstOrDefaultAsync();
             return leave;
         }
+            
 
 
     } 

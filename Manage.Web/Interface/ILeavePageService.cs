@@ -10,5 +10,6 @@ namespace Manage.Web.Interface
     {
         Task<LeaveViewModel> AddNewLeave(LeaveViewModel leaveViewModel);
         Task<LeaveViewModel> GetMyLeaveDetails(int leaveId);
+        Task Update(LeaveViewModel leaveViewModel);
     }
 }

@@ -9,8 +9,10 @@ namespace Manage.Web.Interface
     public interface IEmployeeLeavePageService
     {
         Task AddNewLeaveEmployeeLeave(EmployeeLeaveViewModel employeeLeaveViewModel);
-        Task<EmployeeLeaveViewModel> GetLeaveById(int leaveId);
+        Task<EmployeeLeaveViewModel> GetLeaveById(int id);
+        Task Update(EmployeeLeaveViewModel employeeLeaveViewModel);
 
-       
+
+
     }
 }

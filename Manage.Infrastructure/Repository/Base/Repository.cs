@@ -54,9 +54,10 @@ namespace Manage.Infrastructure.Repository.Base
         public async Task<T> GetByIdAsync(int id)
         {
             return await _manageContext.Set<T>().FindAsync(id);
+            
         }
 
-
+      
 
     }
 }

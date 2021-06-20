@@ -36,6 +36,12 @@ namespace Manage.Web.Services
             return mappedLeaveDetails;
         }
 
+        public async Task Update(LeaveViewModel leaveViewModel)
+        {
+           
+            var leaveFromModel = _mapper.Map<LeaveModel>(leaveViewModel);
+            await _leaveService.Update(leaveFromModel);
+        }
 
     }
 }

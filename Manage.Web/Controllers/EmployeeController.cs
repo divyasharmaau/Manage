@@ -265,6 +265,7 @@ namespace Manage.Web.Controllers
             return View(employeePersonalDetails);
         }
 
+        [HttpPost]
         public async Task<IActionResult> EditEmployeePersonalDetails(EditEmployeePersonalDetailsViewModel model)
         {
             if (ModelState.IsValid)
