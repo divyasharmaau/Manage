@@ -15,6 +15,107 @@
 
 @model IPagedList<Manage.Web.ViewModels.AppUserViewModel>
 
+@{ 
+
+    bool flag = false;
+}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="card card-default">
+            <div class="card-header">
+                <h3 class="card-title">Search</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <form method="get" class="mt-5" asp-controller="Leave" asp-action="GetAllMyLeaves">
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label>From Date</label>
+                            <div class="col">
+                                <input type="date" class="form-control" asp-format="{0:dd/MM/yyyy}" name="searchFromDate" id="searchFromDate" value="@ViewData["CurrentFilterFromDate"]" />
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label>To Date</label>
+                            <div class="col">
+                                <input type="date" class="form-control" name="searchToDate" id="searchToDate" value="@ViewData["CurrentFilterToDate"]" />
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label>Leave Type</label>
+                            <div class="col">
+                                <select name="searchLeaveType" id="searchLeaveType" class="form-control" value="@ViewData["CurrentFilterLeaveType"]">
+                                    <option value="">--Select--</option>
+                                    <option value="Annual Leave">Annual Leave</option>
+                                    <option value="Sick Leave">Sick Leave</option>
+                                    <option value="Maternity Leave">Maternity Leave</option>
+                                    <option value="Parental Leave">Parental Leave</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="form-group row mt-3">
+                        <div class="form row col-md-3">
+                            <div class="col-md-2">
+                                @if (ViewData["CurrentFilterSearchAll"] != null)
+                                {
+                                    flag = (bool)ViewData["CurrentFilterSearchAll"];
+                                }
+                                <input id="searchAll" name="searchAll" value="true" type="checkbox" checked="@flag" />
+                            </div>
+                            <label>All</label>
+                        </div>
+
+                        <div class="form row col-md-3">
+                            <div class="col-md-2">
+                                @if (ViewData["CurrentFilterApproved"] != null)
+                                {
+                                    flag = (bool)ViewData["CurrentFilterApproved"];
+                                }
+                                <input id="searchApproved" name="searchAprroved" value="true" type="checkbox" checked="@flag"/>
+                            </div>
+                            <label>Approved</label>
+                        </div>
+                        <div class="form row col-md-3">
+                            <div class="col-md-2">
+                                @if (ViewData["CurrentFilterSP"] != null)
+                                {
+                                    flag = (bool)ViewData["CurrentFilterSearchPending"];
+                                }
+
+                                <input id="searchPending" name="searchPending" value="true" type="checkbox" checked="@flag" />
+                            </div>
+                            <label>Pending</label>
+                        </div>
+
+                        <div class="form row col-md-3">
+                            <div class="col-md-2">
+                                @if (ViewData["CurrentFilterSearchDeclined"] != null)
+                                {
+                                    flag = (bool)ViewData["CurrentFilterSearchDeclined"];
+                                }
+                                <input type="checkbox" name="searchDeclined" id="searchDeclined" checked="@flag" />
+                            </div>
+                            <label>Declined</label>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-10">
+                            <button type="submit" name="search" value="search" class="btn btn-outline-success">Search</button>
+                            <button type="reset" class="btn btn-outline-primary">Reset</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+
 <section class="content">
     <div class="container-fluid">
 
@@ -60,7 +161,7 @@
                                     }
                                     <tr>
                                         <td>@employee.FullName</td>
-                                        <td>@employee.FromDate.ToString("dd/MM/yyyy")</td>
+                                        <td>@employee.FromDate.ToShortDateString()</td>
                                         <td>@employee.TillDate.ToString("dd/MM/yyyy")</td>
                                         <td>@employee.LeaveType</td>
 
@@ -107,3 +208,5 @@
         </div>
     </div>
 </section>
+
+

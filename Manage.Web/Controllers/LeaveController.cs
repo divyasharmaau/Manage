@@ -168,10 +168,13 @@ namespace Manage.Web.Controllers
             
         }
 
-        public async Task<IActionResult> GetAllMyLeaves(string id , int?page)
+        public async Task<IActionResult> GetAllMyLeaves(IFormCollection obj ,string id , int?page , string currentFilter 
+            , string searchFromDate 
+            ,string searchToDate , string searchLeaveStatus , string searchLeaveType 
+            ,string searchAll , string searchApproved , string searchPending , string searchDeclined)
         {
-            var emp = await _employeeLeavePageService.GetEmployeeWithLeaveList(id);
 
+            var emp = await _employeeLeavePageService.GetEmployeeWithLeaveList(id);
             List<AppUserViewModel> leaveList = new List<AppUserViewModel>();
             foreach (var item in emp.EmployeeLeaves)
             {
@@ -187,9 +190,69 @@ namespace Manage.Web.Controllers
                 leaveList.Add(model);
             }
 
-            int pageSize = 1;
+
+            ViewData["CurrentFilter"] = obj["SearchString"].ToString();
+            ViewData["CurrentFilterFromDate"] = obj["searchFromDate"].ToString();
+            ViewData["CurrentFilterToDate"] = obj["searchToDate"].ToString();
+            ViewData["CurrentFilterLeaveType"] = obj["searchLeaveType"].ToString();
+            //ViewData["CurrentFilerLeaveStatus"] = obj["searchLeaveStatus"].ToString();
+
+            Boolean tempValue = obj["searchAll"].ToString() != "" ? true : false;
+            ViewData["CurrentFilterSearchAll"] = tempValue;
+
+            Boolean tempValueApproved = obj["searchApproved"].ToString() != "" ? true : false;
+            ViewData["CurrentFilterApproved"] = tempValueApproved;
+
+            Boolean tempValueSearchPending = obj["searchPending"].ToString() != "" ? true : false;
+            ViewData["CurrentFilterSearchPending"] = tempValueSearchPending;
+
+            Boolean tempValueSearchDeclined = obj["searchDeclined"].ToString() != "" ? true : false;
+            ViewData["CurrentFilterSearchDeclined"] = tempValueSearchDeclined;
+
+
+            if (!String.IsNullOrEmpty(searchFromDate))
+            {
+                leaveList = leaveList.Where(d => d.FromDate >= DateTime.Parse(searchFromDate)).ToList();
+            }
+            if (!String.IsNullOrEmpty(searchToDate))
+            {
+                leaveList = leaveList.Where(d => d.TillDate <= DateTime.Parse(searchToDate)).ToList();
+            }
+
+            if (!String.IsNullOrEmpty(searchLeaveType))
+            {
+                leaveList = leaveList.Where(l => l.LeaveType == searchLeaveType).ToList();
+            }
+
+
+            if (!String.IsNullOrEmpty(searchLeaveStatus))
+            {
+                leaveList = leaveList.Where(s => s.Status == searchLeaveStatus).ToList();
+            }
+
+            if (!String.IsNullOrEmpty(searchAll))
+            {
+                leaveList = leaveList.OrderByDescending(s => s.Status).ToList();
+            }
+
+            if (!String.IsNullOrEmpty(searchApproved))
+            {
+                leaveList = leaveList.Where(s => s.Status == "Approved").ToList();
+            }
+
+            if (!String.IsNullOrEmpty(searchPending))
+            {
+                leaveList = leaveList.Where(s => s.Status == "Pending").ToList();
+            }
+
+            if (!String.IsNullOrEmpty(searchDeclined))
+            {
+                leaveList = leaveList.Where(s => s.Status == "Declined").ToList();
+            }
+          
+            int pageSize = 10;
             int pageNumber = (page ?? 1);
-            var result = leaveList.ToPagedList(pageNumber, pageSize);
+            var result = leaveList.OrderByDescending(s => s.Status).ToPagedList(pageNumber, pageSize);
             return View(result);
         }
 
