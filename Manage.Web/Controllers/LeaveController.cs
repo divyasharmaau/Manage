@@ -169,7 +169,24 @@ namespace Manage.Web.Controllers
 
         public async Task<IActionResult> GetAllMyLeaves(string id)
         {
-            return View();
+            var emp = await _employeeLeavePageService.GetEmployeeWithLeaveList(id);
+
+            List<AppUserViewModel> modelList = new List<AppUserViewModel>();
+            foreach (var item in emp.EmployeeLeaves)
+            {
+                AppUserViewModel model = new AppUserViewModel();
+                model.FullName = item.Employee.FullName;
+                model.FromDate = item.Leave.FromDate;
+                model.TillDate = item.Leave.TillDate;
+                model.LeaveType = item.Leave.LeaveType;
+                model.Status = item.Leave.LeaveStatus;
+                model.Reason = item.Leave.Reason;
+                model.LeaveId = item.LeaveId;
+
+                modelList.Add(model);
+            }
+
+            return View(modelList);
         }
 
     }

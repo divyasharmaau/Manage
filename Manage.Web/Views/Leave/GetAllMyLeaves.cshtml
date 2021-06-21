@@ -9,13 +9,7 @@
 @{
 }
 
-
-
-
-
-
 @model IEnumerable<Manage.Web.ViewModels.AppUserViewModel>
-
 
 <section class="content">
     <div class="container-fluid">
@@ -26,10 +20,8 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-             
                 <div class="row data-table">
                     <div class="card-table table-responsive-lg  ">
-
                         <table class="table fitwidth table-hover   table-responsive-lg " style="display:table">
                             <thead>
                                 <tr>
@@ -43,15 +35,11 @@
                                     <th>Leave Details</th>
                                     <th>Edit</th>
                                     <th>Delete</th>
-
                                 </tr>
                             </thead>
-
                             <tbody>
-
                                 @foreach (var employee in Model)
                                 {
-
 
                                     DateTime end = employee.TillDate;
                                     DateTime start = employee.FromDate;
@@ -67,7 +55,6 @@
                                         numberOfDaysofLeave = (end - start).Days + 1;
                                     }
                                     <tr>
-
                                         <td>@employee.FullName</td>
                                         <td>@employee.FromDate.ToString("dd/MM/yyyy")</td>
                                         <td>@employee.TillDate.ToString("dd/MM/yyyy")</td>
@@ -89,7 +76,6 @@
                                                     <a href="#" class="btn btn-outline-danger" onclick="confirmDelete('@employee.LeaveId', true)">
                                                         <i class="fas fa-trash"></i>
                                                     </a>
-
                                                 </span>
                                             </form>
                                         </td>
@@ -97,13 +83,7 @@
 
                                 }
 
-
                             </tbody>
-
-
-
-
-
                         </table>
                     </div>
                 </div>

@@ -63,7 +63,14 @@ namespace Manage.Application.Services
             return annualLeaveAccured;
         }
 
-       
+        public async Task<ApplicationUserModel> GetEmployeeWithLeaveList(string id)
+        {
+            var emp = await _employeeLeaveRepository.GetEmployeeWithLeaveList(id);
+            var mapped = _mapper.Map<ApplicationUserModel>(emp);
+            return mapped;
+        }
+
+
 
     }
 }

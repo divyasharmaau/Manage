@@ -18,6 +18,8 @@ namespace Manage.Infrastructure.Repository
         {
             _manageContext = manageContext;
         }
+
+
         public async Task AddNewLeaveEmployeeLeave(EmployeeLeave employeeLeave)
         {
             await AddAsync(employeeLeave);
@@ -181,6 +183,16 @@ namespace Manage.Infrastructure.Repository
             }
 
             return Math.Round(totalSickLeaveAccured, 2);
+        }
+
+        public async Task<ApplicationUser> GetEmployeeWithLeaveList(string id)
+        {
+            var employee = await _manageContext.Users
+                .Include(e => e.EmployeeLeaves)
+                .ThenInclude(l => l.Leave)
+                .Where(x => x.Id == id)
+                .FirstOrDefaultAsync();
+            return employee;
         }
     }
 }

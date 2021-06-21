@@ -64,5 +64,12 @@ namespace Manage.Web.Services
             var annualLeaveAccured = await _employeeLeaveService.TotalSickLeaveAccured(id);
             return annualLeaveAccured;
         }
+
+       public async Task<ApplicationUserViewModel> GetEmployeeWithLeaveList(string id)
+        {
+            var emp = await _employeeLeaveService.GetEmployeeWithLeaveList(id);
+            var mapped = _mapper.Map<ApplicationUserViewModel>(emp);
+            return mapped;
+        }
     }
 }
