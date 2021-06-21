@@ -9,7 +9,11 @@
 @{
 }
 
-@model IEnumerable<Manage.Web.ViewModels.AppUserViewModel>
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@using X.PagedList.Mvc.Core.Common;
+
+@model IPagedList<Manage.Web.ViewModels.AppUserViewModel>
 
 <section class="content">
     <div class="container-fluid">
@@ -88,6 +92,17 @@
                     </div>
                 </div>
 
+                <br />
+                Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                @Html.PagedListPager(Model, page => Url.Action("GetAllMyLeaves", new { page }), new PagedListRenderOptions
+                {
+                    DisplayLinkToIndividualPages = true,
+                    DisplayPageCountAndCurrentLocation = false,
+                    MaximumPageNumbersToDisplay = 10,
+                    LiElementClasses = new string[] { "page-item" },
+                    PageClasses = new string[] { "page-link" },
+
+                })
             </div>
         </div>
     </div>

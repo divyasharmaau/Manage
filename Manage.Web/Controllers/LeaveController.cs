@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using X.PagedList;
 
 namespace Manage.Web.Controllers
 {
@@ -167,11 +168,11 @@ namespace Manage.Web.Controllers
             
         }
 
-        public async Task<IActionResult> GetAllMyLeaves(string id)
+        public async Task<IActionResult> GetAllMyLeaves(string id , int?page)
         {
             var emp = await _employeeLeavePageService.GetEmployeeWithLeaveList(id);
 
-            List<AppUserViewModel> modelList = new List<AppUserViewModel>();
+            List<AppUserViewModel> leaveList = new List<AppUserViewModel>();
             foreach (var item in emp.EmployeeLeaves)
             {
                 AppUserViewModel model = new AppUserViewModel();
@@ -183,10 +184,13 @@ namespace Manage.Web.Controllers
                 model.Reason = item.Leave.Reason;
                 model.LeaveId = item.LeaveId;
 
-                modelList.Add(model);
+                leaveList.Add(model);
             }
 
-            return View(modelList);
+            int pageSize = 1;
+            int pageNumber = (page ?? 1);
+            var result = leaveList.ToPagedList(pageNumber, pageSize);
+            return View(result);
         }
 
     }
