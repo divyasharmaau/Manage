@@ -51,6 +51,17 @@ namespace Manage.Application.Services
             var annualLeaveAccured = await _employeeLeaveRepository.TotalAnnualLeaveAccured(id);
             return annualLeaveAccured;
         }
+        public async Task<double> TotalSickLeaveTaken(string id)
+        {
+            var annualLeaveCount = await _employeeLeaveRepository.TotalSickLeaveTaken(id);
+            return annualLeaveCount;
+        }
+
+        public async Task<double> TotalSickLeaveAccured(string id)
+        {
+            var annualLeaveAccured = await _employeeLeaveRepository.TotalSickLeaveAccured(id);
+            return annualLeaveAccured;
+        }
 
 
     }

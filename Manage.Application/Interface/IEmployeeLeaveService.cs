@@ -13,6 +13,8 @@ namespace Manage.Application.Interface
         Task Update(EmployeeLeaveModel employeeLeaveModel);
         Task<double> TotalAnnualLeaveTaken(string id);
         Task<double> TotalAnnualLeaveAccured(string id);
+        Task<double> TotalSickLeaveTaken(string id);
+        Task<double> TotalSickLeaveAccured(string id);
 
     }   
 }

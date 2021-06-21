@@ -45,19 +45,30 @@ namespace Manage.Web.Controllers
         public async Task<IActionResult> ApplyLeave(string id)
         {
             var user = await _employeePageService.GetEmployeeById(id);
-            var leaveCountAnnual = await _employeeLeavePageService.TotalAnnualLeaveTaken(id);
-            var accuredLeaveAnnual = await _employeeLeavePageService.TotalAnnualLeaveAccured(id);
+            var annualLeaveCount = await _employeeLeavePageService.TotalAnnualLeaveTaken(user.Id);
+            var accuredAnnualLeave = await _employeeLeavePageService.TotalAnnualLeaveAccured(user.Id);
+
+            var sickLeaveCount = await _employeeLeavePageService.TotalSickLeaveTaken(user.Id);
+            var accuredSickLeave = await _employeeLeavePageService.TotalSickLeaveAccured(user.Id);
 
             ApplyLeaveViewModel model = new ApplyLeaveViewModel();
             model.JoiningDate = user.JoiningDate;
-            model.BalanceAnnualLeave = accuredLeaveAnnual - leaveCountAnnual;
+            model.BalanceAnnualLeave = accuredAnnualLeave - annualLeaveCount;
+            model.BalanceSickLeave = accuredSickLeave - sickLeaveCount;
             return View(model);
         }
 
         [HttpPost]
         public async Task<IActionResult> ApplyLeave(ApplyLeaveViewModel model , string id)
         {
+            var user = await _employeePageService.GetEmployeeById(id);
+            var annualLeaveCount = await _employeeLeavePageService.TotalAnnualLeaveTaken(user.Id);
+            var accuredAnnualLeave = await _employeeLeavePageService.TotalAnnualLeaveAccured(user.Id);
+            model.BalanceAnnualLeave = accuredAnnualLeave - annualLeaveCount;
 
+            var sickLeaveCount = await _employeeLeavePageService.TotalSickLeaveTaken(user.Id);
+            var accuredSickLeave = await _employeeLeavePageService.TotalSickLeaveAccured(user.Id);
+            model.BalanceSickLeave = accuredSickLeave - sickLeaveCount;
             if (ModelState.IsValid)
             {
                 string uniqueFileName = null;
@@ -72,9 +83,11 @@ namespace Manage.Web.Controllers
                 } 
                 var leaveApplied = _mapper.Map<LeaveViewModel>(model);
                 leaveApplied.FilePath = uniqueFileName;
+                leaveApplied.BalanceAnnualLeave = model.BalanceAnnualLeave;
+                leaveApplied.BalanceSickLeave = model.BalanceSickLeave;
                 var newLeave =   await _leavePageService.AddNewLeave(leaveApplied);
 
-                var user = await _employeePageService.GetEmployeeById(id);
+            
                 //save the newAppliedLeave to the EmployeeLeave
                 EmployeeLeaveViewModel employeeLeaveViewModel = new EmployeeLeaveViewModel();
                 employeeLeaveViewModel.LeaveId = newLeave.Id;

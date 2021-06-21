@@ -13,5 +13,7 @@ namespace Manage.Core.Repository
         Task<EmployeeLeave> GetLeaveById(int leaveId);
         Task<double> TotalAnnualLeaveTaken(string id);
         Task<double> TotalAnnualLeaveAccured(string id);
+        Task<double> TotalSickLeaveTaken(string id);
+        Task<double> TotalSickLeaveAccured(string id);
     }
 }
