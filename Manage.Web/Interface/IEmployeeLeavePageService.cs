@@ -12,7 +12,8 @@ namespace Manage.Web.Interface
         Task<EmployeeLeaveViewModel> GetLeaveById(int id);
         Task Update(EmployeeLeaveViewModel employeeLeaveViewModel);
 
-
+        Task<double> TotalAnnualLeaveTaken(string id);
+        Task<double> TotalAnnualLeaveAccured(string id);
 
     }
 }

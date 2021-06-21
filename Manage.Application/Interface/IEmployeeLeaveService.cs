@@ -8,8 +8,11 @@ namespace Manage.Application.Interface
 {
     public interface IEmployeeLeaveService
     {
-       Task AddNewLeaveEmployeeLeave(EmployeeLeaveModel employeeLeave);
+        Task AddNewLeaveEmployeeLeave(EmployeeLeaveModel employeeLeave);
         Task<EmployeeLeaveModel> GetLeaveById(int leaveId);
         Task Update(EmployeeLeaveModel employeeLeaveModel);
+        Task<double> TotalAnnualLeaveTaken(string id);
+        Task<double> TotalAnnualLeaveAccured(string id);
+
     }   
 }

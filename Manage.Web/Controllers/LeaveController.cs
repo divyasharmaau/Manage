@@ -45,8 +45,12 @@ namespace Manage.Web.Controllers
         public async Task<IActionResult> ApplyLeave(string id)
         {
             var user = await _employeePageService.GetEmployeeById(id);
+            var leaveCountAnnual = await _employeeLeavePageService.TotalAnnualLeaveTaken(id);
+            var accuredLeaveAnnual = await _employeeLeavePageService.TotalAnnualLeaveAccured(id);
+
             ApplyLeaveViewModel model = new ApplyLeaveViewModel();
             model.JoiningDate = user.JoiningDate;
+            model.BalanceAnnualLeave = accuredLeaveAnnual - leaveCountAnnual;
             return View(model);
         }
 

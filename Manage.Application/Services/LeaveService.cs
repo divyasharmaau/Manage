@@ -26,9 +26,11 @@ namespace Manage.Application.Services
         }
         public async Task<LeaveModel> AddNewLeave(LeaveModel leave)
         {
-            var leaveMappedFromCore = _mapper.Map<Leave>(leave);
-            await _leaveRepository.AddNewLeave(leaveMappedFromCore);
-            return leave;
+            var leaveMappedWithCore = _mapper.Map<Leave>(leave);
+            var newLeave = await _leaveRepository.AddNewLeave(leaveMappedWithCore);
+            var leaveMapped = _mapper.Map<LeaveModel>(newLeave);
+            return leaveMapped;
+            
         }
 
         public async Task<LeaveModel> GetMyLeaveDetails(int leaveId)

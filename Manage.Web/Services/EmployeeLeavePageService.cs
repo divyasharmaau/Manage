@@ -24,7 +24,7 @@ namespace Manage.Web.Services
         public async Task AddNewLeaveEmployeeLeave(EmployeeLeaveViewModel employeeLeaveViewModel)
         {
             var employeeLeaveFromApplication = _mapper.Map<EmployeeLeaveModel>(employeeLeaveViewModel);
-           await _employeeLeaveService.AddNewLeaveEmployeeLeave(employeeLeaveFromApplication);
+            await _employeeLeaveService.AddNewLeaveEmployeeLeave(employeeLeaveFromApplication);
          
         }
 
@@ -40,5 +40,18 @@ namespace Manage.Web.Services
             var employeeLeaveFromModel = _mapper.Map<EmployeeLeaveModel>(employeeLeaveViewModel);
             await _employeeLeaveService.Update(employeeLeaveFromModel);
         }
+
+        public Task<double> TotalAnnualLeaveAccured(string id)
+        {
+            var totalAnnualLeaveAccured = _employeeLeaveService.TotalAnnualLeaveAccured(id);
+            return totalAnnualLeaveAccured;
+        }
+
+        public async Task<double> TotalAnnualLeaveTaken(string id)
+        {
+            var totalAnnualLeaveTaken = await _employeeLeaveService.TotalAnnualLeaveTaken(id);
+            return totalAnnualLeaveTaken;
+        }
+
     }
 }
