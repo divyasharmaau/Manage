@@ -166,5 +166,11 @@ namespace Manage.Web.Controllers
            
             
         }
+
+        public async Task<IActionResult> GetAllMyLeaves(string id)
+        {
+            return View();
+        }
+
     }
 }
