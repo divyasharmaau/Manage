@@ -41,6 +41,10 @@ namespace Manage.Web.Services
             var leaveFromModel = _mapper.Map<LeaveModel>(leaveViewModel);
             await _leaveService.Update(leaveFromModel);
         }
-
+        public async Task Delete(LeaveViewModel leaveViewModel)
+        {
+            var entity = _mapper.Map<LeaveModel>(leaveViewModel);
+            await _leaveService.Delete(entity);
+        }
     }
 }

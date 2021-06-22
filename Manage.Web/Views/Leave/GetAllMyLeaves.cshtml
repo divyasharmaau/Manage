@@ -168,19 +168,18 @@
                                         <td>@numberOfDaysofLeave</td>
                                         <td>@employee.Reason</td>
                                         <td>@employee.Status</td>
-                                        <td><a asp-action="MyLeaveDetails" asp-controller="Leave" asp-route-leaveid="@employee.LeaveId">Leave Details</a> </td>
-                                        <td><a asp-action="EditMyLeave" class="btn btn-outline-info" asp-controller="Home" asp-route-leaveid="@employee.LeaveId"><i class="fas fa-edit"></i></a></td>
+                                        <td><a asp-action="MyLeaveDetails" asp-controller="Leave" asp-route-leaveId="@employee.LeaveId">Leave Details</a> </td>
+                                        <td><a asp-action="EditMyLeave" class="btn btn-outline-info" asp-controller="Leave" asp-route-leaveid="@employee.LeaveId"><i class="fas fa-edit"></i></a></td>
                                         <td>
                                             <form method="post" asp-action="DeleteMyLeave" asp-route-leaveId="@employee.LeaveId">
                                                 <span id="confirmDeleteSpan_@employee.LeaveId" style="display:none">
-                                                    Are you sure you want to delete
-                                                    <button type="submit" class="btn btn-outline-secondary">Yes</button>
-                                                    <a href="#" class="btn btn-outline-primary" onclick="confirmDelete('@employee.LeaveId' ,false)">No</a>
+                                                    <span>Are you sure you want to delete</span>
+                                                    <button type="submit" class="btn btn btn-outline-secondary">Yes</button>
+                                                    <a href="#" class="btn btn-outline-primary" onclick="confirmDelete('@employee.LeaveId', false)">No</a>
                                                 </span>
+                                                <!--Delete button-->
                                                 <span id="deleteSpan_@employee.LeaveId">
-                                                    <a href="#" class="btn btn-outline-danger" onclick="confirmDelete('@employee.LeaveId', true)">
-                                                        <i class="fas fa-trash"></i>
-                                                    </a>
+                                                    <a href="#" class="btn btn-outline-danger" onclick="confirmDelete('@employee.LeaveId' , true)"> <i class="fas fa-trash"></i> </a>
                                                 </span>
                                             </form>
                                         </td>

@@ -71,5 +71,11 @@ namespace Manage.Web.Services
             var mapped = _mapper.Map<ApplicationUserViewModel>(emp);
             return mapped;
         }
+
+        public async Task Delete(EmployeeLeaveViewModel employeeLeaveViewModel)
+        {
+            var entity = _mapper.Map<EmployeeLeaveModel>(employeeLeaveViewModel);
+            await _employeeLeaveService.Delete(entity);
+        }
     }
 }

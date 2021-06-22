@@ -48,5 +48,12 @@ namespace Manage.Application.Services
             await _leaveRepository.UpdateAsync(leaveFromDb);
         }
 
+        public async Task Delete(LeaveModel leaveModel)
+        {
+            var leaveFromDb = await _leaveRepository.GetMyLeaveDetails(leaveModel.Id);
+            var entity = _mapper.Map(leaveModel, leaveFromDb);
+            await _leaveRepository.DeleteAsync(entity);
+        }
+
     }
 }

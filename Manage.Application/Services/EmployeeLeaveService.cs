@@ -3,6 +3,8 @@ using Manage.Application.Interface;
 using Manage.Application.Models;
 using Manage.Core.Entities;
 using Manage.Core.Repository;
+using Manage.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,11 +15,13 @@ namespace Manage.Application.Services
    public class EmployeeLeaveService : IEmployeeLeaveService
     {
         private readonly IEmployeeLeaveRepository _employeeLeaveRepository;
+        private readonly ManageContext _manageContext;
         private readonly IMapper _mapper;
 
-        public EmployeeLeaveService(IEmployeeLeaveRepository employeeLeaveRepository , IMapper mapper)
+        public EmployeeLeaveService(IEmployeeLeaveRepository employeeLeaveRepository, ManageContext manageContext , IMapper mapper)
         {
             _employeeLeaveRepository = employeeLeaveRepository;
+            _manageContext = manageContext;
             _mapper = mapper;
         }
 
@@ -70,7 +74,15 @@ namespace Manage.Application.Services
             return mapped;
         }
 
+        public async Task Delete(EmployeeLeaveModel employeeLeaveModel)
+        {
+           
+            var leaveFromDb = await _manageContext.EmployeeLeaves.SingleOrDefaultAsync(x => x.LeaveId == employeeLeaveModel.LeaveId);
+            var entity = _mapper.Map(employeeLeaveModel, leaveFromDb);
+            await _employeeLeaveRepository.DeleteAsync(entity);
+        }
 
+       
 
     }
 }

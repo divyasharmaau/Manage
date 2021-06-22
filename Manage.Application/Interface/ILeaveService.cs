@@ -11,5 +11,6 @@ namespace Manage.Application.Interface
         Task<LeaveModel> AddNewLeave(LeaveModel leave);
         Task<LeaveModel> GetMyLeaveDetails(int leaveId);
         Task Update(LeaveModel leaveModel);
+        Task Delete(LeaveModel leaveModel);
     }
 }

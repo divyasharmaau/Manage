@@ -256,5 +256,23 @@ namespace Manage.Web.Controllers
             return View(result);
         }
 
+        public async Task<IActionResult> DeleteMyLeave(int leaveId)
+        {
+           var leave = await _leavePageService.GetMyLeaveDetails(leaveId);
+            var empLeave = await _employeeLeavePageService.GetLeaveById(leaveId);
+            
+
+            if(leave == null)
+            {
+                ViewBag.ErrorMessage = "Leave with Id: {leaveId} not found";
+            }
+            else
+            {
+                await _leavePageService.Delete(leave);
+            }
+
+            return RedirectToAction("GetAllMyLeaves" ,new { id = empLeave.EmployeeId });
+        }
+
     }
 }

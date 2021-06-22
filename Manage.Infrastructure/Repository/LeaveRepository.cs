@@ -39,12 +39,6 @@ namespace Manage.Infrastructure.Repository
             await _manageContext.SaveChangesAsync();
         }
 
-        //public async Task<Leave> GetMyLeaveDetails(int leaveId)
-        //{
-        //    var leaveDetails = await GetByIdAsyncLeave(leaveId);
-        //    return leaveDetails;
-        //return await _manageContext.Leaves.SingleOrDefaultAsync(x => x.Id == leaveId);
-        //}
-
+       
     }
 }

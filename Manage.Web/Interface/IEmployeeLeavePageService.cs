@@ -17,6 +17,7 @@ namespace Manage.Web.Interface
         Task<double> TotalSickLeaveTaken(string id);
         Task<double> TotalSickLeaveAccured(string id);
         Task<ApplicationUserViewModel> GetEmployeeWithLeaveList(string id);
+        Task Delete(EmployeeLeaveViewModel employeeLeaveViewModel);
 
     }
 }
