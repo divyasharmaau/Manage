@@ -272,12 +272,97 @@ namespace Manage.Web.Controllers
             return RedirectToAction("GetAllMyLeaves" ,new { id = empLeave.EmployeeId });
         }
 
-        public async Task<IActionResult> GetAllLeaves(int?page)
+        public async Task<IActionResult> GetAllLeaves(IFormCollection obj, int?page  , string currentFilter,
+          string employeeName, string searchFromDate, string searchToDate,
+         string searchLeaveStatus, string searchLeaveType,
+          string searchAll, string searchAprroved, string searchPending, string searchDeclined)
         {
             var employeeLeaveList = await _employeeLeavePageService.GetAllEmployeesWithLeaveList();
-            int pageSize = 1;
+
+            ViewData["CurrentFilter"] = obj["SearchString"].ToString();
+            ViewData["CurrentFilterE"] = obj["employeeName"].ToString();
+            ViewData["CurrentFilterFD"] = obj["searchFromDate"].ToString();
+            ViewData["CurrentFilterTD"] = obj["searchToDate"].ToString();
+            ViewData["CurrentFilterLT"] = obj["searchLeaveType"].ToString();
+            ViewData["CurrentFilerLS"] = obj["searchLeaveStatus"].ToString();
+ 
+            Boolean tempValue = obj["searchAll"].ToString() != "" ? true : false;
+            ViewData["CurrentFilterSA"] = tempValue;
+
+            Boolean tempValueA = obj["searchAprroved"].ToString() != "" ? true : false;
+            ViewData["CurrentFilterA"] = tempValueA;
+
+            Boolean tempValueSP = obj["searchPending"].ToString() != "" ? true : false;
+            ViewData["CurrentFilterSP"] = tempValueSP;
+
+            Boolean tempValueSD = obj["searchDeclined"].ToString() != "" ? true : false;
+            ViewData["CurrentFilterSD"] = tempValueSD;
+
+            if (!String.IsNullOrEmpty(employeeName))
+            {
+                employeeLeaveList = employeeLeaveList.Where(e => e.FullName.ToLower().Contains(employeeName.ToLower()));
+
+            }
+            else
+            {
+                employeeName = currentFilter;
+            }
+            ViewBag.CurrentFilter = employeeName;
+
+
+            if (!String.IsNullOrEmpty(searchFromDate))
+            {
+      
+                employeeLeaveList = employeeLeaveList.Where(d => d.FromDate >= DateTime.Parse(searchFromDate)).ToList();
+            }
+
+            if (!String.IsNullOrEmpty(searchToDate))
+            {
+                employeeLeaveList = employeeLeaveList.Where(d => d.TillDate <= DateTime.Parse(searchToDate)).ToList();
+            }
+
+
+            if (!String.IsNullOrEmpty(searchLeaveType))
+            {
+                employeeLeaveList = employeeLeaveList.Where(l => l.LeaveType == searchLeaveType);
+            }
+
+            //else
+            //{
+            //    searchLeaveType = currentFilter;
+            //}
+
+            if (!String.IsNullOrEmpty(searchLeaveStatus))
+            {
+                employeeLeaveList = employeeLeaveList.Where(s => s.Status == searchLeaveStatus);
+            }
+
+            //ViewBag.CurrentFilter = searchLeaveType;
+
+            if (!String.IsNullOrEmpty(searchAll))
+            {
+                employeeLeaveList = employeeLeaveList.OrderByDescending(s => s.Status);
+            }
+
+
+            if (!String.IsNullOrEmpty(searchAprroved))
+            {
+                employeeLeaveList = employeeLeaveList.Where(s => s.Status == "Approved");
+            }
+
+            if (!String.IsNullOrEmpty(searchPending))
+            {
+                employeeLeaveList = employeeLeaveList.Where(s => s.Status == "Pending");
+            }
+
+            if (!String.IsNullOrEmpty(searchDeclined))
+            {
+                employeeLeaveList = employeeLeaveList.Where(s => s.Status == "Declined");
+            }
+            int pageSize = 10;
             int pageNumber = (page ?? 1);
-            return View(employeeLeaveList.OrderByDescending(s => s.Status).ToPagedList(pageNumber,pageSize));
+            var result = employeeLeaveList.OrderByDescending(s => s.Status).ToPagedList(pageNumber, pageSize);
+            return View(result);
         }
 
     }

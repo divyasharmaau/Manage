@@ -1,14 +1,124 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
+
 @{
-   
+
+    bool flag = false;
+  
 }
+
+
 @using X.PagedList.Mvc.Core;
 @using X.PagedList;
 @using X.PagedList.Mvc.Core.Common;
 
 @model IPagedList<Manage.Web.ViewModels.AppUserViewModel>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="card card-default">
+            <div class="card-header">
+                <h3 class="card-title">Search</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <form id="myForm" class="mt-5" asp-controller="Leave" asp-action="GetAllLeaves">
+                    <div class="form row">
+                        <div class="form-group col-md-6">
+                            <label>From Date</label>
+                            <div class="col">
+                                <input type="date" class="form-control" name="searchFromDate" id="searchFromDate" value="@ViewData["CurrentFilterFD"]" />
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>To Date</label>
+                            <div class="col">
+                                <input type="date" class="form-control" name="searchToDate" id="searchToDate" value="@ViewData["CurrentFilterTD"]" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form row mt-3">
+                        <div class="form-group col-md-6">
+                            <label>Leave Type</label>
+                            <div class="col">
+                                <select name="searchLeaveType" id="searchLeaveType" value="@ViewData["CurrentFilterLT"]" onchange="getSelectValue();">
+                                    <option value="">--Select--</option>
+                                    <option value="Annual Leave">Annual Leave</option>
+                                    <option value="Casual Leave">Casual Leave</option>
+                                    <option value="Sick Leave">Sick Leave</option>
+                                    <option value="Maternity Leave">Maternity Leave</option>
+                                    <option value="Parental Leave">Parental Leave</option>
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="form group col-md-6">
+                            <label>Employee </label>
+                            <div class="col-md-6">
+                                <input type="hidden" id="employeeId" name="employeeId" />
+                                <input type="text" name="employeeName" id="employeeName" value="@ViewData["CurrentFilterE"]" />
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row mt-3">
+                        <div class="form row col-md-3">
+                            <div class="col-md-2">
+                                @if (ViewData["CurrentFilterSA"] != null)
+                                {
+                                    flag = (bool)ViewData["CurrentFilterSA"];
+                                }
+                                <input type="checkbox" name="searchAll" id="searchAll" checked=@flag />
+                            </div>
+                            <label>All</label>
+                        </div>
+                        <div class="form row col-md-3">
+                            <div class="col-md-2">
+                                @if (ViewData["CurrentFilterA"] != null)
+                                {
+                                    flag = (bool)ViewData["CurrentFilterA"];
+                                }
+                                <input type="checkbox" name="searchAprroved" id="searchAprroved" checked="@flag" />
+                            </div>
+                            <label>Approved</label>
+                        </div>
+                        <div class="form row col-md-3">
+                            <div class="col-md-2">
+                                @if (ViewData["CurrentFilterSP"] != null)
+                                {
+                                    flag = (bool)ViewData["CurrentFilterSP"];
+                                }
+
+                                <input type="checkbox" name="searchPending" id="searchPending" checked="@flag" />
+                            </div>
+                            <label>Pending</label>
+                        </div>
+                        <div class="form row col-md-3">
+                            <div class="col-md-2">
+                                @if (ViewData["CurrentFilterSD"] != null)
+                                {
+                                    flag = (bool)ViewData["CurrentFilterSD"];
+                                }
+                                <input type="checkbox" name="searchDeclined" id="searchDeclined" checked="@flag" />
+                            </div>
+                            <label>Declined</label>
+                        </div>
+                    </div>
+                    <div class="form-group row mt-3">
+                        <div class="col-sm-10" style="float:right">
+                            <button type="submit" class="btn btn-outline-success">Search</button>
+                            <button type="reset" id="reset" class="btn btn-outline-primary">Reset</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</section>
+
 
 <section class="content">
     <div class="container-fluid">
@@ -23,7 +133,7 @@
                         <table class="table table-head-fixed  table-hover" style="display:table">
                             <!-- /.card-header -->
                             @*<div class="card-body  p-0" style="height: 300px;">
-                    <table class="table  text-nowrap">*@
+                                <table class="table  text-nowrap">*@
                             <thead>
                                 <tr>
                                     <th>Employee</th>
