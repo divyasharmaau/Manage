@@ -18,6 +18,7 @@ namespace Manage.Web
             CreateMap<EmployeePersonalDetailsModel, EmployeePersonalDetailsViewModel>().ReverseMap();
             CreateMap<LeaveModel, LeaveViewModel>().ReverseMap();
             CreateMap<EmployeeLeaveModel, EmployeeLeaveViewModel>().ReverseMap();
+            CreateMap<AppUserModel, AppUserViewModel>().ReverseMap();
 
 
             CreateMap<ApplicationUserViewModel, EmployeeListViewModel>().ReverseMap();

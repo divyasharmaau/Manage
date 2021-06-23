@@ -168,7 +168,7 @@ namespace Manage.Web.Controllers
             
         }
 
-        public async Task<IActionResult> GetAllMyLeaves(IFormCollection obj ,string id , int?page , string currentFilter 
+        public async Task<IActionResult> GetAllMyLeaves(IFormCollection obj ,string id , int?page 
             , string searchFromDate 
             ,string searchToDate , string searchLeaveStatus , string searchLeaveType 
             ,string searchAll , string searchApproved , string searchPending , string searchDeclined)
@@ -259,9 +259,7 @@ namespace Manage.Web.Controllers
         public async Task<IActionResult> DeleteMyLeave(int leaveId)
         {
            var leave = await _leavePageService.GetMyLeaveDetails(leaveId);
-            var empLeave = await _employeeLeavePageService.GetLeaveById(leaveId);
-            
-
+           var empLeave = await _employeeLeavePageService.GetLeaveById(leaveId);
             if(leave == null)
             {
                 ViewBag.ErrorMessage = "Leave with Id: {leaveId} not found";
@@ -272,6 +270,14 @@ namespace Manage.Web.Controllers
             }
 
             return RedirectToAction("GetAllMyLeaves" ,new { id = empLeave.EmployeeId });
+        }
+
+        public async Task<IActionResult> GetAllLeaves(int?page)
+        {
+            var employeeLeaveList = await _employeeLeavePageService.GetAllEmployeesWithLeaveList();
+            int pageSize = 1;
+            int pageNumber = (page ?? 1);
+            return View(employeeLeaveList.OrderByDescending(s => s.Status).ToPagedList(pageNumber,pageSize));
         }
 
     }

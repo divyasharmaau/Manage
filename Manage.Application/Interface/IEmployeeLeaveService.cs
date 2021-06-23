@@ -17,6 +17,7 @@ namespace Manage.Application.Interface
         Task<double> TotalSickLeaveAccured(string id);
         Task<ApplicationUserModel> GetEmployeeWithLeaveList(string id);
         Task Delete(EmployeeLeaveModel employeeLeaveModel);
+        Task<IEnumerable<AppUserModel>> GetAllEmployeesWithLeaveList();
 
     }   
 }

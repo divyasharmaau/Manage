@@ -194,6 +194,15 @@ namespace Manage.Infrastructure.Repository
                 .FirstOrDefaultAsync();
             return employee;
         }
+
+        public async Task<IEnumerable<ApplicationUser>>GetAllEmployeesWithLeaveList()
+        {
+            var employeeList = await _manageContext.Users
+                .Include(e => e.EmployeeLeaves)
+                .ThenInclude(l => l.Leave)
+                .ToListAsync();
+            return employeeList;
+        }
     }
 }
 

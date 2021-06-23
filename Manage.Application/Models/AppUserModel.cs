@@ -2,16 +2,18 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace Manage.Web.ViewModels
+namespace Manage.Application.Models
 {
-    public class AppUserViewModel
+   public class AppUserModel
     {
         public int Id { get; set; }
         public string FullName { get; set; }
         [Required]
+
+        public string FromDateString { get; set; }
+        public string TillDateString { get; set; }
         public DateTime FromDate { get; set; }
         [Required]
         public DateTime TillDate { get; set; }
@@ -25,10 +27,5 @@ namespace Manage.Web.ViewModels
         public string Status { get; set; }
         [Required]
         public string Duration { get; set; }
-        [DisplayName("Annual Leave")]
-        public double BalanceAnnualLeave { get; set; }
-        [DisplayName("Sick Leave")]
-        public double BalanceSickLeave { get; set; }
-
     }
 }

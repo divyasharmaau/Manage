@@ -1,0 +1,93 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+   
+}
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@using X.PagedList.Mvc.Core.Common;
+
+@model IPagedList<Manage.Web.ViewModels.AppUserViewModel>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="card card-default">
+            <div class="card-header">
+                <h3 class="card-title">Leave List</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <div class="row data-table">
+                    <div class="card-table">
+                        <table class="table table-head-fixed  table-hover" style="display:table">
+                            <!-- /.card-header -->
+                            @*<div class="card-body  p-0" style="height: 300px;">
+                    <table class="table  text-nowrap">*@
+                            <thead>
+                                <tr>
+                                    <th>Employee</th>
+                                    <th>From Date</th>
+                                    <th>Till Date</th>
+                                    <th>Leave Type</th>
+                                    <th>Number Of Days</th>
+                                    <th>Reason</th>
+                                    <th>Leave Balance(Days)</th>
+                                    <th> Status</th>
+                                    <th>Leave Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var employee in Model)
+                                {
+                                    <tr>
+                                        <td>@employee.FullName</td>
+                                        <td>@employee.FromDate.ToShortDateString()</td>
+                                        <td>@employee.TillDate.ToShortDateString()</td>
+                                        <td>@employee.LeaveType</td>
+                                        <td>@employee.NumberOfLeaveDays</td>
+                                        <td>@employee.Reason</td>
+                                        <td>
+                                            @{
+                                                if (employee.LeaveType == "Annual Leave")
+
+                                                {
+                                                    var netLeaveBalance = employee.BalanceAnnualLeave - employee.NumberOfLeaveDays * 7.6;
+                                                    <span>@netLeaveBalance</span>
+                                                }
+                                                else if (employee.LeaveType == "Sick Leave")
+                                                {
+                                                    var netSickLeavesBalance = employee.BalanceSickLeave - employee.NumberOfLeaveDays * 7.6;
+                                                    <span>@netSickLeavesBalance</span>
+                                                }
+                                            }
+                                        </td>
+                                        <td>Pending </td>
+                                        <td><a asp-action="MyLeaveDetails" asp-controller="Leave" asp-route-leaveId="@employee.LeaveId">Leave Details</a></td>
+                                    </tr>
+
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <br />
+
+
+                Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+                @Html.PagedListPager(Model, page => Url.Action("GetAllLeaves", new { page }), new PagedListRenderOptions
+                {
+                    DisplayLinkToIndividualPages = true,
+                    DisplayPageCountAndCurrentLocation = false,
+                    MaximumPageNumbersToDisplay = 10,
+                    LiElementClasses = new string[] { "page-item" },
+                    PageClasses = new string[] { "page-link" },
+
+                })
+
+            </div>
+        </div>
+    </div>
+</section>

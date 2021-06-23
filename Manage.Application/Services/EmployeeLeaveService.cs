@@ -12,16 +12,14 @@ using System.Threading.Tasks;
 
 namespace Manage.Application.Services
 {
-   public class EmployeeLeaveService : IEmployeeLeaveService
+    public class EmployeeLeaveService : IEmployeeLeaveService
     {
         private readonly IEmployeeLeaveRepository _employeeLeaveRepository;
-        private readonly ManageContext _manageContext;
         private readonly IMapper _mapper;
 
-        public EmployeeLeaveService(IEmployeeLeaveRepository employeeLeaveRepository, ManageContext manageContext , IMapper mapper)
+        public EmployeeLeaveService(IEmployeeLeaveRepository employeeLeaveRepository, IMapper mapper)
         {
             _employeeLeaveRepository = employeeLeaveRepository;
-            _manageContext = manageContext;
             _mapper = mapper;
         }
 
@@ -70,19 +68,64 @@ namespace Manage.Application.Services
         public async Task<ApplicationUserModel> GetEmployeeWithLeaveList(string id)
         {
             var emp = await _employeeLeaveRepository.GetEmployeeWithLeaveList(id);
-            var mapped = _mapper.Map<ApplicationUserModel>(emp);
-            return mapped;
+            var mappedEmployee = _mapper.Map<ApplicationUserModel>(emp);
+            return mappedEmployee;
         }
 
         public async Task Delete(EmployeeLeaveModel employeeLeaveModel)
         {
-           
-            var leaveFromDb = await _manageContext.EmployeeLeaves.SingleOrDefaultAsync(x => x.LeaveId == employeeLeaveModel.LeaveId);
+            var leaveFromDb = await _employeeLeaveRepository.GetLeaveById(employeeLeaveModel.LeaveId);
             var entity = _mapper.Map(employeeLeaveModel, leaveFromDb);
             await _employeeLeaveRepository.DeleteAsync(entity);
         }
 
-       
+        //public async Task<IEnumerable<ApplicationUserModel>> GetAllEmployeesWithLeaveList()
+        // {
+        //     var employeeList = await _employeeLeaveRepository.GetAllEmployeesWithLeaveList();
+        //     var mappedEmployeeList = _mapper.Map<IEnumerable<ApplicationUserModel>>(employeeList);
+        //     return mappedEmployeeList;
+        // }
+        public async Task<IEnumerable<AppUserModel>> GetAllEmployeesWithLeaveList()
+        {
+            var employeeList = await _employeeLeaveRepository.GetAllEmployeesWithLeaveList();
+            var mappedEmployeeList = _mapper.Map<IEnumerable<ApplicationUserModel>>(employeeList);
+            //return mappedEmployeeList;
 
+            var modelList = new List<AppUserModel>();
+            foreach (var item in mappedEmployeeList)
+            {
+                
+                foreach (var emp in item.EmployeeLeaves)
+                {
+                    AppUserModel model = new AppUserModel();
+                    model.FullName = item.FullName;
+                    model.FromDate = emp.Leave.FromDate;
+                    model.TillDate = emp.Leave.TillDate;
+                    model.LeaveType = emp.Leave.LeaveType;
+                    model.Reason = emp.Leave.Reason;
+                    model.Status = emp.Leave.LeaveStatus;
+                    model.LeaveId = emp.LeaveId;
+                    double numberOfLeaveDays = 0;
+                    DateTime end = emp.Leave.TillDate;
+                    DateTime start = emp.Leave.FromDate;
+
+
+                    if (emp.Leave.Duration == "First Half Day" || emp.Leave.Duration == "Second Half Day")
+                    {
+                        numberOfLeaveDays = (end - start).Days + 0.5;
+                    }
+                    else
+                    {
+                        numberOfLeaveDays = (end - start).Days + 1;
+                    }
+
+                    model.NumberOfLeaveDays = numberOfLeaveDays;
+                    modelList.Add(model);
+                }
+
+               
+            }
+            return modelList;
+        }
     }
 }

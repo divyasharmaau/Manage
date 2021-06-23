@@ -17,5 +17,6 @@ namespace Manage.Core.Repository
         Task<double> TotalSickLeaveTaken(string id);
         Task<double> TotalSickLeaveAccured(string id);
         Task<ApplicationUser> GetEmployeeWithLeaveList(string id);
+        Task<IEnumerable<ApplicationUser>> GetAllEmployeesWithLeaveList();
     }
 }
