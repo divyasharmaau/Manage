@@ -365,5 +365,21 @@ namespace Manage.Web.Controllers
             return View(result);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> LeaveDetails(int leaveId)
+        {
+            var leave = await _employeeLeavePageService.GetLeaveById(leaveId);
+
+            if (leave.Leave.FilePath != null)
+            {
+                var file = leave.Leave.FilePath;
+                string docPath = file.Substring(file.IndexOf("_") + 1);
+                leave.Leave.FilePath = docPath;
+            }
+            return View(leave);
+
+        }
+
+
     }
 }

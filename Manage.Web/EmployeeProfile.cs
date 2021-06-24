@@ -30,6 +30,7 @@ namespace Manage.Web
             CreateMap<LeaveViewModel, ApplyLeaveViewModel>().ReverseMap();
             CreateMap<EmployeeLeaveViewModel, EditMyLeaveViewModel>().ReverseMap();
             CreateMap<Leave, LeaveViewModel>().ReverseMap();
+            CreateMap<EmployeeLeaveViewModel, EditLeaveAdminViewModel>().ReverseMap();
 
            
         }
