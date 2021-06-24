@@ -38,8 +38,11 @@ namespace Manage.Application.Services
 
         public async Task Update(EmployeeLeaveModel employeeLeaveModel)
         {
-            var employeeLeave = _mapper.Map<EmployeeLeave>(employeeLeaveModel);
-            await _employeeLeaveRepository.UpdateAsync(employeeLeave);
+            var employeeLeaveFromDB = await _employeeLeaveRepository.GetLeaveById(employeeLeaveModel.LeaveId);
+            //var employeeLeave = _mapper.Map<EmployeeLeave>(employeeLeaveModel);
+            var employeeLeave = _mapper.Map(employeeLeaveModel,employeeLeaveFromDB);
+            await _employeeLeaveRepository.UpdateAsync(employeeLeaveFromDB);
+
         }
 
         public async Task<double> TotalAnnualLeaveTaken(string id)
@@ -103,7 +106,7 @@ namespace Manage.Application.Services
                     model.TillDate = emp.Leave.TillDate;
                     model.LeaveType = emp.Leave.LeaveType;
                     model.Reason = emp.Leave.Reason;
-                    model.Status = emp.Leave.LeaveStatus;
+                    model.LeaveStatus = emp.Leave.LeaveStatus;
                     model.LeaveId = emp.LeaveId;
                     double numberOfLeaveDays = 0;
                     DateTime end = emp.Leave.TillDate;

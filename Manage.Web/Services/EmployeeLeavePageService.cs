@@ -81,6 +81,7 @@ namespace Manage.Web.Services
         public async Task<IEnumerable<AppUserViewModel>> GetAllEmployeesWithLeaveList()
         {
             var empList = await _employeeLeaveService.GetAllEmployeesWithLeaveList();
+            
             var mappedEmployeeList = _mapper.Map<IEnumerable<AppUserViewModel>>(empList);
             return mappedEmployeeList;
         }

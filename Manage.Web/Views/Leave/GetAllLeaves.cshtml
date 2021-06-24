@@ -172,7 +172,18 @@
                                                 }
                                             }
                                         </td>
-                                        <td>Pending </td>
+                                        <td>
+                                            @{
+                                                    if (employee.LeaveStatus == null)
+                                                    {
+                                                        <span>Pending</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>@employee.LeaveStatus</span>
+                                                    }
+                                            }
+                                        </td>
                                         <td><a asp-action="LeaveDetails" asp-controller="Leave" asp-route-leaveId="@employee.LeaveId">Leave Details</a></td>
                                     </tr>
 

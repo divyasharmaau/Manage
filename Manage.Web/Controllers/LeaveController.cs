@@ -183,7 +183,7 @@ namespace Manage.Web.Controllers
                 model.FromDate = item.Leave.FromDate;
                 model.TillDate = item.Leave.TillDate;
                 model.LeaveType = item.Leave.LeaveType;
-                model.Status = item.Leave.LeaveStatus;
+                model.LeaveStatus = item.Leave.LeaveStatus;
                 model.Reason = item.Leave.Reason;
                 model.LeaveId = item.LeaveId;
 
@@ -227,32 +227,32 @@ namespace Manage.Web.Controllers
 
             if (!String.IsNullOrEmpty(searchLeaveStatus))
             {
-                leaveList = leaveList.Where(s => s.Status == searchLeaveStatus).ToList();
+                leaveList = leaveList.Where(s => s.LeaveStatus == searchLeaveStatus).ToList();
             }
 
             if (!String.IsNullOrEmpty(searchAll))
             {
-                leaveList = leaveList.OrderByDescending(s => s.Status).ToList();
+                leaveList = leaveList.OrderByDescending(s => s.LeaveStatus).ToList();
             }
 
             if (!String.IsNullOrEmpty(searchApproved))
             {
-                leaveList = leaveList.Where(s => s.Status == "Approved").ToList();
+                leaveList = leaveList.Where(s => s.LeaveStatus == "Approved").ToList();
             }
 
             if (!String.IsNullOrEmpty(searchPending))
             {
-                leaveList = leaveList.Where(s => s.Status == "Pending").ToList();
+                leaveList = leaveList.Where(s => s.LeaveStatus == "Pending").ToList();
             }
 
             if (!String.IsNullOrEmpty(searchDeclined))
             {
-                leaveList = leaveList.Where(s => s.Status == "Declined").ToList();
+                leaveList = leaveList.Where(s => s.LeaveStatus == "Declined").ToList();
             }
           
             int pageSize = 10;
             int pageNumber = (page ?? 1);
-            var result = leaveList.OrderByDescending(s => s.Status).ToPagedList(pageNumber, pageSize);
+            var result = leaveList.OrderByDescending(s => s.LeaveStatus).ToPagedList(pageNumber, pageSize);
             return View(result);
         }
 
@@ -334,34 +334,34 @@ namespace Manage.Web.Controllers
 
             if (!String.IsNullOrEmpty(searchLeaveStatus))
             {
-                employeeLeaveList = employeeLeaveList.Where(s => s.Status == searchLeaveStatus);
+                employeeLeaveList = employeeLeaveList.Where(s => s.LeaveStatus == searchLeaveStatus);
             }
 
             //ViewBag.CurrentFilter = searchLeaveType;
 
             if (!String.IsNullOrEmpty(searchAll))
             {
-                employeeLeaveList = employeeLeaveList.OrderByDescending(s => s.Status);
+                employeeLeaveList = employeeLeaveList.OrderByDescending(s => s.LeaveStatus);
             }
 
 
             if (!String.IsNullOrEmpty(searchAprroved))
             {
-                employeeLeaveList = employeeLeaveList.Where(s => s.Status == "Approved");
+                employeeLeaveList = employeeLeaveList.Where(s => s.LeaveStatus == "Approved");
             }
 
             if (!String.IsNullOrEmpty(searchPending))
             {
-                employeeLeaveList = employeeLeaveList.Where(s => s.Status == "Pending");
+                employeeLeaveList = employeeLeaveList.Where(s => s.LeaveStatus == "Pending");
             }
 
             if (!String.IsNullOrEmpty(searchDeclined))
             {
-                employeeLeaveList = employeeLeaveList.Where(s => s.Status == "Declined");
+                employeeLeaveList = employeeLeaveList.Where(s => s.LeaveStatus == "Declined");
             }
             int pageSize = 10;
             int pageNumber = (page ?? 1);
-            var result = employeeLeaveList.OrderByDescending(s => s.Status).ToPagedList(pageNumber, pageSize);
+            var result = employeeLeaveList.OrderByDescending(s => s.LeaveStatus).ToPagedList(pageNumber, pageSize);
             return View(result);
         }
 
@@ -380,6 +380,27 @@ namespace Manage.Web.Controllers
 
         }
 
+        [HttpPost]
+        public async Task<IActionResult> LeaveDetails(EmployeeLeaveViewModel model, string approved , string declined , string comment)
+        {
 
+            var leave = await _leavePageService.GetMyLeaveDetails(model.LeaveId);
+            if (approved != null)
+            {
+                leave.LeaveStatus = "Approved";
+            }
+            else if (declined != null)
+            {
+                leave.LeaveStatus = "Declined";
+            }
+
+            if (comment != null)
+            {
+                leave.Comment = comment;
+            }
+
+            await _leavePageService.Update(leave);
+            return RedirectToAction("GetAllLeaves");
+        }
     }
 }

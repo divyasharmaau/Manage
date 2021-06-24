@@ -22,7 +22,7 @@ namespace Manage.Web.ViewModels
         [DisplayName("Number of Leave Days")]
         public double NumberOfLeaveDays { get; set; }
         public string Reason { get; set; }
-        public string Status { get; set; }
+        public string LeaveStatus { get; set; }
         [Required]
         public string Duration { get; set; }
         [DisplayName("Annual Leave")]
