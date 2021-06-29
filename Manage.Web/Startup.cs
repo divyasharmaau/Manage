@@ -45,16 +45,22 @@ namespace Manage.Web
             services.AddScoped<IEmployeePersonalDetailsRepository, EmployeePersonalDetailsRepository>();
             services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             services.AddScoped<ILeaveRepository, LeaveRepository>();
+            services.AddScoped<IEmployeeLeaveRepository, EmployeeLeaveRepository>();
+          
 
             //manage.application
             services.AddScoped<IEmployeeService, EmployeeService>();
             services.AddScoped<IDepartmentService, DepartmentService>();
             services.AddScoped<IEmployeePersonalDetailsService, EmployeePersonalDetailsService>();
+            services.AddScoped<ILeaveService, LeaveService>();
+            services.AddScoped<IEmployeeLeaveService, EmployeeLeaveService>();
 
             //manage.web
             services.AddScoped<IEmployeePageService, EmployeePageService>();
             services.AddScoped<IDepartmentPageService, DepartmentPageService>();
             services.AddScoped<IEmployeePersonalDetailsPageService, EmployeePersonalDetailsPageService>();
+            services.AddScoped<ILeavePageService, LeavePageService>();
+            services.AddScoped<IEmployeeLeavePageService, EmployeeLeavePageService>();
 
             services.AddControllersWithViews();
 

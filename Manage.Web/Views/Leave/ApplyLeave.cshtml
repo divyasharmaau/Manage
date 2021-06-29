@@ -1,0 +1,167 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model Manage.Web.ViewModels.ApplyLeaveViewModel
+
+<section class="content">
+    <div class="container-fluid">
+        <p>@ViewBag.ErrorMsg</p>
+        <div class="card card-default">
+            <div class="card-header">
+                <h3 class="card-title">Apply Leave</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <form id="formId" enctype="multipart/form-data" method="post" asp-action="ApplyLeave" asp-controller="Leave">
+                    <div class="form-row mt-3">
+                        <div class="form-group col-6">
+                            @*<label class=" col-form-label small form-text">Date Applied On:</label>*@
+                            <label asp-for="@Model.CurrentDate" class="col-form-label small form-text">Current Date:</label>
+                            <div class="col">
+                                @*<p type="text" asp-for="@Model.CurrentDate">@Model.CurrentDate.ToShortDateString()</p>*@
+                                <input asp-for="CurrentDate" class="form-control" type="date" disabled
+                                       placeholder="Current Date" value="@Model.CurrentDate.ToString("yyyy-MM-dd")" />
+                            </div>
+                        </div>
+
+                        <div class="form-group col-6">
+                            <label asp-for="@Model.JoiningDate" class="col-form-label small form-text">Joining Date:</label>
+                            <div class="col">
+                                @*<p type="text" asp-for="@Model.JoiningDate">@Model.JoiningDate.ToShortDateString()</p>*@
+                                <input asp-for="JoiningDate" class="form-control" type="date" readonly
+                                       placeholder="Joining Date" value="@Model.JoiningDate.ToString("yyyy-MM-dd")" />
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-label mt-3">
+                        <label class="col-form-label small form-text">Date(s) Requested For:</label>
+                    </div>
+
+
+                    <div class="form-row">
+
+                        <div class="form-group  col-md-6 ">
+                            <label asp-for="FromDate" class="col-auto col-form-label small form-text">From Date:</label>
+                            <div class="col">
+
+                                <input asp-for="FromDate" type="date" class="form-control datepicker" />
+                                @*<input asp-for="FromDate" class="form-control datepicker" typeof="date" value="@DateTime.Today.ToString("yyyy-MM-dd")" />*@
+                                <span asp-validation-for="FromDate" class="text-danger"></span>
+
+                            </div>
+                        </div>
+
+
+                        <div class="form-group col-md-6 ">
+                            <label asp-for="TillDate" class="col-auto col-form-label small form-text">Till Date:</label>
+                            <div class="col">
+
+                                @*@Html.TextBoxFor(m => m.TillDate, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker" })*@
+                                <input asp-for="TillDate" type="date" class="form-control datepicker" />
+                                @*<input asp-for="TillDate" class="form-control datepicker"  typeof s="date" value="@DateTime.Today.ToString("yyyy-MM-dd")" />*@
+
+                                <span asp-validation-for="TillDate" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row  mt-3">
+                        <div class="form-group col-6">
+                            <label asp-for="@Model.LeaveType" class="col-auto col-form-label small form-text"></label>
+                            <div class="col">
+                                <select asp-for="@Model.LeaveType">
+                                    <option>--Select--</option>
+                                    <option value="Annual Leave">Annual Leave</option>
+                                    <option value="Sick Leave">Sick Leave</option>
+                                    <option value="Maternity Leave">Maternity Leave</option>
+                                    <option value="Parental Leave">Parental Leave</option>
+                                    <option value="Long Service Leave">Long Service Leave</option>
+                                </select>
+                                <span asp-validation-for="@Model.LeaveType" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group col-6">
+                            <label asp-for="@Model.Duration" class="col-auto col-form-label small form-text"></label>
+                            <div class="col">
+                                <select asp-for="@Model.Duration">
+                                    <option>--Select--</option>
+                                    <option>Full Day</option>
+                                    <option>First Half Day</option>
+                                    <option>Second Half Day</option>
+                                    <option>Others</option>
+                                </select>
+                                <span asp-validation-for="@Model.Duration" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row mt-3">
+                        <div class="form-group col-12">
+                            <label asp-for="Reason" class="col-auto col-form-label small form-text"></label>
+                            <div class="col">
+
+                                <input type="text" id="Reason" name="Reason" class="leave-form-input-text form-control" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row mt-3">
+                        <div class="form-group col-6">
+                            <label class="col-auto col-form-label small form-text">Net Leave Balance</label>
+                            <div class="col">
+
+                                <ul>
+                                    <li>
+                                        Annual Leave balance :
+                                        @Model.BalanceAnnualLeave
+
+                                    </li>
+                                    <li>
+                                        Sick Leave balance : @Model.BalanceSickLeave
+
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group col-6">
+                            <label asp-for="File" class="col-auto col-form-label small form-text">Attach Documents</label>
+                            <div class="col custom-file">
+                                <input asp-for="File"  class="form-control custom-file-input" />
+                                <label class="custom-file-label">Choose File...</label>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class=form-row mt-3>
+                        <div class="form-group col-12 float-right">
+                            <button type="submit" class="btn btn-outline-info">Apply</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@section Scripts{
+
+    <script>
+        $(document).ready(function () {
+            $('.custom-file-input').on("change", function () {
+                var fileName = $(this).val().split("\\").pop();
+                $(this).next('.custom-file-label').html(fileName);
+            });
+
+        });
+    </script>
+}
