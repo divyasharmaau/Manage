@@ -16,5 +16,6 @@ namespace Manage.Web.Interface
         //Task<IdentityResult> Update(ApplicationUserViewModel model);
 
         Task Update(ApplicationUserViewModel model);
+        Task<ApplicationUserViewModel> FindEmail(string email);
     }
 }

@@ -15,5 +15,6 @@ namespace Manage.Core.Repository
         Task<ApplicationUser> GetEmployeeById(string id);
         //Task<IdentityResult> Update(ApplicationUser user);
         Task Update(ApplicationUser user);
+        Task<ApplicationUser> FindEmail(string email);
     }
 }

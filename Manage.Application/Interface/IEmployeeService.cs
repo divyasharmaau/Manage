@@ -14,5 +14,6 @@ namespace Manage.Application.Interface
         Task<ApplicationUserModel> GetEmployeeById(string id);
         //Task<IdentityResult> Update(ApplicationUserModel user);
         Task Update(ApplicationUserModel user);
+        Task<ApplicationUserModel> FindEmail(string email);
     }
 }

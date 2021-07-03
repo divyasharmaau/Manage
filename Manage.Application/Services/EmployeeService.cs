@@ -71,5 +71,13 @@ namespace Manage.Application.Services
             await _employeeRepository.Update(emp);
 
         }
+
+        public async Task<ApplicationUserModel> FindEmail(string email)
+        {
+            var resultEmailFromDB = await _employeeRepository.FindEmail(email);
+            var resultEmail = _mapper.Map<ApplicationUserModel>(resultEmailFromDB);
+            return resultEmail;
+
+        }
     }
 }

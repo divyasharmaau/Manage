@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Manage.Web.Interface;
 using Manage.Web.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -69,6 +70,23 @@ namespace Manage.Web.Controllers
             //await _employeePageService.Update(mapped);
 
             //return null;
+        }
+
+        [AcceptVerbs("Get", "Post")]
+        [AllowAnonymous]
+        public async Task<IActionResult> IsEmailInUse(string email)
+        {
+            var userEmail = await _employeePageService.FindEmail(email);
+
+            if (userEmail == null)
+            {
+                return Json(true);
+            }
+            else
+            {
+                return Json($"Email '{email}' is already in use.");
+            }
+
         }
 
 
