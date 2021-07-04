@@ -64,7 +64,9 @@ namespace Manage.Web
 
             services.AddControllersWithViews();
 
-            services.AddDbContextPool<ManageContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ManageConnection"), x => x.MigrationsAssembly("Manage.Web")));
+            services.AddDbContextPool<ManageContext>(options => options
+                .UseSqlServer(Configuration.GetConnectionString("ManageConnection"), 
+                x => x.MigrationsAssembly("Manage.Web")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
@@ -92,7 +94,12 @@ namespace Manage.Web
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+
+                //global exception eg 500
+                //app.UseExceptionHandler("/Home/Error"); framework
+                app.UseExceptionHandler("/Error");
+                //used for incorrect url
+               app.UseStatusCodePagesWithReExecute("/Error/{0}");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,16 +21,19 @@ namespace Manage.Web.Controllers
         private readonly IEmployeePersonalDetailsPageService _employeePersonalDetailsPageService;
         private readonly IMapper _mapper;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly ILogger<EmployeeController> _logger;
 
         public EmployeeController(IEmployeePageService employeePageService , IDepartmentPageService departmentPageService  
             ,IEmployeePersonalDetailsPageService employeePersonalDetailsPageService
-            , IMapper mapper , IWebHostEnvironment webHostEnvironment)
+            , IMapper mapper , IWebHostEnvironment webHostEnvironment
+            ,ILogger<EmployeeController> logger)
         {
             _employeePageService = employeePageService;
             _departmentPageService = departmentPageService;
             _employeePersonalDetailsPageService = employeePersonalDetailsPageService;
             _mapper = mapper;
             _webHostEnvironment = webHostEnvironment;
+            _logger = logger;
         }
         public IActionResult Index()
         {
@@ -39,26 +43,35 @@ namespace Manage.Web.Controllers
 
         public async Task<IActionResult> EmployeeList()
         {
-            var empList = await _employeePageService.GetEmployeeList();
 
-            List<EmployeeListViewModel> employeeList = new List<EmployeeListViewModel>();
-            foreach (var emp in empList)
+            _logger.LogInformation($"Employee List Requested");
+
+            try
             {
-                EmployeeListViewModel list = new EmployeeListViewModel();
-                list.Id = emp.Id;
-                list.FirstName = emp.FirstName;
-                list.MiddleName = emp.MiddleName;
-                list.LastName = emp.LastName;
-                list.Department = emp.Department;
-                list.JobTitle = emp.JobTitle;
-                list.Status = emp.Status;
-                list.Manager = emp.Manager;
-                list.Email = emp.Email;
+                var empList = await _employeePageService.GetEmployeeList();
+                List<EmployeeListViewModel> employeeList = new List<EmployeeListViewModel>();
+                foreach (var emp in empList)
+                {
+                    EmployeeListViewModel list = new EmployeeListViewModel();
+                    list.Id = emp.Id;
+                    list.FirstName = emp.FirstName;
+                    list.MiddleName = emp.MiddleName;
+                    list.LastName = emp.LastName;
+                    list.Department = emp.Department;
+                    list.JobTitle = emp.JobTitle;
+                    list.Status = emp.Status;
+                    list.Manager = emp.Manager;
+                    list.Email = emp.Email;
 
-                employeeList.Add(list);
+                    employeeList.Add(list);
+                }
+                return View(employeeList);
             }
-            return View(employeeList);
-
+            catch(Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                throw; 
+            }
             //var model = new EditEmployeeOfficialDetailsAdminViewModel
             //{
             //    Title = "Blah Blah",
@@ -160,16 +173,29 @@ namespace Manage.Web.Controllers
 
         public async Task<IActionResult>EmployeeOfficialDetails(string id)
         {
-           var employeeDetails =  await _employeePageService.GetEmployeeById(id);
-            if(employeeDetails != null)
+
+            try
             {
-                return View(employeeDetails);
+                var employeeDetails = await _employeePageService.GetEmployeeById(id);
+                if (employeeDetails != null)
+                {
+                    return View(employeeDetails);
+                }
+                else
+                {
+                    //Response.StatusCode = 404;
+                    _logger.LogError($"Employee not found {id}");
+                    return View("EmployeeNotFound", id);
+                }
+              
             }
-            else
+            catch(Exception ex)
             {
-                return View();
+                _logger.LogError(ex.Message);
+                throw;
             }
            
+
         }
 
         [HttpGet]
