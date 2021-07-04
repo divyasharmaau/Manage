@@ -49,7 +49,6 @@ namespace Manage.Infrastructure.Repository
 
         public async  Task<ApplicationUser> GetEmployeeById(string id)
         {
-            //var employee = await _userManager.FindByIdAsync(id.ToString());
             var employee = await _manageContext.Users
                                     .Include(x => x.Department)
                                     .Include(y => y.EmployeePersonalDetails)                              
@@ -57,22 +56,18 @@ namespace Manage.Infrastructure.Repository
             return employee;
         }
 
-        //public async Task<IdentityResult> Update(ApplicationUser user)
-        //{
-        //    var result =  await  _userManager.UpdateAsync(user);
-        //    //// return result;
-        //    //var result = _manageContext.Update(user);
-        //    //_manageContext.Entry(user).State = EntityState.Modified;
-
-        //    //await _manageContext.SaveChangesAsync();
-        //    return result;
-
-        //}
+       
         public async Task Update(ApplicationUser user)
         {
             _manageContext.Entry(user).State = EntityState.Modified;
-
             await _manageContext.SaveChangesAsync();
+        }
+
+        public async Task<ApplicationUser> FindEmail(string email)
+        {
+           var resultEmail =  await _userManager.FindByEmailAsync(email);
+            return resultEmail;
+           
         }
     }
 }

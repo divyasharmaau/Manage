@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -46,6 +47,7 @@ namespace Manage.Web.ViewModels
 
         public string Password { get; set; }
         public string ConfirmPassword { get; set; }
+
 
         public string Email { get; set; }
         public string UserName { get; set; }

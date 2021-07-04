@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -46,6 +47,9 @@ namespace Manage.Web.ViewModels
         public string Manager { get; set; }
         public string Password { get; set; }
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [Remote(action: "IsEmailInUse", controller: "Employee")]
         public string Email { get; set; }
         public string UserName { get; set; }
     }

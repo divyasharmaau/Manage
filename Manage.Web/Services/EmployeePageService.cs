@@ -44,19 +44,18 @@ namespace Manage.Web.Services
             return employeeDetails;
         }
 
-        //public async Task<IdentityResult> Update(ApplicationUserViewModel model)
-        //{
-        //    var emp = _mapper.Map<ApplicationUserModel>(model);
-        //   var result = await  _employeeService.Update(emp);
-        //    return result;
-
-        //} 
-
         public async Task Update(ApplicationUserViewModel model)
         {
             var emp = _mapper.Map<ApplicationUserModel>(model);
             await _employeeService.Update(emp);
         }
 
+        public async Task<ApplicationUserViewModel> FindEmail(string email)
+        {
+            var emailFromModel = await _employeeService.FindEmail(email);
+            var resultEmail = _mapper.Map<ApplicationUserViewModel>(emailFromModel);
+            return resultEmail;
+
+        }
     }
 }
