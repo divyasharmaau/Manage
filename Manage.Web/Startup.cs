@@ -46,7 +46,9 @@ namespace Manage.Web
             services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             services.AddScoped<ILeaveRepository, LeaveRepository>();
             services.AddScoped<IEmployeeLeaveRepository, EmployeeLeaveRepository>();
-          
+            services.AddScoped<IAdministrationRepository, AdministrationRepository>();
+
+
 
             //manage.application
             services.AddScoped<IEmployeeService, EmployeeService>();
@@ -54,6 +56,8 @@ namespace Manage.Web
             services.AddScoped<IEmployeePersonalDetailsService, EmployeePersonalDetailsService>();
             services.AddScoped<ILeaveService, LeaveService>();
             services.AddScoped<IEmployeeLeaveService, EmployeeLeaveService>();
+            services.AddScoped<IAdministrationService, AdministrationService>();
+
 
             //manage.web
             services.AddScoped<IEmployeePageService, EmployeePageService>();
@@ -61,14 +65,15 @@ namespace Manage.Web
             services.AddScoped<IEmployeePersonalDetailsPageService, EmployeePersonalDetailsPageService>();
             services.AddScoped<ILeavePageService, LeavePageService>();
             services.AddScoped<IEmployeeLeavePageService, EmployeeLeavePageService>();
+            services.AddScoped<IAdministrationPageService, AdministrationPageService>();
 
             services.AddControllersWithViews();
 
             services.AddDbContextPool<ManageContext>(options => options
-                .UseSqlServer(Configuration.GetConnectionString("ManageConnection"), 
+                .UseSqlServer(Configuration.GetConnectionString("ManageConnection"),
                 x => x.MigrationsAssembly("Manage.Web")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
             {
                 //password setting
                 options.Password.RequiredLength = 8;
@@ -78,9 +83,10 @@ namespace Manage.Web
                 //signin requirenments
                 options.SignIn.RequireConfirmedAccount = true;
             })
-                .AddRoles<IdentityRole>()
-               .AddEntityFrameworkStores<ManageContext>()
-               .AddDefaultTokenProviders();
+
+            .AddRoles<ApplicationRole>()
+            .AddEntityFrameworkStores<ManageContext>()
+            .AddDefaultTokenProviders();
 
 
         }
@@ -99,7 +105,7 @@ namespace Manage.Web
                 //app.UseExceptionHandler("/Home/Error"); framework
                 app.UseExceptionHandler("/Error");
                 //used for incorrect url
-               app.UseStatusCodePagesWithReExecute("/Error/{0}");
+                app.UseStatusCodePagesWithReExecute("/Error/{0}");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }

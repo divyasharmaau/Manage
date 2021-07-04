@@ -11,7 +11,7 @@ namespace Manage.Infrastructure.Data
   public class IdentitySeeder
   {
         public static async Task SeedAsync(ManageContext manageContext,
-            RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
+            RoleManager<ApplicationRole> roleManager, UserManager<ApplicationUser> userManager)
         {
             if (!manageContext.Users.Any())
             {
@@ -22,7 +22,7 @@ namespace Manage.Infrastructure.Data
         }
 
         private static async Task CreateUsers(ManageContext manageContext , 
-            RoleManager<IdentityRole> roleManager ,UserManager<ApplicationUser> userManager)
+            RoleManager<ApplicationRole> roleManager ,UserManager<ApplicationUser> userManager)
         {
 
             if (manageContext.Departments.Any())
@@ -46,12 +46,12 @@ namespace Manage.Infrastructure.Data
 
             if(!await roleManager.RoleExistsAsync(role_Administrator))
             {
-                await roleManager.CreateAsync(new IdentityRole(role_Administrator));
+                await roleManager.CreateAsync(new ApplicationRole(role_Administrator));
             }
 
             if(!await roleManager.RoleExistsAsync(role_RegisteredUser))
             {
-                await roleManager.CreateAsync(new IdentityRole(role_RegisteredUser));
+                await roleManager.CreateAsync(new ApplicationRole(role_RegisteredUser));
             }
 
 

@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Manage.Infrastructure.Data
 {
-   public class ManageContext : IdentityDbContext<ApplicationUser>
+   public class ManageContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
         public ManageContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
         {

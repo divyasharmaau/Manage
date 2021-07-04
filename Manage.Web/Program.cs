@@ -61,7 +61,7 @@ namespace Manage.Web
             {
                 var services = scope.ServiceProvider;
                 var manageContext = services.GetRequiredService<ManageContext>();
-                var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+                var roleManager = services.GetRequiredService<RoleManager<ApplicationRole>>();
                 var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
                 await  IdentitySeeder.SeedAsync(manageContext, roleManager, userManager);
                 //await DataSeeder.SeedAsync(manageContext);
