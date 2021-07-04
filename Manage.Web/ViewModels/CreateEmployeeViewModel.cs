@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Manage.Web.Utilities;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
@@ -50,6 +51,7 @@ namespace Manage.Web.ViewModels
 
         [Required]
         [Remote(action: "IsEmailInUse", controller: "Employee")]
+        [ValidEmailDomain(allowedDomain:"mail.com" , ErrorMessage ="Email Domain  must be mail.com")]
         public string Email { get; set; }
         public string UserName { get; set; }
     }
