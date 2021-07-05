@@ -10,5 +10,6 @@ namespace Manage.Web.Interface
     public interface IAdministrationPageService
     {
         Task<IdentityResult> CreateRoleAsync(ApplicationRoleViewModel model);
+        Task<IEnumerable<ApplicationRoleViewModel>> GetRolesList();
     }
 }

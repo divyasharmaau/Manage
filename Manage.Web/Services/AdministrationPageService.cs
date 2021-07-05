@@ -28,5 +28,12 @@ namespace Manage.Web.Services
             var role = await _administrationService.CreateRole(mapped);
             return role;
         }
+
+        public async Task<IEnumerable<ApplicationRoleViewModel>> GetRolesList()
+        {
+            var roleList = await _administrationService.GetRolesList();
+            var mappedRoleList = _mapper.Map<IEnumerable<ApplicationRoleViewModel>>(roleList);
+            return mappedRoleList;
+        }
     }
 }

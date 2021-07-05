@@ -46,8 +46,7 @@ namespace Manage.Web.Controllers
                 ////saves the role in the underlying AspNetRoles table
                 if (result.Succeeded)
                 {
-                    return View();
-                    //return RedirectToAction("ListRoles", "Administration");
+                    return RedirectToAction("RolesList", "Administration");
                 }
 
                 foreach (IdentityError error in result.Errors)
@@ -61,6 +60,15 @@ namespace Manage.Web.Controllers
             return View(model);
         }
 
+        public async Task<IActionResult> RolesList()
+        {
+            var roleList =  await _administrationPageService.GetRolesList();
+            return View(roleList);
+        }
 
+        public async Task<IActionResult> EditRole(int id)
+        {
+            return View();
+        }
     }
 }

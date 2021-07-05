@@ -12,7 +12,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Employee List</h3>
-                        <a data-toggle="tooltip" title="Add Employee"><i class="fas fa-plus" style="float:right; color:#b60962" ;></i></a>
+                        <a asp-action="CreateEmployee" asp-controller="Employee" style="float:right" data-toggle="tooltip" data-placement="bottom" title="Add Employee"><i class="fas fa-plus" style="float:right; color:#b60962" ;></i></a>
                     </div>
                     <!--/.card-header-->
                     <!--form start-->
@@ -93,5 +93,17 @@
 <script>
     $(document).ready(function () {
         $('[data-toggle="tooltip"]').tooltip();
+    });
+
+    $(function () {
+        $('#example2').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+        });
     });
 </script>

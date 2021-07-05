@@ -10,5 +10,6 @@ namespace Manage.Application.Interface
     public interface IAdministrationService
     {
         Task<IdentityResult> CreateRole(ApplicationRoleModel role);
+        Task<IEnumerable<ApplicationRoleModel>> GetRolesList();
     }
 }

@@ -3,6 +3,7 @@ using Manage.Core.Repository;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,6 +22,12 @@ namespace Manage.Infrastructure.Repository
         {
             var empRole = await _roleManager.CreateAsync(role);
             return empRole;
+        }
+
+       public async Task<IEnumerable<ApplicationRole>> GetRolesList()
+        {
+            var roleList =  _roleManager.Roles;
+            return roleList;
         }
     }
 }

@@ -10,5 +10,6 @@ namespace Manage.Core.Repository
     public interface IAdministrationRepository
     {
         Task<IdentityResult> CreateRole(ApplicationRole role);
+        Task<IEnumerable<ApplicationRole>> GetRolesList();
     }
 }
