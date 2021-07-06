@@ -11,5 +11,8 @@ namespace Manage.Web.Interface
     {
         Task<IdentityResult> CreateRoleAsync(ApplicationRoleViewModel model);
         Task<IEnumerable<ApplicationRoleViewModel>> GetRolesList();
+        Task<ApplicationRoleViewModel> GetRoleById(string id);
+        Task<IEnumerable<ApplicationUserViewModel>> GetUsersInRole(string id);
+        Task<IdentityResult> Update(ApplicationRoleViewModel role);
     }
 }

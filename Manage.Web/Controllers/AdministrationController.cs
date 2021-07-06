@@ -66,9 +66,54 @@ namespace Manage.Web.Controllers
             return View(roleList);
         }
 
-        public async Task<IActionResult> EditRole(int id)
+        [HttpGet]
+        public async Task<IActionResult> EditRole(string id)
         {
-            return View();
+
+            var role =  await _administrationPageService.GetRoleById(id);
+            if (role == null)
+            {
+                ViewBag.ErrorMessage = $"Role with id: {id} could not be found";
+                return View("NotFound");
+            }
+            var users = await _administrationPageService.GetUsersInRole(role.Name);
+            
+            EditRoleViewModel model = new EditRoleViewModel();
+            model.Name = role.Name;
+           
+            foreach (var item in users)
+            {
+                model.Users.Add(item.UserName); 
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditRole(EditRoleViewModel model)
+        {
+            var role = await _administrationPageService.GetRoleById(model.Id);
+            if (role == null)
+            {
+                ViewBag.ErrorMessage = $"Role with id: {model.Id} could not be found";
+                return View("NotFound");
+            }
+            else
+            {
+                role.Name = model.Name;
+                var result = await _administrationPageService.Update(role);
+                if(!result.Succeeded)
+                {
+                    return RedirectToAction("RolesList");
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                }
+            }
+            return View(model);
         }
     }
 }

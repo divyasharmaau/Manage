@@ -11,5 +11,8 @@ namespace Manage.Application.Interface
     {
         Task<IdentityResult> CreateRole(ApplicationRoleModel role);
         Task<IEnumerable<ApplicationRoleModel>> GetRolesList();
+        Task<ApplicationRoleModel> GetRoleById(string id);
+        Task<IEnumerable<ApplicationUserModel>> GetUsersInRole(string name);
+        Task<IdentityResult> Update(ApplicationRoleModel role);
     }
 }

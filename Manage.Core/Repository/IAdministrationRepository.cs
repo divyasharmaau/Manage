@@ -1,4 +1,5 @@
 ﻿using Manage.Core.Entities;
+using Manage.Core.Repository.Base;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -11,5 +12,8 @@ namespace Manage.Core.Repository
     {
         Task<IdentityResult> CreateRole(ApplicationRole role);
         Task<IEnumerable<ApplicationRole>> GetRolesList();
+        Task<ApplicationRole> GetRoleById(string id);
+        Task<IEnumerable<ApplicationUser>> GetUsersInRole(string name);
+        Task<IdentityResult> Update(ApplicationRole role);
     }
 }
