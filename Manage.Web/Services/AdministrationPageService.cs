@@ -51,6 +51,14 @@ namespace Manage.Web.Services
             return mappedUsers;
         }
 
+        public async Task<bool> UserInRole(ApplicationUserViewModel user, string roleName)
+        {
+            var mapped = _mapper.Map<ApplicationUserModel>(user);
+            var result = await _administrationService.UserInRole(mapped, roleName);
+            return result;
+
+        }
+
         public async Task<IdentityResult> Update(ApplicationRoleViewModel role)
         {
             var roleFromModel = _mapper.Map<ApplicationRoleModel>(role);
@@ -58,5 +66,18 @@ namespace Manage.Web.Services
             return result;
         }
 
+        public async Task<IdentityResult> AddToRoleAsync(ApplicationUserViewModel user, string roleName)
+        {
+            var mappedEmp = _mapper.Map<ApplicationUserModel>(user);
+            var result = await _administrationService.AddToRoleAsync(mappedEmp, roleName);
+            return result;
+        }
+
+        public async Task<IdentityResult> RemoveFromRoleAsync(ApplicationUserViewModel user, string roleName)
+        {
+            var mappedEmp = _mapper.Map<ApplicationUserModel>(user);
+            var result = await _administrationService.RemoveFromRoleAsync(mappedEmp, roleName);
+            return result;
+        }
     }
 }

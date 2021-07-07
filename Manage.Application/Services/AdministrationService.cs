@@ -52,11 +52,33 @@ namespace Manage.Application.Services
             return mappedUsers;
         }
 
+        public async Task<bool> UserInRole(ApplicationUserModel user, string roleName)
+        {
+            var mapped = _mapper.Map<ApplicationUser>(user);
+            var result = await _administrationRepository.UserInRole(mapped, roleName);
+            return result;
+
+        }
+
         public async Task<IdentityResult> Update(ApplicationRoleModel role)
         {
             var roleFromDb =  await _administrationRepository.GetRoleById(role.Id);
             var mapped = _mapper.Map(role, roleFromDb);
             var result = await _administrationRepository.Update(roleFromDb);
+            return result;
+        }
+
+        public async Task<IdentityResult> AddToRoleAsync(ApplicationUserModel user, string roleName)
+        {
+            var mappedEmp = _mapper.Map<ApplicationUser>(user);
+            var result = await _administrationRepository.AddToRoleAsync(mappedEmp, roleName);
+            return result;
+        }
+
+        public async Task<IdentityResult> RemoveFromRoleAsync(ApplicationUserModel user, string roleName)
+        {
+            var mappedEmp = _mapper.Map<ApplicationUser>(user);
+            var result = await _administrationRepository.RemoveFromRoleAsync(mappedEmp, roleName);
             return result;
         }
     }

@@ -15,5 +15,8 @@ namespace Manage.Core.Repository
         Task<ApplicationRole> GetRoleById(string id);
         Task<IEnumerable<ApplicationUser>> GetUsersInRole(string name);
         Task<IdentityResult> Update(ApplicationRole role);
+        Task<bool> UserInRole(ApplicationUser user, string roleName);
+        Task<IdentityResult> AddToRoleAsync(ApplicationUser user, string roleName);
+        Task<IdentityResult> RemoveFromRoleAsync(ApplicationUser user, string roleName);
     }
 }

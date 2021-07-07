@@ -14,11 +14,13 @@ namespace Manage.Web.Controllers
     public class AdministrationController : Controller
     {
         private readonly IAdministrationPageService _administrationPageService;
+        private readonly IEmployeePageService _employeePageService;
         private readonly IMapper _mapper;
 
-        public AdministrationController(IAdministrationPageService administrationPageService, IMapper mapper)
+        public AdministrationController(IAdministrationPageService administrationPageService,IEmployeePageService employeePageService , IMapper mapper )
         {
             _administrationPageService = administrationPageService;
+            _employeePageService = employeePageService;
             _mapper = mapper;
         }
 
@@ -80,6 +82,7 @@ namespace Manage.Web.Controllers
             
             EditRoleViewModel model = new EditRoleViewModel();
             model.Name = role.Name;
+            model.Id = role.Id;
            
             foreach (var item in users)
             {
@@ -115,5 +118,84 @@ namespace Manage.Web.Controllers
             }
             return View(model);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> EditUsersInRole(string id)
+        {
+            ViewBag.roleId = id;
+
+            var role = await _administrationPageService.GetRoleById(id);
+            if (role == null)
+            {
+                ViewBag.ErrorMessage = $"Role with Id = {id} cannot be found";
+                return View("NotFound");
+            }
+
+            // var users = await _administrationPageService.GetUsersInRole(role.Name);
+            var allUsers = await _employeePageService.GetEmployeeList();
+            var model = new List<UserRoleViewModel>();
+           
+            foreach (var emp in allUsers)
+            {
+                UserRoleViewModel userRoleViewModel = new UserRoleViewModel
+                {
+                    UserId = emp.Id,
+                    UserName = emp.UserName
+                };
+                
+                if(await _administrationPageService.UserInRole(emp , role.Name))
+                {
+                    userRoleViewModel.IsSelected = true;
+                }
+                else
+                {
+                    userRoleViewModel.IsSelected = false;
+                }
+
+                model.Add(userRoleViewModel);
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditUsersInRole(List<UserRoleViewModel> model , string id)
+        {
+            var role = await _administrationPageService.GetRoleById(id);
+            if (role == null)
+            {
+                ViewBag.ErrorMessage = $"Role with Id = {id} cannot be found";
+                return View("NotFound");
+            }
+            for (int i = 0; i < model.Count; i++)
+            {
+                var employee = await _employeePageService.GetEmployeeById(model[i].UserId);
+                var user = await _administrationPageService.UserInRole(employee, role.Name);
+
+                IdentityResult result = null;
+
+                if(model[i].IsSelected && !user)
+                {
+                    result = await _administrationPageService.AddToRoleAsync(employee, role.Name);
+                }
+                else if(!model[i].IsSelected && user)
+                {
+                    result = await _administrationPageService.RemoveFromRoleAsync(employee, role.Name);
+                }
+                else
+                {
+                    continue;
+                }
+
+                if(result.Succeeded)
+                {
+                    if (i < (model.Count - 1))
+                        continue;
+                    else
+                        return RedirectToAction("EditRole", new { Id = id });
+                }
+            }
+            return RedirectToAction("EditRole", new { Id = id });
+        }
+        
     }
 }

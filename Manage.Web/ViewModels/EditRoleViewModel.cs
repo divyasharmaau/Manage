@@ -14,6 +14,7 @@ namespace Manage.Web.ViewModels
         }
 
         public string Id { get; set; }
+        //public string RoleId { get; set; }
         [Display(Name="Role Name")]
         public string Name { get; set; }
         public List<string> Users { get; set; }
