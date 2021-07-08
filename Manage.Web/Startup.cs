@@ -21,6 +21,8 @@ using Manage.Application.Interface;
 using Manage.Application.Services;
 using Manage.Web.Interface;
 using Manage.Web.Services;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Manage.Web
 {
@@ -82,11 +84,17 @@ namespace Manage.Web
 
                 //signin requirenments
                 options.SignIn.RequireConfirmedAccount = true;
+                
             })
 
             .AddRoles<ApplicationRole>()
             .AddEntityFrameworkStores<ManageContext>()
             .AddDefaultTokenProviders();
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.AccessDeniedPath = new PathString("/Administration/AccessDenied");
+            });
 
 
         }
@@ -113,14 +121,16 @@ namespace Manage.Web
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
+           
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Account}/{action=LogIn}/{id?}");
+                //pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

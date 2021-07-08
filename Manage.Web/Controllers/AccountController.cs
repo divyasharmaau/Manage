@@ -1,5 +1,6 @@
 ﻿using Manage.Core.Entities;
 using Manage.Web.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -32,10 +33,10 @@ namespace Manage.Web.Controllers
         }
 
         [HttpGet]
-       public async Task<IActionResult> LogIn()
-       {
+        public  IActionResult LogIn()
+        {
             return View();
-       }
+        }
 
         [HttpPost]
         public async Task<IActionResult> LogIn(LogInViewModel model , string returnUrl)
@@ -64,5 +65,7 @@ namespace Manage.Web.Controllers
             }
             return View(model);
         }
+
+       
     }
 }

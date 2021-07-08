@@ -2,6 +2,7 @@
 using Manage.Application.Models;
 using Manage.Web.Interface;
 using Manage.Web.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace Manage.Web.Controllers
 {
+    [Authorize(Roles = "Administartor,User")]
     public class AdministrationController : Controller
     {
         private readonly IAdministrationPageService _administrationPageService;
@@ -38,14 +40,7 @@ namespace Manage.Web.Controllers
                 model.Id = Guid.NewGuid().ToString();
                 var mapped = _mapper.Map<ApplicationRoleViewModel>(model);
                 var result = await _administrationPageService.CreateRoleAsync(mapped);
-                //specify a unique role name to create new roles
-                //IdentityRole<int> identityRole = new IdentityRole<int>
-                //{
-                //    Name = model.RoleName
-                //};
-                //IdentityResult result = await _roleManager.CreateAsync(identityRole);
-
-                ////saves the role in the underlying AspNetRoles table
+               
                 if (result.Succeeded)
                 {
                     return RedirectToAction("RolesList", "Administration");
@@ -53,7 +48,6 @@ namespace Manage.Web.Controllers
 
                 foreach (IdentityError error in result.Errors)
                 {
-                    //adding errors to teh model state error
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
@@ -196,6 +190,12 @@ namespace Manage.Web.Controllers
             }
             return RedirectToAction("EditRole", new { Id = id });
         }
-        
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
     }
 }
