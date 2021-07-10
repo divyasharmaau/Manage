@@ -62,6 +62,12 @@ namespace Manage.Infrastructure.Repository
             var result =  await _roleManager.UpdateAsync(role);
             return result;
         }
+
+        public async Task<IdentityResult> DeleteRole(ApplicationRole role)
+        {
+            var result = await _roleManager.DeleteAsync(role);
+            return result;
+        }
         public async Task<IdentityResult> AddToRoleAsync(ApplicationUser user , string roleName)
         {
             var employee =  _manageContext.Users.SingleOrDefault(x => x.UserName == user.UserName);

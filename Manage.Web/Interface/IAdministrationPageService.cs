@@ -14,6 +14,7 @@ namespace Manage.Web.Interface
         Task<ApplicationRoleViewModel> GetRoleById(string id);
         Task<IEnumerable<ApplicationUserViewModel>> GetUsersInRole(string id);
         Task<IdentityResult> Update(ApplicationRoleViewModel role);
+        Task<IdentityResult> DeleteRole(ApplicationRoleViewModel role);
         Task<bool> UserInRole(ApplicationUserViewModel user, string roleName);
         Task<IdentityResult> AddToRoleAsync(ApplicationUserViewModel user, string roleName);
         Task<IdentityResult> RemoveFromRoleAsync(ApplicationUserViewModel user, string roleName);

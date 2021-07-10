@@ -66,6 +66,13 @@ namespace Manage.Web.Services
             return result;
         }
 
+        public async Task<IdentityResult> DeleteRole(ApplicationRoleViewModel role)
+        {
+            var roleFromModel = await _administrationService.GetRoleById(role.Id);
+            var mapped = _mapper.Map<ApplicationRoleViewModel>(roleFromModel);
+            var result = await _administrationService.DeleteRole(roleFromModel);
+            return result;
+        }
         public async Task<IdentityResult> AddToRoleAsync(ApplicationUserViewModel user, string roleName)
         {
             var mappedEmp = _mapper.Map<ApplicationUserModel>(user);

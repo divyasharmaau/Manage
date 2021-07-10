@@ -5,6 +5,7 @@ using Manage.Web.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -190,6 +191,45 @@ namespace Manage.Web.Controllers
                 }
             }
             return RedirectToAction("EditRole", new { Id = id });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteRole(string id)
+        {
+            var role = await _administrationPageService.GetRoleById(id);
+            if(role==null)
+            {
+                ViewBag.ErrorMessage = $"Role with Id = {id} cannot be found";
+                return View("NotFound");
+            }
+            else
+            {
+                try
+                {
+                    var result = await _administrationPageService.DeleteRole(role);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("RolesList");
+                    }
+                    else
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError("", error.Description);
+                        }
+                    }
+                    return View("RolesList");
+                }
+                catch(DbUpdateException ex)
+                {
+                    ViewBag.ErrorTitle = $"{role.Name} role is in use";
+                    ViewBag.ErrorMessage = $"{role.Name} role cannot be deleted as there are users in this role." +
+                        $" If you want to delete this role, please remove the users from the role and then try to delete";
+                    return View("Error");
+                }
+              
+            }
+            
         }
 
         [HttpGet]
