@@ -100,7 +100,7 @@
                 </ul>
 
                 <!--SEARCH FORM-->
-                <form class="form-inline ml-3">
+                <form class="form-inline ml-3" asp-action="EmployeeList" asp-controller="Employee">
                     <div class="input-group input-group-sm">
                         <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
                         <div class="input-group-append">
@@ -171,6 +171,24 @@
                                         <i class="fas fa-angle-left right"></i>
                                     </p>
                                 </a>
+
+
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-controller="Administration"
+                                           asp-action="UsersList">
+                                            <p>Users</p>
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-controller="Administration"
+                                           asp-action="RolesList">
+                                            <p>Roles</p>
+                                        </a>
+                                    </li>
+
+                                </ul>
                             </li>
                             <li class="nav-item has-treeview">
                                 <a href="#" class="nav-link">

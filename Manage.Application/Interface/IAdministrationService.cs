@@ -18,6 +18,9 @@ namespace Manage.Application.Interface
         Task<bool> UserInRole(ApplicationUserModel user, string roleName);
         Task<IdentityResult> AddToRoleAsync(ApplicationUserModel user, string roleName);
         Task<IdentityResult> RemoveFromRoleAsync(ApplicationUserModel user, string roleName);
+        Task<IEnumerable<ApplicationUserModel>> GetUsers();
+        Task<ApplicationUserModel> GetUserById(string id);
+        Task<IEnumerable<string>> GetUserRoles(string id);
 
 
     }

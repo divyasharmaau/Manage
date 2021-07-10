@@ -81,5 +81,25 @@ namespace Manage.Application.Services
             var result = await _administrationRepository.RemoveFromRoleAsync(mappedEmp, roleName);
             return result;
         }
+
+        public async Task<IEnumerable<ApplicationUserModel>> GetUsers()
+        {
+            var userListFromDB = await _administrationRepository.GetUsers();
+            var userList = _mapper.Map<IEnumerable<ApplicationUserModel>>(userListFromDB);
+            return userList;
+        }
+
+        public async Task<ApplicationUserModel> GetUserById(string id)
+        {
+            var userFromDb = await _administrationRepository.GetUserById(id);
+            var user = _mapper.Map<ApplicationUserModel>(userFromDb);
+            return user;
+        }
+
+        public async Task<IEnumerable<string>> GetUserRoles(string id)
+        {
+            var userRoles = await _administrationRepository.GetUserRoles(id);
+            return userRoles;
+        }
     }
 }

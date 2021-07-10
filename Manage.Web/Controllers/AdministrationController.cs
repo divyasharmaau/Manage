@@ -9,10 +9,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using X.PagedList;
 
 namespace Manage.Web.Controllers
 {
-    [Authorize(Roles = "Administartor,User")]
+    [Authorize(Roles = "Administartor")]
     public class AdministrationController : Controller
     {
         private readonly IAdministrationPageService _administrationPageService;
@@ -190,6 +191,46 @@ namespace Manage.Web.Controllers
             }
             return RedirectToAction("EditRole", new { Id = id });
         }
+
+        [HttpGet]
+        public async Task<IActionResult> UsersList(string sortOrder,string currentFilter, int? page)
+        {
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.SortByName = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            var userList =  await _administrationPageService.GetUsers();
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    userList = userList.OrderByDescending(e => e.FullName);
+                    break;
+                default:
+                    userList = userList.OrderBy(e => e.FullName);
+                    break;
+
+            }
+
+            int pageSize = 4;
+            int pageNumber = (page ?? 1);
+            return View(userList.ToPagedList(pageNumber, pageSize));           
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditUserRolesAndClaims(string id)
+        {
+            var user = await _administrationPageService.GetUserById(id);
+            if(user == null)
+            {
+                ViewBag.ErrorMessage = $"User with Id = {id} cannot be found";
+                return View("NotFound");
+            }
+            var userRoles = await _administrationPageService.GetUserRoles(id);
+            EditUserViewModel model = new EditUserViewModel();
+            model.UserName = user.UserName;
+            model.Roles = userRoles.ToList();
+            return View(model);
+        }
+
 
         [HttpGet]
         [AllowAnonymous]

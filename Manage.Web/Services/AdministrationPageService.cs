@@ -79,5 +79,24 @@ namespace Manage.Web.Services
             var result = await _administrationService.RemoveFromRoleAsync(mappedEmp, roleName);
             return result;
         }
+
+        public async Task<IEnumerable<ApplicationUserViewModel>> GetUsers()
+        {
+            var userListFromApp = await _administrationService.GetUsers();
+            var userList = _mapper.Map<IEnumerable<ApplicationUserViewModel>>(userListFromApp);
+            return userList;
+        }
+        public async Task<ApplicationUserViewModel> GetUserById(string id)
+        {
+            var userFromApp = await _administrationService.GetUserById(id);
+            var user = _mapper.Map<ApplicationUserViewModel>(userFromApp);
+            return user;
+        }
+        public async Task<IEnumerable<string>> GetUserRoles(string id)
+        {
+            var userRoles = await _administrationService.GetUserRoles(id);
+            return userRoles;
+        }
+
     }
 }

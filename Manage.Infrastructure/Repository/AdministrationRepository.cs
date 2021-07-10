@@ -74,5 +74,24 @@ namespace Manage.Infrastructure.Repository
             return result;
         }
 
+        public async Task<IEnumerable<ApplicationUser>> GetUsers()
+        {
+            var userList = _userManager.Users.ToList();
+            return userList;
+        }
+
+        public async Task<ApplicationUser> GetUserById(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            return user;
+        }
+
+        public async Task<IEnumerable<string>> GetUserRoles(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            var userRoles = await _userManager.GetRolesAsync(user);
+            return userRoles;
+        }
+       
     }
 }

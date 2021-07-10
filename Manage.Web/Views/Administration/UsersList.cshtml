@@ -1,0 +1,113 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@using X.PagedList.Mvc.Core;
+@using X.PagedList
+@using X.PagedList.Mvc.Core.Common;
+
+@model IPagedList<Manage.Web.ViewModels.ApplicationUserViewModel>
+
+
+@if (Model.Any())
+{
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Users</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table id="example2" class="table table-bordered table-hover table-responsive-md">
+
+                                <thead>
+                                    <tr>
+                                        <th>@Html.ActionLink("Employee Name", "UsersList", new { sortOrder = ViewBag.SortByName }) <span>&#129113;</span></th>
+                                        <th>UserName</th>
+                                        <th>Manage Roles&Claims</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (var employee in Model)
+                                    {
+                                        <tr>
+                                            <input type="hidden" asp-for="@employee.Id" />
+                                            <td>@employee.FullName</td>
+                                            <td>@employee.UserName</td>
+                                            <td><a asp-action="EditUserRolesAndClaims" asp-route-id="@employee.Id">Manage Roles&Claims</a></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            <br />
+
+                            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+                            @Html.PagedListPager(Model, page => Url.Action("UsersList", new { page }), new PagedListRenderOptions
+                        {
+                           DisplayLinkToIndividualPages = true,
+                           DisplayPageCountAndCurrentLocation = false,
+                           MaximumPageNumbersToDisplay = 10,
+                           LiElementClasses = new string[] { "page-item" },
+                           PageClasses = new string[] { "page-link" },
+
+                        })
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+}
+else
+{
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">User List</h3>
+                        </div>
+                        <div class="card-body">
+                            <p> No User Added</p>
+                            <div>
+                                <a asp-action="CreateEmployee" asp-controller="Employee"
+                                   class="btn btn-primary mb-3" style="width:auto">
+                                    Add new user
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    //}
+
+}
+
+@*<script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+
+
+        src = "~/js/site.js";
+
+
+    </script>*@

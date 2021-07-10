@@ -93,6 +93,7 @@ namespace Manage.Web
 
             services.ConfigureApplicationCookie(options =>
             {
+               // options.LoginPath = new PathString("/Account/login");
                 options.AccessDeniedPath = new PathString("/Administration/AccessDenied");
             });
 
@@ -129,8 +130,8 @@ namespace Manage.Web
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Account}/{action=LogIn}/{id?}");
-                //pattern: "{controller=Home}/{action=Index}/{id?}");
+                   // pattern: "{controller=Account}/{action=LogIn}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
