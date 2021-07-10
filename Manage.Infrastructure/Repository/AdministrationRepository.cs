@@ -76,7 +76,8 @@ namespace Manage.Infrastructure.Repository
         }
         public async Task<IdentityResult> RemoveFromRoleAsync(ApplicationUser user, string roleName)
         {
-            var result = await _userManager.RemoveFromRoleAsync(user, roleName);
+            var employee = _manageContext.Users.SingleOrDefault(x => x.UserName == user.UserName);
+            var result = await _userManager.RemoveFromRoleAsync(employee, roleName);
             return result;
         }
 
@@ -97,6 +98,12 @@ namespace Manage.Infrastructure.Repository
             var user = await _userManager.FindByIdAsync(id);
             var userRoles = await _userManager.GetRolesAsync(user);
             return userRoles;
+        }
+
+        public async Task<IEnumerable<ApplicationRole>> GetAllRoles()
+        {
+            var rolesList = _roleManager.Roles;
+            return rolesList;
         }
        
     }

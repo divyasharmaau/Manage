@@ -267,10 +267,91 @@ namespace Manage.Web.Controllers
             var userRoles = await _administrationPageService.GetUserRoles(id);
             EditUserViewModel model = new EditUserViewModel();
             model.UserName = user.UserName;
+            model.UserId = user.Id;
             model.Roles = userRoles.ToList();
             return View(model);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> ManageUserRoles(string userId)
+        {
+            //viewbag is used to pass userId(id) from contrller to view
+            ViewBag.userId = userId;
+
+            var user = await _administrationPageService.GetUserById(userId);
+            if (user == null)
+            {
+                ViewBag.ErrorMessage = $"User with Id:{userId} not found";
+                return View("NotFound");
+            }
+            else
+            {
+                var model = new List<UserRolesViewModel>();
+                var rolesList = await _administrationPageService.GetAllRoles();
+
+                foreach (var role in rolesList)
+                {
+                    UserRolesViewModel userRolesViewModel = new UserRolesViewModel()
+                    {
+                        RoleName = role.Name,
+                        RoleId = role.Id
+                    };
+
+                    if (await _administrationPageService.UserInRole(user, role.Name))
+                    {
+                        userRolesViewModel.IsSelected = true;
+                    }
+                    else
+                    {
+                        userRolesViewModel.IsSelected = false;
+                    }
+                    model.Add(userRolesViewModel);
+                }
+
+                return View(model);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ManageUserRoles(List<UserRolesViewModel> model, string userId)
+        {
+            var user = await _administrationPageService.GetUserById(userId);
+            if (user == null)
+            {
+                ViewBag.ErrorMessage = $"User with Id = {userId} cannot be found";
+                return View("NotFound");
+            }
+
+            for (int i = 0; i < model.Count; i++)
+            {
+                var role = await _administrationPageService.GetRoleById(model[i].RoleId);
+                var userHasRole = await _administrationPageService.UserInRole(user , role.Name);
+
+                IdentityResult result = null;
+                if (model[i].IsSelected && !userHasRole)
+                {
+                   result =   await _administrationPageService.AddToRoleAsync(user, role.Name);
+                }
+                else if(!model[i].IsSelected && userHasRole)
+                {
+                    result = await _administrationPageService.RemoveFromRoleAsync(user, role.Name);
+                }
+                else
+                {
+                    continue;
+                }
+
+                if (result.Succeeded)
+                {
+                    if (i < (model.Count - 1))
+                        continue;
+                    else
+                        return RedirectToAction("EditUserRolesAndClaims", new { Id = userId });
+                }
+            }
+            return RedirectToAction("EditUserRolesAndClaims", new { Id = userId });
+
+        }
 
         [HttpGet]
         [AllowAnonymous]

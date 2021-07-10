@@ -105,5 +105,11 @@ namespace Manage.Web.Services
             return userRoles;
         }
 
+        public async Task<IEnumerable<ApplicationRoleViewModel>> GetAllRoles()
+        {
+            var rolesListFromDb = await _administrationService.GetAllRoles();
+            var rolesList = _mapper.Map<IEnumerable<ApplicationRoleViewModel>>(rolesListFromDb);
+            return rolesList;
+        }
     }
 }

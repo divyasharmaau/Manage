@@ -21,5 +21,6 @@ namespace Manage.Web.Interface
         Task<IEnumerable<ApplicationUserViewModel>> GetUsers();
         Task<ApplicationUserViewModel> GetUserById(string id);
         Task<IEnumerable<string>> GetUserRoles(string id);
+        Task<IEnumerable<ApplicationRoleViewModel>> GetAllRoles();
     }
 }

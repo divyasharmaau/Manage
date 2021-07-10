@@ -108,5 +108,12 @@ namespace Manage.Application.Services
             var userRoles = await _administrationRepository.GetUserRoles(id);
             return userRoles;
         }
+
+        public async Task<IEnumerable<ApplicationRoleModel>> GetAllRoles()
+        {
+            var rolesListFromDb = await _administrationRepository.GetAllRoles();
+            var rolesList = _mapper.Map<IEnumerable<ApplicationRoleModel>>(rolesListFromDb);
+            return rolesList;
+        }
     }
 }

@@ -21,6 +21,7 @@ namespace Manage.Application.Interface
         Task<IEnumerable<ApplicationUserModel>> GetUsers();
         Task<ApplicationUserModel> GetUserById(string id);
         Task<IEnumerable<string>> GetUserRoles(string id);
+        Task<IEnumerable<ApplicationRoleModel>> GetAllRoles();
 
 
     }

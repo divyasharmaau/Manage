@@ -5,12 +5,13 @@ using System.Threading.Tasks;
 
 namespace Manage.Web.ViewModels
 {
-    //assign users to the given role
-    public class UserRoleViewModel
+
+   // assign role to the given user
+    public class UserRolesViewModel
     {
         public int Id { get; set; }
-        public string UserId { get; set; }
-        public string UserName { get; set; }
+        public string RoleId { get; set; }
+        public string RoleName { get; set; }
         public bool IsSelected { get; set; }
     }
 }

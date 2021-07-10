@@ -22,5 +22,6 @@ namespace Manage.Core.Repository
         Task<IEnumerable<ApplicationUser>> GetUsers();
         Task<ApplicationUser> GetUserById(string id);
         Task<IEnumerable<string>> GetUserRoles(string id);
+        Task<IEnumerable<ApplicationRole>> GetAllRoles();
     }
 }
