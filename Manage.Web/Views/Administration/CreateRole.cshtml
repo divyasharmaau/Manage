@@ -18,21 +18,18 @@
                 <div class="card-body">
 
                     <form asp-controller="Administration" asp-action="CreateRole" method="post">
-
+                        <div asp-validation-summary="All" class="text-danger"></div>
                         <div class="form row">
                             <div class="form-group col-md-4">
                                 <label asp-for="Name" class="col-auto col-form-label small form-text"></label>
-
                                 <div class="col">
                                     <input asp-for="Name" class="form-control" placeholder="Role Name" />
                                     <span asp-validation-for="Name"></span>
                                 </div>
                             </div>
                         </div>
-
-
                         <div class="col-md-12">
-                            <button type="submit" class="btn btn-outline-primary mt-5 mb-5">Create Role</button>
+                            <button type="submit" class="btn btn-outline-primary mt-3 mb-5">Create Role</button>
                         </div>
 
                     </form>

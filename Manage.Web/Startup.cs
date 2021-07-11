@@ -21,6 +21,8 @@ using Manage.Application.Interface;
 using Manage.Application.Services;
 using Manage.Web.Interface;
 using Manage.Web.Services;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Manage.Web
 {
@@ -82,13 +84,28 @@ namespace Manage.Web
 
                 //signin requirenments
                 options.SignIn.RequireConfirmedAccount = true;
+                
             })
 
             .AddRoles<ApplicationRole>()
             .AddEntityFrameworkStores<ManageContext>()
             .AddDefaultTokenProviders();
 
+            services.ConfigureApplicationCookie(options =>
+            {
+               // options.LoginPath = new PathString("/Account/login");
+                options.AccessDeniedPath = new PathString("/Administration/AccessDenied");
+            });
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("DeleteRolePolicy",
+                    policy => policy.RequireClaim("Delete Role" ,"true"));
+                options.AddPolicy("EditRolePolicy",
+                    policy => policy.RequireClaim("Edit Role", "true"));
+                
+            });
+ 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -113,14 +130,16 @@ namespace Manage.Web
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
+           
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                   pattern: "{controller=Account}/{action=LogIn}/{id?}");
+                  //pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

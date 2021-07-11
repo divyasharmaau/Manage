@@ -1,20 +1,29 @@
 ﻿using Manage.Core.Entities;
 using Manage.Core.Repository;
+using Manage.Infrastructure.Data;
+using Manage.Infrastructure.Repository.Base;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Manage.Infrastructure.Repository
 {
-   public class AdministrationRepository : IAdministrationRepository
+   public class AdministrationRepository :  IAdministrationRepository
     {
         private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ManageContext _manageContext;
 
-        public AdministrationRepository(RoleManager<ApplicationRole> roleManager)
+        public AdministrationRepository(RoleManager<ApplicationRole> roleManager,
+            UserManager<ApplicationUser> userManager ,ManageContext manageContext)
         {
             _roleManager = roleManager;
+            _userManager = userManager;
+            _manageContext = manageContext;
         }
 
         public async Task<IdentityResult> CreateRole(ApplicationRole role)
@@ -22,5 +31,80 @@ namespace Manage.Infrastructure.Repository
             var empRole = await _roleManager.CreateAsync(role);
             return empRole;
         }
+
+        public async Task<IEnumerable<ApplicationRole>> GetRolesList()
+        {
+            var roleList = _roleManager.Roles;
+            return roleList;
+        }
+
+        public async Task<ApplicationRole> GetRoleById(string id)
+        {
+            var role = await _roleManager.FindByIdAsync(id);
+            return role;
+        }
+
+        public async Task<IEnumerable<ApplicationUser>>GetUsersInRole(string name)
+        {
+            var users = await _userManager.GetUsersInRoleAsync(name);
+            return users;
+        }
+
+        public async Task<bool>UserInRole(ApplicationUser user , string roleName)
+        {
+            var result = await _userManager.IsInRoleAsync(user, roleName);
+            return result;
+           
+        }
+
+        public async Task<IdentityResult> Update(ApplicationRole role)
+        {
+            var result =  await _roleManager.UpdateAsync(role);
+            return result;
+        }
+
+        public async Task<IdentityResult> DeleteRole(ApplicationRole role)
+        {
+            var result = await _roleManager.DeleteAsync(role);
+            return result;
+        }
+        public async Task<IdentityResult> AddToRoleAsync(ApplicationUser user , string roleName)
+        {
+            var employee =  _manageContext.Users.SingleOrDefault(x => x.UserName == user.UserName);
+            var result =  await _userManager.AddToRoleAsync(employee, roleName);
+            return result;
+        }
+        public async Task<IdentityResult> RemoveFromRoleAsync(ApplicationUser user, string roleName)
+        {
+            var employee = _manageContext.Users.SingleOrDefault(x => x.UserName == user.UserName);
+            var result = await _userManager.RemoveFromRoleAsync(employee, roleName);
+            return result;
+        }
+
+        public async Task<IEnumerable<ApplicationUser>> GetUsers()
+        {
+            var userList = _userManager.Users.ToList();
+            return userList;
+        }
+
+        public async Task<ApplicationUser> GetUserById(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            return user;
+        }
+
+        public async Task<IEnumerable<string>> GetUserRoles(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            var userRoles = await _userManager.GetRolesAsync(user);
+            return userRoles;
+        }
+
+        public async Task<IEnumerable<ApplicationRole>> GetAllRoles()
+        {
+            var rolesList = _roleManager.Roles;
+            return rolesList;
+        }
+       
     }
 }

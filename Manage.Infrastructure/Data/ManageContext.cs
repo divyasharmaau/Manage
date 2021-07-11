@@ -36,7 +36,7 @@ namespace Manage.Infrastructure.Data
             SetTableNamesAsSingle(builder);
             base.OnModelCreating(builder);
 
-            //change the delete behaviour to restrict 
+            //change the delete behaviour from cascade to restrict 
             foreach (var foreignKey in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
             {
                 foreignKey.DeleteBehavior = DeleteBehavior.Restrict;

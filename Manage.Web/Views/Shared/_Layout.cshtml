@@ -25,6 +25,10 @@
         <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
         <!-- Ionicons -->
         <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"
+                integrity="sha512-2rNj2KJ+D8s1ceNasTIex6z4HWyOnEYLVC3FigGOmyQCZc2eBXKgOxQmo3oKLHyfcj53uz4QMsRCWNbLd32Q1g==" 
+                crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
         <!-- Tempusdominus Bbootstrap 4 -->
         <link rel="stylesheet" href="~/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
         <!-- iCheck -->
@@ -41,6 +45,7 @@
         <link rel="stylesheet" href="~/plugins/summernote/summernote-bs4.css">
         <!-- Google Font: Source Sans Pro -->
         <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
         <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
@@ -95,7 +100,7 @@
                 </ul>
 
                 <!--SEARCH FORM-->
-                <form class="form-inline ml-3">
+                <form class="form-inline ml-3" asp-action="EmployeeList" asp-controller="Employee">
                     <div class="input-group input-group-sm">
                         <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
                         <div class="input-group-append">
@@ -146,83 +151,151 @@
                         <a href="#" class="d-block">Breta Collins</a>
                     </div>
                 </div>
-                <!-- Sidebar Menu -->
-                <nav class="mt-2">
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                        <li class="nav-item has-treeview">
-                            <a href="#" class="nav-link">
-                                <i class="fas fa-home nav-icon"></i>
-                                <p> Home</p>
-                            </a>
-                        </li>
+                @if (signInManager.IsSignedIn(User) && User.IsInRole("Administartor"))
+                {
+                    <!-- Sidebar Menu -->
+                    <nav class="mt-2">
+                        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                            <li class="nav-item has-treeview">
+                                <a href="#" class="nav-link">
+                                    <i class="fas fa-home nav-icon"></i>
+                                    <p> Home</p>
+                                </a>
+                            </li>
 
-                        <li class="nav-item has-treeview">
-                            <a href="#" class="nav-link">
-                                <i class="fas fa-user-cog nav-icon"></i>
-                                <p>
-                                    Admin
-                                    <i class="fas fa-angle-left right"></i>
-                                    @*<span class="badge badge-info right">6</span>*@
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item has-treeview">
-                            <a href="#" class="nav-link">
-                                <i class="far fa-address-card nav-icon"></i>
-                                <p>
-                                    Employee Info
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
+                            <li class="nav-item has-treeview">
+                                <a href="#" class="nav-link">
+                                    <i class="fas fa-user-cog nav-icon"></i>
+                                    <p>
+                                        Admin
+                                        <i class="fas fa-angle-left right"></i>
+                                    </p>
+                                </a>
 
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-controller="Employee"
-                                       asp-action="EmployeeList">
-                                        <p>Employee List</p>
-                                    </a>
-                                </li>
 
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-controller="Employee"
-                                       asp-action="CreateEmployee">
-                                        <p>Add Employee</p>
-                                    </a>
-                                </li>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-controller="Administration"
+                                           asp-action="UsersList">
+                                            <p>Users</p>
+                                        </a>
+                                    </li>
 
-                            </ul>
-                        </li>
-                        <li class="nav-item has-treeview">
-                            <a href="#" class="nav-link">
-                                <i class="fas fa-suitcase nav-icon"></i>
-                                <p>
-                                    Leave
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-controller="Administration"
+                                           asp-action="RolesList">
+                                            <p>Roles</p>
+                                        </a>
+                                    </li>
 
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a asp-action="ApplyLeave" asp-controller="Leave" class="nav-link ">
-                                        <p> Apply </p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-action="GetAllMyLeaves" asp-controller="Leave" class="nav-link ">
-                                        <p> My Leave </p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-action="GetAllLeaves" asp-controller="Leave" class="nav-link ">
-                                        <p> Leave List </p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item has-treeview">
+                                <a href="#" class="nav-link">
+                                    <i class="far fa-address-card nav-icon"></i>
+                                    <p>
+                                        Employee Info
+                                        <i class="fas fa-angle-left right"></i>
+                                    </p>
+                                </a>
 
-                    </ul>
-                </nav>
-                <!-- /.sidebar-menu -->
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-controller="Employee"
+                                           asp-action="EmployeeList">
+                                            <p>Employee List</p>
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-controller="Employee"
+                                           asp-action="CreateEmployee">
+                                            <p>Add Employee</p>
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </li>
+                            <li class="nav-item has-treeview">
+                                <a href="#" class="nav-link">
+                                    <i class="fas fa-suitcase nav-icon"></i>
+                                    <p>
+                                        Leave
+                                        <i class="fas fa-angle-left right"></i>
+                                    </p>
+                                </a>
+
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a asp-action="ApplyLeave" asp-controller="Leave" class="nav-link ">
+                                            <p> Apply </p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a asp-action="GetAllMyLeaves" asp-controller="Leave" class="nav-link ">
+                                            <p> My Leave </p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a asp-action="GetAllLeaves" asp-controller="Leave" class="nav-link ">
+                                            <p> Leave List </p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                        </ul>
+                    </nav>
+                    <!-- /.sidebar-menu-->
+
+                }
+                else
+                {
+                    <!--SideBar Menu-->
+                    <nav class="mt-2">
+                        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                            <li class="nav-item has-treeview">
+                                <a href="#" class="nav-link">
+                                    <i class="fas fa-home nav-icon"></i>
+                                    <p> Home</p>
+                                </a>
+                            </li>
+                            <li class="nav-item has-treeview">
+                                <a href="#" class="nav-link">
+                                    <i class="far fa-address-card nav-icon"></i>
+                                    <p>
+                                        Employee Info
+                                        <i class="fas fa-angle-left right"></i>
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item has-treeview">
+                                <a href="#" class="nav-link">
+                                    <i class="fas fa-suitcase nav-icon"></i>
+                                    <p>
+                                        Leave
+                                        <i class="fas fa-angle-left right"></i>
+                                    </p>
+                                </a>
+
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a asp-action="ApplyLeave" asp-controller="Leave" class="nav-link ">
+                                            <p> Apply </p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a asp-action="GetAllMyLeaves" asp-controller="Leave" class="nav-link ">
+                                            <p> My Leave </p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                        </ul>
+                    </nav>
+                    <!-- /.sidebar-menu -->
+                }
             </div>
 
         </aside>

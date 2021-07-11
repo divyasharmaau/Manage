@@ -1,0 +1,55 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model Manage.Web.ViewModels.UserClaimsViewModel
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <form method="post">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">User Claims</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+
+                            @*@for (int i = 0; i < Model.Claims.Count; i++)
+                            {
+                                <div class="form-check m-1">
+                                    <input type="hidden" asp-for="@Model.Claims[i].ClaimType"/>
+                                    <input class="form-check-input" asp-for="@Model.Claims[i].IsSelected" 1/>
+                                    <input type="checkbox" asp-for="@Model.Claims[i].IsSelected" 2/>
+                                    <label class="form-check-label" asp-for="@Model.Claims[i].IsSelected">
+                                        @Model.Claims[i].ClaimType
+                                    </label>
+                                </div>
+                            }*@
+                            @for (int i = 0; i < Model.Claims.Count; i++)
+                            {
+                                <div class="form-check m-1">
+                                    <input type="hidden" asp-for="@Model.Claims[i].ClaimType" />
+                                    <input asp-for="@Model.Claims[i].IsSelected" class="form-check-input" />
+                                    <label class="form-check-label" asp-for="@Model.Claims[i].IsSelected">
+                                        @Model.Claims[i].ClaimType
+                                    </label>
+                                </div>
+                            }
+
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                        </div>
+
+                        <div class="card-footer">
+                            <input type="submit" value="Update" class="btn btn-outline-success" style="width:auto" />
+                            <a asp-action="UsersList" asp-route-userId="@Model.UserId" class="btn btn-outline-primary" 
+                               style="width:auto">Cancel</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

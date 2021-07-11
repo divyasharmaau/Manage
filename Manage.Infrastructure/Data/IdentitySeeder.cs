@@ -64,13 +64,13 @@ namespace Manage.Infrastructure.Data
                 Email = "bretacollins@mail.com",
                 UserName = "breta.collins",
                 Department = manageContext.Departments.SingleOrDefault(x => x.Name == "HR"),
-            };
-
-            await userManager.CreateAsync(user_Admin, "Password1!");
-            await userManager.AddToRoleAsync(user_Admin, role_Administrator);
+            };            
 
             user_Admin.EmailConfirmed = true;
             user_Admin.LockoutEnabled = false;
+
+            await userManager.CreateAsync(user_Admin, "Password1!");
+            await userManager.AddToRoleAsync(user_Admin, role_Administrator);
 
             await manageContext.SaveChangesAsync();
 

@@ -40,7 +40,7 @@ namespace Manage.Infrastructure.Repository
 
         public async Task<IdentityResult> Create(ApplicationUser user)
         {
-            var emp = await _userManager.CreateAsync(user);
+            var emp = await _userManager.CreateAsync(user, user.Password);
             user.EmailConfirmed = true;
             user.LockoutEnabled = false;
             _manageContext.SaveChanges();
@@ -59,6 +59,8 @@ namespace Manage.Infrastructure.Repository
        
         public async Task Update(ApplicationUser user)
         {
+            user.EmailConfirmed = true;
+            user.LockoutEnabled = false;
             _manageContext.Entry(user).State = EntityState.Modified;
             await _manageContext.SaveChangesAsync();
         }
