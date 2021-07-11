@@ -6,6 +6,11 @@
 
 @model IEnumerable<Manage.Web.ViewModels.ApplicationRoleViewModel>
 
+
+@using Microsoft.AspNetCore.Authorization;
+
+@inject IAuthorizationService authorizationService;
+
 @if (Model.Any())
 {
     <section class="content">
@@ -17,15 +22,14 @@
                             <h3 class="card-title">Roles List</h3>
                             <a asp-action="CreateRole" asp-controller="Administration"
                                style="float:right" data-toggle="tooltip" data-placement="bottom"
-                               title="Add Employee">
+                               title="Add Role">
                                 <i class="fas fa-plus" style="float:right; color:#b60962" ;></i>
                             </a>
                         </div>
                         <!--/.card-header-->
                         <!--form start-->
-                        <div class="card-body p-0">
+                        <div class="card-body">
                             <table id="example2" class="table table-striped table-hover">
-
                                 <thead>
                                     <tr>
                                         <th>Name</th>
@@ -37,9 +41,20 @@
                                     @foreach (var role in Model)
                                     {
 
-                                        <tr>
-                                            <td>@role.Name</td>
+                                    <tr>
+                                        <td>@role.Name</td>
+
+                                        @if ((await authorizationService.AuthorizeAsync(User, "EditRolePolicy")).Succeeded)
+                                        {
                                             <td><a asp-action="EditRole" asp-controller="Administration" asp-route-id="@role.Id">Edit</a></td>
+}
+                                        else
+                                        {
+                                            <td></td>
+                                        }
+
+                                        @if ((await authorizationService.AuthorizeAsync(User, "DeleteRolePolicy")).Succeeded)
+                                         {
                                             <td>
                                                 <form method="post" asp-action="DeleteRole" asp-route-id="@role.Id">
 
@@ -55,7 +70,13 @@
                                                     </span>
                                                 </form>
                                             </td>
-                                        </tr>
+                                         }
+                                        else
+                                        {
+                                            <td></td>
+                                        }
+
+                                    </tr>
                                     }
                                 </tbody>
                             </table>
@@ -67,8 +88,6 @@
         </div>
     </section>
 }
-
-
 else
 {
     <h>All Roles</h>

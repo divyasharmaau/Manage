@@ -97,7 +97,15 @@ namespace Manage.Web
                 options.AccessDeniedPath = new PathString("/Administration/AccessDenied");
             });
 
-
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("DeleteRolePolicy",
+                    policy => policy.RequireClaim("Delete Role" ,"true"));
+                options.AddPolicy("EditRolePolicy",
+                    policy => policy.RequireClaim("Edit Role", "true"));
+                
+            });
+ 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -130,8 +138,8 @@ namespace Manage.Web
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                   // pattern: "{controller=Account}/{action=LogIn}/{id?}");
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                   pattern: "{controller=Account}/{action=LogIn}/{id?}");
+                  //pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

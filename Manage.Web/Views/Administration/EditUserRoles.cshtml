@@ -57,21 +57,10 @@
                                 <div class="card-header">
                                     <h3 class="card-title">User Claims </h3>
                                 </div>
-                                <div class="card-body">
-                                    @if (Model.Claims.Any())
-                                    {
-                                        foreach (var claim in Model.Claims)
-                                        {
-                                            <h5 style="font-size:16px;">@claim</h5>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        <h5 class="card-title">None at the moment</h5>
-                                    }
+                                <div class="card-body">  
                                 </div>
                                 <div class="card-footer">
-                                    <a asp-action="ManageUserClaims" asp-route-userId="@Model.UserId" style="width:auto" class="btn btn-outline-info">
+                                    <a asp-action="ManageUserClaims" asp-route-id="@Model.Id" style="width:auto" class="btn btn-outline-info">
                                         Manage Claims
                                     </a>
                                 </div>

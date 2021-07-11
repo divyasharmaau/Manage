@@ -15,12 +15,16 @@ namespace Manage.Application.Services
     {
         private readonly IAdministrationRepository _administrationRepository;
         private readonly IEmployeeRepository _employeeRepository;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IMapper _mapper;
 
-        public AdministrationService(IAdministrationRepository administrationRepository , IEmployeeRepository employeeRepository ,IMapper mapper )
+        public AdministrationService(IAdministrationRepository administrationRepository , IEmployeeRepository employeeRepository
+            ,UserManager<ApplicationUser> userManager
+            ,IMapper mapper )
         {
             _administrationRepository = administrationRepository;
             _employeeRepository = employeeRepository;
+            _userManager = userManager;
             _mapper = mapper;
         }
 
@@ -98,7 +102,8 @@ namespace Manage.Application.Services
 
         public async Task<ApplicationUserModel> GetUserById(string id)
         {
-            var userFromDb = await _administrationRepository.GetUserById(id);
+            //var userFromDb = await _administrationRepository.GetUserById(id);
+            var userFromDb = await _userManager.FindByIdAsync(id);
             var user = _mapper.Map<ApplicationUserModel>(userFromDb);
             return user;
         }
