@@ -1,11 +1,17 @@
 ﻿@using Manage.Core.Entities;
+@using Manage.Web.Interface;
 
 
 
 @inject UserManager<ApplicationUser> userManager;
 @inject SignInManager<ApplicationUser> signInManager;
+@inject IEmployeePersonalDetailsPageService employeePersonalDetailsPageService;
 
-
+@{
+    var user = userManager.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
+    var emp = await employeePersonalDetailsPageService.GetEmployeePersonalDetailsById(user.Id);
+    var photo = emp.PhotoPath;
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,7 +32,7 @@
         <!-- Ionicons -->
         <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"
-                integrity="sha512-2rNj2KJ+D8s1ceNasTIex6z4HWyOnEYLVC3FigGOmyQCZc2eBXKgOxQmo3oKLHyfcj53uz4QMsRCWNbLd32Q1g==" 
+                integrity="sha512-2rNj2KJ+D8s1ceNasTIex6z4HWyOnEYLVC3FigGOmyQCZc2eBXKgOxQmo3oKLHyfcj53uz4QMsRCWNbLd32Q1g=="
                 crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
         <!-- Tempusdominus Bbootstrap 4 -->
@@ -80,7 +86,8 @@
     </environment>
 </head>
 
-
+@if (signInManager.IsSignedIn(User))
+{
     <body class="hold-transition sidebar-mini layout-fixed">
         <!-- Site wrapper -->
         <div class="wrapper">
@@ -114,8 +121,8 @@
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item dropdown user-menu">
                         <form method="post" asp-controller="account" asp-action="LogOut">
-                            <a href="#collapseExample" class="nav-link dropdown-toggle" data-toggle="dropdown">                            
-                                <img src="~/dist/img/poweroffn.png" class=" user-image img-circle elevation-2" />         
+                            <a href="#collapseExample" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                                <img src="~/dist/img/poweroffn.png" class=" user-image img-circle elevation-2" />
                             </a>
                             <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right" id="collapseExample">
                                 <!-- Menu Body -->
@@ -134,8 +141,8 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="../../index3.html" class="brand-link">
-                <img src="../../dist/img/AdminLTELogo.png"
-                     alt="AdminLTE Logo"
+                <img src="../../dist/img/Logo.png"
+                     alt="Manage Logo"
                      class="brand-image img-circle elevation-3"
                      style="opacity: .8">
                 <span class="brand-text font-weight-light">Manage</span>
@@ -145,10 +152,11 @@
                 <!-- Sidebar user (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img src="../../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                        <img src="../../dist/img/@photo" class="img-circle elevation-2" alt="User Image">
                     </div>
+
                     <div class="info">
-                        <a href="#" class="d-block">Breta Collins</a>
+                        <a href="#" class="d-block">@user.FullName</a>
                     </div>
                 </div>
                 @if (signInManager.IsSignedIn(User) && User.IsInRole("Administartor"))
@@ -360,5 +368,7 @@
 
         @RenderSection("Scripts", required: false)
     </body>
+}
+
 
 </html>

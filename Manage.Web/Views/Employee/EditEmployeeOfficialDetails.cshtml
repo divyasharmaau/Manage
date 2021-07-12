@@ -16,7 +16,15 @@
                             <table>
                                 <tr>
                                     <td style="float:right">
-                                        photo
+                                        @if(Model.EmployeePersonalDetails == null)
+                                        {
+                                            <img class="imageThumbnail" src="~/dist/img/avatar.png"  asp-append-version="true" alt="Employee Photograph"/>
+                                        }
+                                        else
+                                        {
+                                            <img class="imageThumbnail" src="~/dist/img/@Model.EmployeePersonalDetails.PhotoPath" asp-append-version="true"alt="Employee Photograph" >
+                                        }
+
                                     </td>
                                     <td style="text-align:center; padding:30px">
                                         <h4>@Model.FullName</h4>

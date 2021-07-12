@@ -100,3 +100,25 @@ body {
 .tooltipList{
 
 }
+
+.form-text-form {
+    color: #b3005c;
+    font-weight:normal;
+    
+}
+
+.logInImage{
+    height:150px;
+    width:150px;
+}
+
+.formPText {
+    font-size: 14px;
+}
+
+
+.listImg {
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+}

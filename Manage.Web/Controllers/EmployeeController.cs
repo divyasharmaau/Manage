@@ -62,6 +62,7 @@ namespace Manage.Web.Controllers
                     list.Status = emp.Status;
                     list.Manager = emp.Manager;
                     list.Email = emp.Email;
+                    list.EmployeePersonalDetails = emp.EmployeePersonalDetails;
 
                     employeeList.Add(list);
                 }
@@ -293,9 +294,18 @@ namespace Manage.Web.Controllers
         public async Task<IActionResult> EmployeePersonalDetails(string id)
         {
             var emp = await _employeePageService.GetEmployeeById(id);
-            var employee = await _employeePersonalDetailsPageService.GetEmployeePersonalDetailsById(id);
-            employee.FullName = emp.FullName;
-            return View(employee);
+            if(emp.EmployeePersonalDetails == null)
+            {
+                return RedirectToAction("CreateEmployeePersonalDetails", new { id = emp.Id });
+            }
+            else
+            {
+                var employee = await _employeePersonalDetailsPageService.GetEmployeePersonalDetailsById(id);
+                employee.FullName = emp.FullName;
+                employee.PhotoPath = emp.EmployeePersonalDetails.PhotoPath;
+                return View(employee);
+            }
+           
         }
 
         [HttpGet]
@@ -303,10 +313,13 @@ namespace Manage.Web.Controllers
         {
             var emp = await _employeePageService.GetEmployeeById(id);
             var empDetails = await _employeePersonalDetailsPageService.GetEmployeePersonalDetailsById(id);
-            var employeePersonalDetails =  _mapper.Map<EditEmployeePersonalDetailsViewModel>(empDetails);
-            employeePersonalDetails.FullName = emp.FullName;
-            employeePersonalDetails.ExistingPhotoPath = empDetails.PhotoPath;
-            return View(employeePersonalDetails);
+          
+                var employeePersonalDetails = _mapper.Map<EditEmployeePersonalDetailsViewModel>(empDetails);
+                employeePersonalDetails.FullName = emp.FullName;
+                employeePersonalDetails.ExistingPhotoPath = empDetails.PhotoPath;
+                return View(employeePersonalDetails);
+           
+           
         }
 
         [HttpPost]
@@ -318,7 +331,7 @@ namespace Manage.Web.Controllers
                 var empDetails = _mapper.Map<EmployeePersonalDetailsViewModel>(model);
                 //upload image
                 var uniqueFileName = "";
-                if (model.ExistingPhotoPath == null )
+                if (model.ExistingPhotoPath == null || empDetails.PhotoPath != model.ExistingPhotoPath)
                 {
                     //to get to the path of the wwwwrootfolder
                     var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "dist/img");
