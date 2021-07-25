@@ -8,9 +8,18 @@
 @inject IEmployeePersonalDetailsPageService employeePersonalDetailsPageService;
 
 @{
+    var photo = "";
     var user = userManager.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
     var emp = await employeePersonalDetailsPageService.GetEmployeePersonalDetailsById(user.Id);
-    var photo = emp.PhotoPath;
+    if(emp == null)
+    {
+         photo = "/avatar.png";
+    }
+    else
+    {
+        photo = emp.PhotoPath;
+    }
+
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -235,17 +244,17 @@
 
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a asp-action="ApplyLeave" asp-controller="Leave" class="nav-link ">
+                                        <a asp-action="ApplyLeave" asp-route-id="@user.Id" asp-controller="Leave" class="nav-link ">
                                             <p> Apply </p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a asp-action="GetAllMyLeaves" asp-controller="Leave" class="nav-link ">
+                                        <a asp-action="GetAllMyLeaves" asp-route-id="@user.Id" asp-controller="Leave" class="nav-link ">
                                             <p> My Leave </p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a asp-action="GetAllLeaves" asp-controller="Leave" class="nav-link ">
+                                        <a asp-action="GetAllLeaves" asp-route-id="@user.Id" asp-controller="Leave" class="nav-link ">
                                             <p> Leave List </p>
                                         </a>
                                     </li>

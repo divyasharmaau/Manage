@@ -25,11 +25,13 @@ namespace Manage.Web.Controllers
         private readonly IMapper _mapper;
         private readonly IEmployeeLeavePageService _employeeLeavePageService;
         private readonly ManageContext _manageContext;
+        private readonly IFileUploadHelper _fileUploadHelper;
 
         public LeaveController(ILeavePageService leavePageService , IMapper mapper ,IEmployeePageService employeePageService 
             ,IEmployeeLeavePageService employeeLeavePageService
             ,IWebHostEnvironment webHostEnvironment
             ,ManageContext manageContext
+            ,IFileUploadHelper fileUploadHelper
             )
         {
             _leavePageService = leavePageService;
@@ -38,8 +40,7 @@ namespace Manage.Web.Controllers
             _mapper = mapper;
             _employeeLeavePageService = employeeLeavePageService;
             _manageContext = manageContext;
-
-
+            _fileUploadHelper = fileUploadHelper;
         }
 
         [HttpGet]
@@ -73,16 +74,18 @@ namespace Manage.Web.Controllers
             if (ModelState.IsValid)
             {
                 string uniqueFileName = null;
+                FileUploadViewModel fileUploadViewModel = new FileUploadViewModel();
+                fileUploadViewModel.File = model.File;
 
                 if (model.File != null)
                 {
-                    string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "dist/files");
-                    uniqueFileName = Guid.NewGuid().ToString() + "_" + model.File.FileName;
-                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                    FileStream fs = new FileStream(filePath, FileMode.Create);
-                    model.File.CopyTo(fs);
+
+                    var uploadedFile = _fileUploadHelper.UploadFile(fileUploadViewModel);
+                    uniqueFileName = uploadedFile.UniqueFileName;
+                    
                 } 
                 var leaveApplied = _mapper.Map<LeaveViewModel>(model);
+              
                 leaveApplied.FilePath = uniqueFileName;
                 leaveApplied.BalanceAnnualLeave = model.BalanceAnnualLeave;
                 leaveApplied.BalanceSickLeave = model.BalanceSickLeave;
@@ -94,8 +97,10 @@ namespace Manage.Web.Controllers
                 employeeLeaveViewModel.LeaveId = newLeave.Id;
                 employeeLeaveViewModel.EmployeeId = user.Id;
                 await _employeeLeavePageService.AddNewLeaveEmployeeLeave(employeeLeaveViewModel);
+             
             }
-            return View(model);
+     
+            return RedirectToAction("GetAllMyLeaves", new { id  = user.Id });
         }    
         
         public async Task<IActionResult> MyLeaveDetails(int leaveId)
@@ -140,7 +145,11 @@ namespace Manage.Web.Controllers
             {
                 var mapped = _mapper.Map<LeaveViewModel>(model.Leave);
                 mapped.FilePath = model.ExistingFilePath;
+
+                FileUploadViewModel fileUploadViewModel = new FileUploadViewModel();
+                fileUploadViewModel.File = model.File;
                 string uniqueFileName = "";
+
                 if(model.File != null)
                 {
                     if(model.ExistingFilePath != null)
@@ -148,14 +157,11 @@ namespace Manage.Web.Controllers
                         string filePathExisting = Path.Combine(_webHostEnvironment.WebRootPath, "dist/files", model.ExistingFilePath);
                         System.IO.File.Delete(filePathExisting);
                     }
-                  
-                        string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "dist/files");
-                        uniqueFileName = Guid.NewGuid().ToString() + "_" + model.File.FileName;
-                        string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                        FileStream fs = new FileStream(filePath, FileMode.Create);
-                        model.File.CopyTo(fs);  
+                    var uploadedFile = _fileUploadHelper.UploadFile(fileUploadViewModel);
+                       
                 }
 
+                uniqueFileName = fileUploadViewModel.UniqueFileName;
                 mapped.FilePath = uniqueFileName;
                 await _leavePageService.Update(mapped);
 

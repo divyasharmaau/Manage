@@ -23,6 +23,7 @@ using Manage.Web.Interface;
 using Manage.Web.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Manage.Web.Utilities;
 
 namespace Manage.Web
 {
@@ -68,6 +69,8 @@ namespace Manage.Web
             services.AddScoped<ILeavePageService, LeavePageService>();
             services.AddScoped<IEmployeeLeavePageService, EmployeeLeavePageService>();
             services.AddScoped<IAdministrationPageService, AdministrationPageService>();
+            services.AddScoped<IUploadImageHelper, UploadImageHelper>();
+            services.AddScoped<IFileUploadHelper, FileUploadHelper>();
 
             services.AddControllersWithViews();
 

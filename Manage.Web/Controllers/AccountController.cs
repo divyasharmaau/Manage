@@ -48,6 +48,7 @@ namespace Manage.Web.Controllers
                 var user = await _userManager.FindByEmailAsync(model.Email);
                 if(user == null)
                 {
+                    ModelState.AddModelError(string.Empty, "Inavlid Email or Password!!");
                     return LogIn();
                 }
         

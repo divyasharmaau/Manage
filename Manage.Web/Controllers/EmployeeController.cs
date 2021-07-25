@@ -22,11 +22,12 @@ namespace Manage.Web.Controllers
         private readonly IMapper _mapper;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly ILogger<EmployeeController> _logger;
+        private readonly IUploadImageHelper _uploadImageHelper;
 
         public EmployeeController(IEmployeePageService employeePageService , IDepartmentPageService departmentPageService  
             ,IEmployeePersonalDetailsPageService employeePersonalDetailsPageService
             , IMapper mapper , IWebHostEnvironment webHostEnvironment
-            ,ILogger<EmployeeController> logger)
+            ,ILogger<EmployeeController> logger ,IUploadImageHelper uploadImageHelper)
         {
             _employeePageService = employeePageService;
             _departmentPageService = departmentPageService;
@@ -34,6 +35,7 @@ namespace Manage.Web.Controllers
             _mapper = mapper;
             _webHostEnvironment = webHostEnvironment;
             _logger = logger;
+            _uploadImageHelper = uploadImageHelper;
         }
         public IActionResult Index()
         {
@@ -270,20 +272,15 @@ namespace Manage.Web.Controllers
         {
             if(ModelState.IsValid)
             {
-                //upload image
-                var uniqueFileName = "";
-                //to get to the path of the wwwwrootfolder
-                var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "dist/img");
-                //append GUID value  and undersacore for unique File Name
-                uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                //copy file to images folder
-                model.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
+                PhotoUploadViewModel photoUploadViewModel = new PhotoUploadViewModel();
+                photoUploadViewModel.Photo = model.Photo;
+                var uploadedImage = _uploadImageHelper.UploadImage(photoUploadViewModel);
+                model.PhotoPath = uploadedImage.uniqueFileName;
+
                 //mapping
                 var empDetails = _mapper.Map<EmployeePersonalDetailsViewModel>(model);
-                empDetails.PhotoPath = uniqueFileName;
                 var employeePersonalDetails = await _employeePersonalDetailsPageService.AddAsync(empDetails);
-                return View();
+                return RedirectToAction("EmployeePersonalDetails", new { id = empDetails.Id });
             }
             else
             {
@@ -330,17 +327,13 @@ namespace Manage.Web.Controllers
                 //mapping
                 var empDetails = _mapper.Map<EmployeePersonalDetailsViewModel>(model);
                 //upload image
-                var uniqueFileName = "";
+                //var uniqueFileName = "";
                 if (model.ExistingPhotoPath == null || empDetails.PhotoPath != model.ExistingPhotoPath)
                 {
-                    //to get to the path of the wwwwrootfolder
-                    var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "dist/img");
-                    //append GUID value  and undersacore for unique File Name
-                    uniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
-                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                    //copy file to images folder
-                    model.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
-                    empDetails.PhotoPath = uniqueFileName;
+                    PhotoUploadViewModel photoUploadViewModel = new PhotoUploadViewModel();
+                    photoUploadViewModel.Photo = model.Photo;
+                    var uploadedImage = _uploadImageHelper.UploadImage(photoUploadViewModel);
+                    empDetails.PhotoPath = uploadedImage.uniqueFileName;
                 }
                 else
                 {
