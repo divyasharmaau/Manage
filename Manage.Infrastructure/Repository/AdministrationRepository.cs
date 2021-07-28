@@ -34,7 +34,7 @@ namespace Manage.Infrastructure.Repository
 
         public async Task<IEnumerable<ApplicationRole>> GetRolesList()
         {
-            var roleList = _roleManager.Roles;
+            var roleList =  _roleManager.Roles;
             return roleList;
         }
 

@@ -262,6 +262,19 @@ namespace Manage.WebApi.Controllers
             return View(result);
         }
 
+        //DELETE ap/controller/{id}
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(int leaveId)
+        {
+            var leave = await _leavePageService.GetMyLeaveDetails(leaveId);
+            if(leave == null)
+            {
+                return NotFound();
+            }
+            await _leavePageService.Delete(leave);
+            return NoContent();
+        }
+
         public async Task<IActionResult> DeleteMyLeave(int leaveId)
         {
            var leave = await _leavePageService.GetMyLeaveDetails(leaveId);

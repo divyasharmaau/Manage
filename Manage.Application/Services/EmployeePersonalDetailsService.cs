@@ -41,10 +41,13 @@ namespace Manage.Application.Services
 
         public async Task UpdateAsync(EmployeePersonalDetailsModel model)
         {
-              var entity = _mapper.Map<EmployeePersonalDetails>(model);
-             await _employeePersonalDetailsRepository.UpdateAsync(entity);
-       
-            
+             // var entity = _mapper.Map<EmployeePersonalDetails>(model);
+             //await _employeePersonalDetailsRepository.UpdateAsync(entity);
+            var emp = await _employeePersonalDetailsRepository.GetEmployeeById(model.Id);
+            //var emp = await _manageContext.Users.SingleOrDefaultAsync(x => x.Id == user.Id);
+            _mapper.Map(model, emp);
+            await _employeePersonalDetailsRepository.UpdateAsync(emp);
+
         }
     }
 }

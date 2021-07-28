@@ -13,7 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace Manage.Web.Controllers
-{
+{ 
     public class EmployeeController : Controller
     {
         private readonly IEmployeePageService _employeePageService;
