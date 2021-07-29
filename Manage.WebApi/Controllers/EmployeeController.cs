@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Manage.WebApi.Dto;
 using Manage.WebApi.Interface;
 using Manage.WebApi.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -45,9 +46,10 @@ namespace Manage.WebApi.Controllers
 
         //GET api/employee
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ApplicationUserViewModel>>> Get()
+        public async Task<ActionResult<IEnumerable<ApplicationUserDto>>> Get()
         {
             var employeeList = await _employeePageService.GetEmployeeList();
+
             if(employeeList == null)
             {
                 return NotFound();
@@ -98,42 +100,80 @@ namespace Manage.WebApi.Controllers
         //    var dto = _mapper.Map<EmployeeOfficialDetailsReadDto>(model);
         //    return  CreatedAtRoute(nameof(GetEmployeeOfficialDetailsById), new { id = dto.Id }, dto);           
         //}
+        ///------------------------------------------------------------------------------------------
+        //[HttpPost]
+        //public async Task<ActionResult<EmployeeOfficialDetailsReadDto>> CreateEmployee(CreateEmployeeViewModel model )
+        //{
+        //    if (model == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    var createFromDto = _mapper.Map<ApplicationUserViewModel>(model);
+        //    createFromDto.Id = Guid.NewGuid().ToString();
+        //    var employee = await _employeePageService.CreateEmployee(createFromDto);
+        //    var employeeDetailsReadDto = _mapper.Map<EmployeeOfficialDetailsReadDto>(createFromDto);
+        //    return CreatedAtRoute(nameof(GetEmployeeOfficialDetailsById), new { id = employeeDetailsReadDto.Id }, employeeDetailsReadDto);
+        //}
+
         [HttpPost]
-        public async Task<ActionResult<EmployeeOfficialDetailsReadDto>> CreateEmployee(CreateEmployeeViewModel model )
+        public async Task<ActionResult<EmployeeOfficialDetailsReadDto>> CreateEmployee(CreateEmployeeDto model)
         {
             if (model == null)
             {
                 return NotFound();
             }
-            var createFromDto = _mapper.Map<ApplicationUserViewModel>(model);
+            var createFromDto = _mapper.Map<ApplicationUserDto>(model);
             createFromDto.Id = Guid.NewGuid().ToString();
-            var employee = await _employeePageService.CreateEmployee(createFromDto);
-            var employeeDetailsReadDto = _mapper.Map<EmployeeOfficialDetailsReadDto>(createFromDto);
-            return CreatedAtRoute(nameof(GetEmployeeOfficialDetailsById), new { id = employeeDetailsReadDto.Id }, employeeDetailsReadDto);
+            var dtoMapped = _mapper.Map<ApplicationUserViewModel>(createFromDto);
+            var employee = await _employeePageService.CreateEmployee(dtoMapped);
+            return CreatedAtRoute(nameof(GetEmployeeOfficialDetailsById), new { id = createFromDto.Id }, createFromDto);
+
         }
 
-        [HttpPost("CreateEmployeePersonalDetails/{id}")]
-        public async Task<ActionResult<EmployeePersonalDetailsViewModel>> CreateEmployeePersonalDetails(CreateEmployeePersonalDetailsViewModel model ,string id)
-        {
-            var modelFromRepo = await _employeePageService.GetEmployeeById(id);
-            if (modelFromRepo == null)
-            {
-                return NotFound();
-            }
 
-            var createEmployeePersonalDetails = _mapper.Map<EmployeePersonalDetailsViewModel>(model);
-            createEmployeePersonalDetails.Id = modelFromRepo.Id;
-            createEmployeePersonalDetails.FullName = modelFromRepo.FullName;
-            var employee = await _employeePersonalDetailsPageService.AddAsync(createEmployeePersonalDetails);
-            var employeePersonalDetailsReadDto = _mapper.Map<EmployeePersonalDetailsReadDto>(createEmployeePersonalDetails);
+        [HttpPost("CreateEmployeePersonalDetails/{id}")]
+        public async Task<ActionResult<EmployeePersonalDetailsDto>> CreateEmployeePersonalDetails(CreateEmployeePersonalDetailsDto model ,string id)
+        {
+            model.Id = id;
+            var empOfficialDetails = await _employeePageService.GetEmployeeById(id);
+            model.FullName = empOfficialDetails.FullName;
+            // add async method requires an instance of EmployeePersonalDetailsViewModel
+            //map the CreateEmployeePersonalDetailsDto with EmployeePersonalDetailsViewModel
+            var mappedEmployeePersonalDetails = _mapper.Map<EmployeePersonalDetailsViewModel>(model);
+      
+            //add using the mapped variable which is an instance of EmployeePersonalDetailsViewModel
+            var newEmployeePersonalDetails = await _employeePersonalDetailsPageService.AddAsync(mappedEmployeePersonalDetails);
+
+            var employeePersonalDetailsReadDto = _mapper.Map<EmployeePersonalDetailsDto>(newEmployeePersonalDetails);
+
             return CreatedAtRoute(nameof(GetEmployeePersonalDetailsById), new { id = employeePersonalDetailsReadDto.Id }, employeePersonalDetailsReadDto);
 
-           // return employee;
+            //to get the url
+            //return CreatedAtRoute(nameof(GetEmployeePersonalDetailsById), new { id = model.Id }, model);
+
+            // //var modelFromRepo = await _employeePageService.GetEmployeeById(id);
+            // //if (modelFromRepo == null)
+            // //{
+            // //    return NotFound();
+            // //}
+
+            // //create and add to db
+            // var createEmployeePersonalDetails = _mapper.Map<EmployeePersonalDetailsViewModel>(model);
+            // //createEmployeePersonalDetails.Id = modelFromRepo.Id;
+            // //createEmployeePersonalDetails.FullName = modelFromRepo.FullName;
+            // var employee = await _employeePersonalDetailsPageService.AddAsync(createEmployeePersonalDetails);
+
+            // var employeePersonalDetailsReadDto = _mapper.Map<EmployeePersonalDetailsReadDto>(createEmployeePersonalDetails);
+
+            // return CreatedAtRoute(nameof(GetEmployeePersonalDetailsById), new { id = employeePersonalDetailsReadDto.Id }, employeePersonalDetailsReadDto);
+
+            //// return employee;
         }
 
         [HttpPut("{id}")]
-        public  async Task<ActionResult> Update(string id , EditEmployeeOfficialDetailsViewModel model)
+        public  async Task<ActionResult> Update(string id , EditEmployeeOfficialDetailsDto model)
         {
+            model.Id = id;
             var modelFromRepo = await _employeePageService.GetEmployeeById(id);
             if(modelFromRepo == null)
             {
@@ -147,8 +187,9 @@ namespace Manage.WebApi.Controllers
 
 
         [HttpPut("UpdateOfficialDetailsByAdmin/{id}")]
-        public async Task<ActionResult> UpdateOfficialDetailsByAdmin(string id, EditEmployeeOfficialDetailsAdminViewModel model)
+        public async Task<ActionResult> UpdateOfficialDetailsByAdmin(string id, EditEmployeeOfficialDetailsDto model)
         {
+            model.Id = id;
             var modelFromRepo = await _employeePageService.GetEmployeeById(id);
             if (modelFromRepo == null)
             {
@@ -164,6 +205,7 @@ namespace Manage.WebApi.Controllers
         [HttpPut("UpdateEmployeePersonalDetails/{id}")]
         public async Task<ActionResult> UpdateEmployeePersonalDetails(string id , EditEmployeePersonalDetailsViewModel model)
         {
+            model.Id = id;
             var modelFromRepo = await _employeePersonalDetailsPageService.GetEmployeePersonalDetailsById(id);
             if(modelFromRepo == null)
             {
@@ -177,7 +219,7 @@ namespace Manage.WebApi.Controllers
 
         //PATCH api/controller/{id}
         [HttpPatch("{id}")]
-        public async Task<ActionResult> PartialEmployeeOfficialDetailsUpdate(string id , JsonPatchDocument<EditEmployeeOfficialDetailsViewModel> patchDoc)
+        public async Task<ActionResult> PartialEmployeeOfficialDetailsUpdate(string id , JsonPatchDocument<EditEmployeeOfficialDetailsDto> patchDoc)
         {
             var modelFromRepo = await _employeePageService.GetEmployeeById(id);
             if (modelFromRepo == null)
@@ -185,7 +227,7 @@ namespace Manage.WebApi.Controllers
                 return NotFound();
             }
 
-            var modelToPatch = _mapper.Map<EditEmployeeOfficialDetailsViewModel>(modelFromRepo);
+            var modelToPatch = _mapper.Map<EditEmployeeOfficialDetailsDto>(modelFromRepo);
             patchDoc.ApplyTo(modelToPatch, ModelState);
             if(!TryValidateModel(modelToPatch))
             {
@@ -200,7 +242,7 @@ namespace Manage.WebApi.Controllers
 
         //PATCH api/controller/{id}
         [HttpPatch("PartialEmployeePersonalDetailUpdate/{id}")]
-        public async Task<ActionResult> PartialEmployeePersonalDetailsUpdate(string id, JsonPatchDocument<EditEmployeePersonalDetailsViewModel> patchDoc)
+        public async Task<ActionResult> PartialEmployeePersonalDetailsUpdate(string id, JsonPatchDocument<EditEmployeePersonalDetailsDto> patchDoc)
         {
             var modelFromRepo = await _employeePersonalDetailsPageService.GetEmployeePersonalDetailsById(id);
             if (modelFromRepo == null)
@@ -208,7 +250,7 @@ namespace Manage.WebApi.Controllers
                 return NotFound();
             }
 
-            var modelToPatch = _mapper.Map<EditEmployeePersonalDetailsViewModel>(modelFromRepo);
+            var modelToPatch = _mapper.Map<EditEmployeePersonalDetailsDto>(modelFromRepo);
             patchDoc.ApplyTo(modelToPatch, ModelState);
             if (!TryValidateModel(modelToPatch))
             {

@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ViewModels\CreateEmployeePersonalDetailsDto.cs" />
+    <Compile Remove="ViewModels\EmployeeOfficialDetailsReadDto.cs" />
+    <Compile Remove="ViewModels\EmployeePersonalDetailsReadDto.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="3.1.10" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.10" />

@@ -1,14 +1,19 @@
-﻿using System;
+﻿using Manage.WebApi.Utilities;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Manage.WebApi.ViewModels
+namespace Manage.WebApi.Dto
 {
-    public class EmployeeOfficialDetailsReadDto
+    public class CreateEmployeeDto
     {
+
+        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string Id { get; set; }
         public string Title { get; set; }
         [DisplayName("First Name")]

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Manage.Application.Models;
 using Manage.Core.Entities;
+using Manage.WebApi.Dto;
 using Manage.WebApi.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -18,8 +19,17 @@ namespace Manage.WebApi
             CreateMap<ApplicationUserViewModel, CreateEmployeeViewModel>().ReverseMap();
             CreateMap<ApplicationUserViewModel, EditEmployeeOfficialDetailsViewModel>().ReverseMap();
             CreateMap<EditEmployeeOfficialDetailsAdminViewModel, ApplicationUserViewModel>().ReverseMap();
+
+            //mapping webApi <=> ViewModels 
+            CreateMap<ApplicationUserViewModel, ApplicationUserDto>().ReverseMap();
             CreateMap<ApplicationUserViewModel, EmployeeOfficialDetailsReadDto>().ReverseMap();
-            CreateMap<EmployeePersonalDetailsViewModel, EmployeePersonalDetailsReadDto>().ReverseMap();
+            CreateMap<ApplicationUserViewModel, EditEmployeeOfficialDetailsDto>().ReverseMap();
+            CreateMap<EmployeePersonalDetailsViewModel, EmployeePersonalDetailsDto>().ReverseMap();
+            CreateMap<EmployeePersonalDetailsViewModel, CreateEmployeePersonalDetailsDto>().ReverseMap();
+            CreateMap<EmployeePersonalDetailsViewModel, EditEmployeePersonalDetailsDto>().ReverseMap();
+            //dto's
+            CreateMap<ApplicationUserDto, CreateEmployeeDto>().ReverseMap();
+            CreateMap<EmployeeOfficialDetailsReadDto, CreateEmployeeDto>().ReverseMap();
 
             CreateMap<DepartmentModel, DepartmentViewModel>().ReverseMap();
 
