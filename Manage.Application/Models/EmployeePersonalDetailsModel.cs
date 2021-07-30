@@ -79,6 +79,6 @@ namespace Manage.Application.Models
 
         //one to one relationship
         public int EmployeeId { get; set; }
-        public ApplicationUserModel ApplicationUserModel { get; set; }
+        public ApplicationUserModel ApplicationUser { get; set; }
     }
 }

@@ -60,6 +60,6 @@ namespace Manage.WebApi.Dto
         public DepartmentViewModel Department { get; set; }
         ////1-1 relationship
         public EmployeePersonalDetailsViewModel EmployeePersonalDetails { get; set; }
-        public ICollection<EmployeeLeaveViewModel> EmployeeLeaves { get; set; }
+        public ICollection<EmployeeLeaveDto> EmployeeLeaves { get; set; }
     }
 }

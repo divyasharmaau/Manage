@@ -297,12 +297,12 @@
 
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a asp-action="ApplyLeave" asp-controller="Leave" class="nav-link ">
+                                        <a asp-action="ApplyLeave" asp-route-id="@user.Id" asp-controller="Leave" class="nav-link ">
                                             <p> Apply </p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a asp-action="GetAllMyLeaves" asp-controller="Leave" class="nav-link ">
+                                        <a asp-action="GetAllMyLeaves" asp-route-id="@user.Id" asp-controller="Leave" class="nav-link ">
                                             <p> My Leave </p>
                                         </a>
                                     </li>

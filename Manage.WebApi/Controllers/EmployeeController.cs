@@ -46,7 +46,8 @@ namespace Manage.WebApi.Controllers
 
         //GET api/employee
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ApplicationUserDto>>> Get()
+        //public async Task<ActionResult<IEnumerable<ApplicationViewDto>>> Get()
+        public async Task<IActionResult> Get()
         {
             var employeeList = await _employeePageService.GetEmployeeList();
 

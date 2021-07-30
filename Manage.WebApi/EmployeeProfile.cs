@@ -14,6 +14,7 @@ namespace Manage.WebApi
     {
         public EmployeeProfile()
         {
+            //EmployeeController
             CreateMap<ApplicationUserModel, ApplicationUserViewModel>().ReverseMap();
             CreateMap<ApplicationUserViewModel, EmployeeListViewModel>().ReverseMap();
             CreateMap<ApplicationUserViewModel, CreateEmployeeViewModel>().ReverseMap();
@@ -38,12 +39,27 @@ namespace Manage.WebApi
             CreateMap<ApplicationUserViewModel, EmployeePersonalDetailsViewModel>().ReverseMap();
             CreateMap<EditEmployeePersonalDetailsViewModel, EmployeePersonalDetailsViewModel>().ReverseMap();
 
+            //LeaveController
             CreateMap<LeaveModel, LeaveViewModel>().ReverseMap();
             CreateMap<EmployeeLeaveModel, EmployeeLeaveViewModel>().ReverseMap();
+            CreateMap<EmployeeLeaveViewModel, LeaveViewModel>().ReverseMap();
             CreateMap<LeaveViewModel, ApplyLeaveViewModel>().ReverseMap();
             CreateMap<EmployeeLeaveViewModel, EditMyLeaveViewModel>().ReverseMap();
             CreateMap<Leave, LeaveViewModel>().ReverseMap();
             CreateMap<EmployeeLeaveViewModel, EditLeaveAdminViewModel>().ReverseMap();
+
+            //ViewModel , dto
+            CreateMap<LeaveViewModel, ApplyLeaveDto>().ReverseMap();
+            CreateMap<EmployeeLeaveViewModel, EmployeeLeaveDto>().ReverseMap();
+            CreateMap<LeaveViewModel, LeaveDto>().ReverseMap();
+            CreateMap<ApplicationUserDto, ApplicationUserViewModel>().ReverseMap();
+            CreateMap<ApplicationUserViewModel, EmployeeLeaveDto>().ReverseMap();
+            CreateMap<ApplicationUserViewModel, EmployeeLeaveListDto>().ReverseMap();
+            CreateMap<EditMyLeaveDto, LeaveViewModel>().ReverseMap();
+            CreateMap<AppUserDto, AppUserViewModel>().ReverseMap();
+            //dto<=>dto
+           // CreateMap<ApplicationUserDto, EmployeeLeaveListDto>().ReverseMap();
+    
 
             CreateMap<AppUserModel, AppUserViewModel>().ReverseMap();
             CreateMap<ApplicationRoleModel, ApplicationRoleViewModel>().ReverseMap();

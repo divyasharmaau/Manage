@@ -179,7 +179,7 @@ namespace Manage.Web.Controllers
             ,string searchToDate , string searchLeaveStatus , string searchLeaveType 
             ,string searchAll , string searchApproved , string searchPending , string searchDeclined)
         {
-
+           
             var emp = await _employeeLeavePageService.GetEmployeeWithLeaveList(id);
             List<AppUserViewModel> leaveList = new List<AppUserViewModel>();
             foreach (var item in emp.EmployeeLeaves)
