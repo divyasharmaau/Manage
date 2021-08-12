@@ -62,5 +62,8 @@ namespace Manage.Core.Entities
         //n-n relationship
         public ICollection<EmployeeLeave> EmployeeLeaves { get; set; }
 
+        //1-n relationship
+        public virtual List<Token> Tokens { get; set; }
+
     }
 }

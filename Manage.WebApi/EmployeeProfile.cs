@@ -20,6 +20,7 @@ namespace Manage.WebApi
             CreateMap<ApplicationUserViewModel, CreateEmployeeViewModel>().ReverseMap();
             CreateMap<ApplicationUserViewModel, EditEmployeeOfficialDetailsViewModel>().ReverseMap();
             CreateMap<EditEmployeeOfficialDetailsAdminViewModel, ApplicationUserViewModel>().ReverseMap();
+            CreateMap<ApplicationUser, ApplicationUserViewModel>().ReverseMap();
 
             //mapping webApi <=> ViewModels 
             CreateMap<ApplicationUserViewModel, ApplicationUserDto>().ReverseMap();

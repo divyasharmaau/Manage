@@ -20,6 +20,7 @@ namespace Manage.Infrastructure.Data
         public DbSet<Department> Departments { get; set; }
         public DbSet<Leave> Leaves { get; set; }
         public DbSet<EmployeeLeave> EmployeeLeaves { get; set; }
+        public DbSet<Token> Tokens { get; set; }
 
         //the name of the table will be same as the name of the class
         private static void SetTableNamesAsSingle(ModelBuilder builder)
@@ -63,7 +64,12 @@ namespace Manage.Infrastructure.Data
                 .HasOne(el => el.Leave)
                 .WithMany(e => e.EmployeeLeaves)
                 .HasForeignKey(el => el.LeaveId);
+
+            builder.Entity<Token>().ToTable("Tokens");
+            builder.Entity<Token>().Property(i => i.Id).ValueGeneratedOnAdd();
+            builder.Entity<Token>().HasOne(i => i.User).WithMany(u => u.Tokens);
         }
 
     }
 }
+

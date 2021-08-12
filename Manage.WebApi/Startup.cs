@@ -9,6 +9,7 @@ using Manage.Infrastructure.Repository.Base;
 using Manage.WebApi.Interface;
 using Manage.WebApi.Services;
 using Manage.WebApi.Utilities;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -19,10 +20,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Manage.WebApi
@@ -94,6 +97,41 @@ namespace Manage.WebApi
           .AddEntityFrameworkStores<ManageContext>()
           .AddDefaultTokenProviders();
 
+
+            // Add ASP.NET Identity support
+
+
+            // Add Authentication
+            services.AddAuthentication(opts =>
+            {
+                opts.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                opts.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                opts.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            // Add Jwt token support
+            .AddJwtBearer(cfg =>
+            {
+                cfg.RequireHttpsMetadata = false;
+                cfg.SaveToken = true;
+                cfg.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    // standard configuration
+                    ValidIssuer = Configuration["Auth:Jwt:Issuer"],
+                    IssuerSigningKey = new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(Configuration["Auth:Jwt:Key"])),
+                    ValidAudience = Configuration["Auth:Jwt:Audience"],
+                    ClockSkew = TimeSpan.Zero,
+
+                    // security switches
+                    RequireExpirationTime = true,
+                    ValidateIssuer = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidateAudience = true
+                };
+                cfg.IncludeErrorDetails = true;
+            });
+
+
             services.AddControllers()
                 .AddNewtonsoftJson(options =>
                 {
@@ -119,6 +157,8 @@ namespace Manage.WebApi
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

@@ -4,14 +4,16 @@ using Manage.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Manage.Web.Migrations
 {
     [DbContext(typeof(ManageContext))]
-    partial class ManageContextModelSnapshot : ModelSnapshot
+    [Migration("20210802121259_Token model added ApplicationUser model modified Web")]
+    partial class TokenmodeladdedApplicationUsermodelmodifiedWeb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
