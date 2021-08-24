@@ -78,5 +78,6 @@ namespace Manage.Web.ViewModels
         public int EmployeeId { get; set; }
         public ApplicationUserViewModel ApplicationUser { get; set; }
 
+
     }
 }

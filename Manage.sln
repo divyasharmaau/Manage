@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Manage.Infrastructure", "Ma
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Manage.Web", "Manage.Web\Manage.Web.csproj", "{FE699F8F-169B-4737-9646-DCAA44D11D0A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Manage.WebApi", "Manage.WebApi\Manage.WebApi.csproj", "{39FE92BA-42B5-4BE8-A448-AF0DDCC6B263}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Manage.WebApi", "Manage.WebApi\Manage.WebApi.csproj", "{39FE92BA-42B5-4BE8-A448-AF0DDCC6B263}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

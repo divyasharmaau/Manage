@@ -71,7 +71,12 @@
 
                                             </td>
                                             <td>
-                                                @employee.Department.Name
+                                                @if (employee.Department != null)
+                                                {
+                                                    @employee.Department.Name
+                                                }
+
+
                                             </td>
                                             <td>
                                                 @employee.JobTitle

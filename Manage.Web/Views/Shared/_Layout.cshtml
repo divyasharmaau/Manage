@@ -266,7 +266,7 @@
                     <!-- /.sidebar-menu-->
 
                 }
-                else
+                else if (signInManager.IsSignedIn(User) && User.IsInRole("Registered User"))
                 {
                     <!--SideBar Menu-->
                     <nav class="mt-2">

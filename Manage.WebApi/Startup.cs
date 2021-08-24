@@ -154,6 +154,7 @@ namespace Manage.WebApi
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseDeveloperExceptionPage();
             app.UseHttpsRedirection();
 
             app.UseRouting();

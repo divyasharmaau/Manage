@@ -49,6 +49,8 @@ namespace Manage.Web.ViewModels
         public int? DepartmentId { get; set; }
         public DepartmentViewModel Department { get; set; }
 
+        public EmployeePersonalDetailsViewModel EmployeePersonalDetails { get; set; }
+
 
 
     }
