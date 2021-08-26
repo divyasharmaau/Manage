@@ -170,7 +170,9 @@
                                         <td>@employee.LeaveStatus</td>
                                         <td><a asp-action="MyLeaveDetails" asp-controller="Leave" asp-route-leaveId="@employee.LeaveId">Leave Details</a> </td>
                                         <td><a asp-action="EditMyLeave" class="btn btn-outline-info" asp-controller="Leave" asp-route-leaveid="@employee.LeaveId"><i class="fas fa-edit"></i></a></td>
+                                       
                                         <td>
+                                          
                                             <form method="post" asp-action="DeleteMyLeave" asp-route-leaveId="@employee.LeaveId">
                                                 <span id="confirmDeleteSpan_@employee.LeaveId" style="display:none">
                                                     <span>Are you sure you want to delete</span>
@@ -178,9 +180,19 @@
                                                     <a href="#" class="btn btn-outline-primary" onclick="confirmDelete('@employee.LeaveId', false)">No</a>
                                                 </span>
                                                 <!--Delete button-->
-                                                <span id="deleteSpan_@employee.LeaveId">
-                                                    <a href="#" class="btn btn-outline-danger" onclick="confirmDelete('@employee.LeaveId' , true)"> <i class="fas fa-trash"></i> </a>
-                                                </span>
+                                                @if (employee.LeaveStatus == "Approved" || employee.LeaveStatus == "Declined")
+                                                {
+                                                    <span id="deleteSpan_@employee.LeaveId">
+                                                        <a href="#" class="btn btn-outline-danger disabled"  onclick="confirmDelete('@employee.LeaveId' , true)"> <i class="fas fa-trash"></i> </a>
+                                                    </span>
+                                                }
+                                                else
+                                                {
+                                                    <span id="deleteSpan_@employee.LeaveId">
+                                                        <a href="#" class="btn btn-outline-danger" onclick="confirmDelete('@employee.LeaveId' , true)"> <i class="fas fa-trash"></i> </a>
+                                                    </span>
+                                                }
+
                                             </form>
                                         </td>
                                     </tr>

@@ -76,6 +76,13 @@ namespace Manage.WebApi
             services.AddScoped<IFileUploadHelper, FileUploadHelper>();
 
             services.AddControllersWithViews();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader());
+            });
 
             services.AddDbContextPool<ManageContext>(options => options
                 .UseSqlServer(Configuration.GetConnectionString("ManageConnection"),
@@ -156,12 +163,13 @@ namespace Manage.WebApi
 
             app.UseDeveloperExceptionPage();
             app.UseHttpsRedirection();
-
+            app.UseCors("CorsPolicy");
             app.UseRouting();
 
             app.UseAuthentication();
 
             app.UseAuthorization();
+
 
             app.UseEndpoints(endpoints =>
             {

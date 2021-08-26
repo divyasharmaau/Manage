@@ -122,3 +122,8 @@ body {
     width: 30px;
     border-radius: 50%;
 }
+
+a.disabled {
+    pointer-events: none;
+    cursor: default;
+}
