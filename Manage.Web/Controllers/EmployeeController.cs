@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using X.PagedList;
 
 namespace Manage.Web.Controllers
 { 
@@ -43,10 +44,14 @@ namespace Manage.Web.Controllers
         }
 
 
-        public async Task<IActionResult> EmployeeList()
+        public async Task<IActionResult> EmployeeList(string sortOrder, int? page, string searchByName, string currentFilter)
         {
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.SortByName = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
 
+           
             _logger.LogInformation($"Employee List Requested");
+
 
             try
             {
@@ -68,24 +73,41 @@ namespace Manage.Web.Controllers
 
                     employeeList.Add(list);
                 }
-                return View(employeeList);
+
+                if (searchByName != null)
+                {
+
+                    employeeList = employeeList.Where(e => e.FullName.ToLower().Contains(searchByName.ToLower())).ToList();
+                }
+                else
+                {
+                    searchByName = currentFilter;
+                }
+                ViewBag.CurrentFilter = searchByName;
+
+                switch (sortOrder)
+                {
+                    case "name_desc":
+                        employeeList = employeeList.OrderByDescending(e => e.FirstName).ToList();
+                        break;
+                    default:
+                        employeeList = employeeList.OrderBy(e => e.FullName).ToList();
+                        break;
+                }
+
+                int pageSize = 5;
+                int pageNumber = (page ?? 1);
+                return View(employeeList.ToPagedList(pageNumber, pageSize));
+               
             }
             catch(Exception ex)
             {
                 _logger.LogError(ex.Message);
                 throw; 
             }
-            //var model = new EditEmployeeOfficialDetailsAdminViewModel
-            //{
-            //    Title = "Blah Blah",
-            //    Id = "a9067a75-b6ee-4c23-a3e2-f19648957347"
-            //};
 
-            //var mapped = _mapper.Map<ApplicationUserViewModel>(model);
-
-            //await _employeePageService.Update(mapped);
-
-            //return null;
+           
+      
         }
 
         [AcceptVerbs("Get", "Post")]
@@ -136,16 +158,16 @@ namespace Manage.Web.Controllers
                 ApplicationUserViewModel user = new ApplicationUserViewModel();
                 user.Id = Guid.NewGuid().ToString();
 
-                if (user.Status == "Full-Time")
-                {
-                    user.DaysWorkedInWeek = 5;
-                    user.NumberOfHoursWorkedPerDay = 7.6;
-                }
-                else
-                {
-                    user.DaysWorkedInWeek = model.DaysWorkedInWeek;
-                    user.NumberOfHoursWorkedPerDay = model.NumberOfHoursWorkedPerDay;
-                }
+                //if (user.Status == "Full-Time")
+                //{
+                //    user.DaysWorkedInWeek = 5;
+                //    user.NumberOfHoursWorkedPerDay = 7.6;
+                //}
+                //else
+                //{
+                //    user.DaysWorkedInWeek = model.DaysWorkedInWeek;
+                //    user.NumberOfHoursWorkedPerDay = model.NumberOfHoursWorkedPerDay;
+                //}
                 
                 user.Title = model.Title;
                 user.FirstName = model.FirstName;
@@ -160,6 +182,8 @@ namespace Manage.Web.Controllers
                 user.Status = model.Status;
                 user.DepartmentId = model.DepartmentId;
                 user.Manager = model.Manager;
+                user.DaysWorkedInWeek = model.DaysWorkedInWeek;
+                user.NumberOfHoursWorkedPerDay = model.NumberOfHoursWorkedPerDay;
 
                 var result = await _employeePageService.CreateEmployee(user);
                 if (result.Succeeded)
