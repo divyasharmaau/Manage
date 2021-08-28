@@ -49,7 +49,7 @@
                     @*<form asp-controller="Employee" asp-action="EditEmployeeOfficialDetailsAdmin" method="post" class="mt-5">*@
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <label asp-for="Title"></label>
+                            <label asp-for="Title" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <select asp-for="Title" class="form-control" style="width:100%">
                                     <option>Mr</option>
@@ -188,10 +188,10 @@
                             <button type="submit" class="btn btn-outline-info m-5">Save</button>
                         </div>
                         <div class="col-md-4">
-                            <a asp-action="EmployeeList" asp-controller="Employee" class="btn btn-outline-secondary m-5 ">Back</a>
+                            <a asp-action="EmployeeOfficialDetails" asp-controller="Employee" class="btn btn-outline-secondary m-5" asp-route-id="@Model.Id">Back</a>
                         </div>
                         <div class="col-md-4">
-                            <a asp-action="EmployeePersonalDetails" asp-controller="Employee" class="btn btn-outline-success m-5 ">Next</a>
+                            <a asp-action="EmployeePersonalDetails" asp-controller="Employee" class="btn btn-outline-success m-5" asp-route-id="@Model.Id">Next</a>
                         </div>
                     </div>
 
