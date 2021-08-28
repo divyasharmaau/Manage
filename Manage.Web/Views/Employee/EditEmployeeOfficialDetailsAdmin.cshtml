@@ -16,7 +16,7 @@
                 <input asp-for="Id" type="hidden" />
                 @*<input asp-for="DepartmentId" type="hidden" />*@
                 <div class="card-header border-0">
-                   
+
 
                     <div class="table table-responsive table-borderless text-center">
                         s
@@ -142,7 +142,7 @@
                             <label asp-for="Status" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 @*<input asp-for="Status" class="form-control" placeholder="Status" />*@
-                                <select asp-for="Status" class="form-control select2bs4" style="width: 100%;">
+                                <select asp-for="Status" class="form-control select2bs4" style="width: 100%;" onchange="changeVal(event)">
                                     <option value="">---Select---</option>
                                     <option value="Full-Time">Full-Time</option>
                                     <option value="Part-Time">Part-Time</option>
@@ -155,14 +155,14 @@
                         <div class="form-group col-md-4">
                             <label asp-for="DaysWorkedInWeek" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
-                                <input type="number" asp-for="DaysWorkedInWeek" class="form-control" placeholder=5 />
+                                <input type="number" asp-for="DaysWorkedInWeek" class="form-control" id="workingDays" />
                                 <span asp-validation-for="DaysWorkedInWeek"></span>
                             </div>
                         </div>
                         <div class="form-group col-md-4">
                             <label asp-for="NumberOfHoursWorkedPerDay" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
-                                <input asp-for="NumberOfHoursWorkedPerDay" class="form-control" placeholder=4 />
+                                <input type="number"  asp-for="NumberOfHoursWorkedPerDay" class="form-control" id="workingHours" />
                                 <span asp-validation-for="NumberOfHoursWorkedPerDay"></span>
                             </div>
                         </div>
@@ -204,3 +204,28 @@
         <!--/.card-->
     </div>
 </div>
+
+@section Scripts{
+
+    <script>
+        function changeVal(e) {
+           
+            if (e.target.value == "Full-Time") {
+                $("#workingDays").val(5);
+                $("#workingHours").val(7.6);
+                //$("#workingDays").attr("readonly", true);
+                //$("#workingHours").attr("readonly", true);
+
+
+            }
+            else {
+                $("#workingDays").val("");
+                $("#workingHours").val("");
+
+            }
+        }
+    </script>
+
+}
+
+
