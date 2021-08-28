@@ -6,16 +6,20 @@
 
 @model Manage.Web.ViewModels.EditEmployeeOfficialDetailsAdminViewModel
 
-<section class="content">
-    <div class="container-fluid">
-        <div class="card card-default">
-            <form asp-controller="Employee" asp-action="EditEmployeeOfficialDetailsAdmin" method="post" class="mt-5">
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-lg p-3 mb-5">
+            <div class="card-title">
+                <h3 class="card-title">Edit Employee Official Details</h3>
+            </div>
+            <form asp-controller="Employee" asp-action="EditEmployeeOfficialDetailsAdmin" method="post" class="mt-1">
                 <input asp-for="Id" type="hidden" />
                 @*<input asp-for="DepartmentId" type="hidden" />*@
-                <div class="card-header">
-                    <h3 class="card-title">Edit Employee Official Details</h3>
+                <div class="card-header border-0">
+                   
 
-                    <div class="table table-responsive table-borderless text-center">s
+                    <div class="table table-responsive table-borderless text-center">
+                        s
                         <table>
                             <tr>
                                 <td style="float:right">
@@ -29,7 +33,7 @@
                                     }
                                 </td>
                                 <td style="text-align:center; padding:30px">
-                               
+
                                     <h4>@Model.FullName</h4>
                                     <h5>@Model.Department.Name</h5>
                                 </td>
@@ -58,14 +62,14 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <label asp-for="FirstName" class="col-auto col-form-label small form-text"></label>
+                            <label asp-for="FirstName" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <input asp-for="FirstName" placeholder="First Name" class="form-control" />
                                 <span asp-validation-for="FirstName"></span>
                             </div>
                         </div>
                         <div class="form-group col-md-4">
-                            <label asp-for="MiddleName" class="col-auto col-form-label small form-text"></label>
+                            <label asp-for="MiddleName" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <input asp-for="MiddleName" class="form-control" placeholder="Middle Name" />
                                 @*<span asp-validation-for="MiddleName"></span>*@
@@ -73,7 +77,7 @@
                         </div>
 
                         <div class="form-group col-md-4">
-                            <label asp-for="LastName" class="col-auto col-form-label small form-text"></label>
+                            <label asp-for="LastName" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <input asp-for="LastName" class="form-control" placeholder="Last Name" />
                                 <span asp-validation-for="LastName"></span>
@@ -82,7 +86,7 @@
                     </div>
                     <div class="form-row mt-3">
                         <div class="form-group col-md-6">
-                            <label asp-for="UserName" class="col-auto col-form-label small form-text"></label>
+                            <label asp-for="UserName" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <input asp-for="UserName" class="form-control" placeholder="User Name" />
                                 <span asp-validation-for="UserName"></span>
@@ -90,7 +94,7 @@
                         </div>
 
                         <div class="form-group col-md-6">
-                            <label asp-for="Email" class="col-auto col-form-label small form-text"></label>
+                            <label asp-for="Email" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <input asp-for="Email" class="form-control" placeholder="Email" />
                                 <span asp-validation-for="Email"></span>
@@ -99,7 +103,7 @@
                     </div>
                     <div class="form-row mt-3">
                         <div class="form-group col-md-6">
-                            <label asp-for="Password" class="col-auto col-form-label small form-text"></label>
+                            <label asp-for="Password" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <input type="password" name="Password" id="Password" class="form-control" placeholder="Password" />
                                 <span asp-validation-for="Password"></span>
@@ -107,7 +111,7 @@
                         </div>
 
                         <div class="form-group col-md-6">
-                            <label asp-for="ConfirmPassword" class="col-auto col-form-label small form-text"></label>
+                            <label asp-for="ConfirmPassword" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <input type="password" name="ConfirmPassword" id="ConfirmPassword" class="form-control" placeholder="ConfirmPassword" />
                                 <span asp-validation-for="ConfirmPassword"></span>
@@ -116,7 +120,7 @@
                     </div>
                     <div class="form-row  mt-3">
                         <div class="form-group col-md-6">
-                            <label asp-for="JoiningDate" class="col-auto col-form-label small form-text"></label>
+                            <label asp-for="JoiningDate" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <input asp-for="JoiningDate" class="form-control ui-datepicker" type="date"
                                        placeholder="Joining Date" value="@Model.JoiningDate.ToString("yyyy-MM-dd")" />
@@ -125,7 +129,7 @@
                         </div>
 
                         <div class="form-group col-md-6">
-                            <label asp-for="JobTitle" class="col-auto col-form-label small form-text"></label>
+                            <label asp-for="JobTitle" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <input asp-for="JobTitle" class="form-control" placeholder="JobTitle" />
                                 <span asp-validation-for="JobTitle"></span>
@@ -135,7 +139,7 @@
                     </div>
                     <div class="form-row  mt-3">
                         <div class="form-group col-md-4">
-                            <label asp-for="Status" class="col-auto col-form-label small form-text"></label>
+                            <label asp-for="Status" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 @*<input asp-for="Status" class="form-control" placeholder="Status" />*@
                                 <select asp-for="Status" class="form-control select2bs4" style="width: 100%;">
@@ -149,14 +153,14 @@
                             </div>
                         </div>
                         <div class="form-group col-md-4">
-                            <label asp-for="DaysWorkedInWeek" class="col-auto col-form-label small form-text"></label>
+                            <label asp-for="DaysWorkedInWeek" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <input type="number" asp-for="DaysWorkedInWeek" class="form-control" placeholder=5 />
                                 <span asp-validation-for="DaysWorkedInWeek"></span>
                             </div>
                         </div>
                         <div class="form-group col-md-4">
-                            <label asp-for="NumberOfHoursWorkedPerDay" class="col-auto col-form-label small form-text"></label>
+                            <label asp-for="NumberOfHoursWorkedPerDay" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <input asp-for="NumberOfHoursWorkedPerDay" class="form-control" placeholder=4 />
                                 <span asp-validation-for="NumberOfHoursWorkedPerDay"></span>
@@ -165,13 +169,13 @@
                     </div>
                     <div class="form-row mt-3">
                         <div class="form-group col-md-6">
-                            <label asp-for="Department" class="col-auto col-form-label small form-text"></label>
+                            <label asp-for="Department" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
-                                     @Html.DropDownListFor(m => m.DepartmentId, new SelectList(@Model.departmentList, "Value", "Text"), new { @class = "form-control" })
+                                @Html.DropDownListFor(m => m.DepartmentId, new SelectList(@Model.departmentList, "Value", "Text"), new { @class = "form-control" })
                             </div>
                         </div>
                         <div class="form-group col-md-6">
-                            <label asp-for="Manager" class="col-auto col-form-label small form-text"></label>
+                            <label asp-for="Manager" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <input asp-for="Manager" class="form-control" placeholder="Manager" />
                                 <span asp-validation-for="Manager"></span>
@@ -199,4 +203,4 @@
         </div>
         <!--/.card-->
     </div>
-</section>
+</div>

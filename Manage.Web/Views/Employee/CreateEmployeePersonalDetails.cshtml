@@ -6,321 +6,322 @@
 
 @model Manage.Web.ViewModels.CreateEmployeePersonalDetailsViewModel
 
-<section class="content">
-    <div class="container-fluid">
-        <div class="card card-default">
-            <div class="card-header">
-                <h3 class="card-title">Add Employee Personal Details</h3>
-            </div>
-            <!-- /.card-header -->
-            <div class="card-body">
-                <form enctype="multipart/form-data" asp-controller="Employee" asp-action="CreateEmployeePersonalDetails" method="post" class="mt-5">
-                    <input asp-for="Id" type="hidden" />
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label asp-for="FullName">Employee Name</label>
-                            <div class="col">
-                                <input asp-for="FullName" class="form-control" readonly />
-                            </div>
-                        </div>
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-lg p-3 mb-5">
+            <div class="card-header border-0">
+                
+                        <h3 class="card-title">Add Employee Personal Details</h3>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label asp-for="Photo" class="col-auto col-form-label small form-text">Photograph</label>
-                            <div class="form-group">
-                                <div class="col custom-file">
-                                    <input asp-for="Photo" id="photo" class="form-control custom-file-input" />
-                                    <label class="custom-file-label">Choose File....</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group col-md-3">
-                            <div class="col image-preview" id="imagePreview">
-                                <img src="~/dist/img/UploadIcon.png" alt="Image Preview" id="imagePreviewImage" class="image-preview_image" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form row">
-                        <div class="form-group col-md-6">
-                            <label asp-for="DateOfBirth" class="col-auto col-form-label small form-text">Date Of Birth</label>
-                            <div class="col">
-                                <input asp-for="DateOfBirth" class="form-control ui-datepicker" type="date" placeholder="Date of Birth" />
-                                <span asp-validation-for="DateOfBirth"></span>
-                            </div>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label asp-for="Nationality" class="col-auto col-form-label small form-text"></label>
-                            <div class="col">
-                                <input asp-for="Nationality" class="form-control" placeholder="Nationality" />
-                                <span asp-validation-for="Nationality"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form row">
-                        <div class="form-group col-md-6">
-                            <label asp-for="MaritalStatus" class="col-auto col-form-label small form-text"></label>
-
-                            <div class="col">
-                                <select asp-for="MaritalStatus" class="form-control select2bs4" style="width: 100%;">
-                                    <option value="">---Select---</option>
-                                    <option value="Married">Married</option>
-                                    <option value="UnMarried">UnMarried</option>
-                                    <option value="RatherNotSay">Rather Not say</option>
-                                </select>
-                                <span asp-validation-for="MaritalStatus"></span>
-                            </div>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label asp-for="Gender" class="col-auto col-form-label small form-text"></label>
-                            <div class="col">
-                                <select asp-for="Gender" class="form-control select2bs4" style="width: 100%;">
-                                    <option value="">---Select---</option>
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
-                                    <option value="Others">Others</option>
-                                    <option value="RatherNotSay">Rather Not say</option>
-                                </select>
-                                <span asp-validation-for="Gender"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <p>Employee Addresss</p>
-                    <div class="form-group mt-3">
-                        <div class="col">
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <form enctype="multipart/form-data" asp-controller="Employee" asp-action="CreateEmployeePersonalDetails" method="post" class="mt-5">
+                            <input asp-for="Id" type="hidden" />
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label asp-for="HouseNumber" class="col-auto col-form-label small form-text"></label>
+                                    <label asp-for="FullName">Employee Name</label>
                                     <div class="col">
-                                        <input asp-for="HouseNumber" class="form-control" placeholder="House/Unit Number" />
-                                        <span asp-validation-for="HouseNumber"></span>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label asp-for="Street" class="col-auto col-form-label small form-text"></label>
-                                    <div class="col">
-                                        <input asp-for="Street" class="form-control" placeholder="Street Number" />
-                                        <span asp-validation-for="Street"></span>
+                                        <input asp-for="FullName" class="form-control" readonly />
                                     </div>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label asp-for="City" class="col-auto col-form-label small form-text"></label>
+                                    <label asp-for="Photo" class="col-auto col-form-label text-sm">Photograph</label>
+                                    <div class="form-group">
+                                        <div class="col custom-file">
+                                            <input asp-for="Photo" id="photo" class="form-control custom-file-input" />
+                                            <label class="custom-file-label">Choose File....</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <div class="col image-preview" id="imagePreview">
+                                        <img src="~/dist/img/UploadIcon.png" alt="Image Preview" id="imagePreviewImage" class="image-preview_image" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form row">
+                                <div class="form-group col-md-6">
+                                    <label asp-for="DateOfBirth" class="col-auto col-form-label text-sm">Date Of Birth</label>
                                     <div class="col">
-                                        <input asp-for="City" class="form-control" placeholder="City" />
-                                        <span asp-validation-for="City"> </span>
+                                        <input asp-for="DateOfBirth" class="form-control ui-datepicker" type="date" placeholder="Date of Birth" />
+                                        <span asp-validation-for="DateOfBirth"></span>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label asp-for="State" class="col-auto col-form-label small form-text"></label>
+                                    <label asp-for="Nationality" class="col-auto col-form-label text-sm"></label>
                                     <div class="col">
-                                        <select asp-for="State" class="form-control select2bs4" style="width: 100%;">
-                                            <option selected>Choose State</option>
-                                            <option>NSW</option>
-                                            <option>Victoria</option>
-                                            <option>Queensland</option>
-                                            <option>Tasmania</option>
-                                            <option>Western Australia</option>
-                                            <option>South Australia</option>
+                                        <input asp-for="Nationality" class="form-control" placeholder="Nationality" />
+                                        <span asp-validation-for="Nationality"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form row">
+                                <div class="form-group col-md-6">
+                                    <label asp-for="MaritalStatus" class="col-auto col-form-label text-sm"></label>
+
+                                    <div class="col">
+                                        <select asp-for="MaritalStatus" class="form-control select2bs4" style="width: 100%;">
+                                            <option value="">---Select---</option>
+                                            <option value="Married">Married</option>
+                                            <option value="UnMarried">UnMarried</option>
+                                            <option value="RatherNotSay">Rather Not say</option>
                                         </select>
-                                        <span asp-validation-for="State"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label asp-for="Country" class="col-auto col-form-label small form-text"></label>
-                                    <div class="col">
-                                        <input asp-for="Country" class="form-control" placeholder="Country" />
-                                        <span asp-validation-for="Country"></span>
+                                        <span asp-validation-for="MaritalStatus"></span>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label asp-for="ZipCode" class="col-auto col-form-label small form-text"></label>
+                                    <label asp-for="Gender" class="col-auto col-form-label text-sm"></label>
                                     <div class="col">
-                                        <input asp-for="ZipCode" class="form-control" placeholder="Zip Code" />
-                                        <span asp-validation-for="ZipCode"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <p>Banking Details</p>
-                    <div class="form-group mt-3">
-                        <div class="col">
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label asp-for="BankName" class="col-auto col-form-label small form-text"></label>
-                                    <div class="col">
-                                        <input asp-for="BankName" class="form-control" placeholder="BankName" />
-                                        <span asp-validation-for="BankName"></span>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label asp-for="Branch" class="col-auto col-form-label small form-text"></label>
-                                    <div class="col">
-                                        <input asp-for="Branch" class="form-control" placeholder="Branch" />
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <label asp-for="AccountName" class="col-auto col-form-label small form-text"></label>
-                                    <div class="col">
-                                        <input asp-for="AccountName" class="form-control" placeholder="Account Name" />
-                                        <span asp-validation-for="AccountName"></span>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label asp-for="BSB" class="col-auto col-form-label small form-text"></label>
-                                    <div class="col">
-                                        <input asp-for="BSB" class="form-control" placeholder="BSB" />
-                                        <span asp-validation-for="BSB"></span>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label asp-for="AccountNumber" class="col-auto col-form-label small form-text"></label>
-                                    <div class="col">
-                                        <input asp-for="AccountNumber" class="form-control" placeholder="AccountNumber" />
-                                        <span asp-validation-for="AccountNumber"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <p>Employee Emergency Contact Details</p>
-                    <div class="form-group mt-3">
-                        <div class="col">
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label asp-for="EmergencyContact" class="col-auto col-form-label small form-text"></label>
-                                    <div class="col">
-                                        <input asp-for="EmergencyContact" class="form-control" placeholder="EmergencyContact" />
-                                        <span asp-validation-for="EmergencyContact"></span>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label asp-for="Relationship" class="col-auto col-form-label small form-text"></label>
-                                    <div class="col">
-                                        <input asp-for="Relationship" class="form-control" placeholder="Relationship" />
-                                        <span asp-validation-for="Relationship"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label asp-for="EmergencyContactHouseNumber" class="col-auto col-form-label small form-text"></label>
-                                    <div class="col">
-                                        <input asp-for="EmergencyContactHouseNumber" class="form-control" placeholder="EmergencyContactHouseNumber" />
-                                        <span asp-validation-for="EmergencyContactHouseNumber"></span>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label asp-for="EmergencyContactStreet" class="col-auto col-form-label small form-text"></label>
-                                    <div class="col">
-                                        <input asp-for="EmergencyContactStreet" class="form-control" placeholder="EmergencyContactStreet" />
-                                        <span asp-validation-for="EmergencyContactStreet"></span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label asp-for="EmergencyContactCity" class="col-auto col-form-label small form-text"></label>
-                                    <div class="col">
-                                        <input asp-for="EmergencyContactCity" class="form-control" placeholder="ZipCode" />
-                                        <span asp-validation-for="EmergencyContactCity"> </span>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label asp-for="EmergencyContactState" class="col-auto col-form-label small form-text"></label>
-                                    <div class="col">
-                                        <select asp-for="EmergencyContactState" class="form-control select2bs4" style="width: 100%;">
-                                            <option selected>Choose State</option>
-                                            <option>NSW</option>
-                                            <option>Victoria</option>
-                                            <option>Queensland</option>
-                                            <option>Tasmania</option>
-                                            <option>Western Australia</option>
-                                            <option>South Australia</option>
+                                        <select asp-for="Gender" class="form-control select2bs4" style="width: 100%;">
+                                            <option value="">---Select---</option>
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
+                                            <option value="Others">Others</option>
+                                            <option value="RatherNotSay">Rather Not say</option>
                                         </select>
-                                        <span asp-validation-for="State"></span>
+                                        <span asp-validation-for="Gender"></span>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label asp-for="EmergencyContactCountry" class="col-auto col-form-label small form-text"></label>
-                                    <div class="col">
-                                        <input asp-for="EmergencyContactCountry" class="form-control" placeholder="EmergencyContactCountry" />
-                                        <span asp-validation-for=" EmergencyContactCountry"></span>
+                            <p>Employee Addresss</p>
+                            <div class="form-group mt-3">
+                                <div class="col">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label asp-for="HouseNumber" class="col-auto col-form-label text-sm"></label>
+                                            <div class="col">
+                                                <input asp-for="HouseNumber" class="form-control" placeholder="House/Unit Number" />
+                                                <span asp-validation-for="HouseNumber"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label asp-for="Street" class="col-auto col-form-label text-sm"></label>
+                                            <div class="col">
+                                                <input asp-for="Street" class="form-control" placeholder="Street Number" />
+                                                <span asp-validation-for="Street"></span>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label asp-for="EmergencyContactZipCode" class="col-auto col-form-label small form-text"></label>
-                                    <div class="col">
-                                        <input asp-for="EmergencyContactZipCode" class="form-control" placeholder="EmergencyContactZipCode" />
-                                        <span asp-validation-for="EmergencyContactZipCode"></span>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label asp-for="City" class="col-auto col-form-label text-sm"></label>
+                                            <div class="col">
+                                                <input asp-for="City" class="form-control" placeholder="City" />
+                                                <span asp-validation-for="City"> </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label asp-for="State" class="col-auto col-form-label text-sm"></label>
+                                            <div class="col">
+                                                <select asp-for="State" class="form-control select2bs4" style="width: 100%;">
+                                                    <option selected>Choose State</option>
+                                                    <option>NSW</option>
+                                                    <option>Victoria</option>
+                                                    <option>Queensland</option>
+                                                    <option>Tasmania</option>
+                                                    <option>Western Australia</option>
+                                                    <option>South Australia</option>
+                                                </select>
+                                                <span asp-validation-for="State"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label asp-for="Country" class="col-auto col-form-label text-sm"></label>
+                                            <div class="col">
+                                                <input asp-for="Country" class="form-control" placeholder="Country" />
+                                                <span asp-validation-for="Country"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label asp-for="ZipCode" class="col-auto col-form-label text-sm"></label>
+                                            <div class="col">
+                                                <input asp-for="ZipCode" class="form-control" placeholder="Zip Code" />
+                                                <span asp-validation-for="ZipCode"></span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label asp-for="EmergencyContactPhoneNumber" class="col-auto col-form-label small form-text"></label>
-                                    <div class="col">
-                                        <input asp-for="EmergencyContactPhoneNumber" class="form-control" placeholder="EmergencyContactPhoneNumber" />
-                                        <span asp-validation-for="EmergencyContactPhoneNumber"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="form-row mt-3 text-center">
-                        <div class="col-md-4">
-                            <button type="submit" class="btn btn-outline-info m-5 ">Create</button>
-                        </div>
-                        <div class="col-md-4">
-                            <a asp-action="CreateEmployeePersonalDetails" asp-controller="Employee" class="btn btn-outline-secondary m-5 ">Cancel</a>
-                        </div>
-                        <div class="col-md-4">
-                            <a asp-action="EmployeeOfficialDetails" asp-controller="Employee" class="btn btn-outline-success m-5 ">Back</a>
-                        </div>
+                            <p>Banking Details</p>
+                            <div class="form-group mt-3">
+                                <div class="col">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label asp-for="BankName" class="col-auto col-form-label text-sm"></label>
+                                            <div class="col">
+                                                <input asp-for="BankName" class="form-control" placeholder="BankName" />
+                                                <span asp-validation-for="BankName"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label asp-for="Branch" class="col-auto col-form-label text-sm"></label>
+                                            <div class="col">
+                                                <input asp-for="Branch" class="form-control" placeholder="Branch" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <label asp-for="AccountName" class="col-auto col-form-label text-sm"></label>
+                                            <div class="col">
+                                                <input asp-for="AccountName" class="form-control" placeholder="Account Name" />
+                                                <span asp-validation-for="AccountName"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label asp-for="BSB" class="col-auto col-form-label text-sm"></label>
+                                            <div class="col">
+                                                <input asp-for="BSB" class="form-control" placeholder="BSB" />
+                                                <span asp-validation-for="BSB"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label asp-for="AccountNumber" class="col-auto col-form-label text-sm"></label>
+                                            <div class="col">
+                                                <input asp-for="AccountNumber" class="form-control" placeholder="AccountNumber" />
+                                                <span asp-validation-for="AccountNumber"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p>Employee Emergency Contact Details</p>
+                            <div class="form-group mt-3">
+                                <div class="col">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label asp-for="EmergencyContact" class="col-auto col-form-label text-sm"></label>
+                                            <div class="col">
+                                                <input asp-for="EmergencyContact" class="form-control" placeholder="EmergencyContact" />
+                                                <span asp-validation-for="EmergencyContact"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label asp-for="Relationship" class="col-auto col-form-label text-sm"></label>
+                                            <div class="col">
+                                                <input asp-for="Relationship" class="form-control" placeholder="Relationship" />
+                                                <span asp-validation-for="Relationship"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label asp-for="EmergencyContactHouseNumber" class="col-auto col-form-label text-sm"></label>
+                                            <div class="col">
+                                                <input asp-for="EmergencyContactHouseNumber" class="form-control" placeholder="EmergencyContactHouseNumber" />
+                                                <span asp-validation-for="EmergencyContactHouseNumber"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label asp-for="EmergencyContactStreet" class="col-auto col-form-label text-sm"></label>
+                                            <div class="col">
+                                                <input asp-for="EmergencyContactStreet" class="form-control" placeholder="EmergencyContactStreet" />
+                                                <span asp-validation-for="EmergencyContactStreet"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label asp-for="EmergencyContactCity" class="col-auto col-form-label text-sm"></label>
+                                            <div class="col">
+                                                <input asp-for="EmergencyContactCity" class="form-control" placeholder="ZipCode" />
+                                                <span asp-validation-for="EmergencyContactCity"> </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label asp-for="EmergencyContactState" class="col-auto col-form-label text-sm"></label>
+                                            <div class="col">
+                                                <select asp-for="EmergencyContactState" class="form-control select2bs4" style="width: 100%;">
+                                                    <option selected>Choose State</option>
+                                                    <option>NSW</option>
+                                                    <option>Victoria</option>
+                                                    <option>Queensland</option>
+                                                    <option>Tasmania</option>
+                                                    <option>Western Australia</option>
+                                                    <option>South Australia</option>
+                                                </select>
+                                                <span asp-validation-for="State"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label asp-for="EmergencyContactCountry" class="col-auto col-form-label text-sm"></label>
+                                            <div class="col">
+                                                <input asp-for="EmergencyContactCountry" class="form-control" placeholder="EmergencyContactCountry" />
+                                                <span asp-validation-for=" EmergencyContactCountry"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label asp-for="EmergencyContactZipCode" class="col-auto col-form-label text-sm"></label>
+                                            <div class="col">
+                                                <input asp-for="EmergencyContactZipCode" class="form-control" placeholder="EmergencyContactZipCode" />
+                                                <span asp-validation-for="EmergencyContactZipCode"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label asp-for="EmergencyContactPhoneNumber" class="col-auto col-form-label text-sm"></label>
+                                            <div class="col">
+                                                <input asp-for="EmergencyContactPhoneNumber" class="form-control" placeholder="EmergencyContactPhoneNumber" />
+                                                <span asp-validation-for="EmergencyContactPhoneNumber"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row mt-3 text-center">
+                                <div class="col-md-4">
+                                    <button type="submit" class="btn btn-outline-sucess m-5 ">Create</button>
+                                </div>
+                                <div class="col-md-4">
+                                    <a asp-action="CreateEmployeePersonalDetails" asp-controller="Employee" class="btn btn-outline-secondary m-5 ">Cancel</a>
+                                </div>
+                                <div class="col-md-4">
+                                    <a asp-action="EmployeeOfficialDetails" asp-controller="Employee" class="btn btn-outline-info m-5 ">Back</a>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                </form>
-            </div>
-            <!--/.card-body-->
+                    <!--/.card-body-->
+                </div>
         </div>
-    </div>
-</section>
+</div>
 
 
-@section Scripts{
-    <script>
-        const photo = document.getElementById("photo");
-        const previewContainer = document.getElementById("imagePreview");
-        const previewImage = previewContainer.querySelector(".image-preview_image");
+                @section Scripts{
+                    <script>
+                        const photo = document.getElementById("photo");
+                        const previewContainer = document.getElementById("imagePreview");
+                        const previewImage = previewContainer.querySelector(".image-preview_image");
 
-        photo.addEventListener("change", function () {
-            const file = this.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.addEventListener("load", function () {
-                    previewImage.setAttribute("src", this.result);
-                });
-                reader.readAsDataURL(file);
-            }
-            else {
+                        photo.addEventListener("change", function () {
+                            const file = this.files[0];
+                            if (file) {
+                                const reader = new FileReader();
+                                reader.addEventListener("load", function () {
+                                    previewImage.setAttribute("src", this.result);
+                                });
+                                reader.readAsDataURL(file);
+                            }
+                            else {
 
-                previewImage.setAttribute("src", '~/dist/img/UploadIcon.png');
-            }
+                                previewImage.setAttribute("src", '~/dist/img/UploadIcon.png');
+                            }
 
-            var fileName = $(this).val().split("\\").pop();
-            $(this).next('.custom-file-label').html(fileName);
-            $('#img-preview').attr('src', fileName);
-        });
-    </script>
+                            var fileName = $(this).val().split("\\").pop();
+                            $(this).next('.custom-file-label').html(fileName);
+                            $('#img-preview').attr('src', fileName);
+                        });
+                    </script>
 
-}
+                }

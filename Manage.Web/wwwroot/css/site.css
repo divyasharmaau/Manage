@@ -3,6 +3,7 @@ for details on configuring this project to bundle and minify static web assets. 
 
 :root {
    --blue-color :#1e4356;
+   --white-color: red;
 }
 a.navbar-brand {
   white-space: normal;
@@ -75,6 +76,11 @@ body {
 
 .text-color{
     color: var(--blue-color);
+}
+
+.col-form-label{
+  font-size:10px;
+   
 }
 .dropdownPowerOff {
     max-width: 115px;
