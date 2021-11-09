@@ -152,3 +152,11 @@ a.disabled {
     transform: translate(-50%, 50%);
 }*/
 
+/*.loginBox {
+    height: 100vh;*/ /* height of the browser viewport */
+    /*background-color: pink;
+    display:flex;
+    justify-content:center;
+    align-content:center;
+}*/
+

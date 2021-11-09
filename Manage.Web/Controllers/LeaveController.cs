@@ -285,12 +285,13 @@ namespace Manage.Web.Controllers
         {
             var employeeLeaveList = await _employeeLeavePageService.GetAllEmployeesWithLeaveList();
 
-            ViewData["CurrentFilter"] = obj["SearchString"].ToString();
-            ViewData["CurrentFilterE"] = obj["employeeName"].ToString();
-            ViewData["CurrentFilterFD"] = obj["searchFromDate"].ToString();
-            ViewData["CurrentFilterTD"] = obj["searchToDate"].ToString();
-            ViewData["CurrentFilterLT"] = obj["searchLeaveType"].ToString();
-            ViewData["CurrentFilerLS"] = obj["searchLeaveStatus"].ToString();
+            // this was to keep the searched string in the input box , while the results for that are being displayed
+            //ViewData["CurrentFilter"] = obj["SearchString"].ToString();
+            //ViewData["CurrentFilterE"] = obj["employeeName"].ToString();
+            //ViewData["CurrentFilterFD"] = obj["searchFromDate"].ToString();
+            //ViewData["CurrentFilterTD"] = obj["searchToDate"].ToString();
+            //ViewData["CurrentFilterLT"] = obj["searchLeaveType"].ToString();
+            //ViewData["CurrentFilerLS"] = obj["searchLeaveStatus"].ToString();
  
             Boolean tempValue = obj["searchAll"].ToString() != "" ? true : false;
             ViewData["CurrentFilterSA"] = tempValue;

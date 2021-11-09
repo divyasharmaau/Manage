@@ -9,10 +9,21 @@ namespace Manage.Core.Entities
 {
    public class EmployeePersonalDetails 
    {
+        //private string pPhotoPath;
 
         public string Id { get; set; }
 
         //Personal Details
+        //public string PhotoPath
+        //{
+        //    get {
+        //        return "https://localhost:44330/uploads/img/" + pPhotoPath;
+        //    }
+        //    set {
+        //        this.pPhotoPath = value;
+        //    }
+        //}
+
         public string PhotoPath { get; set; }
         //public string FilePath { get; set; }
         [DisplayName("Date of Birth")]

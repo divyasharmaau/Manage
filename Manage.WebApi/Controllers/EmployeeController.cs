@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Manage.Core.Entities;
+using Manage.Core.Repository;
 using Manage.WebApi.Dto;
 using Manage.WebApi.Interface;
 using Manage.WebApi.ViewModels;
@@ -29,11 +31,13 @@ namespace Manage.WebApi.Controllers
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly ILogger<EmployeeController> _logger;
         private readonly IUploadImageHelper _uploadImageHelper;
+        private readonly IEmployeeRepository _employeeRepository;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public EmployeeController(IEmployeePageService employeePageService, IDepartmentPageService departmentPageService
             , IEmployeePersonalDetailsPageService employeePersonalDetailsPageService
             , IMapper mapper, IWebHostEnvironment webHostEnvironment
-            , ILogger<EmployeeController> logger, IUploadImageHelper uploadImageHelper)
+            , ILogger<EmployeeController> logger, IUploadImageHelper uploadImageHelper, IEmployeeRepository employeeRepository, UserManager<ApplicationUser> userManager)
         {
             _employeePageService = employeePageService;
             _departmentPageService = departmentPageService;
@@ -42,6 +46,8 @@ namespace Manage.WebApi.Controllers
             _webHostEnvironment = webHostEnvironment;
             _logger = logger;
             _uploadImageHelper = uploadImageHelper;
+            _employeeRepository = employeeRepository;
+            _userManager = userManager;
         }
 
         //GET api/employee
@@ -50,25 +56,48 @@ namespace Manage.WebApi.Controllers
         public async Task<IActionResult> Get()
         {
             var employeeList = await _employeePageService.GetEmployeeList();
-
+          
             if(employeeList == null)
             {
                 return NotFound();
             }
-            return Ok(employeeList);
-
-            //var employeeListTask = _employeePageService.GetEmployeeList();
-            ////employeeList.Wait();
-            ////Task.WaitAll(employeeListTask)
-            //var result = employeeListTask.Result;
-            //return Ok(result);
+            return Ok(employeeList);          
         }
+
+
+
+
+        //GET api/employee
+       // [HttpGet(Name = "SearchByEmail")]
+        [HttpGet("Search/{searchTerm}", Name = "Search")]
+        //[HttpGet("Search/{searchTerm}")]
+        //public async Task<ActionResult<IEnumerable<ApplicationViewDto>>> Get()
+        public async Task<IActionResult> Search( string searchTerm)
+        {
+            var employeeList = await _employeePageService.GetEmployeeList();
+            searchTerm = searchTerm.ToLower();
+            var result = employeeList.Where(
+                                             x => x.Email.ToLower().Contains(searchTerm)
+                                            || x.Department.Name.ToLower().Contains(searchTerm)
+                                            //|| x.Manager.ToLower().Contains(searchTerm)
+                                            || x.FullName.ToLower().Contains(searchTerm)
+                                            //|| x.Status.ToLower().Contains(searchTerm )
+                                            ).ToList();
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return Ok(result);
+        }
+
+
 
         //GET api/employee/{id}
         [HttpGet("{id}" , Name ="GetEmployeeOfficialDetailsById")]
         public async Task<ActionResult<ApplicationUserViewModel>> GetEmployeeOfficialDetailsById(string id)
         {
             var employee = await _employeePageService.GetEmployeeById(id);
+            //employee.EmployeePersonalDetails.PhotoPath = "https://localhost:44330/uploads/img/" + employee.EmployeePersonalDetails.PhotoPath;
             if (employee != null)
             {
                 return employee;
@@ -82,6 +111,10 @@ namespace Manage.WebApi.Controllers
         public async Task<ActionResult<EmployeePersonalDetailsViewModel>> GetEmployeePersonalDetailsById(string id)
         {
             var employeePersonalDetails = await _employeePersonalDetailsPageService.GetEmployeePersonalDetailsById(id);
+            employeePersonalDetails.FullName = employeePersonalDetails.ApplicationUser.FirstName + " " + employeePersonalDetails.ApplicationUser.LastName;
+            //var empOfficialDetails = await _employeePageService.GetEmployeeById(id);
+            //employeePersonalDetails.FullName = empOfficialDetails.FirstName + " " + empOfficialDetails.LastName;
+            //employeePersonalDetails.PhotoPath =  "https://localhost:44330/uploads/img/" + employeePersonalDetails.PhotoPath ;
             if (employeePersonalDetails != null)
             {
                 return employeePersonalDetails;
@@ -117,7 +150,7 @@ namespace Manage.WebApi.Controllers
         //}
 
         [HttpPost]
-        public async Task<ActionResult<EmployeeOfficialDetailsReadDto>> CreateEmployee(CreateEmployeeDto model)
+        public async Task<ActionResult> CreateEmployee(CreateEmployeeDto model)
         {
             if (model == null)
             {
@@ -126,22 +159,39 @@ namespace Manage.WebApi.Controllers
             var createFromDto = _mapper.Map<ApplicationUserDto>(model);
             createFromDto.Id = Guid.NewGuid().ToString();
             var dtoMapped = _mapper.Map<ApplicationUserViewModel>(createFromDto);
-            var employee = await _employeePageService.CreateEmployee(dtoMapped);
-            return CreatedAtRoute(nameof(GetEmployeeOfficialDetailsById), new { id = createFromDto.Id }, createFromDto);
+            var employee = await _employeePageService.CreateEmployee(dtoMapped, model.Password);
+            return CreatedAtRoute(nameof(GetEmployeeOfficialDetailsById), new { id = createFromDto.Id },null);
 
         }
 
 
-        [HttpPost("CreateEmployeePersonalDetails/{id}")]
-        public async Task<ActionResult<EmployeePersonalDetailsDto>> CreateEmployeePersonalDetails(CreateEmployeePersonalDetailsDto model ,string id)
+        [HttpPost("CreateEmployeePersonalDetails")]
+        public async Task<ActionResult<EmployeePersonalDetailsDto>> CreateEmployeePersonalDetails(
+          [FromForm]CreateEmployeePersonalDetailsDto model )
         {
-            model.Id = id;
-            var empOfficialDetails = await _employeePageService.GetEmployeeById(id);
+         
+            if(model.Photo.Length > 0)
+            {
+                var folderName = Path.Combine("Uploads", "img");
+                var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                var fullPath = Path.Combine(pathToSave, model.Photo.FileName);
+                using (var fileStream = new FileStream(fullPath, FileMode.Create))
+
+                {
+
+                    await model.Photo.CopyToAsync(fileStream);
+                }
+              
+
+            }
+           // model.Id = id;
+            var empOfficialDetails = await _employeePageService.GetEmployeeById(model.Id);
             model.FullName = empOfficialDetails.FullName;
             // add async method requires an instance of EmployeePersonalDetailsViewModel
             //map the CreateEmployeePersonalDetailsDto with EmployeePersonalDetailsViewModel
             var mappedEmployeePersonalDetails = _mapper.Map<EmployeePersonalDetailsViewModel>(model);
-      
+            mappedEmployeePersonalDetails.PhotoPath = "https://localhost:44330/uploads/img/" + model.Photo.FileName;
+               
             //add using the mapped variable which is an instance of EmployeePersonalDetailsViewModel
             var newEmployeePersonalDetails = await _employeePersonalDetailsPageService.AddAsync(mappedEmployeePersonalDetails);
 
@@ -174,15 +224,41 @@ namespace Manage.WebApi.Controllers
         [HttpPut("{id}")]
         public  async Task<ActionResult> Update(string id , EditEmployeeOfficialDetailsDto model)
         {
-            model.Id = id;
-            var modelFromRepo = await _employeePageService.GetEmployeeById(id);
-            if(modelFromRepo == null)
-            {
-                return NotFound();
-            }
-            //source(existing) , map to modelFromrepo) 
-            var mapped = _mapper.Map(model, modelFromRepo);
-            await _employeePageService.Update(modelFromRepo);
+
+            ApplicationUser user = await _userManager.FindByIdAsync(id);
+            user.FirstName = model.FirstName;
+            user.MiddleName = model.MiddleName;
+            user.LastName = model.LastName;
+            user.UserName = model.UserName;
+            user.Email = model.Email;
+            user.JoiningDate = model.JoiningDate;
+            user.JobTitle = model.JobTitle;
+            user.Status = model.Status;
+            user.DaysWorkedInWeek = model.DaysWorkedInWeek;
+            user.NumberOfHoursWorkedPerDay = model.NumberOfHoursWorkedPerDay;
+            user.DepartmentId = model.DepartmentId;
+            user.Manager = model.Manager;
+            user.Id = id;
+
+           await _userManager.UpdateAsync(user);
+
+
+            //var modelFromRepo = await _employeePageService.GetEmployeeById(id);
+            //if(modelFromRepo == null)
+            //{
+            //    return NotFound();
+            //}
+            ////source(existing) , map to modelFromrepo) 
+            // _mapper.Map(model, modelFromRepo);
+            //try
+            //{
+            //    await _employeePageService.Update(modelFromRepo);
+            //}
+            //catch(Exception ex)
+            //{
+            //    Console.WriteLine(ex.Message);
+            //}
+         
             return NoContent();
         }
 
@@ -204,15 +280,43 @@ namespace Manage.WebApi.Controllers
 
 
         [HttpPut("UpdateEmployeePersonalDetails/{id}")]
-        public async Task<ActionResult> UpdateEmployeePersonalDetails(string id , EditEmployeePersonalDetailsViewModel model)
+        public async Task<ActionResult> UpdateEmployeePersonalDetails(string id, 
+            [FromForm] EditEmployeePersonalDetailsViewModel model)
         {
+           
+           
+
+            string fileName = null;
+
+            if (model.Photo.Length > 0)
+            {
+                var folderName = Path.Combine("Uploads", "img");
+                var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                fileName = Guid.NewGuid() + "_" + model.Photo.FileName;
+                var fullPath = Path.Combine(pathToSave, fileName);
+                using (var fileStream = new FileStream(fullPath, FileMode.Create))
+
+                {
+
+                    await model.Photo.CopyToAsync(fileStream);
+                }
+
+
+            }
             model.Id = id;
             var modelFromRepo = await _employeePersonalDetailsPageService.GetEmployeePersonalDetailsById(id);
+           
             if(modelFromRepo == null)
             {
                 return NotFound();
             }
-            var mapped = _mapper.Map(model, modelFromRepo);
+            
+            // Map (source, destination)
+            _mapper.Map(model, modelFromRepo);
+
+            //modelFromRepo.PhotoPath = fileName 
+            modelFromRepo.PhotoPath = "https://localhost:44330/uploads/img/" +fileName ?? modelFromRepo.PhotoPath;
+
             await _employeePersonalDetailsPageService.UpdateAsync(modelFromRepo);
             return NoContent();
 

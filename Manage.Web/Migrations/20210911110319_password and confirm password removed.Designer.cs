@@ -4,14 +4,16 @@ using Manage.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Manage.Web.Migrations
 {
     [DbContext(typeof(ManageContext))]
-    partial class ManageContextModelSnapshot : ModelSnapshot
+    [Migration("20210911110319_password and confirm password removed")]
+    partial class passwordandconfirmpasswordremoved
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,6 +58,9 @@ namespace Manage.Web.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ConfirmPassword")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("DaysWorkedInWeek")
@@ -108,6 +113,9 @@ namespace Manage.Web.Migrations
 
                     b.Property<double>("NumberOfHoursWorkedPerDay")
                         .HasColumnType("float");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");

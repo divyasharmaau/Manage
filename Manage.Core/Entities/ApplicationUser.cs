@@ -42,8 +42,8 @@ namespace Manage.Core.Entities
         public double NumberOfHoursWorkedPerDay { get; set; }
         public string Manager { get; set; }
 
-        public string Password { get; set; }
-        public string ConfirmPassword { get; set; }
+        //public string Password { get; set; }
+        //public string ConfirmPassword { get; set; }
 
 
         //[Required]

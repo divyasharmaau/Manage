@@ -175,8 +175,8 @@ namespace Manage.Web.Controllers
                 user.LastName = model.LastName;
                 user.Email = model.Email;
                 user.UserName = model.UserName;
-                user.Password = model.Password;
-                user.ConfirmPassword = model.ConfirmPassword;
+                //user.Password = model.Password;
+                //user.ConfirmPassword = model.ConfirmPassword;
                 user.JoiningDate = model.JoiningDate;
                 user.JobTitle = model.JobTitle;
                 user.Status = model.Status;
@@ -185,7 +185,7 @@ namespace Manage.Web.Controllers
                 user.DaysWorkedInWeek = model.DaysWorkedInWeek;
                 user.NumberOfHoursWorkedPerDay = model.NumberOfHoursWorkedPerDay;
 
-                var result = await _employeePageService.CreateEmployee(user);
+                var result = await _employeePageService.CreateEmployee(user, model.Password);
                 if (result.Succeeded)
                 {
                    return RedirectToAction("EmployeeList", "Employee");

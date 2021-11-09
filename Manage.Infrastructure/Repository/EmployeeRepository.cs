@@ -38,9 +38,10 @@ namespace Manage.Infrastructure.Repository
             return employeeList;
         }
 
-        public async Task<IdentityResult> Create(ApplicationUser user)
+        public async Task<IdentityResult> Create(ApplicationUser user, string password)
         {
-            var emp = await _userManager.CreateAsync(user, user.Password);
+            var emp = await _userManager.CreateAsync(user, password);
+           
             user.EmailConfirmed = true;
             user.LockoutEnabled = false;
             _manageContext.SaveChanges();
@@ -51,8 +52,11 @@ namespace Manage.Infrastructure.Repository
         {
             var employee = await _manageContext.Users
                                     .Include(x => x.Department)
-                                    .Include(y => y.EmployeePersonalDetails)                              
+                                    .Include(y => y.EmployeePersonalDetails)      
+                                    
                                     .SingleOrDefaultAsync(x => x.Id == id);
+           // var item =  _manageContext.EmployeePersonalDetails.Find(id);
+           // employee.EmployeePersonalDetails = item;
             return employee;
         }
 
@@ -61,7 +65,14 @@ namespace Manage.Infrastructure.Repository
         {
             user.EmailConfirmed = true;
             user.LockoutEnabled = false;
-            _manageContext.Entry(user).State = EntityState.Modified;
+
+            //IdentityResult  result =  await _userManager.UpdateAsync(user);
+            //if (result.Succeeded)
+            //{
+
+            _manageContext.Users.Update(user);
+            //}
+          // _manageContext.Entry(user).State = EntityState.Modified;
             await _manageContext.SaveChangesAsync();
         }
 

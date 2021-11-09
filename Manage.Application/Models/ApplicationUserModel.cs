@@ -51,8 +51,8 @@ namespace Manage.Application.Models
         public double NumberOfHoursWorkedPerDay { get; set; }
         public string Manager { get; set; }
 
-        public string Password { get; set; }
-        public string ConfirmPassword { get; set; }
+        //public string Password { get; set; }
+        //public string ConfirmPassword { get; set; }
 
         //NAVIGATION PROPERTIES
         //n-1 relationship

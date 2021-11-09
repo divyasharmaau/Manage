@@ -6,11 +6,11 @@
 
 @model Manage.Web.ViewModels.EditMyLeaveViewModel
 
-<section class="content">
-    <div class="container-fluid">
+<div class="row">
+    <div class="col-12">
 
-        <div class="card card-default">
-            <div class="card-header">
+        <div class="card shadow-lg p-3 mb-5">
+            <div class="card-header border-0">
                 <h3 class="card-title">Edit My Leave</h3>
             </div>
             <!-- /.card-header -->
@@ -63,9 +63,6 @@
                                     <option>--Select--</option>
                                     <option value="Annual Leave">Annual Leave</option>
                                     <option value="Sick Leave">Sick Leave</option>
-                                    <option value="Maternity Leave">Maternity Leave</option>
-                                    <option value="Parental Leave">Parental Leave</option>
-                                    <option value="Long Service Leave">Long Service Leave</option>
                                 </select>
                                 <span asp-validation-for="@Model.Leave.LeaveType" class="text-danger"></span>
                             </div>
@@ -171,7 +168,7 @@
                     <div class="form-row mt-5">
                         <div class="form-group col-12 float-right">
                             <button type="submit" class="btn btn-outline-success ">Update</button>
-                            <button type="submit" asp-action="GetAllMyLeaves" class="btn btn-outline-info ">Cancel</button>
+                            <a  asp-action="GetAllMyLeaves" asp-controller="Leave" asp-route-id="@Model.EmployeeId" class="btn btn-outline-info ">Cancel</a>
                         </div>
                     </div>
 
@@ -179,7 +176,7 @@
             </div>
         </div>
     </div>
-</section>
+</div>
 
 
 

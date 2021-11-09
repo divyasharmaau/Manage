@@ -26,5 +26,10 @@
     <ProjectReference Include="..\Manage.Application\Manage.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Uploads\img\" />
+    <Folder Include="Uploads\files\" />
+  </ItemGroup>
+
 
 </Project>

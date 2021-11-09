@@ -20322,16 +20322,16 @@ html.maximized-card {
 
 .login-page,
 .register-page {
-  -ms-flex-align: center;
-  align-items: center;
-  background: #e9ecef;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  height: 100vh;
-  -ms-flex-pack: center;
-  justify-content: center;
+    -ms-flex-align: center;
+    align-items: center;
+ /*   background-color: #1e4356;*/
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    height: 100vh;
+    -ms-flex-pack: center;
+    justify-content: center;
 }
 
 .login-box,
@@ -31227,3 +31227,4 @@ a.text-muted:hover {
     min-height: 100px;
     border: 2px solid #dddddd;
 }*/
+

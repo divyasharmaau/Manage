@@ -49,7 +49,7 @@ namespace Manage.WebApi.Controllers
 
 
         [HttpPost("{id}")]
-        public async Task<IActionResult> ApplyLeave(ApplyLeaveDto applyLeaveDto, string id)
+        public async Task<IActionResult> ApplyLeave([FromForm] ApplyLeaveDto applyLeaveDto, string id)
         {
             if (applyLeaveDto == null)
             {
@@ -127,6 +127,21 @@ namespace Manage.WebApi.Controllers
         public async Task<ActionResult> GetAllLeaves()
         {
             var allLeaves = await _employeeLeavePageService.GetAllEmployeesWithLeaveList();
+            foreach (var item in allLeaves)
+            {
+                if (item.LeaveType == "Annual Leave")
+                {
+                    var netLeaveBalance = item.BalanceAnnualLeave - item.NumberOfLeaveDays * 7.6;
+                    item.BalanceAnnualLeave = netLeaveBalance;
+                }
+                else if (item.LeaveType == "Sick Leave")
+                {
+                    var netSickLeavesBalance = item.BalanceSickLeave - item.NumberOfLeaveDays * 7.6;
+                    item.BalanceSickLeave = netSickLeavesBalance;                             
+                }
+            }
+                                                    
+      
             return Ok(allLeaves);
         }
 

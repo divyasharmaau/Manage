@@ -86,7 +86,7 @@ namespace Manage.WebApi.Controllers
                 _manageConetxt.SaveChanges();
 
                 // create & return the access token
-                var t = await CreateAccessToken(user.Id, rt.Value , model.RoleName);
+                var t = await CreateAccessToken(user.Id, rt.Value , model.role_name);
                 //return Json(t);
                 return Ok(t);
             }
@@ -157,7 +157,8 @@ namespace Manage.WebApi.Controllers
             {
                 token = encodedToken,
                 expiration = tokenExpirationMins,
-                refresh_token = refreshToken
+                refresh_token = refreshToken,
+                role_name = rName
             };
         }
 
@@ -199,7 +200,7 @@ namespace Manage.WebApi.Controllers
                 _manageConetxt.SaveChanges();
 
                 // create a new access token...
-                var response = await CreateAccessToken(rtNew.UserId, rtNew.Value , model.RoleName);
+                var response = await CreateAccessToken(rtNew.UserId, rtNew.Value , model.role_name);
 
                 // ... and send it to the client
                 return Ok(response);

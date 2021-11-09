@@ -6,11 +6,11 @@
 
 @model Manage.Web.ViewModels.ApplyLeaveViewModel
 
-<section class="content">
-    <div class="container-fluid">
-        <p>@ViewBag.ErrorMsg</p>
-        <div class="card card-default">
-            <div class="card-header">
+<div class="row">
+    <div class="col-12">
+        @*<p>@ViewBag.ErrorMsg</p>*@
+        <div class="card shadow-lg p-3 mb-5">
+            <div class="card-header border-0">
                 <h3 class="card-title">Apply Leave</h3>
             </div>
             <!-- /.card-header -->
@@ -76,9 +76,6 @@
                                     <option>--Select--</option>
                                     <option value="Annual Leave">Annual Leave</option>
                                     <option value="Sick Leave">Sick Leave</option>
-                                    <option value="Maternity Leave">Maternity Leave</option>
-                                    <option value="Parental Leave">Parental Leave</option>
-                                    <option value="Long Service Leave">Long Service Leave</option>
                                 </select>
                                 <span asp-validation-for="@Model.LeaveType" class="text-danger"></span>
                             </div>
@@ -143,7 +140,7 @@
             </div>
         </div>
     </div>
-</section>
+</div>
 
 
 @section Scripts{
