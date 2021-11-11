@@ -34,7 +34,8 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <environment include="Development">
-        <link rel="stylesheet" href="~/css/site.css" />
+        @*<link rel="stylesheet" href="~/css/site.css" />*@
+        <link rel="stylesheet" href="~/css/site.css"/>
 
         <!-- Font Awesome -->
         <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
@@ -100,37 +101,36 @@
 <body class="hold-transition sidebar-mini layout-fixed">
     <!-- Site wrapper -->
     <div class="wrapper">
-        <!--Navbar-->
-        <nav class="main-header navbar navbar-expand shadow  navbar-white navbar-light" style="background-color: #1e4356">
+        <!--Navbar style="background-color: #1e4356" -->
+        <nav class="main-header navbar navbar-expand shadow  navbar-white navbar-light">
             <!--Left navbar links -->
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link" data-widget="pushmenu" style="color: #946e9f" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 @*<li class="nav-item d-none d-sm-inline-block">
-                <a href="../../index3.html" class="nav-link">Home</a>
-            </li>
-            <li class="nav-item d-none d-sm-inline-block">
-                <a href="#" class="nav-link">Contact</a>
-            </li>*@
+                    <a href="../../index3.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="#" class="nav-link">Contact</a>
+                </li>*@
             </ul>
 
             <!--SEARCH FORM-->
             <!--<form class="form-inline ml-3" asp-action="EmployeeList" asp-controller="Employee">
-                <div class="input-group input-group-sm">
-                    <input class="form-control form-control-navbar" id="searchByName" name="searchByName" type="search" placeholder="Search" aria-label="Search">
-                    <div class="input-group-append">
-                        <button class="btn btn-navbar" type="submit">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
+            <div class="input-group input-group-sm">
+                <input class="form-control form-control-navbar" id="searchByName" name="searchByName" type="search" placeholder="Search" aria-label="Search">
+                <div class="input-group-append">
+                    <button class="btn btn-navbar" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
                 </div>
-            </form>-->
-
+            </div>
+        </form>-->
             <!--SEARCH FORM-->
             <form class="form-inline ml-3" method="get" asp-action="EmployeeList" asp-controller="Employee">
                 <div class="input-group input-group-sm">
-                    <input class="form-control form-control-navbar" id="searchByName" name="searchByName" type="search"  value=@ViewBag.CurrentFilter placeholder="Search" aria-label="Search">
+                    <input class="form-control form-control-navbar" id="searchByName" name="searchByName" type="search" value=@ViewBag.CurrentFilter placeholder="Search" aria-label="Search">
                     <div class="input-group-append">
                         <button class="btn btn-navbar" type="submit">
                             <i class="fas fa-search"></i>
@@ -145,12 +145,12 @@
                 <li class="nav-item dropdown user-menu">
                     <form method="post" asp-controller="account" asp-action="LogOut">
                         <a href="#collapseExample" class="nav-link dropdown-toggle" data-toggle="dropdown">
-                            <img src="~/dist/img/poweroffn.png" class=" user-image img-circle elevation-2" />
+                            <img src="~/dist/img/poweroffn.png" class=" user-image img-circle elevation-2" style="border: 2px solid #e9801f" />
                         </a>
                         <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right" id="collapseExample" style="min-width:6rem;">
                             <!-- Menu Body -->
-                            <li class="user-body">
-                                <button class="btn btn-default btn-flat float-right">Sign out</button>
+                            <li class="user-body" >
+                                <button class="btn btn-default btn-flat float-right" style="outline:none; background-color:white ">Sign out</button>
                                 <!-- /.row -->
                             </li>
                         </ul>
@@ -162,14 +162,18 @@
     </div>
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar shadow  sidebar-light-primary">
-        <!-- Brand Logo -->
-        <a href="/home/index.html" class="brand-link" style="border: none; background-color: #1e4356">
-            <img src="../../dist/img/Logo.png"
-                 alt="Manage Logo"
-                 class="brand-image img-circle elevation-3"
-                 style="opacity: .8">
-            <span class="brand-text font-weight-light" style="color:whitesmoke">Manage</span>
-        </a>
+        <!-- Brand Logo background-color: #1e4356" -->
+        <div class="brandLogo mt-2">
+
+            <a href="/home/index.html" class="brand-link" style="border: none;">
+                <img src="../../dist/img/Logo.png"
+                     alt="Manage Logo"
+                     class="brand-image img-circle elevation-3"
+                     style="opacity: .8; border: 2px solid #e9801f">
+                <span class="brand-text font-weight-bold" style="color: #e9801f;">Manage</span>
+            </a>
+        </div>
+     
         <!-- Sidebar -->
         <div class="sidebar">
             <!-- Sidebar user (optional) -->
@@ -179,7 +183,7 @@
                 </div>
 
                 <div class="info">
-                    <a href="#" style="color: #1e4356" class="d-block">@user.FullName</a>
+                    <a href="#" class="d-block"> @user.FullName</a>
                 </div>
             </div>
             @if (signInManager.IsSignedIn(User) && User.IsInRole("Administartor"))
@@ -280,7 +284,7 @@
                 <!-- /.sidebar-menu-->
 
             }
-            else if (signInManager.IsSignedIn(User) && User.IsInRole("Registered User"))
+            else if (signInManager.IsSignedIn(User))
             {
                 <!--SideBar Menu-->
                 <nav class="mt-2">

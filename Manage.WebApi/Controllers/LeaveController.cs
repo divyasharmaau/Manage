@@ -49,23 +49,64 @@ namespace Manage.WebApi.Controllers
 
 
         [HttpPost("{id}")]
-        public async Task<IActionResult> ApplyLeave([FromForm] ApplyLeaveDto applyLeaveDto, string id)
+        public async Task<IActionResult> ApplyLeave([FromForm] ApplyLeaveViewModel model, string id)
         {
-            if (applyLeaveDto == null)
+            if (model == null)
             {
                 return NotFound();
             }
 
-            var mapped = _mapper.Map<LeaveViewModel>(applyLeaveDto);
-            var newLeave = await _leavePageService.AddNewLeave(mapped);
-            //add to employeeLeave
-            var mappedEmployeeLeave = _mapper.Map<EmployeeLeaveViewModel>(newLeave);
-            mappedEmployeeLeave.LeaveId = newLeave.Id;
-            mappedEmployeeLeave.EmployeeId = id;
+            var user = await _employeePageService.GetEmployeeById(id);
+            var leaveApplied = _mapper.Map<LeaveViewModel>(model);
+            var newLeave = await _leavePageService.AddNewLeave(leaveApplied);
 
-            await _employeeLeavePageService.AddNewLeaveEmployeeLeave(mappedEmployeeLeave);
+            //save the newAppliedLeave to the EmployeeLeave
+            EmployeeLeaveViewModel employeeLeaveViewModel = new EmployeeLeaveViewModel();
+            employeeLeaveViewModel.LeaveId = newLeave.Id;
+            employeeLeaveViewModel.EmployeeId = user.Id;
+            await _employeeLeavePageService.AddNewLeaveEmployeeLeave(employeeLeaveViewModel);
             return CreatedAtRoute("MyLeaveDetails", new { id = newLeave.Id }, newLeave);
         }
+
+
+        [HttpGet("ApplyLeaveGet/{id}")]
+        //[HttpGet("{id}" , Name ="ApplyLeaveGet")]
+        public async Task<IActionResult> ApplyLeave(string id)
+        {
+            var user = await _employeePageService.GetEmployeeById(id);
+            var annualLeaveCount = await _employeeLeavePageService.TotalAnnualLeaveTaken(user.Id);
+            var accuredAnnualLeave = await _employeeLeavePageService.TotalAnnualLeaveAccured(user.Id);
+
+            var sickLeaveCount = await _employeeLeavePageService.TotalSickLeaveTaken(user.Id);
+            var accuredSickLeave = await _employeeLeavePageService.TotalSickLeaveAccured(user.Id);
+
+            ApplyLeaveViewModel model = new ApplyLeaveViewModel();
+            model.JoiningDate = user.JoiningDate;
+            model.BalanceAnnualLeave = accuredAnnualLeave - annualLeaveCount;
+            model.BalanceSickLeave = accuredSickLeave - sickLeaveCount;
+            return Ok(model);
+        }
+
+
+        //[HttpPost("{id}")]
+        //public async Task<IActionResult> ApplyLeave([FromForm] ApplyLeaveDto applyLeaveDto, string id)
+        //{
+        //    if (applyLeaveDto == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var mapped = _mapper.Map<LeaveViewModel>(applyLeaveDto);
+        //    var newLeave = await _leavePageService.AddNewLeave(mapped);
+        //    //add to employeeLeave
+        //    var mappedEmployeeLeave = _mapper.Map<EmployeeLeaveViewModel>(newLeave);
+        //    mappedEmployeeLeave.LeaveId = newLeave.Id;
+        //    mappedEmployeeLeave.EmployeeId = id;
+
+        //    await _employeeLeavePageService.AddNewLeaveEmployeeLeave(mappedEmployeeLeave);
+        //    return CreatedAtRoute("MyLeaveDetails", new { id = newLeave.Id }, newLeave);
+        //}
+
 
 
         [HttpGet("{id}" , Name = "MyLeaveDetails")]

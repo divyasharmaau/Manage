@@ -48,7 +48,7 @@ namespace Manage.Web.Controllers
                 var user = await _userManager.FindByEmailAsync(model.Email);
                 if(user == null)
                 {
-                    ModelState.AddModelError(string.Empty, "Inavlid Email or Password!!");
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt!!");
                     return LogIn();
                 }
         
@@ -65,8 +65,8 @@ namespace Manage.Web.Controllers
                     //return RedirectToAction("ListEmployees", "Employee");
                     return RedirectToAction("Index", "Home");
                 }
-
-                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                //if  password is incorrect
+                ModelState.AddModelError(string.Empty, "Invalid login attempt!!");
             }
             return View(model);
         }

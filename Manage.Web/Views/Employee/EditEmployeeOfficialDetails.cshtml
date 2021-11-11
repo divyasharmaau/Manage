@@ -9,34 +9,28 @@
     <div class="col-12">
         <div class="card shadow-lg p-3 mb-5">
             <div class="card-title">
-                <h3 class="card-title">Edit Employee Details</h3>
+                <h3 class="cardTitle cardTitle">Edit Employee Details</h3>
             </div>
-            <form method="post" asp-action="EditEmployeeOfficialDetails" asp-controller="Employee" class="mt-5">
-
+            <form method="post" asp-action="EditEmployeeOfficialDetails" asp-controller="Employee">
                 <input asp-for="Id" type="hidden" />
                 <div class="card-header border-0">
-
-                    <div class="table table-responsive table-borderless text-center">
-                        <table>
-                            <tr>
-                                <td style="float:right">
-                                    @if (Model.EmployeePersonalDetails == null)
-                                    {
-                                        <img class="imageThumbnail" src="~/dist/img/avatar.png" asp-append-version="true" alt="Employee Photograph" />
-                                    }
-                                    else
-                                    {
-                                        <img class="imageThumbnail" src="~/dist/img/@Model.EmployeePersonalDetails.PhotoPath" asp-append-version="true" alt="Employee Photograph">
-                                    }
-
-                                </td>
-                                <td style="text-align:center; padding:30px">
-                                    <h4>@Model.FullName</h4>
-                                    <h5>@Model.Department.Name</h5>
-                                </td>
-                            </tr>
-                        </table>
+                    <div class="row align-items-center mt-3 mb-3">
+                        <div class="col-sm-6 col-md-3">
+                            @if (Model.EmployeePersonalDetails == null)
+                            {
+                                <img class="imageThumbnail" src="~/dist/img/avatar.png" asp-append-version="true" alt="Employee Photograph" />
+                            }
+                            else
+                            {
+                                <img class="imageThumbnail" src="~/dist/img/@Model.EmployeePersonalDetails.PhotoPath" asp-append-version="true" alt="Employee Photograph">
+                            }
+                        </div>
+                        <div class="col">
+                            <h4>@Model.FullName</h4>
+                            <h5>@Model.Department.Name</h5>
+                        </div>
                     </div>
+
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -44,7 +38,9 @@
                         <div class="form-group col-md-4">
                             <label asp-for="Title" class="col-auto col-form-label text-sm"></label>
                             @*<input asp-for="Title" class="form-control" readonly />*@
-                            @Html.TextBoxFor(m => m.Title, new { @readonly = "readonly", @class = "form-control" })
+                            <div class="col">
+                                @Html.TextBoxFor(m => m.Title, new { @readonly = "readonly", @class = "form-control" })
+                            </div>
                         </div>
                     </div>
                     <div class="form row">
@@ -86,6 +82,7 @@
                             <label asp-for="Password" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <input type="password" asp-for="Password" class="form-control" />
+                                <span asp-validation-for="Password" class="text-danger small"></span>
                             </div>
                         </div>
 
@@ -93,6 +90,7 @@
                             <label asp-for="ConfirmPassword" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <input type="password" asp-for="ConfirmPassword" class="form-control" />
+                                <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
                             </div>
                         </div>
                     </div>
@@ -101,7 +99,7 @@
                         <div class="form-group col-md-6">
                             <label asp-for="JoiningDate" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
-                                <input asp-for="JoiningDate" class="form-control ui-datepicker" type="date" disabled
+                                <input asp-for="JoiningDate" class="form-control ui-datepicker" type="date" readonly
                                        placeholder="Joining Date" value="@Model.JoiningDate.ToString("yyyy-MM-dd")" />
                             </div>
                         </div>
@@ -148,13 +146,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-row mt-3 text-center">
+                    <div class="form-row mt-3">
                         <div class="col-md-4">
                             <a type="submit" class="btn btn-outline-info m-5" asp-action="EmployeeOfficialDetails" asp-controller="Employee" asp-route-id="@Model.Id">Back</a>
                         </div>
                         <div class="col-md-4">
                             @*<button type="submit" class="btn btn-outline-info m-5">Save</button>*@
-                            <input type="submit" class="btn btn-outline-info" m-5" value="Save" />
+                            <input type="submit" class="btn btn-outline-info m-5" value="Save" />
                         </div>
                         <div class="col-md-4">
                             <a asp-action="EmployeePersonalDetails" asp-controller="Employee" asp-route-id="@Model.Id" class="btn btn-outline-success m-5">Next</a>

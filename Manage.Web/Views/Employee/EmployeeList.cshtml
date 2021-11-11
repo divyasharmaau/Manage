@@ -15,9 +15,10 @@
 <div class="row">
     <div class="col-12">
         <div class="card shadow-lg p-3 mb-5 bg-white">
-            <div class="card-header border-0">
-                <h3 class="card-title text-color ">Employee List</h3>
-                <a asp-action="CreateEmployee" asp-controller="Employee" style="float:right" data-toggle="tooltip" data-placement="bottom" title="Add Employee"><i class="fas fa-plus" style="float: right; color: #946e9f" ;></i></a>
+            <div class="card-header border-0 padding-bottom:0px;">
+                <h3 class="card-title cardTitle">Employee List</h3>
+                <a asp-action="CreateEmployee" asp-controller="Employee" style="float:right" data-toggle="tooltip" 
+                   data-placement="bottom" title="Add Employee"><i class="fas fa-plus" style="float: right; color: #946e9f;"></i></a>
             </div>
             <!--/.card-header-->
             <!--form start-->
@@ -65,7 +66,7 @@
                                 }
                                 <tr>
                                     <td>
-                                        <img class="listImg" src="@photoPath" asp-append-version="true" alt="Emp Photo" />
+                                        <img class="listImg elevation-2" src="@photoPath" asp-append-version="true" alt="Emp Photo"  />
                                     </td>
                                     <td>
                                         <a asp-controller="Employee" asp-action="EmployeeOfficialDetails" asp-route-id="@employee.Id">@employee.FullName</a>

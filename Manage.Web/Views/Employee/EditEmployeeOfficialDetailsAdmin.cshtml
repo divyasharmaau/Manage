@@ -10,7 +10,7 @@
     <div class="col-12">
         <div class="card shadow-lg p-3 mb-5">
             <div class="card-title">
-                <h3 class="card-title">Edit Employee Official Details</h3>
+                <h3 class="card-title cardTitle">Edit Employee Official Details</h3>
             </div>
             <form asp-controller="Employee" asp-action="EditEmployeeOfficialDetailsAdmin" method="post" class="mt-1">
                 <input asp-for="Id" type="hidden" />
@@ -57,6 +57,7 @@
                                     <option>Miss</option>
                                     <option>Ms</option>
                                 </select>
+                                <span asp-validation-for="Title" class="text-danger small"></span>
                             </div>
                         </div>
                     </div>
@@ -65,14 +66,14 @@
                             <label asp-for="FirstName" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <input asp-for="FirstName" placeholder="First Name" class="form-control" />
-                                <span asp-validation-for="FirstName"></span>
+                                <span asp-validation-for="FirstName" class="text-danger small"></span>
                             </div>
                         </div>
                         <div class="form-group col-md-4">
                             <label asp-for="MiddleName" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <input asp-for="MiddleName" class="form-control" placeholder="Middle Name" />
-                                @*<span asp-validation-for="MiddleName"></span>*@
+                                <span asp-validation-for="MiddleName" class="text-danger small"></span>
                             </div>
                         </div>
 
@@ -80,7 +81,7 @@
                             <label asp-for="LastName" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <input asp-for="LastName" class="form-control" placeholder="Last Name" />
-                                <span asp-validation-for="LastName"></span>
+                                <span asp-validation-for="LastName" class="text-danger small"></span>
                             </div>
                         </div>
                     </div>
@@ -89,7 +90,7 @@
                             <label asp-for="UserName" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <input asp-for="UserName" class="form-control" placeholder="User Name" />
-                                <span asp-validation-for="UserName"></span>
+                                <span asp-validation-for="UserName" class="text-danger small"></span>
                             </div>
                         </div>
 
@@ -97,7 +98,7 @@
                             <label asp-for="Email" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <input asp-for="Email" class="form-control" placeholder="Email" />
-                                <span asp-validation-for="Email"></span>
+                                <span asp-validation-for="Email" class="text-danger small"></span>
                             </div>
                         </div>
                     </div>
@@ -106,7 +107,7 @@
                             <label asp-for="Password" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <input type="password" name="Password" id="Password" class="form-control" placeholder="Password" />
-                                <span asp-validation-for="Password"></span>
+                                <span asp-validation-for="Password" class="text-danger small"></span>
                             </div>
                         </div>
 
@@ -114,7 +115,7 @@
                             <label asp-for="ConfirmPassword" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <input type="password" name="ConfirmPassword" id="ConfirmPassword" class="form-control" placeholder="ConfirmPassword" />
-                                <span asp-validation-for="ConfirmPassword"></span>
+                                <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
                             </div>
                         </div>
                     </div>
@@ -124,7 +125,7 @@
                             <div class="col">
                                 <input asp-for="JoiningDate" class="form-control ui-datepicker" type="date"
                                        placeholder="Joining Date" value="@Model.JoiningDate.ToString("yyyy-MM-dd")" />
-                                <span asp-validation-for="JoiningDate"></span>
+                                <span asp-validation-for="JoiningDate" class="text-danger small"></span>
                             </div>
                         </div>
 
@@ -132,7 +133,7 @@
                             <label asp-for="JobTitle" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <input asp-for="JobTitle" class="form-control" placeholder="JobTitle" />
-                                <span asp-validation-for="JobTitle"></span>
+                                <span asp-validation-for="JobTitle" class="text-danger small"></span>
                             </div>
                         </div>
 
@@ -149,21 +150,21 @@
                                     <option value="Contract">Contract</option>
                                     <option value="Casual">Casual</option>
                                 </select>
-                                <span asp-validation-for="Status"></span>
+                                <span asp-validation-for="Status" class="text-danger small"></span>
                             </div>
                         </div>
                         <div class="form-group col-md-4">
                             <label asp-for="DaysWorkedInWeek" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <input type="number" asp-for="DaysWorkedInWeek" class="form-control" id="workingDays" />
-                                <span asp-validation-for="DaysWorkedInWeek"></span>
+                                <span asp-validation-for="DaysWorkedInWeek" class="text-danger small"></span>
                             </div>
                         </div>
                         <div class="form-group col-md-4">
                             <label asp-for="NumberOfHoursWorkedPerDay" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <input type="number"  asp-for="NumberOfHoursWorkedPerDay" class="form-control" id="workingHours" />
-                                <span asp-validation-for="NumberOfHoursWorkedPerDay"></span>
+                                <span asp-validation-for="NumberOfHoursWorkedPerDay" class="text-danger small"></span>
                             </div>
                         </div>
                     </div>
@@ -178,11 +179,11 @@
                             <label asp-for="Manager" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <input asp-for="Manager" class="form-control" placeholder="Manager" />
-                                <span asp-validation-for="Manager"></span>
+                                <span asp-validation-for="Manager" class="text-danger small"></span>
                             </div>
                         </div>
                     </div>
-                    <div class="form-row mt-3 text-center">
+                    <div class="form-row mt-3">
                         <div class="col-md-4">
                             @*<button type="submit" class="btn btn-outline-info m-5" asp-action="EmployeeOfficialDetails" asp-controller="Employee" asp-route-employeeId="@Model.Id">Back</button>*@
                             <button type="submit" class="btn btn-outline-info m-5">Save</button>

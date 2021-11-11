@@ -158,7 +158,9 @@ namespace Manage.WebApi.Controllers
                 token = encodedToken,
                 expiration = tokenExpirationMins,
                 refresh_token = refreshToken,
-                role_name = rName
+                role_name = rName,
+                userId = userId
+               
             };
         }
 

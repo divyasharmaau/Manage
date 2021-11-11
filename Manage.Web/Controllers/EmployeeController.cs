@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using Manage.Core.Entities;
 using Manage.Web.Interface;
 using Manage.Web.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
@@ -24,11 +26,13 @@ namespace Manage.Web.Controllers
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly ILogger<EmployeeController> _logger;
         private readonly IUploadImageHelper _uploadImageHelper;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public EmployeeController(IEmployeePageService employeePageService , IDepartmentPageService departmentPageService  
             ,IEmployeePersonalDetailsPageService employeePersonalDetailsPageService
             , IMapper mapper , IWebHostEnvironment webHostEnvironment
-            ,ILogger<EmployeeController> logger ,IUploadImageHelper uploadImageHelper)
+            ,ILogger<EmployeeController> logger ,IUploadImageHelper uploadImageHelper
+            ,UserManager<ApplicationUser> userManager)
         {
             _employeePageService = employeePageService;
             _departmentPageService = departmentPageService;
@@ -37,6 +41,7 @@ namespace Manage.Web.Controllers
             _webHostEnvironment = webHostEnvironment;
             _logger = logger;
             _uploadImageHelper = uploadImageHelper;
+            _userManager = userManager;
         }
         public IActionResult Index()
         {
@@ -111,7 +116,6 @@ namespace Manage.Web.Controllers
         }
 
         [AcceptVerbs("Get", "Post")]
-        [AllowAnonymous]
         public async Task<IActionResult> IsEmailInUse(string email)
         {
             var userEmail = await _employeePageService.FindEmail(email);
@@ -125,6 +129,19 @@ namespace Manage.Web.Controllers
                 return Json($"Email '{email}' is already in use.");
             }
 
+        }
+        [AcceptVerbs("Get", "Post")]
+        public async Task<IActionResult>IsUserNameInUse(string username)
+        {
+            var employee = await _userManager.FindByNameAsync(username);
+            if(employee == null)
+            {
+                return Json(true);
+            }
+            else
+            {
+                return Json($"UserName'{username}' is already in use");
+            }
         }
 
 
@@ -153,22 +170,13 @@ namespace Manage.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateEmployee(CreateEmployeeViewModel model)
         {
-            if(ModelState.IsValid)
+
+            //CreateEmployeeViewModel model = new CreateEmployeeViewModel();
+            if (ModelState.IsValid)
             {
                 ApplicationUserViewModel user = new ApplicationUserViewModel();
                 user.Id = Guid.NewGuid().ToString();
 
-                //if (user.Status == "Full-Time")
-                //{
-                //    user.DaysWorkedInWeek = 5;
-                //    user.NumberOfHoursWorkedPerDay = 7.6;
-                //}
-                //else
-                //{
-                //    user.DaysWorkedInWeek = model.DaysWorkedInWeek;
-                //    user.NumberOfHoursWorkedPerDay = model.NumberOfHoursWorkedPerDay;
-                //}
-                
                 user.Title = model.Title;
                 user.FirstName = model.FirstName;
                 user.MiddleName = model.MiddleName;
@@ -190,10 +198,29 @@ namespace Manage.Web.Controllers
                 {
                    return RedirectToAction("EmployeeList", "Employee");
                 }
+                
                 foreach (var errors in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, errors.Description);
                 }
+            }
+            else
+            {
+                var dList = await _departmentPageService.GetDepartmentList();
+
+                var deptList = dList.Select(dept => new SelectListItem()
+                {
+                    Text = dept.Name,
+                    Value = dept.Id.ToString()
+                }).ToList();
+
+                deptList.Insert(0, new SelectListItem()
+                {
+                    Text = "----Select----",
+                    Value = string.Empty
+                });
+
+                model.departmentList = deptList;
             }
             return View(model);
         }
@@ -288,6 +315,7 @@ namespace Manage.Web.Controllers
             var user = await _employeePageService.GetEmployeeById(id);
             CreateEmployeePersonalDetailsViewModel model = new CreateEmployeePersonalDetailsViewModel();
             model.FullName = user.FullName;
+            model.ApplicationUser = user;
             return View(model);
         }
       
@@ -350,9 +378,10 @@ namespace Manage.Web.Controllers
             {
                 //mapping
                 var empDetails = _mapper.Map<EmployeePersonalDetailsViewModel>(model);
+                //empDetails.PhotoPath = model.ExistingPhotoPath;
                 //upload image
                 //var uniqueFileName = "";
-                if (model.ExistingPhotoPath == null || empDetails.PhotoPath != model.ExistingPhotoPath)
+                if (model.ExistingPhotoPath == null  || model.Photo !=null)
                 {
                     PhotoUploadViewModel photoUploadViewModel = new PhotoUploadViewModel();
                     photoUploadViewModel.Photo = model.Photo;

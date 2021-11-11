@@ -17,12 +17,12 @@ namespace Manage.Web.ViewModels
         public string Id { get; set; }
         public string Title { get; set; }
         [DisplayName("First Name")]
-        [Required, MaxLength(50, ErrorMessage = "Name cannot exceed 50 characters")]
+        [Required, MaxLength(50)]
         public string FirstName { get; set; }
         [DisplayName("Middle Name")]
         public string MiddleName { get; set; }
         [DisplayName("Last Name")]
-        [Required]
+        [Required, MaxLength(50)]
         public string LastName { get; set; }
         public string FullName
         {
@@ -47,11 +47,16 @@ namespace Manage.Web.ViewModels
         // public double WorkingHoursPerDay { get; set; }
         public string Manager { get; set; }
         public string Password { get; set; }
+        [NotMapped]
+        [Required(ErrorMessage = "Confirm Password required")]
+        [Compare("Password", ErrorMessage = "Password and Confirm Password do not match")]
         public string ConfirmPassword { get; set; }
 
         [Required]
         [Remote(action: "IsEmailInUse", controller: "Employee")]
         [ValidEmailDomain(allowedDomain:"mail.com" , ErrorMessage ="Email Domain  must be mail.com")]
+        [RegularExpression(@"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?",
+            ErrorMessage = "Please enter a valid email")]
         public string Email { get; set; }
         public string UserName { get; set; }
     }

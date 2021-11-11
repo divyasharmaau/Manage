@@ -52,7 +52,7 @@ namespace Manage.WebApi.Controllers
 
         //GET api/employee
         [HttpGet]
-        //public async Task<ActionResult<IEnumerable<ApplicationViewDto>>> Get()
+       
         public async Task<IActionResult> Get()
         {
             var employeeList = await _employeePageService.GetEmployeeList();
@@ -64,14 +64,9 @@ namespace Manage.WebApi.Controllers
             return Ok(employeeList);          
         }
 
-
-
-
         //GET api/employee
        // [HttpGet(Name = "SearchByEmail")]
         [HttpGet("Search/{searchTerm}", Name = "Search")]
-        //[HttpGet("Search/{searchTerm}")]
-        //public async Task<ActionResult<IEnumerable<ApplicationViewDto>>> Get()
         public async Task<IActionResult> Search( string searchTerm)
         {
             var employeeList = await _employeePageService.GetEmployeeList();
@@ -89,8 +84,6 @@ namespace Manage.WebApi.Controllers
             }
             return Ok(result);
         }
-
-
 
         //GET api/employee/{id}
         [HttpGet("{id}" , Name ="GetEmployeeOfficialDetailsById")]
@@ -149,25 +142,58 @@ namespace Manage.WebApi.Controllers
         //    return CreatedAtRoute(nameof(GetEmployeeOfficialDetailsById), new { id = employeeDetailsReadDto.Id }, employeeDetailsReadDto);
         //}
 
+        //[HttpPost]
+        //public async Task<ActionResult> CreateEmployee(CreateEmployeeDto model)
+        //{
+        //    if (model == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    var createFromDto = _mapper.Map<ApplicationUserDto>(model);
+        //    createFromDto.Id = Guid.NewGuid().ToString();
+        //    var dtoMapped = _mapper.Map<ApplicationUserViewModel>(createFromDto);
+        //    var employee = await _employeePageService.CreateEmployee(dtoMapped, model.Password);
+        //    return CreatedAtRoute(nameof(GetEmployeeOfficialDetailsById), new { id = createFromDto.Id },null);
+
+
+        //}
+
         [HttpPost]
-        public async Task<ActionResult> CreateEmployee(CreateEmployeeDto model)
+        public async Task<ActionResult>CreateEmployee(CreateEmployeeViewModel model)
         {
             if (model == null)
             {
                 return NotFound();
             }
-            var createFromDto = _mapper.Map<ApplicationUserDto>(model);
-            createFromDto.Id = Guid.NewGuid().ToString();
-            var dtoMapped = _mapper.Map<ApplicationUserViewModel>(createFromDto);
-            var employee = await _employeePageService.CreateEmployee(dtoMapped, model.Password);
-            return CreatedAtRoute(nameof(GetEmployeeOfficialDetailsById), new { id = createFromDto.Id },null);
+            ApplicationUserViewModel user = new ApplicationUserViewModel();
+            user.Id = Guid.NewGuid().ToString();
+            user.Title = model.Title;
+            user.FirstName = model.FirstName;
+            user.MiddleName = model.MiddleName;
+            user.LastName = model.LastName;
+            user.Email = model.Email;
+            user.UserName = model.UserName;
+            user.Password = model.Password;
+            user.ConfirmPassword = model.ConfirmPassword;
+            user.JoiningDate = model.JoiningDate;
+            user.JobTitle = model.JobTitle;
+            user.Status = model.Status;
+            user.DepartmentId = model.DepartmentId;
+            user.Manager = model.Manager;
+
+            var result = await _employeePageService.CreateEmployee(user, model.Password);
+            return CreatedAtRoute(nameof(GetEmployeeOfficialDetailsById), new { id = user.Id }, null);
+
 
         }
 
 
+
+
+
         [HttpPost("CreateEmployeePersonalDetails")]
-        public async Task<ActionResult<EmployeePersonalDetailsDto>> CreateEmployeePersonalDetails(
-          [FromForm]CreateEmployeePersonalDetailsDto model )
+        public async Task<ActionResult<EmployeePersonalDetailsViewModel>> CreateEmployeePersonalDetails(
+          [FromForm]CreateEmployeePersonalDetailsViewModel model )
         {
          
             if(model.Photo.Length > 0)
@@ -195,9 +221,9 @@ namespace Manage.WebApi.Controllers
             //add using the mapped variable which is an instance of EmployeePersonalDetailsViewModel
             var newEmployeePersonalDetails = await _employeePersonalDetailsPageService.AddAsync(mappedEmployeePersonalDetails);
 
-            var employeePersonalDetailsReadDto = _mapper.Map<EmployeePersonalDetailsDto>(newEmployeePersonalDetails);
+            //var employeePersonalDetailsReadDto = _mapper.Map<EmployeePersonalDetailsDto>(newEmployeePersonalDetails);
 
-            return CreatedAtRoute(nameof(GetEmployeePersonalDetailsById), new { id = employeePersonalDetailsReadDto.Id }, employeePersonalDetailsReadDto);
+            return CreatedAtRoute(nameof(GetEmployeePersonalDetailsById), new { id = newEmployeePersonalDetails.Id }, newEmployeePersonalDetails);
 
             //to get the url
             //return CreatedAtRoute(nameof(GetEmployeePersonalDetailsById), new { id = model.Id }, model);
@@ -222,7 +248,7 @@ namespace Manage.WebApi.Controllers
         }
 
         [HttpPut("{id}")]
-        public  async Task<ActionResult> Update(string id , EditEmployeeOfficialDetailsDto model)
+        public  async Task<ActionResult> Update(string id , EditEmployeeOfficialDetailsViewModel model)
         {
 
             ApplicationUser user = await _userManager.FindByIdAsync(id);
@@ -264,7 +290,7 @@ namespace Manage.WebApi.Controllers
 
 
         [HttpPut("UpdateOfficialDetailsByAdmin/{id}")]
-        public async Task<ActionResult> UpdateOfficialDetailsByAdmin(string id, EditEmployeeOfficialDetailsDto model)
+        public async Task<ActionResult> UpdateOfficialDetailsByAdmin(string id, EditEmployeeOfficialDetailsViewModel model)
         {
             model.Id = id;
             var modelFromRepo = await _employeePageService.GetEmployeeById(id);
@@ -283,8 +309,6 @@ namespace Manage.WebApi.Controllers
         public async Task<ActionResult> UpdateEmployeePersonalDetails(string id, 
             [FromForm] EditEmployeePersonalDetailsViewModel model)
         {
-           
-           
 
             string fileName = null;
 

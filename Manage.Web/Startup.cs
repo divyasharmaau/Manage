@@ -72,7 +72,7 @@ namespace Manage.Web
             services.AddScoped<IUploadImageHelper, UploadImageHelper>();
             services.AddScoped<IFileUploadHelper, FileUploadHelper>();
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
             services.AddDbContextPool<ManageContext>(options => options
                 .UseSqlServer(Configuration.GetConnectionString("ManageConnection"),

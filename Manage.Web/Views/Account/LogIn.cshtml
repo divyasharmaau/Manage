@@ -15,7 +15,7 @@
             <div class="col-sm-12">
                 <!-- /.login-logo -->
                 <div class="login-logo">
-                    <img src="~/dist/img/Logo.png" class="logInImage" />
+                    <img src="~/dist/img/Logo.png" class="logInImage"  />
                 </div>
 
                 <div class="card shadow-lg p-3 mb-5 bg-white rounded">
@@ -44,22 +44,22 @@
                             </div>
                             <div class="row">
                                 <div class="col-8">
-                                    <div class="icheck-primary">
-                                        <input type="checkbox" id="remember">
-                                        <label for="remember">
-                                            Remember Me
+                                    <div class="checkbox">
+                                        <label asp-for="RememberMe">
+                                            <input asp-for="RememberMe" />
+                                            @Html.DisplayNameFor(m => m.RememberMe)
                                         </label>
                                     </div>
                                 </div>
-                                <!-- /.col -->
-                                <div class="col-4">
-                                    <button type="submit" class="btn btn-primary btn-block">Log In</button>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <button type="submit" class="btn btnSubmit btn-block btn-sm">Log In</button>
                                 </div>
-                                <!-- /.col -->
                             </div>
                         </form>
 
-                        <p class="mb-1">
+                        <p class="mb-1 mt-2 forgotPassword">
                             <a href="forgot-password.html">I forgot my password</a>
                         </p>
                     </div>

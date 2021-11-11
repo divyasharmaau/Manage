@@ -2,20 +2,32 @@
 for details on configuring this project to bundle and minify static web assets. */
 
 :root {
-   --blue-color :#1e4356;
-   --white-color: red;
+    --blue-color: #1e4356;
+    --white-color: red;
+    --slateGrey-color: #846a9b;
+       --orange-color: #e9801f;
+    /*--orange-color: #534666; purple*/
+    /*    --orange-color: #2aa876; mediumGreen*/
+/*    --orange-color: #1e501d; sapgreen*/
 }
 a.navbar-brand {
   white-space: normal;
   text-align: center;
   word-break: break-all;
+ 
 }
 
 /* Provide sufficient contrast against white background */
 a {
-  color: #0366d6;
+    color: #1e4356;
 }
 
+.cardTitle{
+    color:var(--orange-color);
+    font-weight:bold;
+    font-size:2rem;
+
+}
 .btn-primary {
   color: #fff;
   background-color: #1b6ec2;
@@ -26,7 +38,9 @@ a {
   color: #fff;
   background-color: #1b6ec2;
   border-color: #1861ac;
+  
 }
+
 
 /* Sticky footer styles
 -------------------------------------------------- */
@@ -129,11 +143,6 @@ body {
 }
 
 
-.listImg {
-    height: 30px;
-    width: 30px;
-    border-radius: 50%;
-}
 
 a.disabled {
     pointer-events: none;
@@ -145,18 +154,77 @@ a.disabled {
     background-color: #1e4356;
 }
 
-/*.login-box  {
-    left: 50%;
-    top: 50%;
-    position: absolute;
-    transform: translate(-50%, 50%);
-}*/
 
-/*.loginBox {
-    height: 100vh;*/ /* height of the browser viewport */
-    /*background-color: pink;
-    display:flex;
-    justify-content:center;
-    align-content:center;
-}*/
 
+ .nav-sidebar > .nav-item.menu-open > .nav-link,
+ .nav-sidebar > .nav-item:hover > .nav-link {
+    background-color: var(--orange-color);
+}
+
+.formSubHeading {
+   color: var(--orange-color);
+/*   font-weight:bold;*/
+}
+
+.sidebarUserName {
+    color: var(--orange-color);
+    font-weight: bold;
+}
+.main-sidebar {
+    background: url(/dist/img/pattern.jpg) repeat-y;
+}
+
+.user-body .btn:hover{
+    outline:none;
+}
+
+th a{
+    color:var(--blue-color);
+}
+    th a:hover {
+        color: var(--blue-color);
+        font-weight:bolder;
+    }
+td a {
+    color: #6b38c7;
+}
+
+    td a:hover {
+        text-decoration: none;
+        font-weight: bold;
+        color: var(--slateGrey-color);
+    }
+
+td img {
+  
+   
+}
+
+.listImg {
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+    border: 2px solid var(--orange-color);
+}
+
+/*========LOG IN=================*/
+ .btnSubmit{
+  
+   border: 2px solid var(--slateGrey-color);
+
+}
+
+    .btnSubmit:hover {
+        border: 2px solid var(--slateGrey-color);
+        color: white;
+        background-color:var(--slateGrey-color);
+    }
+
+.forgotPassword a{
+    color:var(--blue-color);
+}
+
+.forgotPassword a:hover{
+    color:var(--slateGrey-color);
+    font-weight:bold;
+}

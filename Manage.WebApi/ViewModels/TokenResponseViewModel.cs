@@ -21,6 +21,8 @@ namespace Manage.WebApi.ViewModels
             public int expiration { get; set; }
             public string refresh_token { get; set; }
             public string role_name { get; set; }
+
+            public string userId { get; set; }
         
             #endregion
         }

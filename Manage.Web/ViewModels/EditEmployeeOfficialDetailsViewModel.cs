@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Manage.Web.Utilities;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -10,12 +12,14 @@ namespace Manage.Web.ViewModels
     public class EditEmployeeOfficialDetailsViewModel
     {
         public string Id { get; set; }
+
         public string Title { get; set; }
         [DisplayName("First Name")]
-   
+  
         public string FirstName { get; set; }
 
         [DisplayName("Middle Name")]
+     
         public string MiddleName { get; set; }
 
         [DisplayName("Last Name")]
@@ -42,8 +46,10 @@ namespace Manage.Web.ViewModels
         public string Manager { get; set; }
 
         public string Password { get; set; }
+   
+        [Required(ErrorMessage = "Confirm Password required")]
+        [Compare("Password", ErrorMessage = "Password and Confirm Password do not match")]
         public string ConfirmPassword { get; set; }
-
         public string Email { get; set; }
         public string UserName { get; set; }
 

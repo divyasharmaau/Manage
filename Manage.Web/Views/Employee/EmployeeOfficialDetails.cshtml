@@ -42,33 +42,53 @@
 <div class="row">
     <div class="col-12">
         <div class="card shadow-lg p-3 mb-5">
-            <div class="card-header border-0">
-                <h3 class="card-title">Employee Official Details </h3>
+            <div class="card-title">
+                <h3 class="card-title cardTitle">Employee Official Details</h3>
             </div>
             <!-- /.card-header -->
-            <div class="card-body">
-                <div class="table table-responsive table-borderless text-center mt-3">
-                    <table>
-                        <tr>
-                            <td><img src="@photoPath" asp-append-version="true" class="imageThumbnail" /></td>
-                            <td>
-                                <h4>@Model.FirstName</h4>
-                                <h5>Department:@Model.Department.Name</h5>
-                            </td>
-                        </tr>
-                    </table>
+            <div class="card-header border-0">
+                <div class="row align-items-center mt-3 mb-3">
+                    <div class="col-sm-6 col-md-3">
+                        @if (Model.EmployeePersonalDetails == null)
+                        {
+                            <img class="imageThumbnail" src="~/dist/img/avatar.png" asp-append-version="true" alt="Employee Photograph" />
+                        }
+                        else
+                        {
+                            <img class="imageThumbnail" src="~/dist/img/@Model.EmployeePersonalDetails.PhotoPath" asp-append-version="true" alt="Employee Photograph">
+                        }
+                    </div>
+                    <div class="col ">
+                        <h4>@Model.FullName</h4>
+                        <h5>@Model.Department.Name</h5>
+                    </div>
                 </div>
-                <!--Employee Details Form-->
+            </div>
+            @*<div class="table table-responsive table-borderless text-center mt-3">
+            <table>
+                <tr>
+                    <td><img src="@photoPath" asp-append-version="true" class="imageThumbnail" /></td>
+                    <td>
+                        <h4>@Model.FirstName</h4>
+                        <h5>Department:@Model.Department.Name</h5>
+                    </td>
+                </tr>
+            </table>
+        </div>*@
+            <!--Employee Details Form-->
+            <div class="card-body">
+
                 <div class="form-row">
                     <div class="form-group col-md-4">
                         <label asp-for="Title" class="col-auto col-form-label text-sm"></label>
-                        <p asp-for="Title" class="form-control">@Model.Title</p>
+                        <div class="col">
+                            <p asp-for="Title" class="form-control">@Model.Title</p>
+                        </div>
                     </div>
                 </div>
                 <div class="form row">
                     <div class="form-group col-md-4">
                         <label asp-for="FirstName" class="col-auto col-form-label text-sm"></label>
-
                         <div class="col">
                             <p asp-for="FirstName" class="form-control">@Model.FirstName</p>
                         </div>
@@ -159,28 +179,27 @@
                         <div class="col">
                             <p asp-for="Manager" class="form-control">@Model.Manager</p>
                             @*<input asp-for="Manager" class="form-control" placeholder="Manager" />
-                                <span asp-validation-for="Manager"></span>*@
+                        <span asp-validation-for="Manager"></span>*@
                         </div>
                     </div>
                 </div>
-                <div class="form-row mt-3 text-center">
+                <div class="form-row mt-3">
                     @if (signInManager.IsSignedIn(User) && User.IsInRole("Administartor"))
                     {
                         <div class="col-md-4">
                             <a type="submit" class="btn btn-outline-info m-5" asp-action="EditEmployeeOfficialDetailsAdmin" asp-controller="Employee" asp-route-id="@Model.Id">Edit</a>
                         </div>
                         <div class="col-md-4">
-                            <a asp-action="EmployeeList" asp-controller="Employee" class="btn btn-outline-secondary m-5 ">Cancel</a>
+                            <a asp-action="EmployeeList" asp-controller="Employee" class="btn btn-outline-secondary m-5">Cancel</a>
                         </div>
                         <div class="col-md-4">
                             <a asp-action="EmployeePersonalDetails" asp-controller="Employee" asp-route-id="@Model.Id" class="btn btn-outline-success m-5 ">Next</a>
                         </div>
                     }
-                    else if (signInManager.IsSignedIn(User) && User.IsInRole("Registered User"))
+                    else if (signInManager.IsSignedIn(User))
                     {
-
                         <div class="col-md-4">
-                            <a type="submit" class="btn btn-outline-info m-5" asp-action="EditEmployeeOfficialDetails" asp-controller="Employee" asp-route-id="@Model.Id">EditByEmp</a>
+                            <a type="submit" class="btn btn-outline-info m-5" asp-action="EditEmployeeOfficialDetails" asp-controller="Employee" asp-route-id="@Model.Id">Edit</a>
                         </div>
                         <div class="col-md-4">
                             <a asp-action="EmployeeList" asp-controller="Employee" class="btn btn-outline-secondary m-5 ">Cancel</a>
