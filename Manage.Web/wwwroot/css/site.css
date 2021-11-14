@@ -5,10 +5,11 @@ for details on configuring this project to bundle and minify static web assets. 
     --blue-color: #1e4356;
     --white-color: red;
     --slateGrey-color: #846a9b;
-       --orange-color: #e9801f;
+    --orange-color: #e9801f;
+    --lightOrange-color: #f0b176;
     /*--orange-color: #534666; purple*/
     /*    --orange-color: #2aa876; mediumGreen*/
-/*    --orange-color: #1e501d; sapgreen*/
+    /*    --orange-color: #1e501d; sapgreen*/
 }
 a.navbar-brand {
   white-space: normal;
@@ -22,12 +23,21 @@ a {
     color: #1e4356;
 }
 
-.cardTitle{
-    color:var(--orange-color);
-    font-weight:bold;
-    font-size:2rem;
-
+.card .card-title{
+    margin-bottom:0px;
 }
+.cardTitle{
+  /*  color:var(--orange-color);*/
+   /* color:white;*/
+
+    font-weight:bold;
+    font-size:2.2rem;
+}
+/*.card .card-header{
+    background-color: var(--lightOrange-color);
+    text-align:center;
+    margin-bottom:0;
+}*/
 .btn-primary {
   color: #fff;
   background-color: #1b6ec2;
@@ -38,7 +48,6 @@ a {
   color: #fff;
   background-color: #1b6ec2;
   border-color: #1861ac;
-  
 }
 
 
@@ -173,13 +182,28 @@ a.disabled {
 .main-sidebar {
     background: url(/dist/img/pattern.jpg) repeat-y;
 }
-
-.user-body .btn:hover{
-    outline:none;
+/*.sideBar nav ul li a:hover{
+    color:red;
+}*/
+.user-panel img {
+    border: 2px solid var(--orange-color);
+    height: auto;
+    width: 3.8rem;
+}
+.user-body .btn:hover {
+    outline: none;
+}
+.nav-sidebar .nav-item:hover  {
+    color: var(--slateGrey-color);
+}
+.nav-sidebar .nav-item .nav-link i {
+    color: var(--slateGrey-color);
+    font-weight: bold;
 }
 
-th a{
-    color:var(--blue-color);
+
+    th a {
+    color: var(--blue-color);
 }
     th a:hover {
         color: var(--blue-color);
@@ -227,4 +251,99 @@ td img {
 .forgotPassword a:hover{
     color:var(--slateGrey-color);
     font-weight:bold;
+}
+
+/*----------Leave----------*/
+.leaveEmployeeName span{
+    font-size:1.2rem;
+    font-weight:bold;
+    color:var(--slateGrey-color);
+}
+
+.btn.btnSubmitForm {
+    border: 2px solid var(--orange-color);
+}
+
+    .btn.btnSubmitForm:hover {
+        background-color: var(--lightOrange-color);
+        color:white;
+        outline: none;
+    }
+
+
+select.form-control {
+    border: 2px solid var(--slateGrey-color);
+/*    background: #6ac17a;
+    color: #fff;*/
+}
+    select.form-control:hover {
+        border: 2px solid var(--lightOrange-color);
+        outline: none;
+        box-shadow: none;
+    }
+    select.form-control:focus {
+        outline: none;
+        box-shadow: none;
+        border: 2px solid var(--lightOrange-color);
+    }
+
+
+input[type=file] .custom-file-input {
+    border: 2px solid red;
+}
+input[type=text], input[type=password], input[type=number], input[type=date], input[type=email] {
+    border: 2px solid var(--slateGrey-color);
+}
+
+    input[type=text]:hover, input[type=password]:hover, input[type=number]:hover, input[type=date]:hover, input[type=email]:hover input[type=checkbox]:hover {
+        border: 2px solid var(--lightOrange-color);
+        outline: none;
+        box-shadow: none;
+    }
+input[type=text]:focus, input[type=password]:focus, input[type=number]:focus, input[type=date]:focus, input[type=email]:focus {
+    outline: none;
+    box-shadow: none;
+    border: 2px solid var(--lightOrange-color);
+}
+
+/*input[type=email].input-group-append.inputSpan{
+    border: 2px solid var(--slateGrey-color);
+    background-color:red;
+}*/
+.custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: green;
+}
+
+.custom-control-input:checked ~ .custom-control-label::before {
+    color: red;
+    background-color: pink;
+}
+
+
+    .customFileInput.form-control {
+        background-color: red;
+        border: 10px solid black;
+    }
+
+    /*.custom-file-input:focus ~ .custom-file-label {
+        border-color:pink;
+        box-shadow: none;
+    }
+*/
+
+/*Page Styles*/
+.pagination .page-item.active .page-link {
+    background-color: var(--slateGrey-color);
+    border-color: var(--slateGrey-color);
+}
+
+.pagination .page-item a {
+    color: var(--lightOrange-color);
+}
+.pagination .page-count {
+    color: var(--slateGrey-color);
+    margin-top: 1rem;
+}
+pagination.page-link {
+    color: var(--slateGrey-color);
 }

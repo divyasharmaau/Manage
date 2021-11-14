@@ -55,17 +55,27 @@ namespace Manage.Web.Services
 
         public async Task<double> TotalSickLeaveTaken(string id)
         {
-            var annualLeaveCount = await _employeeLeaveService.TotalSickLeaveTaken(id);
-            return annualLeaveCount;
+            var totalSickLeaveTaken = await _employeeLeaveService.TotalSickLeaveTaken(id);
+            return totalSickLeaveTaken;
         }
 
-        public async Task<double> TotalSickLeaveAccured(string id)
-        {
-            var annualLeaveAccured = await _employeeLeaveService.TotalSickLeaveAccured(id);
-            return annualLeaveAccured;
+        public async Task<double> TotalSickLeaveAccured(string id) {
+            var totalSickLeaveAccured = await _employeeLeaveService.TotalSickLeaveAccured(id);
+            return totalSickLeaveAccured;
         }
+        //public async Task<double> TotalSickLeaveTaken(string id)
+        //{
+        //    var annualLeaveCount = await _employeeLeaveService.TotalSickLeaveTaken(id);
+        //    return annualLeaveCount;
+        //}
 
-       public async Task<ApplicationUserViewModel> GetEmployeeWithLeaveList(string id)
+        //public async Task<double> TotalSickLeaveAccured(string id)
+        //{
+        //    var annualLeaveAccured = await _employeeLeaveService.TotalSickLeaveAccured(id);
+        //    return annualLeaveAccured;
+        //}
+
+        public async Task<ApplicationUserViewModel> GetEmployeeWithLeaveList(string id)
         {
             var emp = await _employeeLeaveService.GetEmployeeWithLeaveList(id);
             var mapped = _mapper.Map<ApplicationUserViewModel>(emp);

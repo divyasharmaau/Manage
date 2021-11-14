@@ -17,7 +17,7 @@
         <div class="card shadow-lg p-3 mb-5 bg-white">
             <div class="card-header border-0 padding-bottom:0px;">
                 <h3 class="card-title cardTitle">Employee List</h3>
-                <a asp-action="CreateEmployee" asp-controller="Employee" style="float:right" data-toggle="tooltip" 
+                <a asp-action="CreateEmployee" asp-controller="Employee" style="float:right" data-toggle="tooltip"
                    data-placement="bottom" title="Add Employee"><i class="fas fa-plus" style="float: right; color: #946e9f;"></i></a>
             </div>
             <!--/.card-header-->
@@ -31,7 +31,7 @@
                                 <th>
                                 </th>
                                 <th class="text-color">
-                                 @Html.ActionLink("Full Name", "EmployeeList", new { sortOrder = ViewBag.SortByName })  <span>&#129113;</span>
+                                    @Html.ActionLink("Full Name", "EmployeeList", new { sortOrder = ViewBag.SortByName })  <span>&#129113;</span>
                                 </th>
                                 <th style="color: #1e4356">
                                     Department
@@ -66,7 +66,7 @@
                                 }
                                 <tr>
                                     <td>
-                                        <img class="listImg elevation-2" src="@photoPath" asp-append-version="true" alt="Emp Photo"  />
+                                        <img class="listImg elevation-2" src="@photoPath" asp-append-version="true" alt="Emp Photo" />
                                     </td>
                                     <td>
                                         <a asp-controller="Employee" asp-action="EmployeeOfficialDetails" asp-route-id="@employee.Id">@employee.FullName</a>
@@ -98,20 +98,33 @@
 
                         </tbody>
                     </table>
-                    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
-                    @Html.PagedListPager(Model, page => Url.Action("EmployeeList", new { page }), new PagedListRenderOptions
-               {
-                   //DisplayLinkToIndividualPages = true,
-                   //DisplayPageCountAndCurrentLocation = false,
-                   //MaximumPageNumbersToDisplay = 10,
-                   LiElementClasses = new string[] { "page-item" },
-                   PageClasses = new string[] { "page-link" },
+                    <!--Pagination-->
+                    <div class="pagination row">
+                        <div class="col">
+                            <div class="row">
+                                <div class="col page-count">
+                                    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    @Html.PagedListPager(Model, page => Url.Action("EmployeeList", new { page }), new PagedListRenderOptions
+                                          {
+                                             //DisplayLinkToIndividualPages = true,
+                                             //DisplayPageCountAndCurrentLocation = false,
+                                             //MaximumPageNumbersToDisplay = 10,
+                                             LiElementClasses = new string[] { "page-item" },
+                                             PageClasses = new string[] { "page-link" },
 
-               })
-
-
-                </div>
+                                          })
+                                </div>
+                            </div>
+                        </div>
+                      
+                    </div>
+            
+         
             </div>
         </div>
     </div>
@@ -142,3 +155,5 @@
         });
     });
 </script>
+
+

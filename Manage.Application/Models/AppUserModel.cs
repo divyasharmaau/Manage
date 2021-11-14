@@ -27,5 +27,10 @@ namespace Manage.Application.Models
         public string LeaveStatus { get; set; }
         [Required]
         public string Duration { get; set; }
+
+        [DisplayName("Annual Leave")]
+        public double BalanceAnnualLeave { get; set; }
+        [DisplayName("Sick Leave")]
+        public double BalanceSickLeave { get; set; }
     }
 }

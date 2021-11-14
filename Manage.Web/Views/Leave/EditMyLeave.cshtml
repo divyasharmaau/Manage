@@ -11,7 +11,7 @@
 
         <div class="card shadow-lg p-3 mb-5">
             <div class="card-header border-0">
-                <h3 class="card-title">Edit My Leave</h3>
+                <h3 class="card-title cardTitle">Edit My Leave</h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -20,19 +20,19 @@
                     <input type="hidden" asp-for="LeaveId" />
                     <input type="hidden" asp-for="@Model.Leave.Id" />
                     <input type="hidden" asp-for="EmployeeId" />
-                    <div class="form-row ">
-                        <div class="form-group col-md-6">
-                            <div>
-                                <span>@Model.Employee.FullName</span>
-                            </div>
-                        </div>
-                    </div>
+                    @*<div class="form-row ">
+            <div class="form-group col-md-6">
+                <div class="leaveEmployeeName">
+                    <span >@Model.Employee.FullName</span>
+                </div>
+            </div>
+        </div>*@
 
                     <div class="form-row mt-3">
                         <div class="form-group col-6">
-                            <label asp-for="@Model.Leave.CurrentDate" class="col-form-label small form-text">Date Applied:</label>
+                            <label asp-for="@Model.Leave.CurrentDate" class="col-auto col-form-label text-sm">Date Applied:</label>
                             <div class="col">
-                                <input type="text" readonly class="form-control-plaintext" asp-for="@Model.Leave.CurrentDate">
+                                <input type="date" readonly class="form-control-plaintext" asp-for="@Model.Leave.CurrentDate">
                             </div>
                         </div>
                     </div>
@@ -42,47 +42,49 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group  col-md-6 ">
-                            <label asp-for="@Model.Leave.FromDate" class="col-auto col-form-label small form-text">From Date:</label>
+                            <label asp-for="@Model.Leave.FromDate" class="col-auto col-form-label text-sm">From Date:</label>
                             <div class="col">
                                 <input asp-for="@Model.Leave.FromDate" type="date" asp-format="{0:yyyy-MM-dd}" class="form-control datepicker" />
+                                <span asp-validation-for="@Model.Leave.FromDate" class="text-danger small"></span>
                             </div>
                         </div>
                         <div class="form-group col-md-6 ">
-                            <label asp-for="@Model.Leave.TillDate" class="col-auto col-form-label small form-text">Till Date:</label>
+                            <label asp-for="@Model.Leave.TillDate" class="col-auto col-form-label text-sm">Till Date:</label>
                             <div class="col">
                                 <input asp-for="@Model.Leave.TillDate" type="date" asp-format="{0:yyyy-MM-dd}" class="form-control datepicker" />
+                                <span asp-validation-for="@Model.Leave.TillDate" class="text-danger small"></span>
                             </div>
                         </div>
                     </div>
 
                     <div class="form-row  mt-3">
-                        <div class="form-group col-4">
-                            <label asp-for="@Model.Leave.LeaveType" class="col-auto col-form-label small form-text"></label>
+                        <div class="form-group col-sm-12 col-md-4">
+                            <label asp-for="@Model.Leave.LeaveType" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <select asp-for="@Model.Leave.LeaveType">
-                                    <option>--Select--</option>
+                                    <option value="">--Select--</option>
                                     <option value="Annual Leave">Annual Leave</option>
                                     <option value="Sick Leave">Sick Leave</option>
                                 </select>
-                                <span asp-validation-for="@Model.Leave.LeaveType" class="text-danger"></span>
+                                <span asp-validation-for="@Model.Leave.LeaveType" class="text-danger small"></span>
                             </div>
                         </div>
-                        <div class="form-group col-4">
-                            <label asp-for="@Model.Leave.Duration" class="col-auto col-form-label small form-text"></label>
+                        <div class="form-group col-sm-12 col-md-4">
+                            <label asp-for="@Model.Leave.Duration" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <select asp-for="@Model.Leave.Duration">
-                                    <option>--Select--</option>
-                                    <option>Full Day</option>
-                                    <option>First Half Day</option>
-                                    <option>Second Half Day</option>
-                                    <option>Others</option>
+                                    <option value="">--Select--</option>
+                                    <option value="Full Day">Full Day</option>
+                                    <option value="First Half Day">First Half Day</option>
+                                    <option value="Second Half Day">Second Half Day</option>
+                                    <option value="Others">Others</option>
                                 </select>
-                                <span asp-validation-for="@Model.Leave.Duration" class="text-danger"></span>
+                                <span asp-validation-for="@Model.Leave.Duration" class="text-danger small"></span>
                             </div>
                         </div>
 
-                        <div class="form-group col-4">
-                            <label class="col-auto col-form-label small form-text">Number of Leave Days</label>
+                        <div class="form-group col-sm-12 col-md-4">
+                            <label class="col-auto col-form-label text-sm">Number of Leave Days</label>
                             @{
 
                                 double numberOfDaysofLeave = 0;
@@ -108,56 +110,60 @@
 
                     <div class="form-row mt-3">
                         <div class="form-group col-12">
-                            <label asp-for="@Model.Leave.Reason" class="col-form-label small form-text ">Reason:</label>
+                            <label asp-for="@Model.Leave.Reason" class="col-auto col-form-label text-sm">Reason:</label>
                             <div class="col-auto">
                                 <input class="leave-form-input-text form-control" asp-for="@Model.Leave.Reason" />
+                                <span asp-validation-for="@Model.Leave.Reason" class="text-danger small"></span>
                             </div>
                         </div>
                     </div>
                     <div class="form-row mt-3">
                         <div class="form-group col-12">
-                            <label asp-for="@Model.Leave.Comment" class="col-form-label small form-text">Comment:</label>
+                            <label asp-for="@Model.Leave.Comment" class="col-auto col-form-label text-sm">Comment:</label>
                             <div class="col-auto">
                                 <input type="text" readonly class=" leave-form-input-text form-control-plaintext" id="Comment" name="Comment" asp-for="@Model.Leave.Comment" />
                             </div>
                         </div>
                     </div>
                     <div class="form-row mt-3">
-                        <div class="form-group col-6">
-                            <label class="col-auto col-form-label small form-text">Net Leave Balance</label>
-                            <div class="col">
-                                <ul>
-                                    <li>
-                                        Annual Leave balance : @Model.Leave.BalanceAnnualLeave @*@{
-                            Math.Round(@Model.LeaveModel.BalanceAnnualLeave, 2);
-                        };*@
-                                    </li>
-                                    <li>
-                                        Sick Leave balance : @Model.Leave.BalanceSickLeave
+                        <div class="form-group col-12">
+                            <label class="col-auto col-form-label text-sm">Net Leave Balance</label>
+                            <div class="table table-responsive">
+                                <table class="table table-borderless">
+                                    <tr>
+                                        <td style="width:200px; height:fit-content"> Annual Leave balance:</td>
+                                        <td>@Model.Leave.BalanceAnnualLeave</td>
 
-                                    </li>
-                                </ul>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:200px;"> Sick Leave balance:</td>
+                                        <td>@Model.Leave.BalanceSickLeave</td>
+                                    </tr>
+                                </table>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="form-row mt-3">
                         <div class="form-group col-6">
-                            <label class="col-auto col-form-label small form-text">Status</label>
+                            <label class="col-auto col-form-label text-sm">Status</label>
                             <div class="col">
-                                <input name="LeaveStatus" id="LeaveStatus" value="@Model.Leave.LeaveStatus" />
+                                <input readonly name="LeaveStatus" id="LeaveStatus" value="@Model.Leave.LeaveStatus" />
                             </div>
                         </div>
                     </div>
 
 
                     <div class="form-row mt-3">
-                        <div class="form-group col-6">
-                            <label asp-for="File" class="col-auto col-form-label small form-text">Replace Documents</label>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label asp-for="File" class="col-auto col-form-label text-sm">Replace Documents</label>
                             <div class="col custom-file">
                                 <input asp-for="File" class="form-control custom-file-input" />
                                 <label class="custom-file-label">Choose File...</label>
                             </div>
                         </div>
-                        <div class="=form-group col-6">
-                            <label asp-for="@Model.ExistingFilePath" class="col-auto col-form-label small form-text">Existing File</label>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label asp-for="@Model.ExistingFilePath" class="col-auto col-form-label text-sm">Existing File</label>
                             <div class="col">
                                 <input asp-for="@Model.ExistingFilePath" class="form-control readonly" />
                             </div>
@@ -168,7 +174,7 @@
                     <div class="form-row mt-5">
                         <div class="form-group col-12 float-right">
                             <button type="submit" class="btn btn-outline-success ">Update</button>
-                            <a  asp-action="GetAllMyLeaves" asp-controller="Leave" asp-route-id="@Model.EmployeeId" class="btn btn-outline-info ">Cancel</a>
+                            <a asp-action="GetAllMyLeaves" asp-controller="Leave" asp-route-id="@Model.EmployeeId" class="btn btn-outline-info ">Cancel</a>
                         </div>
                     </div>
 

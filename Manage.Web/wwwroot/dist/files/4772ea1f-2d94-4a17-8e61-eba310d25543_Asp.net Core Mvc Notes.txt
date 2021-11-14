@@ -1,0 +1,507 @@
+Sync vs Asunc
+
+lets say there are task A, B, C, D 
+s: task gets done in a sequence. first A is completed then B then C and D . Until thetask A is completed 
+the UI remains frozen  and none of the other tasks can be done. awaiting for the completion of Task A
+a: if task A is taking longer to complete , the control is given back to UI so that it is still responsive
+ if task c and D do not rely on A or each other , the while running the application asynchronously the , all teh tasks
+ can be run parallery .
+
+MAKE ASYNC
+Task.Run() eg Task.Run(() => method())
+Task,Run wraps around the call(or the method ) to make it async if it is sync. if the method cannot be made async natively
+
+await : run task aynsc but wait for results . whatever caller calls thsi can go on other work while waiting for teh results
+allows flexibility.
+If you do not await the task , it will fire and forget , application proceeds further without getting the results for that method.
+it will just return the type task or whatever output you want and will allow the code to go on.
+
+when to use wait : when you have to rely on the data coming back or use the data , 
+
+method has to be async  and it cannot return   void. just say Task , 
+or if return type is string Task<string> Exception : event cannot be changed from void 
+
+//parallel 
+List<Task<model>> tasks = new List
+tasks.Add(Task.Run() ->
+
+var results = await Task.WhenAll(tasks)
+then use foreach loop to acces each of the item in result
+
+model is named singularly as the model describes a single instance 
+IFormFile is teh representative of the physical file that the user has selected
+using directive
+
+namespace is teh path that extends from the name of the project to  folder where the class can be located
+
+Naviogation properties :it levarges the fk to get the entire record represengted by single body
+class can have parent or children navigation properties
+children are usually with ICollection or list
+
+        public virtual ICollection<Tag> Tags { get; set; } = new HashSet<Tag>();
+		The virtual part is to help Entity Framework with lazy loading.
+		
+tags are in the DB table. HashSet is teh concrete class which will implement the Interface of ICollection.
+Enums:are generraly used when to avoid to write a string. readystatus.Inco 
+To limit the choices
+
+Inheritance, together with encapsulation and polymorphism, is one of the three primary characteristics of object-oriented programming.
+ Inheritance enables you to create new classes that reuse, extend, and modify the behavior defined in other classes.
+
+In practical terms inheritance allows you to take built in classes and add on additional functionality. 
+Inheritance is a powerful concept, it allows the derived class (BlogUser) to be used in place of the base class (IdentityUser). 
+You can access all of the functionality built around IdentityUser with your custom class.
+Technology
+
+Entity Framework - "Entity Framework (EF) is an open source object–relational mapping (ORM) framework for ADO.NET. " Entity Framework is a piece of software 
+that can translate your C# code into SQL instructions for the database. It will also tie in later when you begin writing LINQ statements. Entity Framework 
+operates by looking for established patterns in your primary/foreign keys to create relationships between your database tables.
+
+AspNet tables - When using Microsoft Identity several database tables will be created for you without any additional code on your part. All of the tables have 
+names that being with "AspNet". These tables manage the information that Identity needs to function correctly. The most common table to interact with is the 
+AspNetUsers tables, which tracks your registered users. Even if you create a custom user class (like BlogUser) the information will still be stored in the 
+AspNetUsers table.
+
+DbSet - "A DbSet represents the collection of all entities in the context, or that can be queried from the database, of a given type." The DbSets represent, 
+but are not, the tables in your database. This is a minor, but important distinction. DbSets are filled with information (queries) from the database, can be 
+modified by the user or the code itself, and can persist (save) these changes to the database. 
+
+Additions
+
+You application was created with the code needed to connect to a Microsoft SQL database. This video shows the process of migrating your code to the database, 
+the final part of the Code First approach.
+
+When the application was created a migration file was also created with instructions on creating the database tables to support Identity.
+
+Technology
+
+Package Manager Console - This is the built in command line terminal for Visual Studio. This works in the same manner as the Terminal in VS Code
+
+Terms
+
+Migration - A file that contains instruction to the database on how to construct or update tables. The first migration is typically called the "initial 
+migration". This creates the first set of tables based on the models in your application. If you later add or change the models in your application you will 
+need to create a new migration. 
+
+Environment - This is a general term that describes where your application is running. This can be which computer you are using, which database you connect to, 
+or whether your code has been published or not. You will also see this as "environmental variables", these are different sets of information based on where the 
+code is running. A common use for these variables is the database your application connects to. Your development environment might connect to a local MSSQL 
+database while the production environment connects to a PostgreSQL database on Heroku
+
+Out of the box - A colloquialism that describes features that are included when the project is created. A .NET MVC application connects to MSSQL "out of the 
+box" - as soon as the application is created by Visual Studio it contains all the code needed to connect to that type of database.
+
+Add-Migration 001 - o "Data/Migrations"
+
+Creating the models that define your data and setting up the database to store and supply that data are the foundation of your application, but don't actually 
+add any functionality. For that you will be scaffolding controllers for each model. As part of this process Visual Studio will also create five views per 
+controller for you.
+
+Scaffolding controllers and views takes your application from conceptual to minimally functional. Once your controllers are scaffolded you can launch your 
+application and add/remove information from the database.
+
+When starting out it is a good idea to scaffold a controller and views for every model you created, except for the User model (in this application BlogUser). 
+Users are handled by the Identity namespace, the next video will cover how to work with that.
+
+Terms
+
+CRUD - an acronym for Create, Read, Update, Delete. This is used to describe the interaction between the application and the database:
+
+Create - adding a record to the database
+Read - displaying one or more records from the database
+Update - modifying a record in the database
+Delete - removing a record from the database (hard delete)
+There are five views created to handle CRUD:
+
+Create -  Create.cshtml
+Read - Index.cshtml (read all) & Details.cshtml (read one)
+Update - Edit.cshtml
+Delete - Delete.cshtml
+Action - an action is a method in a controller class that renders a View. All actions are methods, but not all methods are actions
+
+Route - an endpoint (URL) that triggers a controller action.
+
+Scaffolding - using the built in tools of Visual Studio to write code for you. Scaffolded code is "minimally viable" code, it works but is very basic code. 
+Scaffolding code is a very time saving process, but should not be the end of your process. Scaffolded views have standard HTML that experienced developers will 
+immediately recognize. You should not go to production with any scaffolded views.
+
+cshtml - the .cshtml file extension indicates a view file that will contain both HTML and C# code.
+
+Razor - "Razor is a markup syntax for embedding server-based code into webpages. The Razor syntax consists of Razor markup, C#, and HTML. Files containing 
+Razor generally have a .cshtml file extension." Razor is what allows a developer to write C# directly in line with HTML and the server will convert the C# code 
+into HTML that can be rendered by the browser.
+
+GET/POST - GET and POST (capitalized to differentiate from the model Post you have created) are the two types of controller actions. GET actions "get" 
+information from the controller and database to render a view. POST actions "post" information to the database. In a scaffolded controller there are five GET 
+actions (Index, Details, Create, Edit, Delete) and three POST actions (Create, Edit, DeleteConfirmed). There is no POST action for Index and Details because 
+those are read actions, they display information only.
+
+The Identity namespace, which includes the model for Users, is handled differently than your other models. When you chose Individual User Accounts at project 
+creation all of the code needed to make that functional was included in your application. Scaffolding a controller resulted in new code being created, 
+scaffolding Identity exposes the code that was already in your application, but hidden away.
+
+Terms
+
+MVVM - Model, View, View Model design pattern. This design pattern shares many similarities with the MVC design pattern, but instead of relying on a controller 
+to render a view each page contains all of the information needed. These pages are a combination of a .cshtml file (the Page) and a .cshtml.cs file (the code 
+behind). The code behind handles both the GET and POST actions and contains the definition for the model used by the Page.
+
+Page - a type of file used in MVVM design pattern. A Page is used to generate a webpage, but they are not the same. Closely related to the View files used in 
+the MVC portion of your application
+
+Code behind - contains all the information needed to render a Page
+
+Shared view - Repeated section of HTML and Razor code that can be used by multiple views/pages. This will include the navigation menu
+
+Additions
+
+Before fully diving in to customize the scaffolded HTML and Razor that Visual Studio created for you, you will need to update your StartUp.cs file with a few 
+more lines of code. In previous steps you have updated the your ConfigureServices method from AddDefaultIdentity to AddIdentity, now you will add more options. 
+Add the following two lines of code before AddEntityFrameworkStores:
+
+.AddDefaultUI()
+
+.AddDefaultTokenProvider()
+
+NOTE: There is a period (dot) before each method
+
+REMINDER: Having each method (EFStores, UI, and TokenProvider) on a separate line is acceptable and standard practice. The white space will be ignored and your 
+code will be easier to read
+
+Next you will add a new service:
+
+services.AddRazorPages();
+
+Routes
+
+In an MVC application routes have three components, the Controller, the Action, and optional Parameters.
+
+Controller - the name of the Controller class with the word Controller removed ex. "BlogsController" becomes "Blogs", "HomeController" becomes "Home"
+If you do not specify a Controller the application will use the controller that rendered that View ex. when clicking a link on the Index view of the Blogs 
+controller the assumed controller is Blogs
+If the link was not rendered by a controller (_Layout for example) the assumed controller is Home
+You can always include asp-controller
+
+Action - the action (method) within the controller
+If no action is specified the Index action is assumed
+
+Parameters - not all actions require parameters (Index, Create) while others cannot function without a parameter (Details, Edit, Delete). Some actions will 
+require multiple parameters.
+The default parameter is "id"
+Other parameter can be specified using the same asp helper
+Index view
+
+The Index displays all of the data from one table by default. It uses a table to display this information, the headers are pulled directly from the properties 
+of the model, unless you have used the Display annotation. The body of the table is the information contained in the database. This scaffolded code is very 
+literal, it will display exactly what is in the database. This can cause problems when the information in the database is not human readable. Future videos 
+will cover ways to handle this issue.
+
+Patterns
+
+Scaffolding views is very useful to beginning developers because it present you will the patterns for functional code. Scaffolded code may not be the "best" 
+way to write a piece of code, but it is functional. Begin with functional code and then improve it. This is a concept you will use throughout your career, 
+"Make it work then make it pretty"
+
+Terms
+
+Constructor - The method(s) that contains instructions for creating a new instance of a class. Every class has a constructor, even if it is not explicitly 
+written in the code
+
+Constructor injection - Constructor injection is used to give a class access to a service every time the class is used. Any controller that reads from or 
+writes to the database will need ApplicationDbContext injected. Later in the course you will inject custom services into your controllers
+
+ApplicationDbContext - This is the class that controls access to the database. Without access to this class your code cannot communicate with your database
+
+Queryable/IQueryable - A C# type that handles interactions between your code and database. This Type is not meant to be passed to a view, in the scaffolded 
+code it is converted to a List<T> using the .ToList() or .ToListAsync() method
+
+Breakpoint - An instruction to pause the execution of code immediately before the breakpoint. The execution stops before the line of code with the breakpoint. 
+Breakpoints are used to troubleshoot code by allowing you to step through each line of code and determine what is causing an error. Breakpoints can also be 
+used to test if a line of code is being run, if the breakpoint doesn't "hit" then the code is not being run.
+
+Model declaration - In the MVC pattern each view supports zero or one model. This model defines the information that the controller can pass to the view. If 
+the model passed by the controller does not match the model declared in the view this causes a Model Dictionary error
+
+ViewData - A dynamic Object used to pass information from controller to view or from a view to a shared component. This is good for passing small amounts of 
+information. It can be used to pass large amounts of data, but there is almost always a better way to achieve the same end result.
+
+foreach - A C# looping structure that is based on the for loop. A foreach loop will run once per object in a collection. 
+
+Scaffolded views are very literal, they provide user input for every mapped property in your model. To collect user information the forms will be created with 
+input or select elements. Technically this is all the application needs to be functional, but as the video shows this is not what we want in our application.
+
+You will be removing any programmatically set properties, any properties that cannot be set on creation (like an Updated date), and adding any NotMapped 
+properties that you need to collect from the user.
+
+Any time you need to collect files from the user you will need to update the form element. If you do not include "enctype" in the form element your user will 
+be able to choose a file from their computer, but the form will not carry that file to the server.
+
+Terms
+
+SelectList - A C# object that carries the necessary information to create the HTML select/option elements.
+
+asp-for - A tag helper that will create the "id" and "name" attributes in the input
+
+asp-items - Connects to a SelectList object to render the option HTML element for each entry in the SelectList
+
+Bind - The bind takes the named inputs from a form and "sets" those values as the properties of the model. For the bind to work each input on the form needs to 
+have a name attribute that is the same as one of the properties in the model. Normally this is done using the asp-for tag helper, but can also be done 
+manually. If the name on the input doesn't match the bind or if the property of the model is not in the bind then that input is discarded by the server.
+
+
+Additions
+
+The Edit view is very similar to the Create view. They both have a GET and POST action in the controller and forms that need to be updated from the scaffolded 
+code. The Edit view has more functionality than the Create view because it must go into the database and retrieve the data to be edited.
+
+The GET Edit action takes a nullable integer as a parameter. This parameter is the primary key of a record in the database. There are three possible paths this 
+action can take; one success case and two fail cases.
+
+Success - an integer is passed in, a record with that primary key is found in the database, and the view is rendered
+
+Failure 1 - no integer is passed in and the server returns a 404 (Not Found error)
+
+Failure 2 - an integer is passed in, but no record is found for that primary key and the server returns a 404 (Not Found error)
+
+In all three cases the action still returns a view; Edit for success and Not Found for failure. As a developer you will need to account for these cases where 
+something goes wrong so the entire application is not brought to a halt.
+
+REMINDER: When you remove an input from the form you will also remove it from the Bind. If you remove a property from the Bind you will remove it from the form.
+
+The Details view displays a single record from the database. As with the Edit action, Details takes in a nullable integer parameter and has the same "one 
+success, two failures" logic. Since the Details view is a "read" action there is no POST action.
+
+In a controller actions are GET actions unless a data annotation is used. This is why you will see [HttpPost] about Create/Edit, but no [HttpGet] above other 
+action, it is assumed.
+
+The Delete view is the third view that displays a single record and has the same code path as Details/Edit for the GET.
+
+This action is a "hard" delete, the record is completely removed from the database. In some application you will need to disable this functionality.
+
+POST CONTROLLER
+The initial update of the Edit view is very similar to the update of the Create view. Typically properties that were not set by the user on the Create will also not be set on the Edit.
+
+There are more steps in updating the Edit view that will be covered later. These additional steps are needed because of the way the scaffolded Edit action works. As part of the Edit your code informs the database that every property in the record is being updated. If a value is not passed through the form the code and database consider that to be a null value, no matter what was in the database previously.
+
+The primary purpose of the Delete view is to give the user a moment to ensure they are deleting the correct record. When a record is deleted from the database (hard delete) all of that record's children are also deleted. This is known as a cascade delete. Your application does not support "orphan records", child records that do not have a parent record (no foreign key).
+
+When building an application for a client they may specifically request that the application only use a soft delete function. This will be more common in industries that require records be maintained for auditing purposes. Alternately building a soft delete allows for a user to easily "retrieve" deleted data, it is only a matter of changing a Boolean property
+
+The Comments Index view is a view that you may not use in your final application. This is not a view that will be seen by the casual user, they will see comments directly beneath a Post. In the video this view is used to assist with moderation and review of comments, but that is a design decision. If you choose to have comment moderation occur directly on the Post Details view then you will have little need for the Comment Index view.
+
+In the video you will see three different data sets displayed on the same Index view. There are multiple ways to achieve this; multiple entry points, multiple actions that return the same view, or role based code within the action.
+
+If you know you are not going to use a view in the final application build you can remove that file from the Views folder and remove the action from the controller. By removing both the view and action you ensure that no user will be able to access that page.
+
+Terms
+
+Where clause - The Where clause is a method used with LINQ to filter results from the database. It allows you to set one or more conditions and only records that meet those conditions will be brought back from the database.
+
+When working with Views you will need to specify what model that View receives from the controller. The View's only concern is that the model it is passed matches the one declared. As long as the type matches the View is unconcerned with how that data was generated. As a developer this allows you to use the same View for multiple actions.
+
+By default "return View();" will render the View with the same name as the action, however you can instead specify which view it should render. Having separate actions that generate different datasets is a good example of separation of concern, each action handles one aspect of your application.
+
+Another instance of a design decision, will you use soft delete, hard delete, or both? If your application only uses soft deletes you need to be aware of the size of your database. Often an application will only use soft deletes, but those soft deletes are removed directly from the database. This can be done manually or programmatically once a record has been in the soft delete state for a certain amount of time.
+
+Hard delete only is the easiest, the scaffolded code does the work for you.
+
+A combination of user soft deletes and role locked hard deletes gives your application the greatest flexibility, but requires more work from you. Both delete methods need to be coded up. 
+	
+	In previous videos you've seen that a form does not have to submit itself to the same action or even controller. Now you have seen that even the process of adding new information to the database is not tied to a specific controller.
+
+Once you understand how the code works you will be able to implement that code where you need it.
+
+In this application the Create GET and POST actions can be removed from the Tags controller, the functionality will be shifted into the Create POST action of the Posts controller.
+By combining the functionality of different models into one view and one controller you reduce the number of files you have to manage and create a more streamlined process for your end user. In this application Tags do not exist independent of Posts, so they do not require the same level of functionality as the other models.
+MANAGE POSTS IN THE EDIT PAGE OF THE EXIXTING POST
+
+Scaffolding a controller for every model is a good habit when you first begin as a developer. It gives you the functionality to test your build and the connections between your models. As you built more applications and gain more experience you will start to notice the pattern of what models will need a controller in the final build.
+
+It is better to let Visual Studio scaffold more code than you need and remove it later than to be midway through a build and realize you needed that controller afterall.
+
+REGISTER
+The Register Page (not a View) is crucial for end users to create a new account in your application. The Pages in Identity use the MVVM (Model, View, View Model) pattern instead of the MVC pattern used by the rest of your application. You will see many similarities, but slightly different syntax. Instead of having named actions with HttpGet (default) or HttpPost annotation you have an OnGet() method and an OnPost() method which serve the same purpose.
+
+All Identity pages are scaffolded for IdentityUser, any application you create with a custom user record will require updates. If you look at the properties of IdentityUser you will find that several are not included in the Register Page either. Scaffolded code is minimally functional. A user needs to supply an email address and a password to be minimally functional.
+When you collect information from a user it will be carried by a form. When using the MVVM pattern there will be an Input model bound to the page. This Input model follows the same rules as the models you created in the Models folder, but is only used to move information from the Page to the OnPost() method.
+
+Unlike the Register page the Login page only requires some minor modifications and styling. Your custom user model is based on IdentityUser and the log in process only needs to collect the Email and Password of the use
+Identity creates an area for itself within your application. Part of this area is the Manage folder. Once a user has registered a new account all of the functionality for updating that account is handled by the pages in the Manage folder. Like Register and Login all of these pages will use the MVVM design pattern.
+ The _Layout view is an incredibly powerful tool for developers. It allows you to write your site wide HTML, CSS, and JS in one file to be used by every view. This view is also called the shared layout. By default every view rendered by a controller will be placed inside the shared layout as the webpage is being rendered.
+
+When a webpage is rendered by a controller there are actually several components that are combined to make the final webpage. Because multiple files are used in composing the webpage we give specific names to each component.
+
+There is a crucial line of code in the shared layout - @RenderBody(). This designates where a view will be spliced into the shared layout. The HTML from the view replaces @RenderBody and all of the code below is pushed further down.
+
+Because the shared layout is used for most views in the application you have another tool called the Section, at creation there is a single section labelled Scripts. Sections allow you to designate a portion of the view to be placed outside of RenderBody(). Typically sections will be used to include page specific JavaScript or CSS in the final webpage.
+
+A View does not have to use the shared layout. Views that do not use the shared layout must contain all of the HTML needed to render the webpage. This includes the doc type declaration, the head element, and any CSS or JS needed for the page to function. 
+
+The _LoginPartial handles the links for users, if they are not logged in it presents the links to Login or Register, if the user has already logged in they will be greeted (a link to the Manage area) and given the option to Logout.
+
+The _LoginPartial is a good example of how a partial view can be used to simplify the shared layout. It renders two links based on the log in status of the user. This code is placed in a separate file that makes it easier to locate if you need to make changes and simplifies the shared layout.
+Clean Blog template
+
+As a full stack developer you are responsible for the entire application. By using a prebuilt template you can dramatically reduce the amount of time you spend working on the front end. This course uses Bootstrap based templates to handle the bulk of front end design.
+
+The process of importing your template into your application is called "carving". Templates are distributed as individual HTML pages, you will carve out the repeated sections of these pages for the shared layout and place page specific HTML in the views.
+
+When searching for a template for this application you will want to look for blog specific templates. Blog templates are typically split into their intended use, some will be image heavy while others focus more on text.
+
+Before downloading or purchasing a template make sure that it is built on Bootstrap 4+, that it is not a WordPress specific template, and that it does not use React/Angular/Vue. It is possible to use React/Angular/Vue with the MVC design pattern, but that is not covered in this course.
+After you have downloaded a template the next step is to open the HTML and start identifying what code goes where. You can use the comments and semantic HTML tags to help make this decision. In the video Visual Studio is used to open the HTML file, but you can also use VS Code, Notepad, Notepad++, Atom, or any text editing software.
+
+Once you begin to carve in your template you can empty the folders below wwwroot. You will replace all of those files with the ones provided by your template. This is an important step because the template is built using specific versions of library, using older or newer versions can cause breaking changes. The template ships with everything you need to recreate it.
+
+The amount of files that come with a template can vary wildly; the most recent release of Clean Blog has 12 files total, some admin templates ship with thousands of files. It is best practice to only bring the needed files into your application. This prevents your application from becoming bloated with files that are never used. Bloated applications cost more to host.
+
+Files from the template can be brought into Visual Studio by dragging and dropping the files over the correct folder. Even if you drop the file in the wrong spot you can change the location by dragging and dropping. Unlike C# files your static files do not have a namespace.
+
+Until you have more experience your goal when carving in a template is to exactly recreate the template's webpages. Once you have successfully recreated the static version you can update it with your dynamic data.
+
+REMINDER: The _Layout is not connected to any controller, links on the _Layout must have an asp-controller specified or they will default to the controller for the most recent View rendered.
+
+The page names of the pages in your template will probably not match with the name of the views in your application. Understanding the purpose of your views will make the carve much easier.
+
+With every view you carve take a moment to test. This will help you identify links you need to update, files you may have missed that were page specific, or simply a typo when changing out the code. Be deliberate with your coding when you begin. As you code more and work with a specific template more you will learn the areas that cause problems and how to solve them. No developer starts with this knowledge, it comes from practice and repetition.
+
+Services is a term used to describe C# interfaces and classes that do "units of work", this can be uploading an image, sending an email, reversing a string, or anything else a developer needs done. Some services are built into the .NET framework like the Email Service, others are created by the developer.
+
+ 
+
+You will be creating several services in this application. Depending on their intended use you may register the class itself in the ConfigureServices() method in StartUp.cs or you will register an interface with a concrete class. The way a service is registered will affect how and where it can be used in the application.
+
+Technology
+
+Routing engine - MVC projects come with a default route configuration (/Controller/Action/[optional]Id), but this is not always desirable. For this application you will create a custom route configuration that will convert "human readable" URLs into a format your controllers can use. Applications with "human readable" URLs do better in organic search rankings, which can be a concern depending on the end user of your application
+
+Terms
+
+Slug - "A Slug is the unique identifying part of a web address, typically at the end of the URL." In this application you will convert the title of each Post into a slug. Slugs are combined with custom routing to produce "human readable" URLs
+
+DATA Service
+The Data Service is a class like any other C# class, the major difference is that it will be registered as a service in the StartUp.cs file.
+
+Roles are something that was included with your application when you chose individual user accounts. All of the code needed to work with these roles was included for you. As a developer you only need to add your roles to the database. This application uses two roles, Admin and Moderator.
+
+As demonstrated in the video commenting your code can help you organize your thoughts and plan what you want the code to do. These comments will help keep you on track and when you go back over your code to review and refactor it will remind you of what your intention was.
+
+REMINDER: Any time you need access to the database you will use the ApplicationDbContext class.
+
+When you are naming methods it is not required to include the word Async in the method, but this is good coding practice. You may have also noticed that each of the private variables begin with an underscore (_), this is another naming convention that you should try to stick to.
+
+A new Enum is introduced to strongly type the names of each role. While this does require a bit more work in the beginning it results in better code. Testing a user's role is case sensitive, did you name the role "admin", "Admin", "administrator", or "Administrator"? Each of those strings represents a different role.
+
+NOTE: By default your application requires that every user confirm their email address before they can log in to the application. If you do not specifically set this property to true for your seeded users they will not be able to log in.
+
+REMINDER: White space is ignored in code, so a long line of code may visually be spread over several lines in Visual Studio, but it is still considered to be one line of code. The line of code ends with a semicolon.
+
+Technology
+
+Constructor Injection - This allows a class to access registered services every time it is created. The services are made available for only as long as needed.
+
+RoleManager - A built in class in the Identity namespace that handles interactions with roles.
+
+UserManager - Another built in class from the Identity namespace that handles interactions with the user.
+
+Terms
+
+Seeding data - In this instance you are adding information to your database for testing purposes. In other instances this can refer to placing the customer's information in the database. In both cases seeding is programmatically adding information to the database.
+
+Wrapper method - A method that calls other methods. This is used when a set of methods need to run together, but should not be called separately
+
+context class tals to teh database
+CONSTRUCTOR INJECTION PUSHES THE INSTANCE OF APPLICATIONDBCONTEXT INTO THE INSTANCE OF CLASS AND HAND  TO  AND HELD IN _CONTEXT WHICH IS A PRIVATE CLASS VARIABLE
+ 
+ For our application to send out an email we need to connect it to an email server. For the purposes of this course you will be using a GMail server, the account is free and the setup is fast. Most major email providers allow for similar functionality, but the process will differ.
+
+Unlike the DataService the EmailService leverages the power of interfaces. An interface defines the method signatures, but not the execution. This allows you to use different concrete classes without having to rewrite your code base.
+
+REMINDER: Inheritance brings all of the methods and properties of the base class. The IBlogEmailService contains both the SendAsync() from IEmailSender and the new SendContactEmailAsync() method.
+
+The NuGet package for MailKit shows how important choosing the correct using directive is. Both MailKit and System.Net.Mail namespaces contain a SmtpClient class. For the code to work you need access to the MailKit namespace, if you clicked to include the System.Net.Mail namespace you will either have a naming collision (if both are present) or your code will not function the way you want it to.
+
+Terms
+
+View Model - A catch all for models that your application needs to move data that does not need to be stored in the database. View Models can collect data from the user or be filled with information from the database and then moved into a View. Because a View Model is not persisted to the database it can be composed of other models, this is how we move information from multiple models into a view (remember a view can only have one model declared)
+
+mailsetting is a json object which has comma demelited prop-value pairs
+//c# class . appsetting setting jason object(excat match)
+ "MailSettings": {
+    "Mail": "lifetravaler128@gmail.com",
+    "DisplayName": "DS",
+    "Password": "cdnrocjqcafnmetb",
+    "Host": "smtp.gmail.com",
+    "Port": 587
+  }
+  
+  when no c# class is defined
+    "Email": {
+    "Server": "smtp.gmail.com",
+    "Port": 587,
+    "SenderName": "Me",
+    "SenderEmail": "mail@gmail.com",
+    "Password": "PutYourPassword"
+  },
+  
+  
+  IMAGES
+  The ImageData and ContentType properties are not meant to be displayed to the user. They are stored in the database as a safer way to handle user supplied files, then converted into a form the browser can handle when they need to be displayed.
+
+The actual HTML is very similar to a "standard" image, the only change is that instead of supplying a static or relative image path we directly provide the browser with the information to display. In fact even static image files stored in your application go through this conversion process, it is just not displayed to the user.
+  
+  
+This video introduces two concepts; working with images and editing records. In previous sections you created an image service (interface and concrete class). Once it is created and registered you can begin using it in your code.
+
+Registered services can be used in any section of your code. The image service is used in the controller to take a user supplied file and convert it into a byte array to be stored in the database. In the views the image service takes in that byte array and the content type and converts them into a format that the browser can use to display the image.
+
+The second concept is editing records. The Update() method of ApplicationDbContext instructs the database that every property of the record has been changed, if information was not passed through the form then the database will empty that property. When every property of a model is available for editing this is perfectly functional, but in this application only a portion of the model properties are editable.
+
+To preserve the information that is currently stored in the database you will be changing how the Edit POST action works. Instead of passing all of the model information through the form to the controller you will be passing only the information that the user is allowed to edit. This information is used to update the recording by changing the properties of a tracked object instead of instructing the database to update the entire record.
+
+Terms
+
+[Authorize] - Data annotation that will only allow an action to run if the current user is logged in. If a user attempts to access this action without being logged in the application will redirect them to the Login Page. This can be further modify to require that the user be logged in and occupy a specific role
+
+IFormFile - An interface that represents any file passed to the controller through a form.
+
+Find()/FindAsync() - The LINQ clause Find()/FindAsync() takes in a primary key and returns that record from the database (or the application memory if that record is being tracked). Find()/FindAsync() are used when you have a valid primary key and need the record. If you are unsure if the primary key is valid FirstOrDefault() would be used. If you need to search on a non-primary key parameter the Where() clause is used.
+
+Tracked record - When you load a record from the database into your application the ApplicationDbContext allocates memory to save the current state of that record. Changes made to that record are held by the memory until one of two things occur; the method ends or SaveChanges() is called. If the method ends the tracked changes are discarded. If SaveChanges() is called the tracked changes are persisted (saved) in the database. Tracked is the default state of records pulled from the database, in the Bug Tracker application you will utilize untracked records.
+Tags are an organizational model in this application, and because of that, you can offload the responsibility for creating them to the Posts controller.
+
+Tags are a way of organizing posts and one post can be associated with multiple tags. This is the first time you are collecting multiple pieces of information from one input. To gather the information you add the "multiple" attribute to the select element. This attribute has a visual and functional impact, the dropdown list becomes a list box and the information being sent to the controller is caught by a List<T> object. In this instance, the list is of type string (List<string>). The List<T> object is used because it contains zero or more of type T. If the user enters no tags the code still runs, if the user enters 500 tags the code still runs.
+
+To access the individual values within a List<T> a foreach loop is the best solution. You could use a standard for loop, but that requires writing more code and introduces potential errors.
+
+REMINDER: Information is passed by name. If you do not add the name attribute to your input/select/textarea that information will not be passed to the controller.
+
+This video introduces a few simple JavaScript functions that will allow the user to enter tags and retain them until the form is submitted to the server. DOM manipulation is still the responsibility of JavaScript for now.
+
+REMINDER: The third portion of the asp-route helper is the name that will be passed to the controller as a parameter. In scaffolded code this will be asp-route-id, but you can use whatever name you want in the third position. If you need to pass more than one named parameter you can use multiple asp-route-<something> helpers and the application will correctly configure the link.
+
+Terms
+
+Standardized or Normalized - When dealing with strings it is common to use the ToLower() or ToUpper() method to set the case of every character in the string. String comparison is case sensitive and in this situation we do not want a case sensitive search.
+
+It may seem odd that editing tags involves removing and then adding back the information, but this is a faster process than querying the database for each tag that comes back after an edit and then determining whether to retain or remove that tag.
+
+Terms
+
+Select() - A LINQ clause that returns the values of a single property rather than the entire record.
+
+Model errors are built into the .NET framework. Any property with data annotations will automatically return an error, some even have an error message built into the annotation (string length is one you are using).
+
+The built in model errors are only triggered by the ModelState.IsValid property, the first check in a Create and the second check in an Edit. Custom model errors allow you to set additional constraints or throw the error after the ModelState.IsValid check.
+
+A custom model error can provide more or less information than an annotation and you determine where it will display. If you set a property it will be displayed below that input. If you do not set a property the error will display at the top of the form. You can even combine these if you have multiple potential model errors and want a short list above the form with more descriptive error messages under the specific inputs.
+
+Model errors without a property are "caught" by this HTML:
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+Model errors on a property are "caught" by this HTML:
+
+<span asp-validation-for="Description" class="text-danger"></span>
+
+NOTE: The validation areas are tied to the properties of a model.

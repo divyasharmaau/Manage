@@ -10,7 +10,7 @@
     <div class="col-12">
         <div class="card shadow-lg p-3 mb-5">
             <div class="card-header border-0">
-                <h3 class="card-title">My Leave Details</h3>
+                <h3 class="card-title cardTitle">My Leave Details</h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -18,18 +18,18 @@
                 <input type="hidden" asp-for="LeaveId" />
                 <input type="hidden" asp-for="EmployeeId" />
 
-                <div class="form-row ">
-                    <div class="form-group col-md-6">
-                        <div>
-                            <span>@Model.Employee.FullName</span>
-                        </div>
-                    </div>
+                @*<div class="form-row ">
+            <div class="form-group col-md-6">
+                <div>
+                    <span>@Model.Employee.FullName</span>
                 </div>
+            </div>
+        </div>*@
 
                 <div class="form-row mt-3">
                     <div class="form-group col-6">
                         @*<label class=" col-form-label small form-text">Date Applied On:</label>*@
-                        <label asp-for="@Model.Leave.CurrentDate" class="col-form-label small form-text">Date Applied:</label>
+                        <label asp-for="@Model.Leave.CurrentDate" class="col-auto col-form-label text-sm">Date Applied:</label>
                         <div class="col">
                             <p asp-for="@Model.Leave.CurrentDate" type="date" class="form-control" placeholder="Current Date">@Model.Leave.CurrentDate.ToShortDateString()</p>
                         </div>
@@ -41,48 +41,48 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group  col-md-6 ">
-                        <label asp-for="@Model.Leave.FromDate" class="col-auto col-form-label small form-text">From Date:</label>
+                        <label asp-for="@Model.Leave.FromDate" class="col-auto col-form-label text-sm">From Date:</label>
                         <div class="col">
                             <p asp-for="@Model.Leave.FromDate" type="date" class="form-control" placeholder="From Date">@Model.Leave.FromDate.ToShortDateString()</p>
                         </div>
                     </div>
                     <div class="form-group col-md-6 ">
-                        <label asp-for="@Model.Leave.TillDate" class="col-auto col-form-label small form-text">Till Date:</label>
+                        <label asp-for="@Model.Leave.TillDate" class="col-auto col-form-label text-sm">Till Date:</label>
                         <div class="col">
                             <p asp-for="@Model.Leave.TillDate" type="date" class="form-control" placeholder="Till Date">@Model.Leave.TillDate.ToShortDateString()</p>
                         </div>
                     </div>
                 </div>
                 <div class="form-row  mt-3">
-                    <div class="form-group col-4">
-                        <label asp-for="@Model.Leave.LeaveType" class="col-auto col-form-label small form-text "></label>
+                    <div class="form-group col-sm-12 col-md-4">
+                        <label asp-for="@Model.Leave.LeaveType" class="col-auto col-form-label text-sm"></label>
                         <div class="col">
                             <select asp-for="@Model.Leave.LeaveType" disabled>
-                                <option>--Select--</option>
+                                <option value="">--Select--</option>
                                 <option value="Annual Leave">Annual Leave</option>
                                 <option value="Sick Leave">Sick Leave</option>
                             </select>
                         </div>
                     </div>
-                    <div class="form-group col-4">
-                        <label asp-for="@Model.Leave.Duration" class="col-auto col-form-label small form-text"></label>
+                    <div class="form-group col-sm-12 col-md-4">
+                        <label asp-for="@Model.Leave.Duration" class="col-auto col-form-label text-sm"></label>
                         <div class="col">
                             <select asp-for="@Model.Leave.Duration" disabled>
-                                <option>--Select--</option>
-                                <option>Full Day</option>
-                                <option>First Half Day</option>
-                                <option>Second Half Day</option>
-                                <option>Others</option>
+                                <option value="">--Select--</option>
+                                <option value="Full Day">Full Day</option>
+                                <option value="First Half Day">First Half Day</option>
+                                <option value="Second Half Day">Second Half Day</option>
+                                <option value="Others">Others</option>
                             </select>
                         </div>
                     </div>
-                    <div class="form-group col-4">
-                        <label class="col-auto col-form-label small form-text">Number of Leave Days</label>
-                        @{ 
+                    <div class="form-group col-sm-12 col-md-4">
+                        <label class="col-auto col-form-label text-sm">Number of Leave Days</label>
+                        @{
                             double numberOfDaysOfLeave = 0;
                             DateTime end = Model.Leave.TillDate;
                             DateTime start = Model.Leave.FromDate;
-                            if(Model.Leave.Duration == "First Half Day"|| Model.Leave.Duration =="Second Half Day")
+                            if (Model.Leave.Duration == "First Half Day" || Model.Leave.Duration == "Second Half Day")
                             {
                                 numberOfDaysOfLeave = (end - start).Days + 0.5;
                             }
@@ -90,7 +90,7 @@
                             {
                                 numberOfDaysOfLeave = (end - start).Days + 1;
                             }
-                            }
+                        }
 
                         <div class="col">
                             @numberOfDaysOfLeave
@@ -99,60 +99,74 @@
                 </div>
                 <div class="form-row mt-3">
                     <div class="form-group col-12">
-                        <label asp-for="@Model.Leave.Reason" class="col-form-label small form-text ">Reason:</label>
-                        <div class="col-auto">
+                        <label asp-for="@Model.Leave.Reason" class="col-auto col-form-label text-sm">Reason:</label>
+                        <div class="col">
                             @*<input type="text" id="Reason" name="Reason" readonly class="form-control" asp-for="@Model.Leave.Reason" />*@
                             <p asp-for="@Model.Leave.Reason" class="form-control">@Model.Leave.Reason</p>
                         </div>
                     </div>
                 </div>
+
                 <div class="form-row mt-3">
                     <div class="form-group col-12">
-                        <label asp-for="@Model.Leave.Comment" class="col-form-label small form-text">Comment:</label>
+                        <label asp-for="@Model.Leave.Comment" class="col-auto col-form-label text-sm">Comment:</label>
                         <div class="col-auto">
                             @*<input type="text" readonly class="form-control-plaintext" id="Comment" name="Comment" asp-for="@Model.Leave.Comment" />*@
                             <p asp-for="@Model.Leave.Comment" class="form-control">@Model.Leave.Comment</p>
                         </div>
                     </div>
                 </div>
+
+         
                 <div class="form-row mt-3">
-                    <div class="form-group col-4">
-                        <label class="col-auto col-form-label small form-text">Net Leave Balance</label>
-                        <div class="col">
-                            <ul>
-                                <li>
-                                    Annual Leave balance :@Model.Leave.BalanceAnnualLeave
-                                </li>
-                                <li>
-                                    Sick Leave balance : @Model.Leave.BalanceSickLeave
-                                </li>
-                            </ul>
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label class="col-auto col-form-label text-sm">Net Leave Balance</label>
+                        <div class="table table-responsive">
+                            <table class="table table-borderless">
+                                <tr>
+                                    <td style="width:200px; height:fit-content"> Annual Leave balance:</td>
+                                    <td>@Model.Leave.BalanceAnnualLeave</td>
+                               
+                                </tr>
+                                <tr>
+                                    <td style="width:200px;"> Sick Leave balance:</td>
+                                    <td>@Model.Leave.BalanceSickLeave</td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
                 </div>
-                <div class="form-row mt-3">
-                    <div class="form-group col-6">
-                        <label class="col-auto col-form-label small form-text">Status</label>
-                        <div class="col">
-                            @Model.Leave.LeaveStatus
+
+
+
+
+
+
+
+                    <div class="form-row mt-3">
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label class="col-auto col-form-label text-sm">Status</label>
+                            <div class="col">
+                                @Model.Leave.LeaveStatus
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label asp-for="@Model.Leave.FilePath" class="col-auto col-form-label text-sm">Attach Documents</label>
+                            <div class="col custom-file">
+                                <input readonly class="form-control  custom-file-input" asp-for="@Model.Leave.FilePath" />
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group col-6">
-                        <label asp-for="@Model.Leave.FilePath" class="col-auto col-form-label small form-text">Attach Documents</label>
-                        <div class="col custom-file">
-                            <input readonly class="form-control  custom-file-input" asp-for="@Model.Leave.FilePath" />
+                    <div class="form-row m-3">
+                        <div class="col-md-3">
+                            <a asp-action="EditMyLeave" class="btn btn-outline-success" asp-route-leaveId="@Model.LeaveId">Edit</a>
+                            <a asp-action="GetAllMyLeaves" asp-controller="Leave" asp-route-id="@Model.EmployeeId" class="btn btn-outline-info ">Back</a>
                         </div>
-                    </div>
-                </div>
-                <div class="form-row mt-3 text-center">
-                    <div class="col-md-6">
-                        <a asp-action="EditMyLeave" class="btn btn-outline-success" asp-route-leaveId="@Model.LeaveId">Edit</a>
-                    </div>
-                    <div class="col-md-6">
-                        <a  asp-action="GetAllMyLeaves"  asp-controller="Leave" asp-route-id="@Model.EmployeeId" class="btn btn-outline-info ">Back</a>
+                        <div class="col-md-3">
+
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
     </div>
 </div>

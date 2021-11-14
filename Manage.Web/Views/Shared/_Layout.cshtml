@@ -35,7 +35,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <environment include="Development">
         @*<link rel="stylesheet" href="~/css/site.css" />*@
-        <link rel="stylesheet" href="~/css/site.css"/>
+        <link rel="stylesheet" href="~/css/site.css" />
+        <!-- Theme style -->
+        <link rel="stylesheet" href="~/dist/css/adminlte.min.css" asp-append-version="true">
 
         <!-- Font Awesome -->
         <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
@@ -51,8 +53,7 @@
         <link rel="stylesheet" href="~/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
         <!-- JQVMap -->
         <link rel="stylesheet" href="~/plugins/jqvmap/jqvmap.min.css">
-        <!-- Theme style -->
-        <link rel="stylesheet" href="~/dist/css/adminlte.min.css">
+
         <!-- overlayScrollbars -->
         <link rel="stylesheet" href="~/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
         <!-- Daterange picker -->
@@ -163,7 +164,7 @@
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar shadow  sidebar-light-primary">
         <!-- Brand Logo background-color: #1e4356" -->
-        <div class="brandLogo mt-2">
+        <div class="brandLogo">
 
             <a href="/home/index.html" class="brand-link" style="border: none;">
                 <img src="../../dist/img/Logo.png"
@@ -175,14 +176,14 @@
         </div>
      
         <!-- Sidebar -->
-        <div class="sidebar">
+        <div class="sidebar mt-3">
             <!-- Sidebar user (optional) -->
             <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                 <div class="image">
-                    <img src="../../dist/img/@photo" class="img-circle elevation-2" alt="User Image">
+                    <img src="../../dist/img/@photo" class="img-circle elevation-2" style=" height: auto; width: 3.0rem;" alt="User Image">
                 </div>
 
-                <div class="info">
+                <div class="info align-self-center">
                     <a href="#" class="d-block"> @user.FullName</a>
                 </div>
             </div>

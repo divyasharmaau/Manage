@@ -24,7 +24,12 @@ namespace Manage.Web.Controllers
         {
             return View();
         }
-
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
         [HttpPost]
         public async Task<IActionResult> LogOut()
         {
@@ -70,6 +75,8 @@ namespace Manage.Web.Controllers
             }
             return View(model);
         }
+
+       
 
        
     }

@@ -14,25 +14,26 @@
             <form method="post" asp-action="EditEmployeeOfficialDetails" asp-controller="Employee">
                 <input asp-for="Id" type="hidden" />
                 <div class="card-header border-0">
-                    <div class="row align-items-center mt-3 mb-3">
-                        <div class="col-sm-6 col-md-3">
-                            @if (Model.EmployeePersonalDetails == null)
-                            {
-                                <img class="imageThumbnail" src="~/dist/img/avatar.png" asp-append-version="true" alt="Employee Photograph" />
-                            }
-                            else
-                            {
-                                <img class="imageThumbnail" src="~/dist/img/@Model.EmployeePersonalDetails.PhotoPath" asp-append-version="true" alt="Employee Photograph">
-                            }
-                        </div>
-                        <div class="col">
-                            <h4>@Model.FullName</h4>
-                            <h5>@Model.Department.Name</h5>
-                        </div>
-                    </div>
-
+                    <h3 class="card-title text-cneter">Edit Employee Official Details</h3>
                 </div>
                 <!-- /.card-header -->
+                <div class="row align-items-center mt-3 mb-3">
+                    <div class="col-sm-6 col-md-3">
+                        @if (Model.EmployeePersonalDetails == null)
+                        {
+                            <img class="imageThumbnail" src="~/dist/img/avatar.png" asp-append-version="true" alt="Employee Photograph" />
+                        }
+                        else
+                        {
+                            <img class="imageThumbnail" src="~/dist/img/@Model.EmployeePersonalDetails.PhotoPath" asp-append-version="true" alt="Employee Photograph">
+                        }
+                    </div>
+                    <div class="col">
+                        <h4>@Model.FullName</h4>
+                        <h5>@Model.Department.Name</h5>
+                    </div>
+                </div>
+
                 <div class="card-body">
                     <div class="form-row">
                         <div class="form-group col-md-4">
@@ -142,7 +143,7 @@
                             <div class="col">
                                 <input asp-for="Manager" class="form-control" readonly />
                                 @*<input asp-for="Manager" class="form-control" placeholder="Manager" />
-                            <span asp-validation-for="Manager"></span>*@
+                        <span asp-validation-for="Manager"></span>*@
                             </div>
                         </div>
                     </div>
