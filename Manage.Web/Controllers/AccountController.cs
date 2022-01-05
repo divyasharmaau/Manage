@@ -1,11 +1,16 @@
 ﻿using Manage.Core.Entities;
+using Manage.Web.Interface;
 using Manage.Web.ViewModels;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
 namespace Manage.Web.Controllers
@@ -14,11 +19,15 @@ namespace Manage.Web.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IEmailService _emailService;
 
-        public AccountController(UserManager<ApplicationUser> userManager , SignInManager<ApplicationUser> signInManager)
+
+        public AccountController(UserManager<ApplicationUser> userManager
+            , SignInManager<ApplicationUser> signInManager, IEmailService emailService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _emailService = emailService;
         }
         public IActionResult Index()
         {
@@ -29,6 +38,81 @@ namespace Manage.Web.Controllers
         public IActionResult ForgotPassword()
         {
             return View();
+        }
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                // Find the user by email
+                var user = await _userManager.FindByEmailAsync(model.Email);
+
+                // If the user is found AND Email is confirmed
+                if (user != null && await _userManager.IsEmailConfirmedAsync(user))
+                {
+                    // Generate the reset password token
+                    var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+                    // Build the password reset link
+                    var passwordResetLink = Url.Action("ResetPassword", "Account",
+                            new { email = model.Email, token = token }, Request.Scheme);
+          
+                    //logger.Log(LogLevel.Warning, passwordResetLink);
+
+                    //Send the link to email
+                    await _emailService.SendEmailAsync(model.Email, "Reset Password", "You can reset your password by clicking the link below <br>" +
+              
+                    $"Please reset your password by clicking on the link below <br>" +
+                    $" <a href='{HtmlEncoder.Default.Encode(passwordResetLink)}'>Click Here to reset your password</a>");
+                    // Send the user to Forgot Password Confirmation view
+                    return View("ForgotPasswordConfirmationLink");
+                }
+
+                // To avoid account enumeration and brute force attacks, don't
+                // reveal that the user does not exist or is not confirmed
+                return View("ForgotPasswordConfirmationLink");
+            }
+
+            return View(model);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ResetPassword(string token, string email)
+        {
+            if(token == null || email == null)
+            {
+                ModelState.AddModelError("", "Invalid password reset token");
+            }
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if(user !=null)
+                {
+                    var result = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
+                    if(result.Succeeded)
+                    {
+                        return View("ResetPasswordConfirmation");
+                    }
+
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                    return View(model);
+                }
+
+                return View("ResePasswordConfirmation");
+            }
+            return View(model);
         }
         [HttpPost]
         public async Task<IActionResult> LogOut()
@@ -44,20 +128,20 @@ namespace Manage.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> LogIn(LogInViewModel model , string returnUrl)
+        public async Task<IActionResult> LogIn(LogInViewModel model, string returnUrl)
         {
             if (ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var user = await _userManager.FindByEmailAsync(model.Email);
-                if(user == null)
+                if (user == null)
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt!!");
                     return LogIn();
                 }
-        
-                var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberMe, lockoutOnFailure: true);
+                var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberMe,
+                    lockoutOnFailure: true);
 
                 if (result.Succeeded)
                 {
@@ -70,14 +154,73 @@ namespace Manage.Web.Controllers
                     //return RedirectToAction("ListEmployees", "Employee");
                     return RedirectToAction("Index", "Home");
                 }
+
                 //if  password is incorrect
                 ModelState.AddModelError(string.Empty, "Invalid login attempt!!");
+
             }
             return View(model);
         }
 
-       
+        //    [HttpPost]
+        //    public async Task<IActionResult> LogIn(LogInViewModel model, string returnUrl)
+        //    {
+        //        if (ModelState.IsValid)
+        //        {
+        //            // This doesn't count login failures towards account lockout
+        //            // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+        //            var user = await _userManager.FindByEmailAsync(model.Email);
+        //            if (user == null)
+        //            {
+        //                ModelState.AddModelError(string.Empty, "Invalid login attempt!!");
+        //                return LogIn();
+        //            }
 
-       
+        //            var claims = new List<Claim>();
+        //            claims.Add(new Claim(ClaimTypes.Name, user.Email));
+        //            claims.Add(new Claim(ClaimTypes.Role, "Registered User"));
+
+
+        //            var identity = new ClaimsIdentity(
+        //        claims, CookieAuthenticationDefaults.AuthenticationScheme);
+        //            //    var principal = new ClaimsPrincipal(identity);
+        //            //    var props = new AuthenticationProperties();
+        //            //    props.IsPersistent = model.RememberMe;
+        //            //    props.ExpiresUtc = DateTime.UtcNow.AddMinutes(20);
+
+        //            await HttpContext.SignInAsync(
+        //CookieAuthenticationDefaults.AuthenticationScheme,
+        //new ClaimsPrincipal(identity),
+        //new AuthenticationProperties
+        //{
+        //    IsPersistent = true,
+        //    ExpiresUtc = DateTime.UtcNow.AddMinutes(20)
+        //});
+
+        //            //int timeout = 525600; // Timeout in minutes,525600 = 365 days
+        //            //var ticket = new FormsAuthenticationTicket(userName, createPersistentCookie, timeout);
+        //            //string encrypted = FormsAuthentication.Encrypt(ticket)
+        //            //;
+        //            //var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encrypted);
+        //            //cookie.Expires = System.DateTime.Now.AddMinutes(timeout);//My Line
+        //            //HttpContext.Current.Response.Cookies.Add(cookie);
+
+        //            //HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+        //            //           principal, props).Wait();
+        //            var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberMe,
+        //                     lockoutOnFailure: true);
+        //            if(result.Succeeded)
+        //            {
+        //                return RedirectToAction("Index", "Home");
+        //            }
+        //          //if  password is incorrect
+        //          ModelState.AddModelError(string.Empty, "Invalid login attempt!!");
+        //           // return RedirectToAction("Index", "Home");
+        //        }
+        //        return View(model);
+        //    }
+
+
+
     }
 }

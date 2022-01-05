@@ -152,15 +152,27 @@ namespace Manage.WebApi.Controllers
                     issuerSigningKey, SecurityAlgorithms.HmacSha256)
             );
             var encodedToken = new JwtSecurityTokenHandler().WriteToken(token);
-
+            string profilePicturePath = "";
+            var userPersonalData = _manageConetxt.EmployeePersonalDetails.Where(x => x.Id == userId).FirstOrDefault();
+           
+            if(userPersonalData == null)
+            {
+                profilePicturePath = "";
+            }
+            else
+            {
+                profilePicturePath = userPersonalData.PhotoPath;
+            }
             return new TokenResponseViewModel()
             {
                 token = encodedToken,
                 expiration = tokenExpirationMins,
                 refresh_token = refreshToken,
                 role_name = rName,
-                userId = userId
-               
+                userId = userId,
+                profile_picture_path = profilePicturePath,
+                user_name = user.FullName
+
             };
         }
 

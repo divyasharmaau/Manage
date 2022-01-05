@@ -51,7 +51,7 @@ namespace Manage.WebApi.ViewModels
 
         [Required]
         [Remote(action: "IsEmailInUse", controller: "Employee")]
-        [ValidEmailDomain(allowedDomain:"mail.com" , ErrorMessage ="Email Domain  must be mail.com")]
+        [ValidEmailDomain(allowedDomain:"gmail.com" , ErrorMessage ="Email Domain  must be gmail.com")]
         public string Email { get; set; }
         public string UserName { get; set; }
     }

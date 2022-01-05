@@ -31,8 +31,16 @@ namespace Manage.Infrastructure.Repository.Base
 
         public async Task DeleteAsync(T entity)
         {
-            _manageContext.Set<T>().Remove(entity);
-            await _manageContext.SaveChangesAsync();
+            try
+            {
+                _manageContext.Set<T>().Remove(entity);
+                await _manageContext.SaveChangesAsync();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+       
 
         }
 

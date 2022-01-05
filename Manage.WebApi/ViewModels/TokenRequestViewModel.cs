@@ -24,6 +24,8 @@ namespace Manage.WebApi.ViewModels
             public string password { get; set; }
             public string refresh_token { get; set; }
             public string role_name { get; set; }
+
+       
             
         #endregion
     }  

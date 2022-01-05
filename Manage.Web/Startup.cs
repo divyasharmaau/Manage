@@ -24,6 +24,7 @@ using Manage.Web.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Manage.Web.Utilities;
+using Manage.Web.ViewModels;
 
 namespace Manage.Web
 {
@@ -71,12 +72,18 @@ namespace Manage.Web
             services.AddScoped<IAdministrationPageService, AdministrationPageService>();
             services.AddScoped<IUploadImageHelper, UploadImageHelper>();
             services.AddScoped<IFileUploadHelper, FileUploadHelper>();
+            services.AddScoped<IEmailService, EmailService>();
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
             services.AddDbContextPool<ManageContext>(options => options
                 .UseSqlServer(Configuration.GetConnectionString("ManageConnection"),
                 x => x.MigrationsAssembly("Manage.Web")));
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                            .AddCookie();
+
+
 
             services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
             {
@@ -100,6 +107,8 @@ namespace Manage.Web
                 options.AccessDeniedPath = new PathString("/Administration/AccessDenied");
             });
 
+
+
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("DeleteRolePolicy",
@@ -108,6 +117,8 @@ namespace Manage.Web
                     policy => policy.RequireClaim("Edit Role", "true"));
                 
             });
+
+            services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
  
         }
 
@@ -131,7 +142,18 @@ namespace Manage.Web
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            //app.UseCookieAuthentication(new CookieAuthenticationOptions
+            //{
+            //    //CookieName = "MyWebCookie",
+            //    //CookieDomain = "http://devweb01:81",      // uncomment when deploy
+            //    CookieHttpOnly = true,
+            //    CookieSecure = CookieSecurePolicy.Always,
+            //    ExpireTimeSpan = TimeSpan.FromDays(30),
+            //    SlidingExpiration = true,
+            //    AutomaticAuthenticate = true,
+            //    AutomaticChallenge = true
+            //    //AuthenticationScheme = "MyeWebCookie"
+            //});
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();

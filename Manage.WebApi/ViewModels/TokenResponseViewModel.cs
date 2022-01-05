@@ -23,6 +23,8 @@ namespace Manage.WebApi.ViewModels
             public string role_name { get; set; }
 
             public string userId { get; set; }
+            public string profile_picture_path { get; set; }
+            public string user_name { get; set; }
         
             #endregion
         }

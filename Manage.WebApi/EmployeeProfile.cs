@@ -48,6 +48,9 @@ namespace Manage.WebApi
             CreateMap<EmployeeLeaveViewModel, EditMyLeaveViewModel>().ReverseMap();
             CreateMap<Leave, LeaveViewModel>().ReverseMap();
             CreateMap<EmployeeLeaveViewModel, EditLeaveAdminViewModel>().ReverseMap();
+            CreateMap<ApplicationUserViewModel, AppUserViewModel>().ReverseMap();
+            CreateMap<ApplicationUserViewModel, EmployeeLeaveViewModel>().ReverseMap();
+           // CreateMap<ApplicationUserViewModel, EmployeeLeaveViewModel>().ReverseMap();
 
             //ViewModel , dto
             CreateMap<LeaveViewModel, ApplyLeaveDto>().ReverseMap();

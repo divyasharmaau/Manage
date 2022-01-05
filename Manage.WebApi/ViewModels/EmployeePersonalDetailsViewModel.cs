@@ -38,7 +38,7 @@ namespace Manage.WebApi.ViewModels
         //Personal Details
         public string PhotoPath { get; set; }
         // public string ExistingPhotoPath { get; set; }
-        // public IFormFile Photo { get; set; }
+         public IFormFile Photo { get; set; }
         // public string FilePath { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]

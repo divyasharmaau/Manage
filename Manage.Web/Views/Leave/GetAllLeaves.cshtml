@@ -187,8 +187,9 @@
                                             }
                                         </td>
                                         <td>
+                                            @*<span>@employee.LeaveStatus</span>*@
                                             @{
-                                                if (employee.LeaveStatus == "Pending")
+                                                if (employee.LeaveStatus == null)
                                                 {
                                                     <span>Pending</span>
                                                 }

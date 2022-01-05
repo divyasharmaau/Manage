@@ -12,7 +12,7 @@ namespace Manage.WebApi.ViewModels
     public class ApplyLeaveViewModel
     {
 
-
+        public string UserId { get; set; }
         [DisplayName("Date Applied")]
         //[DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         //[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]

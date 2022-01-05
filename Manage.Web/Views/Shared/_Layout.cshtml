@@ -10,16 +10,23 @@
 @{
     var photo = "";
     var user = userManager.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
-    var emp = await employeePersonalDetailsPageService.GetEmployeePersonalDetailsById(user.Id);
-    if(emp == null)
+    if(user == null)
     {
-         photo = "/avatar.png";
+        photo = "/avatar.png";
     }
     else
     {
-        photo = emp.PhotoPath;
-    }
 
+        var emp = await employeePersonalDetailsPageService.GetEmployeePersonalDetailsById(user.Id);
+        if(emp == null)
+        {
+            photo = "/avatar.png";
+        }
+        else
+        {
+            photo = emp.PhotoPath;
+        }
+    }
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -110,28 +117,28 @@
                     <a class="nav-link" data-widget="pushmenu" style="color: #946e9f" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 @*<li class="nav-item d-none d-sm-inline-block">
-                    <a href="../../index3.html" class="nav-link">Home</a>
-                </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a href="#" class="nav-link">Contact</a>
-                </li>*@
+                        <a href="../../index3.html" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item d-none d-sm-inline-block">
+                        <a href="#" class="nav-link">Contact</a>
+                    </li>*@
             </ul>
 
             <!--SEARCH FORM-->
             <!--<form class="form-inline ml-3" asp-action="EmployeeList" asp-controller="Employee">
-            <div class="input-group input-group-sm">
-                <input class="form-control form-control-navbar" id="searchByName" name="searchByName" type="search" placeholder="Search" aria-label="Search">
-                <div class="input-group-append">
-                    <button class="btn btn-navbar" type="submit">
-                        <i class="fas fa-search"></i>
-                    </button>
+                <div class="input-group input-group-sm">
+                    <input class="form-control form-control-navbar" id="searchByName" name="searchByName" type="search" placeholder="Search" aria-label="Search">
+                    <div class="input-group-append">
+                        <button class="btn btn-navbar" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
                 </div>
-            </div>
-        </form>-->
+            </form>-->
             <!--SEARCH FORM-->
             <form class="form-inline ml-3" method="get" asp-action="EmployeeList" asp-controller="Employee">
                 <div class="input-group input-group-sm">
-                    <input class="form-control form-control-navbar" id="searchByName" name="searchByName" type="search" value=@ViewBag.CurrentFilter placeholder="Search" aria-label="Search">
+                    <input class="form-control form-control-navbar" id="searchByName" name="searchByName" type="search" value=@ViewBag.CurrentFilter >
                     <div class="input-group-append">
                         <button class="btn btn-navbar" type="submit">
                             <i class="fas fa-search"></i>
@@ -150,7 +157,7 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right" id="collapseExample" style="min-width:6rem;">
                             <!-- Menu Body -->
-                            <li class="user-body" >
+                            <li class="user-body">
                                 <button class="btn btn-default btn-flat float-right" style="outline:none; background-color:white ">Sign out</button>
                                 <!-- /.row -->
                             </li>
@@ -174,7 +181,7 @@
                 <span class="brand-text font-weight-bold" style="color: #e9801f;">Manage</span>
             </a>
         </div>
-     
+
         <!-- Sidebar -->
         <div class="sidebar mt-3">
             <!-- Sidebar user (optional) -->
@@ -339,10 +346,10 @@
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Main content -->
-        <section class="content " style="padding-top:62px;">
-        <div class="container-fluid">
-        @RenderBody()
-        </div>
+        <section class="content" style="padding-top:62px;">
+            <div class="container-fluid">
+                @RenderBody()
+            </div>
         </section>
 
     </div>
@@ -358,7 +365,7 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
 
-  
+
     <!-- jQuery -->
     <script src="plugins/jquery/jquery.min.js"></script>
     <!-- jQuery UI 1.11.4 -->
@@ -395,6 +402,7 @@
     <script src="~/dist/js/demo.js"></script>
 
     @RenderSection("Scripts", required: false)
+
 </body>
 }
 

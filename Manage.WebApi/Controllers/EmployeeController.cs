@@ -178,6 +178,8 @@ namespace Manage.WebApi.Controllers
             user.JoiningDate = model.JoiningDate;
             user.JobTitle = model.JobTitle;
             user.Status = model.Status;
+            user.DaysWorkedInWeek = model.DaysWorkedInWeek;
+            user.NumberOfHoursWorkedPerDay = model.NumberOfHoursWorkedPerDay;
             user.DepartmentId = model.DepartmentId;
             user.Manager = model.Manager;
 
@@ -202,12 +204,10 @@ namespace Manage.WebApi.Controllers
                 var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
                 var fullPath = Path.Combine(pathToSave, model.Photo.FileName);
                 using (var fileStream = new FileStream(fullPath, FileMode.Create))
-
                 {
 
                     await model.Photo.CopyToAsync(fileStream);
                 }
-              
 
             }
            // model.Id = id;
@@ -222,7 +222,7 @@ namespace Manage.WebApi.Controllers
             var newEmployeePersonalDetails = await _employeePersonalDetailsPageService.AddAsync(mappedEmployeePersonalDetails);
 
             //var employeePersonalDetailsReadDto = _mapper.Map<EmployeePersonalDetailsDto>(newEmployeePersonalDetails);
-
+            //return NoContent();
             return CreatedAtRoute(nameof(GetEmployeePersonalDetailsById), new { id = newEmployeePersonalDetails.Id }, newEmployeePersonalDetails);
 
             //to get the url
@@ -311,8 +311,15 @@ namespace Manage.WebApi.Controllers
         {
 
             string fileName = null;
+            model.Id = id;
+            var modelFromRepo = await _employeePersonalDetailsPageService.GetEmployeePersonalDetailsById(id);
 
-            if (model.Photo.Length > 0)
+            if (modelFromRepo == null)
+            {
+                return NotFound();
+            }
+
+             if (model.Photo != null)
             {
                 var folderName = Path.Combine("Uploads", "img");
                 var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
@@ -327,13 +334,7 @@ namespace Manage.WebApi.Controllers
 
 
             }
-            model.Id = id;
-            var modelFromRepo = await _employeePersonalDetailsPageService.GetEmployeePersonalDetailsById(id);
-           
-            if(modelFromRepo == null)
-            {
-                return NotFound();
-            }
+         
             
             // Map (source, destination)
             _mapper.Map(model, modelFromRepo);

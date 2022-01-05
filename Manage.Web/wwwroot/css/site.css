@@ -22,10 +22,14 @@ a.navbar-brand {
 a {
     color: #1e4356;
 }
-
-.card .card-title{
-    margin-bottom:0px;
+/*
+.card {
+    background: url("../dist/img/pattern.jpg");
 }
+  */  .card .card-title {
+        margin-bottom: 0px;
+       
+    }
 .cardTitle{
   /*  color:var(--orange-color);*/
    /* color:white;*/
@@ -33,10 +37,11 @@ a {
     font-weight:bold;
     font-size:2.2rem;
 }
-/*.card .card-header{
-    background-color: var(--lightOrange-color);
-    text-align:center;
-    margin-bottom:0;
+/*.card .card-header {
+    background: url("../dist/img/pattern.jpg");
+  
+    text-align: center;
+    margin-bottom: 0;
 }*/
 .btn-primary {
   color: #fff;
@@ -158,10 +163,6 @@ a.disabled {
     cursor: default;
 }
 
-.accountBackground {
-   /* background: linear-gradient(90deg, hsla(287, 20%, 53%, 1) 0%, hsla(40, 3%, 59%, 1) 100%);*/
-    background-color: #1e4356;
-}
 
 
 
@@ -347,3 +348,20 @@ input[type=text]:focus, input[type=password]:focus, input[type=number]:focus, in
 pagination.page-link {
     color: var(--slateGrey-color);
 }
+
+.login-card-body{
+    transform:translateY(-30deg);
+}
+
+.login-page {
+    background: url("../dist/img/pattern.jpg");
+    background-color: #1e4356;
+}
+.accountBackground{
+    background: url("../dist/img/pattern.jpg");
+}
+
+/*.accountBackground {*/
+/* background: linear-gradient(90deg, hsla(287, 20%, 53%, 1) 0%, hsla(40, 3%, 59%, 1) 100%);*/
+/*background-color: #1e4356;
+}*/

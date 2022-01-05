@@ -57,11 +57,10 @@ namespace Manage.Infrastructure.Data
 
             var user_Admin = new ApplicationUser()
             {
-               
                 SecurityStamp = Guid.NewGuid().ToString(),
                 FirstName = "Breta",
                 LastName = "Collins",
-                Email = "bretacollins@mail.com",
+                Email = "demoasadmn@gmail.com",
                 UserName = "breta.collins",
                 Department = manageContext.Departments.SingleOrDefault(x => x.Name == "HR"),
             };            

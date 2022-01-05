@@ -1,21 +1,16 @@
 ﻿using AutoMapper;
-using Manage.Core.Entities;
 using Manage.Infrastructure.Data;
 using Manage.WebApi.Dto;
 using Manage.WebApi.Interface;
 using Manage.WebApi.ViewModels;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
-using X.PagedList;
+using System.Linq;
+using System;
 
 namespace Manage.WebApi.Controllers
 {
@@ -48,16 +43,33 @@ namespace Manage.WebApi.Controllers
         }
 
 
-        [HttpPost("{id}")]
-        public async Task<IActionResult> ApplyLeave([FromForm] ApplyLeaveViewModel model, string id)
+        [HttpPost("ApplyLeave")]
+        public async Task<IActionResult> ApplyLeave([FromForm] ApplyLeaveViewModel model)
         {
             if (model == null)
             {
                 return NotFound();
             }
 
-            var user = await _employeePageService.GetEmployeeById(id);
+            var user = await _employeePageService.GetEmployeeById(model.UserId);
             var leaveApplied = _mapper.Map<LeaveViewModel>(model);
+            if (model.File != null)
+            {
+                var folderName = Path.Combine("Uploads", "files");
+                var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                var fullPath = Path.Combine(pathToSave, model.File.FileName);
+                using (var fileStream = new FileStream(fullPath, FileMode.Create))
+
+                {
+
+                    await model.File.CopyToAsync(fileStream);
+                }
+
+                leaveApplied.FilePath = "https://localhost:44330/uploads/files/" + model.File.FileName;
+            }
+
+          
+
             var newLeave = await _leavePageService.AddNewLeave(leaveApplied);
 
             //save the newAppliedLeave to the EmployeeLeave
@@ -65,7 +77,8 @@ namespace Manage.WebApi.Controllers
             employeeLeaveViewModel.LeaveId = newLeave.Id;
             employeeLeaveViewModel.EmployeeId = user.Id;
             await _employeeLeavePageService.AddNewLeaveEmployeeLeave(employeeLeaveViewModel);
-            return CreatedAtRoute("MyLeaveDetails", new { id = newLeave.Id }, newLeave);
+            return Ok(model);
+            //return CreatedAtRoute("MyLeaveDetails", new { id = newLeave.Id }, newLeave);
         }
 
 
@@ -109,7 +122,8 @@ namespace Manage.WebApi.Controllers
 
 
 
-        [HttpGet("{id}" , Name = "MyLeaveDetails")]
+       
+        [HttpGet("MyLeaveDetails/{id}")]
         public async Task<IActionResult> MyLeaveDetails(int id)
         {
             var leave = await _leavePageService.GetMyLeaveDetails(id);
@@ -117,17 +131,33 @@ namespace Manage.WebApi.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditMyLeave(int id ,EditMyLeaveDto editMyLeaveDto)
+        public async Task<IActionResult> EditMyLeave(int id, [FromForm] EditMyLeaveDto editMyLeaveDto)
         {
+           
+            string fileName = null;
+            if(editMyLeaveDto.File.Length >0)
+            {
+                var folderName = Path.Combine("Uploads", "files");
+                var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                fileName = Guid.NewGuid() + "_" + editMyLeaveDto.File.FileName;
+                var fullPath = Path.Combine(pathToSave, fileName);
+                FileStream fileStream = new FileStream(fullPath,FileMode.Create);
+                await editMyLeaveDto.File.CopyToAsync(fileStream);
+            }
             editMyLeaveDto.Id = id;
             var leaveToBeEdited = await _leavePageService.GetMyLeaveDetails(id);
             if(leaveToBeEdited == null)
             {
                 return NotFound();
             }
-            var mapped = _mapper.Map(editMyLeaveDto, leaveToBeEdited);
+
+
+            //var mapped = _mapper.Map(editMyLeaveDto, leaveToBeEdited);
+             _mapper.Map(editMyLeaveDto, leaveToBeEdited);
             leaveToBeEdited.Id = editMyLeaveDto.Id;
-            await _leavePageService.Update(mapped);
+            leaveToBeEdited.FilePath = fileName;
+            leaveToBeEdited.FilePath = "https://localhost:44330/uploads/img/" + fileName ?? leaveToBeEdited.FilePath;
+            await _leavePageService.Update(leaveToBeEdited);
             return NoContent();
         }
 
@@ -154,53 +184,273 @@ namespace Manage.WebApi.Controllers
             return NoContent();
         }
 
-
         [HttpGet("GetAllMyLeaves/{id}")]
-        public async Task<ActionResult<EmployeeLeaveDto>> GetAllMyLeaves(string id)
+        public async Task<ActionResult> GetAllMyLeaves(string id, DateTime? fromDate = null )
         {
-            var empLeaveList = await  _employeeLeavePageService.GetEmployeeWithLeaveList(id);
-            var leaveListmapped = _mapper.Map<EmployeeLeaveListDto>(empLeaveList);
-            return Ok(leaveListmapped);
-            
-        }
+            bool flag = false;
+            var empLeaveList = await _employeeLeavePageService.GetEmployeeWithLeaveList(id);
+            List<AppUserViewModel> leaveListWithDate = new List<AppUserViewModel>();
 
-        [HttpGet]
-        public async Task<ActionResult> GetAllLeaves()
-        {
-            var allLeaves = await _employeeLeavePageService.GetAllEmployeesWithLeaveList();
-            foreach (var item in allLeaves)
+            List<AppUserViewModel> leaveList = new List<AppUserViewModel>();
+            if(fromDate == null)
             {
-                if (item.LeaveType == "Annual Leave")
+                foreach (var item in empLeaveList.EmployeeLeaves)
                 {
-                    var netLeaveBalance = item.BalanceAnnualLeave - item.NumberOfLeaveDays * 7.6;
-                    item.BalanceAnnualLeave = netLeaveBalance;
+                    AppUserViewModel model = new AppUserViewModel();
+                    model.FullName = item.Employee.FullName;
+                    model.FromDate = item.Leave.FromDate;
+                    model.TillDate = item.Leave.TillDate;
+                    model.LeaveType = item.Leave.LeaveType;
+                    model.BalanceAnnualLeave = item.Leave.BalanceAnnualLeave;
+                    model.BalanceSickLeave = item.Leave.BalanceSickLeave;
+                    if (item.Leave.Duration == "First Half Day" || item.Leave.Duration == "Second Half Day")
+                    {
+                        model.NumberOfLeaveDays = (item.Leave.TillDate.Day - item.Leave.FromDate.Day) + 0.5;
+                    }
+                    else
+                    {
+                        model.NumberOfLeaveDays = (item.Leave.TillDate.Day - item.Leave.FromDate.Day) + 1;
+                    }
+
+
+                    if (item.Leave.LeaveStatus != "Approved" && item.Leave.LeaveStatus != "Declined")
+                    {
+                        model.LeaveStatus = "Pending";
+                    }
+                    else
+                    {
+                        model.LeaveStatus = item.Leave.LeaveStatus;
+                    }
+
+                    model.Reason = item.Leave.Reason;
+                    model.LeaveId = item.LeaveId;
+
+                    leaveList.Add(model);
                 }
-                else if (item.LeaveType == "Sick Leave")
-                {
-                    var netSickLeavesBalance = item.BalanceSickLeave - item.NumberOfLeaveDays * 7.6;
-                    item.BalanceSickLeave = netSickLeavesBalance;                             
-                }
+
             }
-                                                    
-      
-            return Ok(allLeaves);
+            else if (fromDate != null)
+            {
+                foreach (var item in empLeaveList.EmployeeLeaves)
+                {
+                    AppUserViewModel model = new AppUserViewModel();
+                    model.FullName = item.Employee.FullName;
+                    model.FromDate = item.Leave.FromDate;
+                    model.TillDate = item.Leave.TillDate;
+                    model.LeaveType = item.Leave.LeaveType;
+                    model.BalanceAnnualLeave = item.Leave.BalanceAnnualLeave;
+                    model.BalanceSickLeave = item.Leave.BalanceSickLeave;
+                    if (item.Leave.Duration == "First Half Day" || item.Leave.Duration == "Second Half Day")
+                    {
+                        model.NumberOfLeaveDays = (item.Leave.TillDate.Day - item.Leave.FromDate.Day) + 0.5;
+                    }
+                    else
+                    {
+                        model.NumberOfLeaveDays = (item.Leave.TillDate.Day - item.Leave.FromDate.Day) + 1;
+                    }
+
+
+                    if (item.Leave.LeaveStatus != "Approved" && item.Leave.LeaveStatus != "Declined")
+                    {
+                        model.LeaveStatus = "Pending";
+                    }
+                    else
+                    {
+                        model.LeaveStatus = item.Leave.LeaveStatus;
+                    }
+
+                    model.Reason = item.Leave.Reason;
+                    model.LeaveId = item.LeaveId;
+
+                    leaveList.Add(model);
+                }
+                leaveListWithDate = leaveList.Where(x => x.FromDate >= fromDate).ToList();
+                flag = true;
+            }
+
+            if(flag == true)
+            {
+                return Ok(leaveListWithDate);
+            }
+            return Ok(leaveList);
         }
 
-       
+        //[HttpGet]
+        //public async Task<ActionResult> GetAllLeaves()
+        //{
+        //    var allLeaves = await _employeeLeavePageService.GetAllEmployeesWithLeaveList();
+        //    foreach (var item in allLeaves)
+        //    {
+        //        if (item.LeaveType == "Annual Leave")
+        //        {
+        //            var netLeaveBalance = item.BalanceAnnualLeave - item.NumberOfLeaveDays * 7.6;
+        //            item.BalanceAnnualLeave = netLeaveBalance;
+        //        }
+        //        else if (item.LeaveType == "Sick Leave")
+        //        {
+        //            var netSickLeavesBalance = item.BalanceSickLeave - item.NumberOfLeaveDays * 7.6;
+        //            item.BalanceSickLeave = netSickLeavesBalance;                             
+        //        }
+        //        if(item.LeaveStatus == null)
+        //        {
+        //            item.LeaveStatus = "Pending";
+        //        }
+        //    }
 
+
+        //    return Ok(allLeaves);
+        //}
+        [HttpGet]
+     
+        public async Task<ActionResult> GetAllLeaves(DateTime? fromdate = null)
+        {
+            List<AppUserViewModel> leaves = new List<AppUserViewModel>();
+            bool flag = false; 
+            var allLeaves = await _employeeLeavePageService.GetAllEmployeesWithLeaveList();
+           
+            if (fromdate == null)
+            {
+                foreach (var item in allLeaves)
+                {
+                    if (item.LeaveType == "Annual Leave")
+                    {
+                        var netLeaveBalance = item.BalanceAnnualLeave - item.NumberOfLeaveDays * 7.6;
+                        item.BalanceAnnualLeave = netLeaveBalance;
+                    }
+                    else if (item.LeaveType == "Sick Leave")
+                    {
+                        var netSickLeavesBalance = item.BalanceSickLeave - item.NumberOfLeaveDays * 7.6;
+                        item.BalanceSickLeave = netSickLeavesBalance;
+                    }
+                    if (item.LeaveStatus == null)
+                    {
+                        item.LeaveStatus = "Pending";
+                    }
+                }
+
+            }
+            else if (fromdate != null)
+            {
+                foreach (var item in allLeaves)
+                {
+                    if(item.FromDate >= fromdate)
+                    {
+                        leaves.Add(item);
+                        
+                    }
+                }
+                flag = true;
+                //allLeaves.Where(x => x.FromDate >= fromdate);
+            }
+           
+            if(flag)
+            {
+                return Ok(leaves);
+            }
+            return Ok(allLeaves);
+
+        }
         //DELETE ap/controller/{id}
-        [HttpDelete("{id}")]
+        [HttpDelete("{leaveId}")]
         public async Task<ActionResult> Delete(int leaveId)
         {
             var leave = await _leavePageService.GetMyLeaveDetails(leaveId);
+            var empLeave = await _employeeLeavePageService.GetLeaveById(leaveId);
             if (leave == null)
             {
                 return NotFound();
             }
-            await _leavePageService.Delete(leave);
+            {
+                await _leavePageService.Delete(leave);
+            }
+       
             return NoContent();
         }
+        //public async Task<IActionResult> LeaveDetails(EmployeeLeaveViewModel model, string approved, string declined, string comment)
+        [HttpPut("LeaveStatusByAdmin")]
+        public async Task<IActionResult> LeaveDetails([FromBody]EmployeeLeaveViewModel model)
+        {
+            var leave = await _leavePageService.GetMyLeaveDetails(model.LeaveId);
+            var empLeave = await _employeeLeavePageService.GetLeaveById(model.LeaveId);
+            var employee = await _employeePageService.GetEmployeeById(empLeave.EmployeeId);
+            if (model.Approved != null)
+            {
+                if (employee.Status == "Full-Time" || employee.Status == "Fixed-Term")
+                {
+                    if (leave.LeaveType == "Annual Leave")
+                    {
+                        if (leave.Duration == "First Half Day" || leave.Duration == "Second Half Day")
+                        {
+                            var numberOfHoursOfAppliedLeave = ((leave.TillDate - leave.FromDate).Days + 0.5) * 7.6;
+                            leave.BalanceAnnualLeave -= numberOfHoursOfAppliedLeave;
+                        }
+                        else if (leave.Duration == "Full Day" || leave.Duration == "Others")
+                        {
+                            var numberOfHoursOfAppliedLeave = ((leave.TillDate - leave.FromDate).Days + 1) * 7.6;
+                            leave.BalanceAnnualLeave -= numberOfHoursOfAppliedLeave;
+                        }
 
-     
+                    }
+                    else if (leave.LeaveType == "Sick Leave")
+                    {
+                        if (leave.Duration == "First Half Day" || leave.Duration == "Second Half Day")
+                        {
+                            var numberOfHoursOfAppliedLeave = ((leave.TillDate - leave.FromDate).Days + 0.5) * 7.6;
+                            leave.BalanceAnnualLeave -= numberOfHoursOfAppliedLeave;
+                        }
+                        else if (leave.Duration == "Full Day" || leave.Duration == "Others")
+                        {
+                            var numberOfHoursOfAppliedLeave = ((leave.TillDate - leave.FromDate).Days + 1) * 7.6;
+                            leave.BalanceSickLeave -= numberOfHoursOfAppliedLeave;
+                        }
+                    }
+                }
+                else if (employee.Status == "Part-Time" || employee.Status == "Contract")
+                {
+                    if (leave.LeaveType == "Annual Leave")
+                    {
+                        if (leave.Duration == "First Half Day" || leave.Duration == "Second Half Day")
+                        {
+                            var numberOfHoursOfAppliedLeave = ((leave.TillDate - leave.FromDate).Days + 0.5) * employee.NumberOfHoursWorkedPerDay;
+                            leave.BalanceAnnualLeave -= numberOfHoursOfAppliedLeave;
+                        }
+                        else if (leave.Duration == "Full Day" || leave.Duration == "Others")
+                        {
+                            var numberOfHoursOfAppliedLeave = ((leave.TillDate - leave.FromDate).Days + 1) * employee.NumberOfHoursWorkedPerDay;
+                            leave.BalanceAnnualLeave -= numberOfHoursOfAppliedLeave;
+                        }
+
+                    }
+                    else if (leave.LeaveType == "Sick Leave")
+                    {
+                        if (leave.Duration == "First Half Day" || leave.Duration == "Second Half Day")
+                        {
+                            var numberOfHoursOfAppliedLeave = ((leave.TillDate - leave.FromDate).Days + 0.5) * employee.NumberOfHoursWorkedPerDay;
+                            leave.BalanceAnnualLeave -= numberOfHoursOfAppliedLeave;
+                        }
+                        else if (leave.Duration == "Full Day" || leave.Duration == "Others")
+                        {
+                            var numberOfHoursOfAppliedLeave = ((leave.TillDate - leave.FromDate).Days + 1) * employee.NumberOfHoursWorkedPerDay;
+                            leave.BalanceSickLeave -= numberOfHoursOfAppliedLeave;
+                        }
+                    }
+                }
+
+                leave.LeaveStatus = "Approved";
+            }
+            else if (model.Declined != null)
+            {
+                leave.LeaveStatus = "Declined";
+            }
+
+            if (model.Comment!= null)
+            {
+                leave.Comment = model.Comment;
+            }
+            await _leavePageService.Update(leave);
+          
+            return NoContent() ;
+        }
+
     }
 }

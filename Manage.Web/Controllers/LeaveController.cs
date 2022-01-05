@@ -191,6 +191,7 @@ namespace Manage.Web.Controllers
            
         }
 
+
         public async Task<IActionResult> GetAllMyLeaves(IFormCollection obj ,string id , int?page 
             , string searchFromDate 
             ,string searchToDate , string searchLeaveStatus , string searchLeaveType 
@@ -283,7 +284,7 @@ namespace Manage.Web.Controllers
             {
                 leaveList = leaveList.Where(s => s.LeaveStatus == "Declined").ToList();
             }
-          
+
             int pageSize = 10;
             int pageNumber = (page ?? 1);
             var result = leaveList.OrderByDescending(s => s.LeaveStatus).ToPagedList(pageNumber, pageSize);
@@ -313,6 +314,7 @@ namespace Manage.Web.Controllers
         {
             var employeeLeaveList = await _employeeLeavePageService.GetAllEmployeesWithLeaveList();
 
+          
 
             Boolean tempValue = obj["searchAll"].ToString() != "" ? true : false;
             ViewData["CurrentFilterSA"] = tempValue;
@@ -380,13 +382,21 @@ namespace Manage.Web.Controllers
 
             if (!String.IsNullOrEmpty(searchPending))
             {
-                employeeLeaveList = employeeLeaveList.Where(s => s.LeaveStatus == "Pending");
+                employeeLeaveList = employeeLeaveList.Where(s => s.LeaveStatus == null);
                
             }
 
             if (!String.IsNullOrEmpty(searchDeclined))
             {
                 employeeLeaveList = employeeLeaveList.Where(s => s.LeaveStatus == "Declined");
+            }
+
+            foreach (var item in employeeLeaveList)
+            {
+                if(item.LeaveStatus == null)
+                {
+                    item.LeaveStatus = "Pending";
+                }
             }
             int pageSize = 10;
             int pageNumber = (page ?? 1);
@@ -410,12 +420,13 @@ namespace Manage.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> LeaveDetails(EmployeeLeaveViewModel model, string approved , string declined , string comment)
+        //public async Task<IActionResult> LeaveDetails(EmployeeLeaveViewModel model, string approved , string declined , string comment)
+             public async Task<IActionResult> LeaveDetails(EmployeeLeaveViewModel model)
         {
 
             var leave = await _leavePageService.GetMyLeaveDetails(model.LeaveId);
             var employee = await _employeePageService.GetEmployeeById(model.EmployeeId);
-            if (approved != null)
+            if (model.Approved != null)
             {
                if(employee.Status == "Full-Time" || employee.Status =="Fixed-Term")
                 {
@@ -480,14 +491,14 @@ namespace Manage.Web.Controllers
 
                 leave.LeaveStatus = "Approved";
             }
-            else if (declined != null)
+            else if (model.Declined != null)
             {
                 leave.LeaveStatus = "Declined";
             }
 
-            if (comment != null)
+            if (model.Comment != null)
             {
-                leave.Comment = comment;
+                leave.Comment = model.Comment;
             }
             await _leavePageService.Update(leave);
             return RedirectToAction("GetAllLeaves");

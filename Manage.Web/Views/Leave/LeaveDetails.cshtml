@@ -39,7 +39,7 @@
                         <div class="form-group col-6">
                             <label asp-for="@Model.Leave.CurrentDate" class="col-auto col-form-label text-sm">Date Applied:</label>
                             <div class="col">
-                                <input type="date" readonly class="form-control-plaintext" asp-format="{0:yyyy-MM-dd}" asp-for="@Model.Leave.CurrentDate">
+                                <input type="date" readonly class="form-control" asp-format="{0:yyyy-MM-dd}" asp-for="@Model.Leave.CurrentDate">
                             </div>
                         </div>
                     </div>
@@ -118,7 +118,7 @@
                         <div class="form-group col-12">
                             <label asp-for="@Model.Leave.Reason" class="col-auto col-form-label text-sm">Reason:</label>
                             <div class="col-auto">
-                                <input class="leave-form-input-text form-control" asp-for="@Model.Leave.Reason" readonly />
+                                <input class="form-control" asp-for="@Model.Leave.Reason" readonly />
                             </div>
                         </div>
                     </div>
@@ -126,7 +126,7 @@
                         <div class="form-group col-12">
                             <label asp-for="@Model.Leave.Comment" class="col-auto col-form-label text-sm">Comment:</label>
                             <div class="col-auto">
-                                <input class=" leave-form-input-text form-control-plaintext" id="Comment" name="Comment" asp-for="@Model.Leave.Comment" />
+                                <input class="form-control" id="Comment" name="Comment" asp-for="@Model.Leave.Comment" />
                             </div>
                         </div>
                     </div>
@@ -152,7 +152,8 @@
                         <div class="form-group col-4">
                             <label class="col-auto col-form-label text-sm">Status</label>
                             <div class="col">
-                                @Model.Leave.LeaveStatus
+                                  <input class="form-control" id="LeaveStatus" name="LeaveStatus" asp-for="@Model.Leave.LeaveStatus" readonly placeholder="Pending" />
+                                @*@Model.Leave.LeaveStatus*@
                             </div>
                         </div>
 

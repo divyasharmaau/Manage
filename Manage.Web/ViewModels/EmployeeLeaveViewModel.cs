@@ -11,5 +11,8 @@ namespace Manage.Web.ViewModels
         public ApplicationUserViewModel Employee { get; set; }
         public int LeaveId { get; set; }
         public LeaveViewModel Leave { get; set; }
+        public string Approved { get; set; }
+        public string Declined { get; set; }
+        public string Comment { get; set; }
     }
 }
