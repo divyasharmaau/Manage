@@ -19,12 +19,12 @@
                 <input type="hidden" asp-for="EmployeeId" />
 
                 @*<div class="form-row ">
-            <div class="form-group col-md-6">
-                <div>
-                    <span>@Model.Employee.FullName</span>
-                </div>
-            </div>
-        </div>*@
+                        <div class="form-group col-md-6">
+                            <div>
+                                <span>@Model.Employee.FullName</span>
+                            </div>
+                        </div>
+                    </div>*@
 
                 <div class="form-row mt-3">
                     <div class="form-group col-6">
@@ -53,6 +53,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="form-row  mt-3">
                     <div class="form-group col-sm-12 col-md-4">
                         <label asp-for="@Model.Leave.LeaveType" class="col-auto col-form-label text-sm"></label>
@@ -64,6 +65,7 @@
                             </select>
                         </div>
                     </div>
+
                     <div class="form-group col-sm-12 col-md-4">
                         <label asp-for="@Model.Leave.Duration" class="col-auto col-form-label text-sm"></label>
                         <div class="col">
@@ -76,6 +78,7 @@
                             </select>
                         </div>
                     </div>
+
                     <div class="form-group col-sm-12 col-md-4">
                         <label class="col-auto col-form-label text-sm">Number of Leave Days</label>
                         @{
@@ -97,6 +100,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="form-row mt-3">
                     <div class="form-group col-12">
                         <label asp-for="@Model.Leave.Reason" class="col-auto col-form-label text-sm">Reason:</label>
@@ -117,7 +121,6 @@
                     </div>
                 </div>
 
-         
                 <div class="form-row mt-3">
                     <div class="form-group col-md-6 col-sm-12">
                         <label class="col-auto col-form-label text-sm">Net Leave Balance</label>
@@ -126,7 +129,7 @@
                                 <tr>
                                     <td style="width:200px; height:fit-content"> Annual Leave balance:</td>
                                     <td>@Model.Leave.BalanceAnnualLeave</td>
-                               
+
                                 </tr>
                                 <tr>
                                     <td style="width:200px;"> Sick Leave balance:</td>
@@ -137,36 +140,30 @@
                     </div>
                 </div>
 
-
-
-
-
-
-
-                    <div class="form-row mt-3">
-                        <div class="form-group col-md-6 col-sm-12">
-                            <label class="col-auto col-form-label text-sm">Status</label>
-                            <div class="col">
-                                @Model.Leave.LeaveStatus
-                            </div>
-                        </div>
-                        <div class="form-group col-md-6 col-sm-12">
-                            <label asp-for="@Model.Leave.FilePath" class="col-auto col-form-label text-sm">Attach Documents</label>
-                            <div class="col custom-file">
-                                <input readonly class="form-control  custom-file-input" asp-for="@Model.Leave.FilePath" />
-                            </div>
+                <div class="form-row mt-3">
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label class="col-auto col-form-label text-sm">Status</label>
+                        <div class="col">
+                            @Model.Leave.LeaveStatus
                         </div>
                     </div>
-                    <div class="form-row m-3">
-                        <div class="col-md-3">
-                            <a asp-action="EditMyLeave" class="btn btn-outline-success" asp-route-leaveId="@Model.LeaveId">Edit</a>
-                            <a asp-action="GetAllMyLeaves" asp-controller="Leave" asp-route-id="@Model.EmployeeId" class="btn btn-outline-info ">Back</a>
-                        </div>
-                        <div class="col-md-3">
-
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label asp-for="@Model.Leave.FilePath" class="col-auto col-form-label text-sm">Attach Documents</label>
+                        <div class="col custom-file">
+                            <input readonly class="form-control  custom-file-input" asp-for="@Model.Leave.FilePath" />
                         </div>
                     </div>
                 </div>
+                <div class="form-row m-3">
+                    <div class="col-md-3">
+                        <a asp-action="EditMyLeave" class="btn btn-outline-success" asp-route-leaveId="@Model.LeaveId">Edit</a>
+                        <a asp-action="GetAllMyLeaves" asp-controller="Leave" asp-route-id="@Model.EmployeeId" class="btn btn-outline-info ">Back</a>
+                    </div>
+                    <div class="col-md-3">
+
+                    </div>
+                </div>
             </div>
+        </div>
     </div>
 </div>

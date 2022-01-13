@@ -50,10 +50,10 @@ namespace Manage.Infrastructure.Repository
 
         public async  Task<ApplicationUser> GetEmployeeById(string id)
         {
+          
             var employee = await _manageContext.Users
                                     .Include(x => x.Department)
                                     .Include(y => y.EmployeePersonalDetails)      
-                                    
                                     .SingleOrDefaultAsync(x => x.Id == id);
            // var item =  _manageContext.EmployeePersonalDetails.Find(id);
            // employee.EmployeePersonalDetails = item;
@@ -65,14 +65,7 @@ namespace Manage.Infrastructure.Repository
         {
             user.EmailConfirmed = true;
             user.LockoutEnabled = false;
-
-            //IdentityResult  result =  await _userManager.UpdateAsync(user);
-            //if (result.Succeeded)
-            //{
-
             _manageContext.Users.Update(user);
-            //}
-          // _manageContext.Entry(user).State = EntityState.Modified;
             await _manageContext.SaveChangesAsync();
         }
 

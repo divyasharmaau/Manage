@@ -64,19 +64,19 @@ namespace Manage.Web.Controllers
                 List<EmployeeListViewModel> employeeList = new List<EmployeeListViewModel>();
                 foreach (var emp in empList)
                 {
-                    EmployeeListViewModel list = new EmployeeListViewModel();
-                    list.Id = emp.Id;
-                    list.FirstName = emp.FirstName;
-                    list.MiddleName = emp.MiddleName;
-                    list.LastName = emp.LastName;
-                    list.Department = emp.Department;
-                    list.JobTitle = emp.JobTitle;
-                    list.Status = emp.Status;
-                    list.Manager = emp.Manager;
-                    list.Email = emp.Email;
-                    list.EmployeePersonalDetails = emp.EmployeePersonalDetails;
+                    EmployeeListViewModel model = new EmployeeListViewModel();
+                    model.Id = emp.Id;
+                    model.FirstName = emp.FirstName;
+                    model.MiddleName = emp.MiddleName;
+                    model.LastName = emp.LastName;
+                    model.Department = emp.Department;
+                    model.JobTitle = emp.JobTitle;
+                    model.Status = emp.Status;
+                    model.Manager = emp.Manager;
+                    model.Email = emp.Email;
+                    model.EmployeePersonalDetails = emp.EmployeePersonalDetails;
 
-                    employeeList.Add(list);
+                    employeeList.Add(model);
                 }
 
                 if (searchByName != null)

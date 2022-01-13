@@ -14,12 +14,12 @@
         <div class="row">
             <div class="col-sm-12">
                 <!-- /.login-logo -->
-                <div class="login-logo">
+                @*<div class="login-logo">
                     <img src="~/dist/img/Logo.png" class="logInImage" />
-                </div>
+                </div>*@
                 <div class="card shadow-lg p-3 mb-5 bg-white rounded">
                     <div class="card-body login-card-body">
-                        <p class="login-box-msg">Sign in to start your session</p>
+                        <p class="login-box-msg">Sign in to <span class="brand-logo" style="color: #e9801f; font-weight: 500; font-size: 1.3rem; ">MANAGE</span></p>
 
                         <form method="post" action="/account/login">
                             <div asp-validation-summary="All" class="text-danger"></div>
@@ -41,7 +41,7 @@
                                 </div>
                                 @*<span asp-validation-for="Password" class="text-danger"></span>*@
                             </div>
-                            <div class="row">
+                            @*<div class="row">
                                 <div class="col-8">
                                     <div class="checkbox">
                                         <label asp-for="RememberMe">
@@ -50,7 +50,7 @@
                                         </label>
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
                             <div class="row">
                                 <div class="col-12">
                                     <button type="submit" class="btn btnSubmit btn-block btn-sm">Log In</button>

@@ -31,7 +31,7 @@
                                 <th>
                                 </th>
                                 <th class="text-color">
-                                    @Html.ActionLink("Full Name", "EmployeeList", new { sortOrder = ViewBag.SortByName })  <span>&#129113;</span>
+                                    @Html.ActionLink("Full Name", "EmployeeList", new { sortOrder = ViewBag.SortByName })<span>&#129113;</span>
                                 </th>
                                 <th style="color: #1e4356">
                                     Department
@@ -111,9 +111,7 @@
                                 <div class="col">
                                     @Html.PagedListPager(Model, page => Url.Action("EmployeeList", new { page }), new PagedListRenderOptions
                                           {
-                                             //DisplayLinkToIndividualPages = true,
-                                             //DisplayPageCountAndCurrentLocation = false,
-                                             //MaximumPageNumbersToDisplay = 10,
+                                           
                                              LiElementClasses = new string[] { "page-item" },
                                              PageClasses = new string[] { "page-link" },
 
@@ -130,7 +128,7 @@
     </div>
 </div>
 
-
+</div>
 
 
 <!--DataTables-->

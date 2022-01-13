@@ -24,17 +24,13 @@ namespace Manage.WebApi.ViewModels
         public int AccountNumber { get; set; }
 
         //Employee Address
-        //[Required]
         [DisplayName("House/Unit Number")]
         public string HouseNumber { get; set; }
-        [Required]
         public string Street { get; set; }
         [DisplayName("City/Suburb")]
         public string City { get; set; }
-        // [Required]
         public string State { get; set; }
         public string Country { get; set; }
-        // [Required]
         public string ZipCode { get; set; }
         //Personal Details
         public string PhotoPath { get; set; }
@@ -54,26 +50,21 @@ namespace Manage.WebApi.ViewModels
         public string Gender { get; set; }
 
         //Emergency Contact Details
-        //[Required]
         [DisplayName("Emergency Contact")]
         public string EmergencyContact { get; set; }
         public string Relationship { get; set; }
-        //[Required]
         [DisplayName("Emergency Contact Phone Number")]
         public string EmergencyContactPhoneNumber { get; set; }
         [DisplayName("House/Unit Number")]
         public string EmergencyContactHouseNumber { get; set; }
-        //[Required]
         [DisplayName("Street")]
         public string EmergencyContactStreet { get; set; }
         [DisplayName("City/Suburb")]
         public string EmergencyContactCity { get; set; }
-        //  [Required]
         [DisplayName("State")]
         public string EmergencyContactState { get; set; }
         [DisplayName("Country")]
         public string EmergencyContactCountry { get; set; }
-        //[Required]
         [DisplayName("ZipCode")]
         public string EmergencyContactZipCode { get; set; }
         // Navigation Property one to one relationship

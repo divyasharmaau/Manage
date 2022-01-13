@@ -78,12 +78,11 @@ namespace Manage.WebApi.Controllers
             employeeLeaveViewModel.EmployeeId = user.Id;
             await _employeeLeavePageService.AddNewLeaveEmployeeLeave(employeeLeaveViewModel);
             return Ok(model);
-            //return CreatedAtRoute("MyLeaveDetails", new { id = newLeave.Id }, newLeave);
+          
         }
 
 
         [HttpGet("ApplyLeaveGet/{id}")]
-        //[HttpGet("{id}" , Name ="ApplyLeaveGet")]
         public async Task<IActionResult> ApplyLeave(string id)
         {
             var user = await _employeePageService.GetEmployeeById(id);
@@ -100,29 +99,6 @@ namespace Manage.WebApi.Controllers
             return Ok(model);
         }
 
-
-        //[HttpPost("{id}")]
-        //public async Task<IActionResult> ApplyLeave([FromForm] ApplyLeaveDto applyLeaveDto, string id)
-        //{
-        //    if (applyLeaveDto == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var mapped = _mapper.Map<LeaveViewModel>(applyLeaveDto);
-        //    var newLeave = await _leavePageService.AddNewLeave(mapped);
-        //    //add to employeeLeave
-        //    var mappedEmployeeLeave = _mapper.Map<EmployeeLeaveViewModel>(newLeave);
-        //    mappedEmployeeLeave.LeaveId = newLeave.Id;
-        //    mappedEmployeeLeave.EmployeeId = id;
-
-        //    await _employeeLeavePageService.AddNewLeaveEmployeeLeave(mappedEmployeeLeave);
-        //    return CreatedAtRoute("MyLeaveDetails", new { id = newLeave.Id }, newLeave);
-        //}
-
-
-
-       
         [HttpGet("MyLeaveDetails/{id}")]
         public async Task<IActionResult> MyLeaveDetails(int id)
         {
@@ -275,31 +251,7 @@ namespace Manage.WebApi.Controllers
             return Ok(leaveList);
         }
 
-        //[HttpGet]
-        //public async Task<ActionResult> GetAllLeaves()
-        //{
-        //    var allLeaves = await _employeeLeavePageService.GetAllEmployeesWithLeaveList();
-        //    foreach (var item in allLeaves)
-        //    {
-        //        if (item.LeaveType == "Annual Leave")
-        //        {
-        //            var netLeaveBalance = item.BalanceAnnualLeave - item.NumberOfLeaveDays * 7.6;
-        //            item.BalanceAnnualLeave = netLeaveBalance;
-        //        }
-        //        else if (item.LeaveType == "Sick Leave")
-        //        {
-        //            var netSickLeavesBalance = item.BalanceSickLeave - item.NumberOfLeaveDays * 7.6;
-        //            item.BalanceSickLeave = netSickLeavesBalance;                             
-        //        }
-        //        if(item.LeaveStatus == null)
-        //        {
-        //            item.LeaveStatus = "Pending";
-        //        }
-        //    }
-
-
-        //    return Ok(allLeaves);
-        //}
+     
         [HttpGet]
      
         public async Task<ActionResult> GetAllLeaves(DateTime? fromdate = null)
@@ -366,7 +318,8 @@ namespace Manage.WebApi.Controllers
        
             return NoContent();
         }
-        //public async Task<IActionResult> LeaveDetails(EmployeeLeaveViewModel model, string approved, string declined, string comment)
+
+       
         [HttpPut("LeaveStatusByAdmin")]
         public async Task<IActionResult> LeaveDetails([FromBody]EmployeeLeaveViewModel model)
         {

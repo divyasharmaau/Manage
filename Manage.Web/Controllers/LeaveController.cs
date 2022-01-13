@@ -192,10 +192,9 @@ namespace Manage.Web.Controllers
         }
 
 
-        public async Task<IActionResult> GetAllMyLeaves(IFormCollection obj ,string id , int?page 
-            , string searchFromDate 
-            ,string searchToDate , string searchLeaveStatus , string searchLeaveType 
-            ,string searchAll , string searchApproved , string searchPending , string searchDeclined)
+        public async Task<IActionResult> GetAllMyLeaves(IFormCollection obj ,string id ,int?page 
+            ,string searchFromDate ,string searchToDate ,string searchLeaveStatus ,string searchLeaveType 
+            ,string searchAll ,string searchApproved ,string searchPending, string searchDeclined)
         {
            
             var emp = await _employeeLeavePageService.GetEmployeeWithLeaveList(id);
@@ -225,19 +224,11 @@ namespace Manage.Web.Controllers
                 leaveList.Add(model);
             }
 
-
-            ViewData["CurrentFilter"] = obj["SearchString"].ToString();
-            ViewData["CurrentFilterFromDate"] = obj["searchFromDate"].ToString();
-            ViewData["CurrentFilterToDate"] = obj["searchToDate"].ToString();
-            ViewData["CurrentFilterLeaveType"] = obj["searchLeaveType"].ToString();
-            //ViewData["CurrentFilerLeaveStatus"] = obj["searchLeaveStatus"].ToString();
-
             Boolean tempValue = obj["searchAll"].ToString() != "" ? true : false;
             ViewData["CurrentFilterSearchAll"] = tempValue;
 
-            Boolean tempValueApproved = obj["searchApproved"].ToString() != "" ? true : false;
-            ViewData["CurrentFilterApproved"] = tempValueApproved;
-
+            Boolean tempValueA = obj["searchApproved"].ToString() != "" ? true : false;
+            ViewData["CurrentFilterA"] = tempValueA;
             Boolean tempValueSearchPending = obj["searchPending"].ToString() != "" ? true : false;
             ViewData["CurrentFilterSearchPending"] = tempValueSearchPending;
 
@@ -270,6 +261,7 @@ namespace Manage.Web.Controllers
                 leaveList = leaveList.OrderByDescending(s => s.LeaveStatus).ToList();
             }
 
+            
             if (!String.IsNullOrEmpty(searchApproved))
             {
                 leaveList = leaveList.Where(s => s.LeaveStatus == "Approved").ToList();
@@ -314,19 +306,18 @@ namespace Manage.Web.Controllers
         {
             var employeeLeaveList = await _employeeLeavePageService.GetAllEmployeesWithLeaveList();
 
-          
 
-            Boolean tempValue = obj["searchAll"].ToString() != "" ? true : false;
-            ViewData["CurrentFilterSA"] = tempValue;
+            ViewData["CurrentFilterSA"] = obj["searchAll"].ToString() != "" ? true : false;
+            //ViewData["CurrentFilterSA"] = tempValue;
 
-            Boolean tempValueA = obj["searchAprroved"].ToString() != "" ? true : false;
-            ViewData["CurrentFilterA"] = tempValueA;
+            ViewData["CurrentFilterA"] = obj["searchAprroved"].ToString() != "" ? true : false;
+            //ViewData["CurrentFilterA"] = tempValueA;
 
-            Boolean tempValueSP = obj["searchPending"].ToString() != "" ? true : false;
-            ViewData["CurrentFilterSP"] = tempValueSP;
+            ViewData["CurrentFilterSP"] = obj["searchPending"].ToString() != "" ? true : false;
+            //ViewData["CurrentFilterSP"] = tempValueSP;
 
-            Boolean tempValueSD = obj["searchDeclined"].ToString() != "" ? true : false;
-            ViewData["CurrentFilterSD"] = tempValueSD;
+            ViewData["CurrentFilterSD"] = obj["searchDeclined"].ToString() != "" ? true : false;
+           // ViewData["CurrentFilterSD"] = tempValueSD;
 
             if (!String.IsNullOrEmpty(employeeName))
             {
@@ -357,17 +348,12 @@ namespace Manage.Web.Controllers
                 employeeLeaveList = employeeLeaveList.Where(l => l.LeaveType == searchLeaveType);
             }
 
-            //else
-            //{
-            //    searchLeaveType = currentFilter;
-            //}
-
+          
             if (!String.IsNullOrEmpty(searchLeaveStatus))
             {
                 employeeLeaveList = employeeLeaveList.Where(s => s.LeaveStatus == searchLeaveStatus);
             }
 
-            //ViewBag.CurrentFilter = searchLeaveType;
 
             if (!String.IsNullOrEmpty(searchAll))
             {
@@ -391,16 +377,10 @@ namespace Manage.Web.Controllers
                 employeeLeaveList = employeeLeaveList.Where(s => s.LeaveStatus == "Declined");
             }
 
-            foreach (var item in employeeLeaveList)
-            {
-                if(item.LeaveStatus == null)
-                {
-                    item.LeaveStatus = "Pending";
-                }
-            }
+         
             int pageSize = 10;
             int pageNumber = (page ?? 1);
-            var result = employeeLeaveList.OrderByDescending(s => s.LeaveStatus).ToPagedList(pageNumber, pageSize);
+            var result = employeeLeaveList.OrderBy(s => s.LeaveStatus).ToPagedList(pageNumber, pageSize);
             return View(result);
         }
 
@@ -420,7 +400,7 @@ namespace Manage.Web.Controllers
         }
 
         [HttpPost]
-        //public async Task<IActionResult> LeaveDetails(EmployeeLeaveViewModel model, string approved , string declined , string comment)
+       
              public async Task<IActionResult> LeaveDetails(EmployeeLeaveViewModel model)
         {
 

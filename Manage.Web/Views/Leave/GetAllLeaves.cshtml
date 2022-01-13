@@ -62,7 +62,8 @@
                             <div class="row">
                                 <div class="col">
                                     <input type="hidden" id="employeeId" name="employeeId" />
-                                    <input type="text" name="employeeName" class="form-control" id="employeeName" value="@ViewData["CurrentFilterE"]" />
+                                    <input type="text" name="employeeName" class="form-control" id="employeeName"
+                                           value="@ViewData["CurrentFilterE"]" />
                                 </div>
                             </div>
                          
@@ -74,11 +75,9 @@
                     <div class="leaveCheckBox row mt-3">
                         <div class="col-sm-2">
                             <div class="form-check form-check-inline">
-                                @if (ViewData["CurrentFilterSA"] != null)
-                                {
-                                    flag = (bool)ViewData["CurrentFilterSA"];
-                                }
-                                <input class="form-check-input" type="checkbox" name="searchAll" value="true" id="searchAll" checked="@flag">
+                                <input class="form-check-input" type="checkbox" name="searchAll" value="true" 
+                                       id="searchAll" 
+                                       checked="@(ViewData["CurrentFilteSA"] != null && (bool)ViewData["CurrentFilterSA"])">
                                 <label class="form-check-label" for="searchAll">All</label>
 
                             </div>
@@ -86,33 +85,29 @@
 
                         <div class="col-sm-2">
                             <div class="form-check form-check-inline">
-                                @if (ViewData["CurrentFilterA"] != null)
-                                {
-                                    flag = (bool)ViewData["CurrentFilterA"];
-                                }
-                                <input id="searchApproved" name="searchAprroved" class="form-check-input" value="true" type="checkbox" checked="@flag" />
+                               
+                                <input id="searchApproved" name="searchAprroved" class="form-check-input" 
+                                       value="true" type="checkbox" 
+                                       checked="@(ViewData["CurrentFilterA"] != null && (bool)ViewData["CurrentFilterA"])" />
                                 <label class="form-check-label" for="inlineCheckbox3">Approved</label>
                             </div>
                         </div>
 
                         <div class="col-sm-2">
                             <div class="form-check form-check-inline">
-                                @if (ViewData["CurrentFilterSP"] != null)
-                                {
-                                    flag = (bool)ViewData["CurrentFilterSP"];
-                                }
-                                <input class="form-check-input" type="checkbox" id="searchPending" name="searchPending"  value="true" checked="@flag" />
+                                <input class="form-check-input" type="checkbox" id="searchPending" 
+                                       name="searchPending"  value="true" 
+                                       checked="@(ViewData["CurrentFilterSP"] != null && (bool)ViewData["CurrentFilterSP"])" />
                                 <label class="form-check-label" for="searchPending">Pending</label>
                             </div>
                         </div>
 
                         <div class="col-sm-2">
                             <div class="form-check form-check-inline">
-                                @if (ViewData["CurrentFilterSD"] != null)
-                                {
-                                    flag = (bool)ViewData["CurrentFilterSD"];
-                                }
-                                <input id="searchDeclined" name="searchDeclined" class="form-check-input" value="true" type="checkbox" checked="@flag" />
+                             
+                                <input id="searchDeclined" name="searchDeclined" class="form-check-input"
+                                       value="true" type="checkbox"
+                                       checked="@(ViewData["CurrentFilterSD"] != null && (bool)ViewData["CurrentFilterSD"])" />
                                 <label class="form-check-label" for="searchDeclined">Declined</label>
                             </div>
                         </div>

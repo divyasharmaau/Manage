@@ -113,20 +113,15 @@ namespace Manage.WebApi.Controllers
             DateTime now = DateTime.UtcNow;
 
             var user = await _userManager.FindByIdAsync(userId);
-           // var role = await _administrationPageService.GetRoleById(userId);
+     
             var role = await _userManager.GetRolesAsync(user);
             var rName = "";
-            foreach (var item in role)
+        
+            if (role.Contains(roleName))
             {
-                if(item == roleName)
-                {
-                    rName = roleName;
-                    break;
-                }
-            }
-            // add the registered claims for JWT (RFC7519).
-            // For more info, see https://tools.ietf.org/html/rfc7519#section-4.1
-            var claims = new[] {
+                // add the registered claims for JWT (RFC7519).
+                // For more info, see https://tools.ietf.org/html/rfc7519#section-4.1
+                var claims = new[] {
                 new Claim(JwtRegisteredClaimNames.Sub, userId),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat,
@@ -137,43 +132,49 @@ namespace Manage.WebApi.Controllers
                 // TODO: add additional claims here
             };
 
-            var tokenExpirationMins =
-                _configuration.GetValue<int>("Auth:Jwt:TokenExpirationInMinutes");
-            var issuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(_configuration["Auth:Jwt:Key"]));
+                var tokenExpirationMins =
+                    _configuration.GetValue<int>("Auth:Jwt:TokenExpirationInMinutes");
+                var issuerSigningKey = new SymmetricSecurityKey(
+                    Encoding.UTF8.GetBytes(_configuration["Auth:Jwt:Key"]));
 
-            var token = new JwtSecurityToken(
-                issuer: _configuration["Auth:Jwt:Issuer"],
-                audience: _configuration["Auth:Jwt:Audience"],
-                claims: claims,
-                notBefore: now,
-                expires: now.Add(TimeSpan.FromMinutes(tokenExpirationMins)),
-                signingCredentials: new SigningCredentials(
-                    issuerSigningKey, SecurityAlgorithms.HmacSha256)
-            );
-            var encodedToken = new JwtSecurityTokenHandler().WriteToken(token);
-            string profilePicturePath = "";
-            var userPersonalData = _manageConetxt.EmployeePersonalDetails.Where(x => x.Id == userId).FirstOrDefault();
-           
-            if(userPersonalData == null)
-            {
-                profilePicturePath = "";
+                var token = new JwtSecurityToken(
+                    issuer: _configuration["Auth:Jwt:Issuer"],
+                    audience: _configuration["Auth:Jwt:Audience"],
+                    claims: claims,
+                    notBefore: now,
+                    expires: now.Add(TimeSpan.FromMinutes(tokenExpirationMins)),
+                    signingCredentials: new SigningCredentials(
+                        issuerSigningKey, SecurityAlgorithms.HmacSha256)
+                );
+                var encodedToken = new JwtSecurityTokenHandler().WriteToken(token);
+                string profilePicturePath = "";
+                var userPersonalData = _manageConetxt.EmployeePersonalDetails.Where(x => x.Id == userId).FirstOrDefault();
+
+                if (userPersonalData == null)
+                {
+                    profilePicturePath = "";
+                }
+                else
+                {
+                    profilePicturePath = userPersonalData.PhotoPath;
+                }
+                return new TokenResponseViewModel()
+                {
+                    token = encodedToken,
+                    expiration = tokenExpirationMins,
+                    refresh_token = refreshToken,
+                    role_name = rName,
+                    userId = userId,
+                    profile_picture_path = profilePicturePath,
+                    user_name = user.FullName
+
+                };
             }
             else
             {
-                profilePicturePath = userPersonalData.PhotoPath;
+                return new TokenResponseViewModel();
             }
-            return new TokenResponseViewModel()
-            {
-                token = encodedToken,
-                expiration = tokenExpirationMins,
-                refresh_token = refreshToken,
-                role_name = rName,
-                userId = userId,
-                profile_picture_path = profilePicturePath,
-                user_name = user.FullName
-
-            };
+          
         }
 
         private async Task<IActionResult> RefreshToken(TokenRequestViewModel model)
@@ -225,56 +226,6 @@ namespace Manage.WebApi.Controllers
             }
         }
 
-        //public IActionResult Index()
-        //{
-        //    return View();
-        //}
-
-        //[HttpPost]
-        //public async Task<IActionResult> LogOut()
-        //{
-        //   await _signInManager.SignOutAsync();
-        //    return RedirectToAction("LogIn", "Account");
-        //}
-
-        //[HttpGet]
-        //public  IActionResult LogIn()
-        //{
-        //    return View();
-        //}
-
-        //[HttpPost]
-        //public async Task<IActionResult> LogIn(LogInViewModel model , string returnUrl)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        // This doesn't count login failures towards account lockout
-        //        // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-        //        var user = await _userManager.FindByEmailAsync(model.Email);
-        //        if(user == null)
-        //        {
-        //            ModelState.AddModelError(string.Empty, "Inavlid Email or Password!!");
-        //            return LogIn();
-        //        }
-
-        //        var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberMe, lockoutOnFailure: true);
-
-        //        if (result.Succeeded)
-        //        {
-        //            //redirects the user to the requested action method after login
-        //            //model binding will automatically bind the string returnUrl to method paremeter returnUrl
-        //            if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
-        //            {
-        //                return Redirect(returnUrl);
-        //            }
-        //            //return RedirectToAction("ListEmployees", "Employee");
-        //            return RedirectToAction("Index", "Home");
-        //        }
-
-        //        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-        //    }
-        //    return View(model);
-        //}
 
 
     }

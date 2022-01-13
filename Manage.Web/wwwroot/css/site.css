@@ -235,12 +235,12 @@ td img {
 /*========LOG IN=================*/
  .btnSubmit{
   
-   border: 2px solid var(--slateGrey-color);
+   border: 1px solid var(--slateGrey-color);
 
 }
 
     .btnSubmit:hover {
-        border: 2px solid var(--slateGrey-color);
+        border: 1px solid var(--slateGrey-color);
         color: white;
         background-color:var(--slateGrey-color);
     }
@@ -262,7 +262,7 @@ td img {
 }
 
 .btn.btnSubmitForm {
-    border: 2px solid var(--orange-color);
+    border: 1px solid var(--orange-color);
 }
 
     .btn.btnSubmitForm:hover {
@@ -273,12 +273,12 @@ td img {
 
 
 select.form-control {
-    border: 2px solid var(--slateGrey-color);
+    border: 1px solid var(--slateGrey-color);
 /*    background: #6ac17a;
     color: #fff;*/
 }
     select.form-control:hover {
-        border: 2px solid var(--lightOrange-color);
+        border: 1px solid var(--lightOrange-color);
         outline: none;
         box-shadow: none;
     }
@@ -290,22 +290,25 @@ select.form-control {
 
 
 input[type=file] .custom-file-input {
-    border: 2px solid red;
+    border: 1px solid red;
 }
-input[type=text], input[type=password], input[type=number], input[type=date], input[type=email] {
-    border: 2px solid var(--slateGrey-color);
+input[type=text], input[type=password], input[type=number], input[type=date], input[type=email], 
+input[type=search], input[type=file] {
+    border: 1px solid var(--slateGrey-color);
 }
 
-    input[type=text]:hover, input[type=password]:hover, input[type=number]:hover, input[type=date]:hover, input[type=email]:hover input[type=checkbox]:hover {
-        border: 2px solid var(--lightOrange-color);
+    input[type=text]:hover, input[type=password]:hover, input[type=number]:hover, input[type=date]:hover,
+    input[type=email]:hover input[type=checkbox]:hover, input[type=search]:hover , input[type=file]:hover{
+        border: 1px solid var(--lightOrange-color);
         outline: none;
         box-shadow: none;
     }
-input[type=text]:focus, input[type=password]:focus, input[type=number]:focus, input[type=date]:focus, input[type=email]:focus {
-    outline: none;
-    box-shadow: none;
-    border: 2px solid var(--lightOrange-color);
-}
+    input[type=text]:focus, input[type=password]:focus, input[type=number]:focus, input[type=date]:focus,
+    input[type=email]:focus, input[type=search]:focus, input[type=file]:hover {
+        outline: none;
+        box-shadow: none;
+        border: 1px solid var(--lightOrange-color);
+    }
 
 /*input[type=email].input-group-append.inputSpan{
     border: 2px solid var(--slateGrey-color);
@@ -361,7 +364,10 @@ pagination.page-link {
     background: url("../dist/img/pattern.jpg");
 }
 
-/*.accountBackground {*/
-/* background: linear-gradient(90deg, hsla(287, 20%, 53%, 1) 0%, hsla(40, 3%, 59%, 1) 100%);*/
-/*background-color: #1e4356;
-}*/
+
+.index-card-subtitle{
+    color:var(--orange-color);
+}
+.index-card-title{
+    color:var(--slateGrey-color);
+}

@@ -51,8 +51,6 @@
                                     <option value="">--Select--</option>
                                     <option value="Annual Leave">Annual Leave</option>
                                     <option value="Sick Leave">Sick Leave</option>
-                                    <option value="Maternity Leave">Maternity Leave</option>
-                                    <option value="Parental Leave">Parental Leave</option>
                                 </select>
                             </div>
                         </div>
@@ -75,12 +73,12 @@
 
                         <div class="col-sm-2">
                             <div class="form-check form-check-inline">
-                                @if (ViewData["CurrentFilterApproved"] != null)
+                                @if (ViewData["CurrentFilterA"] != null)
                                 {
-                                    flag = (bool)ViewData["CurrentFilterApproved"];
+                                    flag = (bool)ViewData["CurrentFilterA"];
                                 }
-                                <input id="searchApproved" name="searchAprroved" class="form-check-input" value="true" type="checkbox" checked="@flag" />
-                                <label class="form-check-label" for="inlineCheckbox3">Approved</label>
+                                <input id="searchApproved" name="searchApproved" class="form-check-input" value="true" type="checkbox" checked="@flag" />
+                                <label class="form-check-label" for="searchApproved">Approved</label>
                             </div>
                         </div>
 
