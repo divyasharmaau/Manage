@@ -28,21 +28,16 @@ namespace Manage.Core.Entities
         public string JobTitle { get; set; }
         public string Status { get; set; }
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
+        [Required]
         public DateTime JoiningDate { get; set; }
+
         [DisplayName("Working Days in Week")]
+        [Required]
         public int DaysWorkedInWeek { get; set; }
         [DisplayName("Number of Hours Per Day")]
+        [Required]
         public double NumberOfHoursWorkedPerDay { get; set; }
         public string Manager { get; set; }
-
-        //public string Password { get; set; }
-        //public string ConfirmPassword { get; set; }
-
-
-        //[Required]
-        //[RegularExpression(@"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?",
-        //    ErrorMessage = "plz enter a valid email")]
-        //public string Email { get; set; }
 
 
         //NAVIGATION PROPERTIES

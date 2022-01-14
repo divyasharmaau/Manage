@@ -11,7 +11,7 @@ namespace Manage.Application.Models
    public class ApplicationUserModel 
 
     {
-        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+
         public string Id { get; set; }
         public string Email { get; set; }
         public string UserName { get; set; }
@@ -51,8 +51,7 @@ namespace Manage.Application.Models
         public double NumberOfHoursWorkedPerDay { get; set; }
         public string Manager { get; set; }
 
-        //public string Password { get; set; }
-        //public string ConfirmPassword { get; set; }
+
 
         //NAVIGATION PROPERTIES
         //n-1 relationship

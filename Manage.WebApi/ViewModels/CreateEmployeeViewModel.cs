@@ -13,7 +13,6 @@ namespace Manage.WebApi.ViewModels
 {
     public class CreateEmployeeViewModel
     {
-        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string Id { get; set; }
         public string Title { get; set; }
         [DisplayName("First Name")]
@@ -30,21 +29,25 @@ namespace Manage.WebApi.ViewModels
         }
 
         [DisplayName("Joining Date")]
+        [Required]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime JoiningDate { get; set; }
         [DisplayName("Job Title")]
         public string JobTitle { get; set; }
         public string Status { get; set; }
+        [Required]
         public int DepartmentId { get; set; }
         public string Department { get; set; }
         public List<SelectListItem> departmentList { get; set; }
-        //public IEnumerable<DepartmentViewModel> departmentList2 { get; set; }
+
         [DisplayName("Working Days in Week")]
+        [Required]
         public int DaysWorkedInWeek { get; set; }
-        //public int WorkingDaysInWeek { get; set; }
+
         [DisplayName("Working Hours Per Day")]
+        [Required]
         public double NumberOfHoursWorkedPerDay { get; set; }
-        // public double WorkingHoursPerDay { get; set; }
+
         public string Manager { get; set; }
         public string Password { get; set; }
         public string ConfirmPassword { get; set; }

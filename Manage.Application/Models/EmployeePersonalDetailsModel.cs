@@ -13,7 +13,6 @@ namespace Manage.Application.Models
         public string Id { get; set; }
         //Personal Details
         public string PhotoPath { get; set; }
-        //public string FilePath { get; set; }
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
         [Required]
         public DateTime DateOfBirth { get; set; }

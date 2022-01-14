@@ -19,8 +19,10 @@ namespace Manage.WebApi.ViewModels
         public string Branch { get; set; }
         [DisplayName("Account Name")]
         public string AccountName { get; set; }
+        [Required]
         public int BSB { get; set; }
         [DisplayName("Account Number")]
+        [Required]
         public int AccountNumber { get; set; }
 
         //Employee Address
@@ -36,9 +38,9 @@ namespace Manage.WebApi.ViewModels
         public string PhotoPath { get; set; }
         public string ExistingPhotoPath { get; set; }
         public IFormFile Photo { get; set; }
-        //public string FilePath { get; set; }
-        //[DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
+
         [DisplayName("Date of Birth")]
+        [Required]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DateOfBirth { get; set; }
         public string Nationality { get; set; }

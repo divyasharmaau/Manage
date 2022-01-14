@@ -25,7 +25,7 @@ namespace Manage.Core.Entities
         //}
 
         public string PhotoPath { get; set; }
-        //public string FilePath { get; set; }
+
         [DisplayName("Date of Birth")]
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
         [Required]

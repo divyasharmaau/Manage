@@ -54,7 +54,7 @@ namespace Manage.Web.ViewModels
 
         [Required]
         [Remote(action: "IsEmailInUse", controller: "Employee")]
-        [ValidEmailDomain(allowedDomain:"gmail.com" , ErrorMessage ="Email Domain  must be mail.com or gmail.com")]
+        [ValidEmailDomain(allowedDomain:"gmail.com" , ErrorMessage ="Email Domain  must be gmail.com")]
         [RegularExpression(@"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?",
             ErrorMessage = "Please enter a valid email")]
         public string Email { get; set; }

@@ -53,7 +53,9 @@ a {
   color: #fff;
   background-color: #1b6ec2;
   border-color: #1861ac;
+
 }
+
 
 
 /* Sticky footer styles
@@ -164,12 +166,11 @@ a.disabled {
 }
 
 
-
-
- .nav-sidebar > .nav-item.menu-open > .nav-link,
- .nav-sidebar > .nav-item:hover > .nav-link {
-    background-color: var(--orange-color);
+.nav-item {
+    color: var(--lightOrange-color);
 }
+
+
 
 .formSubHeading {
    color: var(--orange-color);
@@ -183,9 +184,7 @@ a.disabled {
 .main-sidebar {
     background: url(/dist/img/pattern.jpg) repeat-y;
 }
-/*.sideBar nav ul li a:hover{
-    color:red;
-}*/
+
 .user-panel img {
     border: 2px solid var(--orange-color);
     height: auto;
@@ -194,12 +193,11 @@ a.disabled {
 .user-body .btn:hover {
     outline: none;
 }
-.nav-sidebar .nav-item:hover  {
+
+[class*=sidebar-light-] .nav-treeview > .nav-item > .nav-link:hover {
     color: var(--slateGrey-color);
-}
-.nav-sidebar .nav-item .nav-link i {
-    color: var(--slateGrey-color);
-    font-weight: bold;
+    font-weight: 500;
+    text-decoration: none;
 }
 
 
@@ -220,10 +218,7 @@ td a {
         color: var(--slateGrey-color);
     }
 
-td img {
-  
-   
-}
+
 
 .listImg {
     height: 35px;
