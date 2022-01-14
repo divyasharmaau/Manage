@@ -55,8 +55,9 @@ namespace Manage.Web.Controllers
 
             ApplyLeaveViewModel model = new ApplyLeaveViewModel();
             model.JoiningDate = user.JoiningDate;
-            model.BalanceAnnualLeave = accuredAnnualLeave - annualLeaveCount;
-            model.BalanceSickLeave = accuredSickLeave - sickLeaveCount;
+            model.BalanceAnnualLeave = Math.Round((accuredAnnualLeave - annualLeaveCount),2);
+            
+            model.BalanceSickLeave = Math.Round((accuredSickLeave - sickLeaveCount),2);
             return View(model);
         }
 
@@ -66,11 +67,11 @@ namespace Manage.Web.Controllers
             var user = await _employeePageService.GetEmployeeById(id);
             var annualLeaveCount = await _employeeLeavePageService.TotalAnnualLeaveTaken(user.Id);
             var accuredAnnualLeave = await _employeeLeavePageService.TotalAnnualLeaveAccured(user.Id);
-            model.BalanceAnnualLeave = accuredAnnualLeave - annualLeaveCount;
+            model.BalanceAnnualLeave = Math.Round((accuredAnnualLeave - annualLeaveCount),2);
 
             var sickLeaveCount = await _employeeLeavePageService.TotalSickLeaveTaken(user.Id);
             var accuredSickLeave = await _employeeLeavePageService.TotalSickLeaveAccured(user.Id);
-            model.BalanceSickLeave = accuredSickLeave - sickLeaveCount;
+            model.BalanceSickLeave = Math.Round((accuredSickLeave - sickLeaveCount),2);
             if (ModelState.IsValid)
             {
                 string uniqueFileName = null;
@@ -89,15 +90,19 @@ namespace Manage.Web.Controllers
                 leaveApplied.FilePath = uniqueFileName;
                 leaveApplied.BalanceAnnualLeave = model.BalanceAnnualLeave;
                 leaveApplied.BalanceSickLeave = model.BalanceSickLeave;
-                var newLeave =   await _leavePageService.AddNewLeave(leaveApplied);
+                var newLeave =  await _leavePageService.AddNewLeave(leaveApplied);
 
             
-                //save the newAppliedLeave to the EmployeeLeave
+                //save the newAppliedLeave to the EmployeeLeave(just the Id)
                 EmployeeLeaveViewModel employeeLeaveViewModel = new EmployeeLeaveViewModel();
                 employeeLeaveViewModel.LeaveId = newLeave.Id;
                 employeeLeaveViewModel.EmployeeId = user.Id;
                 await _employeeLeavePageService.AddNewLeaveEmployeeLeave(employeeLeaveViewModel);
              
+            }
+            else
+            {
+                return View(model);
             }
      
             return RedirectToAction("GetAllMyLeaves", new { id  = user.Id });
@@ -168,16 +173,28 @@ namespace Manage.Web.Controllers
                 return RedirectToAction("MyLeaveDetails", new { leaveId = mapped.Id });
 
             }
+            else
+            {
+                var leaveDetails = await _employeeLeavePageService.GetLeaveById(model.LeaveId);
+                var mappedModel = _mapper.Map<EditMyLeaveViewModel>(leaveDetails);
+                if (leaveDetails.Leave.FilePath == null)
+                {
+                    return View(mappedModel);
+                }
 
-            return View(model);
+                var file = leaveDetails.Leave.FilePath;
+                string docPath = file.Substring(file.IndexOf("_") + 1);
+                leaveDetails.Leave.FilePath = docPath;
+                mappedModel.ExistingFilePath = docPath;
+                return View(mappedModel);
+            }
            
-            
         }
 
-        public async Task<IActionResult> GetAllMyLeaves(IFormCollection obj ,string id , int?page 
-            , string searchFromDate 
-            ,string searchToDate , string searchLeaveStatus , string searchLeaveType 
-            ,string searchAll , string searchApproved , string searchPending , string searchDeclined)
+
+        public async Task<IActionResult> GetAllMyLeaves(IFormCollection obj ,string id ,int?page 
+            ,string searchFromDate ,string searchToDate ,string searchLeaveStatus ,string searchLeaveType 
+            ,string searchAll ,string searchApproved ,string searchPending, string searchDeclined)
         {
            
             var emp = await _employeeLeavePageService.GetEmployeeWithLeaveList(id);
@@ -189,26 +206,29 @@ namespace Manage.Web.Controllers
                 model.FromDate = item.Leave.FromDate;
                 model.TillDate = item.Leave.TillDate;
                 model.LeaveType = item.Leave.LeaveType;
-                model.LeaveStatus = item.Leave.LeaveStatus;
+                model.BalanceAnnualLeave = item.Leave.BalanceAnnualLeave;
+                model.BalanceSickLeave = item.Leave.BalanceSickLeave;
+          
+                if(item.Leave.LeaveStatus != "Approved" && item.Leave.LeaveStatus != "Declined")
+                {
+                    model.LeaveStatus = "Pending";
+                }
+                else
+                {
+                    model.LeaveStatus = item.Leave.LeaveStatus;
+                }
+             
                 model.Reason = item.Leave.Reason;
                 model.LeaveId = item.LeaveId;
 
                 leaveList.Add(model);
             }
 
-
-            ViewData["CurrentFilter"] = obj["SearchString"].ToString();
-            ViewData["CurrentFilterFromDate"] = obj["searchFromDate"].ToString();
-            ViewData["CurrentFilterToDate"] = obj["searchToDate"].ToString();
-            ViewData["CurrentFilterLeaveType"] = obj["searchLeaveType"].ToString();
-            //ViewData["CurrentFilerLeaveStatus"] = obj["searchLeaveStatus"].ToString();
-
             Boolean tempValue = obj["searchAll"].ToString() != "" ? true : false;
             ViewData["CurrentFilterSearchAll"] = tempValue;
 
-            Boolean tempValueApproved = obj["searchApproved"].ToString() != "" ? true : false;
-            ViewData["CurrentFilterApproved"] = tempValueApproved;
-
+            Boolean tempValueA = obj["searchApproved"].ToString() != "" ? true : false;
+            ViewData["CurrentFilterA"] = tempValueA;
             Boolean tempValueSearchPending = obj["searchPending"].ToString() != "" ? true : false;
             ViewData["CurrentFilterSearchPending"] = tempValueSearchPending;
 
@@ -241,6 +261,7 @@ namespace Manage.Web.Controllers
                 leaveList = leaveList.OrderByDescending(s => s.LeaveStatus).ToList();
             }
 
+            
             if (!String.IsNullOrEmpty(searchApproved))
             {
                 leaveList = leaveList.Where(s => s.LeaveStatus == "Approved").ToList();
@@ -255,7 +276,7 @@ namespace Manage.Web.Controllers
             {
                 leaveList = leaveList.Where(s => s.LeaveStatus == "Declined").ToList();
             }
-          
+
             int pageSize = 10;
             int pageNumber = (page ?? 1);
             var result = leaveList.OrderByDescending(s => s.LeaveStatus).ToPagedList(pageNumber, pageSize);
@@ -285,24 +306,18 @@ namespace Manage.Web.Controllers
         {
             var employeeLeaveList = await _employeeLeavePageService.GetAllEmployeesWithLeaveList();
 
-            ViewData["CurrentFilter"] = obj["SearchString"].ToString();
-            ViewData["CurrentFilterE"] = obj["employeeName"].ToString();
-            ViewData["CurrentFilterFD"] = obj["searchFromDate"].ToString();
-            ViewData["CurrentFilterTD"] = obj["searchToDate"].ToString();
-            ViewData["CurrentFilterLT"] = obj["searchLeaveType"].ToString();
-            ViewData["CurrentFilerLS"] = obj["searchLeaveStatus"].ToString();
- 
-            Boolean tempValue = obj["searchAll"].ToString() != "" ? true : false;
-            ViewData["CurrentFilterSA"] = tempValue;
 
-            Boolean tempValueA = obj["searchAprroved"].ToString() != "" ? true : false;
-            ViewData["CurrentFilterA"] = tempValueA;
+            ViewData["CurrentFilterSA"] = obj["searchAll"].ToString() != "" ? true : false;
+            //ViewData["CurrentFilterSA"] = tempValue;
 
-            Boolean tempValueSP = obj["searchPending"].ToString() != "" ? true : false;
-            ViewData["CurrentFilterSP"] = tempValueSP;
+            ViewData["CurrentFilterA"] = obj["searchAprroved"].ToString() != "" ? true : false;
+            //ViewData["CurrentFilterA"] = tempValueA;
 
-            Boolean tempValueSD = obj["searchDeclined"].ToString() != "" ? true : false;
-            ViewData["CurrentFilterSD"] = tempValueSD;
+            ViewData["CurrentFilterSP"] = obj["searchPending"].ToString() != "" ? true : false;
+            //ViewData["CurrentFilterSP"] = tempValueSP;
+
+            ViewData["CurrentFilterSD"] = obj["searchDeclined"].ToString() != "" ? true : false;
+           // ViewData["CurrentFilterSD"] = tempValueSD;
 
             if (!String.IsNullOrEmpty(employeeName))
             {
@@ -333,17 +348,12 @@ namespace Manage.Web.Controllers
                 employeeLeaveList = employeeLeaveList.Where(l => l.LeaveType == searchLeaveType);
             }
 
-            //else
-            //{
-            //    searchLeaveType = currentFilter;
-            //}
-
+          
             if (!String.IsNullOrEmpty(searchLeaveStatus))
             {
                 employeeLeaveList = employeeLeaveList.Where(s => s.LeaveStatus == searchLeaveStatus);
             }
 
-            //ViewBag.CurrentFilter = searchLeaveType;
 
             if (!String.IsNullOrEmpty(searchAll))
             {
@@ -358,16 +368,19 @@ namespace Manage.Web.Controllers
 
             if (!String.IsNullOrEmpty(searchPending))
             {
-                employeeLeaveList = employeeLeaveList.Where(s => s.LeaveStatus == "Pending");
+                employeeLeaveList = employeeLeaveList.Where(s => s.LeaveStatus == null);
+               
             }
 
             if (!String.IsNullOrEmpty(searchDeclined))
             {
                 employeeLeaveList = employeeLeaveList.Where(s => s.LeaveStatus == "Declined");
             }
+
+         
             int pageSize = 10;
             int pageNumber = (page ?? 1);
-            var result = employeeLeaveList.OrderByDescending(s => s.LeaveStatus).ToPagedList(pageNumber, pageSize);
+            var result = employeeLeaveList.OrderBy(s => s.LeaveStatus).ToPagedList(pageNumber, pageSize);
             return View(result);
         }
 
@@ -387,26 +400,107 @@ namespace Manage.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> LeaveDetails(EmployeeLeaveViewModel model, string approved , string declined , string comment)
+       
+             public async Task<IActionResult> LeaveDetails(EmployeeLeaveViewModel model)
         {
 
             var leave = await _leavePageService.GetMyLeaveDetails(model.LeaveId);
-            if (approved != null)
+            var employee = await _employeePageService.GetEmployeeById(model.EmployeeId);
+            if (model.Approved != null)
             {
+               if(employee.Status == "Full-Time" || employee.Status =="Fixed-Term")
+                {
+                    if (leave.LeaveType == "Annual Leave")
+                    {
+                        if(leave.Duration == "First Half Day" || leave.Duration =="Second Half Day")
+                        {
+                            var numberOfHoursOfAppliedLeave = ((leave.TillDate - leave.FromDate).Days + 0.5) * 7.6;
+                            leave.BalanceAnnualLeave -= numberOfHoursOfAppliedLeave;
+                        }
+                        else if (leave.Duration == "Full Day" || leave.Duration == "Others")
+                        {
+                            var numberOfHoursOfAppliedLeave = ((leave.TillDate - leave.FromDate).Days + 1) * 7.6;
+                            leave.BalanceAnnualLeave -= numberOfHoursOfAppliedLeave;
+                        }
+                 
+                    }
+                    else if (leave.LeaveType == "Sick Leave")
+                    {
+                        if (leave.Duration == "First Half Day" || leave.Duration == "Second Half Day")
+                        {
+                            var numberOfHoursOfAppliedLeave = ((leave.TillDate - leave.FromDate).Days + 0.5) * 7.6;
+                            leave.BalanceAnnualLeave -= numberOfHoursOfAppliedLeave;
+                        }
+                        else if (leave.Duration == "Full Day" || leave.Duration == "Others")
+                        {
+                            var numberOfHoursOfAppliedLeave = ((leave.TillDate - leave.FromDate).Days + 1) * 7.6;
+                            leave.BalanceSickLeave -= numberOfHoursOfAppliedLeave;
+                        }
+                    }
+                }
+               else if (employee.Status == "Part-Time" || employee.Status == "Contract")
+                {
+                    if (leave.LeaveType == "Annual Leave")
+                    {
+                        if (leave.Duration == "First Half Day" || leave.Duration == "Second Half Day")
+                        {
+                            var numberOfHoursOfAppliedLeave = ((leave.TillDate - leave.FromDate).Days + 0.5) * employee.NumberOfHoursWorkedPerDay;
+                            leave.BalanceAnnualLeave -= numberOfHoursOfAppliedLeave;
+                        }
+                        else if (leave.Duration == "Full Day" || leave.Duration == "Others")
+                        {
+                            var numberOfHoursOfAppliedLeave = ((leave.TillDate - leave.FromDate).Days + 1) * employee.NumberOfHoursWorkedPerDay;
+                            leave.BalanceAnnualLeave -= numberOfHoursOfAppliedLeave;
+                        }
+
+                    }
+                    else if (leave.LeaveType == "Sick Leave")
+                    {
+                        if (leave.Duration == "First Half Day" || leave.Duration == "Second Half Day")
+                        {
+                            var numberOfHoursOfAppliedLeave = ((leave.TillDate - leave.FromDate).Days + 0.5) * employee.NumberOfHoursWorkedPerDay;
+                            leave.BalanceAnnualLeave -= numberOfHoursOfAppliedLeave;
+                        }
+                        else if (leave.Duration == "Full Day" || leave.Duration == "Others")
+                        {
+                            var numberOfHoursOfAppliedLeave = ((leave.TillDate - leave.FromDate).Days + 1) * employee.NumberOfHoursWorkedPerDay;
+                            leave.BalanceSickLeave -= numberOfHoursOfAppliedLeave;
+                        }
+                    }
+                }
+
                 leave.LeaveStatus = "Approved";
             }
-            else if (declined != null)
+            else if (model.Declined != null)
             {
                 leave.LeaveStatus = "Declined";
             }
 
-            if (comment != null)
+            if (model.Comment != null)
             {
-                leave.Comment = comment;
+                leave.Comment = model.Comment;
             }
-
             await _leavePageService.Update(leave);
             return RedirectToAction("GetAllLeaves");
         }
     }
 }
+
+
+
+
+//List<AppUserViewModel> list = new List<AppUserViewModel>();
+//foreach (var item in employeeLeaveList)
+//{
+//    AppUserViewModel model = new AppUserViewModel();
+//    model.BalanceAnnualLeave = item.Leave.BalanceAnnualLeave;
+//    model.BalanceSickLeave = item.Leave.BalanceSickLeave;
+//    list.Add(model);
+//}
+// this was to keep the searched string in the input box , while the results for that are being displayed
+//ViewData["CurrentFilter"] = obj["SearchString"].ToString();
+//ViewData["CurrentFilterE"] = obj["employeeName"].ToString();
+//ViewData["CurrentFilterFD"] = obj["searchFromDate"].ToString();
+//ViewData["CurrentFilterTD"] = obj["searchToDate"].ToString();
+//ViewData["CurrentFilterLT"] = obj["searchLeaveType"].ToString();
+//ViewData["CurrentFilerLS"] = obj["searchLeaveStatus"].ToString();

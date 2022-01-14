@@ -6,11 +6,11 @@
 
 @model Manage.Web.ViewModels.CreateEmployeeViewModel
 
-<section class="content">
-    <div class="container-fluid">
-        <div class="card card-default">
-            <div class="card-header">
-                <h3 class="card-title">Add a New Employee</h3>
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-lg p-3 mb-5">
+            <div class="card-header border-0">
+                <h3 class="card-title cardTitle">Add a New Employee</h3>
             </div>
             <!--/.card-header-->
             <!--form start-->
@@ -18,7 +18,7 @@
                 <form asp-controller="Employee" asp-action="CreateEmployee" method="post" class="mt-5">
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <label asp-for="Title"></label>
+                            <label asp-for="Title" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <select id="Title" name="Title" class="form-control" style="width:100%">
                                     <option>Mr</option>
@@ -31,14 +31,14 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <label asp-for="FirstName" class="col-auto col-form-label small form-text"></label>
+                            <label asp-for="FirstName" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <input asp-for="FirstName" placeholder="First Name" class="form-control" />
-                                <span asp-validation-for="FirstName"></span>
+                                <span asp-validation-for="FirstName" class="text-danger small"></span>
                             </div>
                         </div>
                         <div class="form-group col-md-4">
-                            <label asp-for="MiddleName" class="col-auto col-form-label small form-text"></label>
+                            <label asp-for="MiddleName" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <input asp-for="MiddleName" class="form-control" placeholder="Middle Name" />
                                 @*<span asp-validation-for="MiddleName"></span>*@
@@ -46,121 +46,116 @@
                         </div>
 
                         <div class="form-group col-md-4">
-                            <label asp-for="LastName" class="col-auto col-form-label small form-text"></label>
+                            <label asp-for="LastName" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <input asp-for="LastName" class="form-control" placeholder="Last Name" />
-                                <span asp-validation-for="LastName"></span>
+                                <span asp-validation-for="LastName" class="text-danger small"></span>
                             </div>
                         </div>
                     </div>
                     <div class="form-row mt-3">
                         <div class="form-group col-md-6">
-                            <label asp-for="UserName" class="col-auto col-form-label small form-text"></label>
+                            <label asp-for="UserName" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <input asp-for="UserName" class="form-control" placeholder="User Name" />
-                                <span asp-validation-for="UserName"></span>
+                                <span asp-validation-for="UserName" class="text-danger small"></span>
                             </div>
                         </div>
 
                         <div class="form-group col-md-6">
-                            <label asp-for="Email" class="col-auto col-form-label small form-text"></label>
+                            <label asp-for="Email" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <input asp-for="Email" class="form-control" placeholder="Email" />
-                                <span asp-validation-for="Email"></span>
+                                <span asp-validation-for="Email" class="text-danger small"></span>
                             </div>
                         </div>
                     </div>
                     <div class="form-row mt-3">
                         <div class="form-group col-md-6">
-                            <label asp-for="Password" class="col-auto col-form-label small form-text"></label>
+                            <label asp-for="Password" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <input type="password" name="Password" id="Password" class="form-control" placeholder="Password" />
-                                <span asp-validation-for="Password"></span>
+                                <span asp-validation-for="Password" class="text-danger small"></span>
                             </div>
                         </div>
 
                         <div class="form-group col-md-6">
-                            <label asp-for="ConfirmPassword" class="col-auto col-form-label small form-text"></label>
+                            <label asp-for="ConfirmPassword" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <input type="password" name="ConfirmPassword" id="ConfirmPassword" class="form-control" placeholder="ConfirmPassword" />
-                                <span asp-validation-for="ConfirmPassword"></span>
+                                <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
                             </div>
                         </div>
                     </div>
                     <div class="form-row  mt-3">
                         <div class="form-group col-md-6">
-                            <label asp-for="JoiningDate" class="col-auto col-form-label small form-text"></label>
+                            <label asp-for="JoiningDate" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <input asp-for="JoiningDate" type="date" class="form-control" placeholder="Joining Date" asp-format="dd/mm/yyyy" />
-                                <span asp-validation-for="JoiningDate"></span>
+                                <span asp-validation-for="JoiningDate" class="text-danger small"></span>
                             </div>
                         </div>
 
 
                         <div class="form-group col-md-6">
-                            <label asp-for="JobTitle" class="col-auto col-form-label small form-text"></label>
+                            <label asp-for="JobTitle" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <input asp-for="JobTitle" class="form-control" placeholder="JobTitle" />
-                                <span asp-validation-for="JobTitle"></span>
+                                <span asp-validation-for="JobTitle" class="text-danger small"></span>
                             </div>
                         </div>
 
                     </div>
                     <div class="form-row  mt-3">
                         <div class="form-group col-md-4">
-                            <label asp-for="Status" class="col-auto col-form-label small form-text"></label>
+                            <label asp-for="Status" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 @*<input asp-for="Status" class="form-control" placeholder="Status" />*@
-                                <select asp-for="Status" class="form-control select2bs4" style="width: 100%;">
+                                <select asp-for="Status" class="form-control select2bs4" style="width: 100%;" onchange="changeVal(event)">
                                     <option value="">---Select---</option>
                                     <option value="Full-Time">Full-Time</option>
                                     <option value="Part-Time">Part-Time</option>
                                     <option value="Contract">Contract</option>
                                     <option value="Casual">Casual</option>
                                 </select>
-                                <span asp-validation-for="Status"></span>
+                                <span asp-validation-for="Status" class="text-danger small"></span>
                             </div>
                         </div>
                         <div class="form-group col-md-4">
-                            <label asp-for="DaysWorkedInWeek" class="col-auto col-form-label small form-text"></label>
+                            <label asp-for="DaysWorkedInWeek" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
-                                <input type="number" asp-for="DaysWorkedInWeek" class="form-control" placeholder=5 />
-                                <span asp-validation-for="DaysWorkedInWeek"></span>
+                                <input type="number" asp-for="DaysWorkedInWeek" id="workingday" class="form-control" />
+                                <span asp-validation-for="DaysWorkedInWeek" class="text-danger small"></span>
                             </div>
                         </div>
                         <div class="form-group col-md-4">
-                            <label asp-for="NumberOfHoursWorkedPerDay" class="col-auto col-form-label small form-text"></label>
+                            <label asp-for="NumberOfHoursWorkedPerDay" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
-                                <input asp-for="NumberOfHoursWorkedPerDay" class="form-control" placeholder=4 />
-                                <span asp-validation-for="NumberOfHoursWorkedPerDay"></span>
+                                <input asp-for="NumberOfHoursWorkedPerDay" class="form-control" id="workinghour" type=number />
+                                <span asp-validation-for="NumberOfHoursWorkedPerDay" class="text-danger small"></span>
                             </div>
                         </div>
                     </div>
                     <div class="form-row mt-3">
                         <div class="form-group col-md-6">
-                            <label asp-for="Department" class="col-auto col-form-label small form-text"></label>
+                            <label asp-for="Department" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <select asp-for="DepartmentId" asp-items="@Model.departmentList" class="form-control select2bs4" style="width: 100%;"></select>
-                                <span asp-validation-for="DepartmentId"></span>
+                                <span asp-validation-for="DepartmentId" class="text-danger small"></span>
                             </div>
                         </div>
                         <div class="form-group col-md-6">
-                            <label asp-for="Manager" class="col-auto col-form-label small form-text"></label>
+                            <label asp-for="Manager" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <input asp-for="Manager" class="form-control" placeholder="Manager" />
-                                <span asp-validation-for="Manager"></span>
+                                <span asp-validation-for="Manager" class="text-danger small"></span>
                             </div>
                         </div>
                     </div>
-                    <div class="form-row mt-3 text-center">
-                        <div class="col-md-4">
-                            <button type="submit" class="btn btn-outline-info m-5 ">Create</button>
-                        </div>
-                        <div class="col-md-4">
+                    <div class="form-row mt-3">
+                        <div class="col-md-6">
+                            <button type="submit" class="btn btn-outline-success m-5 ">Create</button>
                             <a asp-action="CreateEmployee" asp-controller="Employee" class="btn btn-outline-secondary m-5 ">Cancel</a>
-                        </div>
-                        <div class="col-md-4">
-                            <a asp-action="CreateEmployeePersonalDetails" asp-controller="Employee" class="btn btn-outline-success m-5 ">Next</a>
                         </div>
                     </div>
                 </form>
@@ -168,6 +163,27 @@
             <!--/.card-body-->
         </div>
         <!--/.card-->
-    </div>
-</section>
 
+    </div>
+</div>
+       
+
+@section Scripts{
+
+<script>
+    function changeVal(e) {
+     
+        if (e.target.value == "Full-Time") {
+            $("#workingday").val(5)
+            $("#workinghour").val(7.6)
+            $("#workingday").attr("readonly", true)
+            $("#workinghour").attr("readonly", true)
+        } else {
+            $("#workingday").val("")
+            $("#workinghour").val("")
+            $("#workingday").attr("readonly", false)
+            $("#workinghour").attr("readonly", false)
+        }
+    }
+</script>
+ }

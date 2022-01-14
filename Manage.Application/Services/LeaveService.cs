@@ -7,6 +7,7 @@ using Manage.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -45,6 +46,8 @@ namespace Manage.Application.Services
         {
             var leaveFromDb = await _leaveRepository.GetMyLeaveDetails(leaveModel.Id);
             var leave = _mapper.Map(leaveModel, leaveFromDb);
+            var empLeave =  _manageContext.EmployeeLeaves.Where(x => x.LeaveId == leaveModel.Id).ToList();
+            leave.EmployeeLeaves = empLeave;
             await _leaveRepository.UpdateAsync(leaveFromDb);
         }
 

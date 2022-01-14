@@ -23,6 +23,7 @@ namespace Manage.Web.ViewModels
         }
 
         [DisplayName("Leave Type")]
+        [Required]
         public string LeaveType { get; set; }
 
         [Display(Name = "From Date")]
@@ -37,6 +38,7 @@ namespace Manage.Web.ViewModels
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [DateGreaterThan("FromDate","Till Date should be Greater than or Equal to From Date")]
         public DateTime TillDate { get; set; }
+        [Required]
         public string Duration { get; set; }
         [Required]
         public string Reason { get; set; }

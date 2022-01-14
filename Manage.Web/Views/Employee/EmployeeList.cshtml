@@ -5,104 +5,132 @@
 }
 
 
+@using X.PagedList.Mvc.Core;
+@using X.PagedList
+@using X.PagedList.Mvc.Core.Common;
 
-@model IEnumerable<Manage.Web.ViewModels.EmployeeListViewModel>
+@model IPagedList<Manage.Web.ViewModels.EmployeeListViewModel>
 
 
-<section class="content">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Employee List</h3>
-                        <a asp-action="CreateEmployee" asp-controller="Employee" style="float:right" data-toggle="tooltip" data-placement="bottom" title="Add Employee"><i class="fas fa-plus" style="float:right; color:#b60962" ;></i></a>
-                    </div>
-                    <!--/.card-header-->
-                    <!--form start-->
-                  
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table id="example2" class="table table-bordered  table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                        </th>
-                                        <th>
-                                            Name
-                                        </th>
-                                        <th>
-                                            Department
-                                        </th>
-                                        <th>
-                                            Job Title
-                                        </th>
-                                        <th>
-                                            Status
-                                        </th>
-                                        <th>
-                                            Manager
-                                        </th>
-                                        <th>
-                                            Email
-                                        </th>
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-lg p-3 mb-5 bg-white">
+            <div class="card-header border-0 padding-bottom:0px;">
+                <h3 class="card-title cardTitle">Employee List</h3>
+                <a asp-action="CreateEmployee" asp-controller="Employee" style="float:right" data-toggle="tooltip"
+                   data-placement="bottom" title="Add Employee"><i class="fas fa-plus" style="float: right; color: #946e9f;"></i></a>
+            </div>
+            <!--/.card-header-->
+            <!--form start-->
 
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var employee in Model)
-                                    {
-                                        var photoPath = "";
-                                        if (employee.EmployeePersonalDetails == null)
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="example2" class="table fitwidth table-hover table-responsive-lg mt-3">
+                        <thead>
+                            <tr>
+                                <th>
+                                </th>
+                                <th class="text-color">
+                                    @Html.ActionLink("Full Name", "EmployeeList", new { sortOrder = ViewBag.SortByName })<span>&#129113;</span>
+                                </th>
+                                <th style="color: #1e4356">
+                                    Department
+                                </th>
+                                <th class="text-color">
+                                    Job Title
+                                </th>
+                                <th class="text-color">
+                                    Status
+                                </th>
+                                <th class="text-color">
+                                    Manager
+                                </th>
+                                <th class="text-color">
+                                    Email
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var employee in Model)
+                            {
+                                var photoPath = "";
+                                if (employee.EmployeePersonalDetails == null)
+                                {
+
+                                    photoPath = "~/dist/img/avatar.png";
+                                    
+
+                                }
+                                else
+                                {
+                                    photoPath = "~/dist/img/" + employee.EmployeePersonalDetails.PhotoPath;
+                                }
+                                <tr>
+                                    <td>
+                                        <img class="listImg elevation-2" src="@photoPath" asp-append-version="true" alt="Emp Photo" />
+                                    </td>
+                                    <td>
+                                        <a asp-controller="Employee" asp-action="EmployeeOfficialDetails" asp-route-id="@employee.Id">@employee.FullName</a>
+
+                                    </td>
+                                    <td>
+                                        @if (employee.Department != null)
                                         {
-
-                                            photoPath = "~/dist/img/avatar.png";
+                                            @employee.Department.Name
                                         }
-                                        else
-                                        {
-                                            photoPath = "~/dist/img/" + employee.EmployeePersonalDetails.PhotoPath;
-                                        }
-                                        <tr>
-                                            <td>
-                                                <img class="listImg" src="@photoPath" asp-append-version="true" alt="Emp Photo" />
-                                            </td>
-                                            <td>
-                                                <a asp-controller="Employee" asp-action="EmployeeOfficialDetails" asp-route-id="@employee.Id">@employee.FullName</a>
-
-                                            </td>
-                                            <td>
-                                                @if (employee.Department != null)
-                                                {
-                                                    @employee.Department.Name
-                                                }
 
 
-                                            </td>
-                                            <td>
-                                                @employee.JobTitle
-                                            </td>
-                                            <td>
-                                                @employee.Status
-                                            </td>
-                                            <td>
-                                                @employee.Manager
-                                            </td>
-                                            <td>
-                                                @employee.Email
-                                            </td>
+                                    </td>
+                                    <td>
+                                        @employee.JobTitle
+                                    </td>
+                                    <td>
+                                        @employee.Status
+                                    </td>
+                                    <td>
+                                        @employee.Manager
+                                    </td>
+                                    <td>
+                                        @employee.Email
+                                    </td>
 
-                                        </tr>
-                                    }
+                                </tr>
+                            }
 
-                                </tbody>
-                            </table>
+                        </tbody>
+                    </table>
+
+                    <!--Pagination-->
+                    <div class="pagination row">
+                        <div class="col">
+                            <div class="row">
+                                <div class="col page-count">
+                                    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    @Html.PagedListPager(Model, page => Url.Action("EmployeeList", new { page }), new PagedListRenderOptions
+                                          {
+                                           
+                                             LiElementClasses = new string[] { "page-item" },
+                                             PageClasses = new string[] { "page-link" },
+
+                                          })
+                                </div>
+                            </div>
                         </div>
+                      
                     </div>
-                </div>
+            
+         
             </div>
         </div>
     </div>
-</section>
+</div>
+
+</div>
 
 
 <!--DataTables-->
@@ -127,3 +155,5 @@
         });
     });
 </script>
+
+
