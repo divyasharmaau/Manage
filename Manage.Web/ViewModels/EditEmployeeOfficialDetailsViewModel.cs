@@ -35,26 +35,29 @@ namespace Manage.Web.ViewModels
         public string JobTitle { get; set; }
         public string Status { get; set; }
         [DisplayName("Joining Date")]
-        //[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [Required]
         public DateTime JoiningDate { get; set; }
-
+        [Required]
         [DisplayName("Working Days in Week")]
         public int DaysWorkedInWeek { get; set; }
-
+        [Required]
         [DisplayName("Number of Working Hours Per Day")]
         public double NumberOfHoursWorkedPerDay { get; set; }
         public string Manager { get; set; }
 
+        [Required]
         public string Password { get; set; }
    
         [Required(ErrorMessage = "Confirm Password required")]
         [Compare("Password", ErrorMessage = "Password and Confirm Password do not match")]
         public string ConfirmPassword { get; set; }
+        [Required]
         public string Email { get; set; }
         public string UserName { get; set; }
 
         //NAVIGATION PROPERTIES
         //n-1 relationship
+        
         public int? DepartmentId { get; set; }
         public DepartmentViewModel Department { get; set; }
         ////1-1 relationship
