@@ -2,7 +2,7 @@ name: Build and deploy .NET Core application to Web App ManageWeb20220114154923
 on:
   push:
     branches:
-    - Fixes
+    - master
 env:
   AZURE_WEBAPP_NAME: ManageWeb20220114154923
   AZURE_WEBAPP_PACKAGE_PATH: Manage.Web\published
