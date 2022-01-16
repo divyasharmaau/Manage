@@ -3,6 +3,7 @@ using Manage.Core.Entities;
 using Manage.Infrastructure.Data;
 using Manage.Web.Interface;
 using Manage.Web.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -17,6 +18,7 @@ using X.PagedList;
 
 namespace Manage.Web.Controllers
 {
+    [Authorize]
     public class LeaveController : Controller
     {
         private readonly ILeavePageService _leavePageService;

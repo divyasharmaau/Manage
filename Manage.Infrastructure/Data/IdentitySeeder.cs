@@ -41,7 +41,7 @@ namespace Manage.Infrastructure.Data
 
 
 
-            string role_Administrator = "Administartor";
+            string role_Administrator = "Administrator";
             string role_RegisteredUser = "Registered User";
 
             if(!await roleManager.RoleExistsAsync(role_Administrator))

@@ -1,0 +1,106 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "~/Views/Shared/_LayoutAccount.cshtml";
+}
+
+
+@model Manage.Web.ViewModels.LogInViewModel
+
+<div class="container login-page" style="background-color: #1e4356;">
+    <div class="login-box">
+
+        <div class="row">
+            <div class="col-sm-12">
+                <!-- /.login-logo -->
+                @*<div class="login-logo">
+                    <img src="~/dist/img/Logo.png" class="logInImage" />
+                </div>*@
+                <div class="card shadow-lg p-3 mb-5 bg-white rounded">
+                    <div class="card-body login-card-body">
+                        <p class="login-box-msg">Sign in to <span class="brand-logo" style="color: #e9801f; font-weight: 500; font-size: 1.3rem; ">MANAGE</span></p>
+
+                        <form method="post" action="/account/login">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <div class="input-group mb-3">
+                                <input type="email" asp-for="Email" class="form-control" id="email" placeholder="Email">
+                                <div class="input-group-append">
+                                    <div class="input-group-text inputSpan">
+                                        <span class="fas fa-envelope "></span>
+                                    </div>
+                                </div>
+                                @*<span asp-validation-for="Email" class="text-danger"></span>*@
+                            </div>
+                            <div class="input-group mb-3">
+                                <input type="password" asp-for="Password" class="form-control" id="password" placeholder="Password">
+                                <div class="input-group-append">
+                                    <div class="input-group-text inputSpan">
+                                        <span class="fas fa-lock"></span>
+                                    </div>
+                                </div>
+                                @*<span asp-validation-for="Password" class="text-danger"></span>*@
+                            </div>
+                            @*<div class="row">
+                                <div class="col-8">
+                                    <div class="checkbox">
+                                        <label asp-for="RememberMe">
+                                            <input asp-for="RememberMe" />
+                                            @Html.DisplayNameFor(m => m.RememberMe)
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>*@
+                            <div class="row">
+                                <div class="col-12">
+                                    <button type="submit" class="btn btnSubmit btn-block btn-sm">Log In</button>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-12">
+                                    <button type="submit" class="btn btnSubmit  btn-sm" id="demoAdmin"> Demo Admin</button>
+                                    <button type="submit" class="btn btnSubmit  btn-sm float-right" id="demoUser"> Demo User</button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <p class="mb-1 mt-2 forgotPassword">
+                            <a asp-action="ForgotPassword">I forgot my password</a>
+                        </p>
+                    </div>
+                    <!-- /.login-card-body -->
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+
+@*d-flex justify-content-center align-items-center*@
+
+
+    <script>
+        var email = document.getElementById("email");
+        var password = document.getElementById("password");
+        var demoAdmin = document.getElementById("demoAdmin");
+        var demoUser = document.getElementById("demoUser");
+
+        demoAdmin.addEventListener("click", function () {
+      
+            email.value = "demoasadmn@gmail.com";
+            password.value = "Password1!";
+      
+        });
+
+        demoUser.addEventListener("click", function () {
+            email.value = "useratdemo@gmail.com";
+            password.value = "Password1!";
+        })
+       
+    </script>
+
+

@@ -1,0 +1,17 @@
+C:\Repository\Manage\Manage.Application\bin\Debug\netcoreapp3.1\Manage.Application.deps.json
+C:\Repository\Manage\Manage.Application\bin\Debug\netcoreapp3.1\Manage.Application.runtimeconfig.json
+C:\Repository\Manage\Manage.Application\bin\Debug\netcoreapp3.1\Manage.Application.runtimeconfig.dev.json
+C:\Repository\Manage\Manage.Application\bin\Debug\netcoreapp3.1\Manage.Application.dll
+C:\Repository\Manage\Manage.Application\bin\Debug\netcoreapp3.1\Manage.Application.pdb
+C:\Repository\Manage\Manage.Application\bin\Debug\netcoreapp3.1\Manage.Core.dll
+C:\Repository\Manage\Manage.Application\bin\Debug\netcoreapp3.1\Manage.Infrastructure.dll
+C:\Repository\Manage\Manage.Application\bin\Debug\netcoreapp3.1\Manage.Core.pdb
+C:\Repository\Manage\Manage.Application\bin\Debug\netcoreapp3.1\Manage.Infrastructure.pdb
+C:\Repository\Manage\Manage.Application\obj\Debug\netcoreapp3.1\Manage.Application.csproj.AssemblyReference.cache
+C:\Repository\Manage\Manage.Application\obj\Debug\netcoreapp3.1\Manage.Application.AssemblyInfoInputs.cache
+C:\Repository\Manage\Manage.Application\obj\Debug\netcoreapp3.1\Manage.Application.AssemblyInfo.cs
+C:\Repository\Manage\Manage.Application\obj\Debug\netcoreapp3.1\Manage.Application.csproj.CoreCompileInputs.cache
+C:\Repository\Manage\Manage.Application\obj\Debug\netcoreapp3.1\Manage.Application.csproj.CopyComplete
+C:\Repository\Manage\Manage.Application\obj\Debug\netcoreapp3.1\Manage.Application.dll
+C:\Repository\Manage\Manage.Application\obj\Debug\netcoreapp3.1\Manage.Application.pdb
+C:\Repository\Manage\Manage.Application\obj\Debug\netcoreapp3.1\Manage.Application.genruntimeconfig.cache

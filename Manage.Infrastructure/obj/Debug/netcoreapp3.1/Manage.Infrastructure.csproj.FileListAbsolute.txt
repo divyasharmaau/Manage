@@ -1,0 +1,15 @@
+C:\Repository\Manage\Manage.Infrastructure\bin\Debug\netcoreapp3.1\Manage.Infrastructure.deps.json
+C:\Repository\Manage\Manage.Infrastructure\bin\Debug\netcoreapp3.1\Manage.Infrastructure.runtimeconfig.json
+C:\Repository\Manage\Manage.Infrastructure\bin\Debug\netcoreapp3.1\Manage.Infrastructure.runtimeconfig.dev.json
+C:\Repository\Manage\Manage.Infrastructure\bin\Debug\netcoreapp3.1\Manage.Infrastructure.dll
+C:\Repository\Manage\Manage.Infrastructure\bin\Debug\netcoreapp3.1\Manage.Infrastructure.pdb
+C:\Repository\Manage\Manage.Infrastructure\bin\Debug\netcoreapp3.1\Manage.Core.dll
+C:\Repository\Manage\Manage.Infrastructure\bin\Debug\netcoreapp3.1\Manage.Core.pdb
+C:\Repository\Manage\Manage.Infrastructure\obj\Debug\netcoreapp3.1\Manage.Infrastructure.csproj.AssemblyReference.cache
+C:\Repository\Manage\Manage.Infrastructure\obj\Debug\netcoreapp3.1\Manage.Infrastructure.AssemblyInfoInputs.cache
+C:\Repository\Manage\Manage.Infrastructure\obj\Debug\netcoreapp3.1\Manage.Infrastructure.AssemblyInfo.cs
+C:\Repository\Manage\Manage.Infrastructure\obj\Debug\netcoreapp3.1\Manage.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Repository\Manage\Manage.Infrastructure\obj\Debug\netcoreapp3.1\Manage.Infrastructure.csproj.CopyComplete
+C:\Repository\Manage\Manage.Infrastructure\obj\Debug\netcoreapp3.1\Manage.Infrastructure.dll
+C:\Repository\Manage\Manage.Infrastructure\obj\Debug\netcoreapp3.1\Manage.Infrastructure.pdb
+C:\Repository\Manage\Manage.Infrastructure\obj\Debug\netcoreapp3.1\Manage.Infrastructure.genruntimeconfig.cache

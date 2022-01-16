@@ -1,0 +1,368 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+:root {
+    --blue-color: #1e4356;
+    --white-color: red;
+    --slateGrey-color: #846a9b;
+    --orange-color: #e9801f;
+    --lightOrange-color: #f0b176;
+    /*--orange-color: #534666; purple*/
+    /*    --orange-color: #2aa876; mediumGreen*/
+    /*    --orange-color: #1e501d; sapgreen*/
+}
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+ 
+}
+
+/* Provide sufficient contrast against white background */
+a {
+    color: #1e4356;
+}
+/*
+.card {
+    background: url("../dist/img/pattern.jpg");
+}
+  */  .card .card-title {
+        margin-bottom: 0px;
+       
+    }
+.cardTitle{
+  /*  color:var(--orange-color);*/
+   /* color:white;*/
+
+    font-weight:bold;
+    font-size:2.2rem;
+}
+/*.card .card-header {
+    background: url("../dist/img/pattern.jpg");
+  
+    text-align: center;
+    margin-bottom: 0;
+}*/
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+
+}
+
+
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  font-size: 14px;
+}
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.border-top {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px; /* Vertically center the text there */
+}
+
+.text-color{
+    color: var(--blue-color);
+}
+
+.col-form-label{
+  font-size:10px;
+   
+}
+.dropdownPowerOff {
+    max-width: 115px;
+    min-width: 115px;
+    padding: 0;
+}
+
+
+
+.image-preview {
+    width: 150px;
+    height: 150px;
+}
+
+.image-preview_image {
+    width: 150px;
+    height: 150px;
+}
+
+
+.imageThumbnail {
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    margin-right: 50px;
+    object-fit: cover
+}
+
+.tooltipList{
+
+}
+
+.form-text-form {
+    color: #b3005c;
+    font-weight:normal;
+    
+}
+
+.logInImage{
+    height:150px;
+    width:150px;
+}
+
+.formPText {
+    font-size: 14px;
+}
+
+
+
+a.disabled {
+    pointer-events: none;
+    cursor: default;
+}
+
+
+.nav-item {
+    color: var(--lightOrange-color);
+}
+
+
+
+.formSubHeading {
+   color: var(--orange-color);
+/*   font-weight:bold;*/
+}
+
+.sidebarUserName {
+    color: var(--orange-color);
+    font-weight: bold;
+}
+.main-sidebar {
+    background: url(/dist/img/pattern.jpg) repeat-y;
+}
+
+.user-panel img {
+    border: 2px solid var(--orange-color);
+    height: auto;
+    width: 3.8rem;
+}
+.user-body .btn:hover {
+    outline: none;
+}
+
+[class*=sidebar-light-] .nav-treeview > .nav-item > .nav-link:hover {
+    color: var(--slateGrey-color);
+    font-weight: 500;
+    text-decoration: none;
+}
+
+
+    th a {
+    color: var(--blue-color);
+}
+    th a:hover {
+        color: var(--blue-color);
+        font-weight:bolder;
+    }
+td a {
+    color: #6b38c7;
+}
+
+    td a:hover {
+        text-decoration: none;
+        font-weight: bold;
+        color: var(--slateGrey-color);
+    }
+
+
+
+.listImg {
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+    border: 2px solid var(--orange-color);
+}
+
+/*========LOG IN=================*/
+ .btnSubmit{
+  
+   border: 1px solid var(--slateGrey-color);
+
+}
+
+    .btnSubmit:hover {
+        border: 1px solid var(--slateGrey-color);
+        color: white;
+        background-color:var(--slateGrey-color);
+    }
+
+.forgotPassword a{
+    color:var(--blue-color);
+}
+
+.forgotPassword a:hover{
+    color:var(--slateGrey-color);
+    font-weight:bold;
+}
+
+/*----------Leave----------*/
+.leaveEmployeeName span{
+    font-size:1.2rem;
+    font-weight:bold;
+    color:var(--slateGrey-color);
+}
+
+.btn.btnSubmitForm {
+    border: 1px solid var(--orange-color);
+}
+
+    .btn.btnSubmitForm:hover {
+        background-color: var(--lightOrange-color);
+        color:white;
+        outline: none;
+    }
+
+
+select.form-control {
+    border: 1px solid var(--slateGrey-color);
+/*    background: #6ac17a;
+    color: #fff;*/
+}
+    select.form-control:hover {
+        border: 1px solid var(--lightOrange-color);
+        outline: none;
+        box-shadow: none;
+    }
+    select.form-control:focus {
+        outline: none;
+        box-shadow: none;
+        border: 2px solid var(--lightOrange-color);
+    }
+
+
+input[type=file] .custom-file-input {
+    border: 1px solid red;
+}
+input[type=text], input[type=password], input[type=number], input[type=date], input[type=email], 
+input[type=search], input[type=file] {
+    border: 1px solid var(--slateGrey-color);
+}
+
+    input[type=text]:hover, input[type=password]:hover, input[type=number]:hover, input[type=date]:hover,
+    input[type=email]:hover input[type=checkbox]:hover, input[type=search]:hover , input[type=file]:hover{
+        border: 1px solid var(--lightOrange-color);
+        outline: none;
+        box-shadow: none;
+    }
+    input[type=text]:focus, input[type=password]:focus, input[type=number]:focus, input[type=date]:focus,
+    input[type=email]:focus, input[type=search]:focus, input[type=file]:hover {
+        outline: none;
+        box-shadow: none;
+        border: 1px solid var(--lightOrange-color);
+    }
+
+/*input[type=email].input-group-append.inputSpan{
+    border: 2px solid var(--slateGrey-color);
+    background-color:red;
+}*/
+.custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: green;
+}
+
+.custom-control-input:checked ~ .custom-control-label::before {
+    color: red;
+    background-color: pink;
+}
+
+
+    .customFileInput.form-control {
+        background-color: red;
+        border: 10px solid black;
+    }
+
+    /*.custom-file-input:focus ~ .custom-file-label {
+        border-color:pink;
+        box-shadow: none;
+    }
+*/
+
+/*Page Styles*/
+.pagination .page-item.active .page-link {
+    background-color: var(--slateGrey-color);
+    border-color: var(--slateGrey-color);
+}
+
+.pagination .page-item a {
+    color: var(--lightOrange-color);
+}
+.pagination .page-count {
+    color: var(--slateGrey-color);
+    margin-top: 1rem;
+}
+pagination.page-link {
+    color: var(--slateGrey-color);
+}
+
+.login-card-body{
+    transform:translateY(-30deg);
+}
+
+.login-page {
+    background: url("../dist/img/pattern.jpg");
+    background-color: #1e4356;
+}
+.accountBackground{
+    background: url("../dist/img/pattern.jpg");
+}
+
+
+.index-card-subtitle{
+    color:var(--orange-color);
+}
+.index-card-title{
+    color:var(--slateGrey-color);
+}
