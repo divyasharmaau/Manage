@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 
 namespace Manage.WebApi.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -18,9 +20,10 @@ namespace Manage.WebApi.Controllers
             _logger = logger;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
-            return View();
+            return Ok("Manage API is running.");
         }
 
         public IActionResult Privacy()

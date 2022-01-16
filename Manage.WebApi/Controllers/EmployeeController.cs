@@ -64,32 +64,15 @@ namespace Manage.WebApi.Controllers
 
             foreach(var employee in employeeList)
             {
-                if(employee.EmployeePersonalDetails == null || 
-                   string.IsNullOrEmpty(employee.EmployeePersonalDetails.PhotoPath))
-                {
-                    continue;
-                }
-
-                var photoPath = Path.Combine(Directory.GetCurrentDirectory(), "Uploads/img",
-                 employee.EmployeePersonalDetails.PhotoPath);
-                if(!System.IO.File.Exists(photoPath))
-                {
-                    continue;
-                }
-
-                var photoBytes = System.IO.File.ReadAllBytes(photoPath);
-
-                var fileExtension = employee.EmployeePersonalDetails.PhotoPath.Split('.')[1];
-
-                employee.EmployeePersonalDetails.PhotoPath =
-                    $"data:image/{fileExtension};base64,{Convert.ToBase64String(photoBytes)}";
+                UpdateEmployeePersonalDetailsPhoto(employee.EmployeePersonalDetails);
             }
 
             return Ok(employeeList);          
         }
 
+        
         //GET api/employee
-       // [HttpGet(Name = "SearchByEmail")]
+        // [HttpGet(Name = "SearchByEmail")]
         [HttpGet("Search/{searchTerm}", Name = "Search")]
         public async Task<IActionResult> Search( string searchTerm)
         {
@@ -115,14 +98,7 @@ namespace Manage.WebApi.Controllers
         {
             var employee = await _employeePageService.GetEmployeeById(id);
 
-            var photoPath = Path.Combine(Directory.GetCurrentDirectory(), "Uploads/img", 
-                employee.EmployeePersonalDetails.PhotoPath);
-            var photoBytes = System.IO.File.ReadAllBytes(photoPath);
-
-            var fileExtension = employee.EmployeePersonalDetails.PhotoPath.Split('.')[1];
-
-            employee.EmployeePersonalDetails.PhotoPath =
-                $"data:image/{fileExtension};base64,{Convert.ToBase64String(photoBytes)}";
+            UpdateEmployeePersonalDetailsPhoto(employee.EmployeePersonalDetails);
 
             if (employee != null)
             {
@@ -137,15 +113,10 @@ namespace Manage.WebApi.Controllers
         public async Task<ActionResult<EmployeePersonalDetailsViewModel>> GetEmployeePersonalDetailsById(string id)
         {
             var employeePersonalDetails = await _employeePersonalDetailsPageService.GetEmployeePersonalDetailsById(id);
-            employeePersonalDetails.FullName = employeePersonalDetails.ApplicationUser.FirstName + " " + employeePersonalDetails.ApplicationUser.LastName;
+            employeePersonalDetails.FullName = employeePersonalDetails.ApplicationUser.FirstName
+                + " " + employeePersonalDetails.ApplicationUser.LastName;
 
-            var photoPath = Path.Combine(Directory.GetCurrentDirectory(), "Uploads/img", employeePersonalDetails.PhotoPath);
-            var photoBytes = System.IO.File.ReadAllBytes(photoPath);
-
-            var fileExtension = employeePersonalDetails.PhotoPath.Split('.')[1];
-
-            employeePersonalDetails.PhotoPath =
-                $"data:image/{fileExtension};base64,{Convert.ToBase64String(photoBytes)}";
+            UpdateEmployeePersonalDetailsPhoto(employeePersonalDetails);            
 
             if (employeePersonalDetails != null)
             {
@@ -360,22 +331,30 @@ namespace Manage.WebApi.Controllers
             await _employeePersonalDetailsPageService.UpdateAsync(modelFromRepo);
             return NoContent();
         }
-        //[AcceptVerbs("Get", "Post")]
-        //[AllowAnonymous]
-        //public async Task<IActionResult> IsEmailInUse(string email)
-        //{
-        //    var userEmail = await _employeePageService.FindEmail(email);
+        private void UpdateEmployeePersonalDetailsPhoto(EmployeePersonalDetailsViewModel model)
+        {
+            if (model == null ||
+                   string.IsNullOrEmpty(model.PhotoPath))
+            {
+                return;
+            }
 
-        //    if (userEmail == null)
-        //    {
-        //        return Json(true);
-        //    }
-        //    else
-        //    {
-        //        return Json($"Email '{email}' is already in use.");
-        //    }
+            var photoPath = Path.Combine(Directory.GetCurrentDirectory(), "Uploads/img",
+             model.PhotoPath);
+            if (!System.IO.File.Exists(photoPath))
+            {
+                model.PhotoPath = null;
+                return;
+            }
 
-        //}
+            var photoBytes = System.IO.File.ReadAllBytes(photoPath);
+
+            var fileExtension = model.PhotoPath.Split('.')[1];
+
+            model.PhotoPath =
+                $"data:image/{fileExtension};base64,{Convert.ToBase64String(photoBytes)}";
+
+        }
 
     }
 }
