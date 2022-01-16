@@ -9,4 +9,3 @@ C:\Repository\Manage\Manage.Core\obj\Debug\netcoreapp3.1\Manage.Core.csproj.Core
 C:\Repository\Manage\Manage.Core\obj\Debug\netcoreapp3.1\Manage.Core.dll
 C:\Repository\Manage\Manage.Core\obj\Debug\netcoreapp3.1\Manage.Core.pdb
 C:\Repository\Manage\Manage.Core\obj\Debug\netcoreapp3.1\Manage.Core.genruntimeconfig.cache
-C:\Repository\Manage\Manage.Core\obj\Debug\netcoreapp3.1\Manage.Core.csproj.AssemblyReference.cache

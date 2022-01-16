@@ -1,11 +1,3 @@
-C:\Repository\Manage\Manage.Web\obj\Debug\netcoreapp3.1\Manage.Web.csproj.AssemblyReference.cache
-C:\Repository\Manage\Manage.Web\obj\Debug\netcoreapp3.1\Manage.Web.AssemblyInfoInputs.cache
-C:\Repository\Manage\Manage.Web\obj\Debug\netcoreapp3.1\Manage.Web.AssemblyInfo.cs
-C:\Repository\Manage\Manage.Web\obj\Debug\netcoreapp3.1\Manage.Web.csproj.CoreCompileInputs.cache
-C:\Repository\Manage\Manage.Web\obj\Debug\netcoreapp3.1\Manage.Web.MvcApplicationPartsAssemblyInfo.cs
-C:\Repository\Manage\Manage.Web\obj\Debug\netcoreapp3.1\Manage.Web.MvcApplicationPartsAssemblyInfo.cache
-C:\Repository\Manage\Manage.Web\obj\Debug\netcoreapp3.1\Manage.Web.RazorAssemblyInfo.cache
-C:\Repository\Manage\Manage.Web\obj\Debug\netcoreapp3.1\Manage.Web.RazorAssemblyInfo.cs
 C:\Repository\Manage\Manage.Web\bin\Debug\netcoreapp3.1\nlog.config
 C:\Repository\Manage\Manage.Web\bin\Debug\netcoreapp3.1\appsettings.Development.json
 C:\Repository\Manage\Manage.Web\bin\Debug\netcoreapp3.1\appsettings.json
@@ -83,6 +75,14 @@ C:\Repository\Manage\Manage.Web\bin\Debug\netcoreapp3.1\Manage.Infrastructure.dl
 C:\Repository\Manage\Manage.Web\bin\Debug\netcoreapp3.1\Manage.Application.pdb
 C:\Repository\Manage\Manage.Web\bin\Debug\netcoreapp3.1\Manage.Core.pdb
 C:\Repository\Manage\Manage.Web\bin\Debug\netcoreapp3.1\Manage.Infrastructure.pdb
+C:\Repository\Manage\Manage.Web\obj\Debug\netcoreapp3.1\Manage.Web.csproj.AssemblyReference.cache
+C:\Repository\Manage\Manage.Web\obj\Debug\netcoreapp3.1\Manage.Web.AssemblyInfoInputs.cache
+C:\Repository\Manage\Manage.Web\obj\Debug\netcoreapp3.1\Manage.Web.AssemblyInfo.cs
+C:\Repository\Manage\Manage.Web\obj\Debug\netcoreapp3.1\Manage.Web.csproj.CoreCompileInputs.cache
+C:\Repository\Manage\Manage.Web\obj\Debug\netcoreapp3.1\Manage.Web.MvcApplicationPartsAssemblyInfo.cs
+C:\Repository\Manage\Manage.Web\obj\Debug\netcoreapp3.1\Manage.Web.MvcApplicationPartsAssemblyInfo.cache
+C:\Repository\Manage\Manage.Web\obj\Debug\netcoreapp3.1\Manage.Web.RazorAssemblyInfo.cache
+C:\Repository\Manage\Manage.Web\obj\Debug\netcoreapp3.1\Manage.Web.RazorAssemblyInfo.cs
 C:\Repository\Manage\Manage.Web\obj\Debug\netcoreapp3.1\staticwebassets\Manage.Web.StaticWebAssets.Manifest.cache
 C:\Repository\Manage\Manage.Web\obj\Debug\netcoreapp3.1\staticwebassets\Manage.Web.StaticWebAssets.xml
 C:\Repository\Manage\Manage.Web\obj\Debug\netcoreapp3.1\scopedcss\bundle\Manage.Web.styles.css
