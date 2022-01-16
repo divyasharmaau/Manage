@@ -34,6 +34,7 @@ namespace Manage.Infrastructure.Repository
                                     .Include(y => y.EmployeePersonalDetails)
                                     .AsNoTracking()
                                     .ToListAsync();
+
           
             return employeeList;
         }

@@ -61,6 +61,30 @@ namespace Manage.WebApi.Controllers
             {
                 return NotFound();
             }
+
+            foreach(var employee in employeeList)
+            {
+                if(employee.EmployeePersonalDetails == null || 
+                   string.IsNullOrEmpty(employee.EmployeePersonalDetails.PhotoPath))
+                {
+                    continue;
+                }
+
+                var photoPath = Path.Combine(Directory.GetCurrentDirectory(), "Uploads/img",
+                 employee.EmployeePersonalDetails.PhotoPath);
+                if(!System.IO.File.Exists(photoPath))
+                {
+                    continue;
+                }
+
+                var photoBytes = System.IO.File.ReadAllBytes(photoPath);
+
+                var fileExtension = employee.EmployeePersonalDetails.PhotoPath.Split('.')[1];
+
+                employee.EmployeePersonalDetails.PhotoPath =
+                    $"data:image/{fileExtension};base64,{Convert.ToBase64String(photoBytes)}";
+            }
+
             return Ok(employeeList);          
         }
 
@@ -91,6 +115,15 @@ namespace Manage.WebApi.Controllers
         {
             var employee = await _employeePageService.GetEmployeeById(id);
 
+            var photoPath = Path.Combine(Directory.GetCurrentDirectory(), "Uploads/img", 
+                employee.EmployeePersonalDetails.PhotoPath);
+            var photoBytes = System.IO.File.ReadAllBytes(photoPath);
+
+            var fileExtension = employee.EmployeePersonalDetails.PhotoPath.Split('.')[1];
+
+            employee.EmployeePersonalDetails.PhotoPath =
+                $"data:image/{fileExtension};base64,{Convert.ToBase64String(photoBytes)}";
+
             if (employee != null)
             {
                 return employee;
@@ -105,7 +138,15 @@ namespace Manage.WebApi.Controllers
         {
             var employeePersonalDetails = await _employeePersonalDetailsPageService.GetEmployeePersonalDetailsById(id);
             employeePersonalDetails.FullName = employeePersonalDetails.ApplicationUser.FirstName + " " + employeePersonalDetails.ApplicationUser.LastName;
-  
+
+            var photoPath = Path.Combine(Directory.GetCurrentDirectory(), "Uploads/img", employeePersonalDetails.PhotoPath);
+            var photoBytes = System.IO.File.ReadAllBytes(photoPath);
+
+            var fileExtension = employeePersonalDetails.PhotoPath.Split('.')[1];
+
+            employeePersonalDetails.PhotoPath =
+                $"data:image/{fileExtension};base64,{Convert.ToBase64String(photoBytes)}";
+
             if (employeePersonalDetails != null)
             {
                 return employeePersonalDetails;
@@ -173,8 +214,12 @@ namespace Manage.WebApi.Controllers
             // add async method requires an instance of EmployeePersonalDetailsViewModel
             //map the CreateEmployeePersonalDetailsDto with EmployeePersonalDetailsViewModel
             var mappedEmployeePersonalDetails = _mapper.Map<EmployeePersonalDetailsViewModel>(model);
-            mappedEmployeePersonalDetails.PhotoPath = "https://localhost:44330/uploads/img/" + model.Photo.FileName;
-               
+            var photoPath = "https://localhost:44330/uploads/img/" + model.Photo.FileName;
+
+            var photoBytes = System.IO.File.ReadAllBytes(photoPath);
+
+            model.PhotoPath = $"data:image/{model.Photo.ContentType};base64,{Convert.ToBase64String(photoBytes)}";
+
             //add using the mapped variable which is an instance of EmployeePersonalDetailsViewModel
             var newEmployeePersonalDetails = await _employeePersonalDetailsPageService.AddAsync(mappedEmployeePersonalDetails);
 

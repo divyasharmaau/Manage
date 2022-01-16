@@ -5,30 +5,22 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="ViewModels\CreateEmployeePersonalDetailsDto.cs" />
-    <Compile Remove="ViewModels\EmployeeOfficialDetailsReadDto.cs" />
-    <Compile Remove="ViewModels\EmployeePersonalDetailsReadDto.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.10" />
     <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="3.1.10" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.12">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="X.PagedList.Mvc.Core" Version="8.0.7" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Manage.Application\Manage.Application.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Uploads\img\" />
-    <Folder Include="Uploads\files\" />
+    <ProjectReference Include="..\Manage.Core\Manage.Core.csproj" />
+    <ProjectReference Include="..\Manage.Infrastructure\Manage.Infrastructure.csproj" />
   </ItemGroup>
 
 

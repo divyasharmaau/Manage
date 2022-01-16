@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Manage.WebApi.Utilities;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -45,7 +47,6 @@ namespace Manage.WebApi.ViewModels
         public string ConfirmPassword { get; set; }
 
         [Required]
-        [Remote(action: "IsEmailInUse", controller: "Employee")]
         [ValidEmailDomain(allowedDomain: "mail.com", ErrorMessage = "Email Domain  must be mail.com")]
         public string Email { get; set; }
         public string UserName { get; set; }

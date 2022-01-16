@@ -24,14 +24,14 @@ namespace Manage.WebApi
 
             //mapping webApi <=> ViewModels 
             CreateMap<ApplicationUserViewModel, ApplicationUserDto>().ReverseMap();
-            CreateMap<ApplicationUserViewModel, EmployeeOfficialDetailsReadDto>().ReverseMap();
+            CreateMap<ApplicationUserViewModel, ViewModels.EmployeeOfficialDetailsReadDto>().ReverseMap();
             CreateMap<ApplicationUserViewModel, EditEmployeeOfficialDetailsDto>().ReverseMap();
             CreateMap<EmployeePersonalDetailsViewModel, EmployeePersonalDetailsDto>().ReverseMap();
-            CreateMap<EmployeePersonalDetailsViewModel, CreateEmployeePersonalDetailsDto>().ReverseMap();
+            CreateMap<EmployeePersonalDetailsViewModel, ViewModels.CreateEmployeePersonalDetailsDto>().ReverseMap();
             CreateMap<EmployeePersonalDetailsViewModel, EditEmployeePersonalDetailsDto>().ReverseMap();
             //dto's
             CreateMap<ApplicationUserDto, CreateEmployeeDto>().ReverseMap();
-            CreateMap<EmployeeOfficialDetailsReadDto, CreateEmployeeDto>().ReverseMap();
+            CreateMap<ViewModels.EmployeeOfficialDetailsReadDto, CreateEmployeeDto>().ReverseMap();
 
             CreateMap<DepartmentModel, DepartmentViewModel>().ReverseMap();
 
