@@ -31,5 +31,30 @@ namespace Manage.WebApi.Utilities
             model.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
             return (model);
         }
+
+        public void UpdateEmployeePersonalDetailsPhoto(EmployeePersonalDetailsViewModel model)
+        {
+            if (model == null ||
+                   string.IsNullOrEmpty(model.PhotoPath))
+            {
+                return;
+            }
+
+            var photoPath = Path.Combine(Directory.GetCurrentDirectory(), "Uploads/img",
+             model.PhotoPath);
+            if (!System.IO.File.Exists(photoPath))
+            {
+                model.PhotoPath = null;
+                return;
+            }
+
+            var photoBytes = System.IO.File.ReadAllBytes(photoPath);
+
+            var fileExtension = model.PhotoPath.Split('.')[1];
+
+            model.PhotoPath =
+                $"data:image/{fileExtension};base64,{Convert.ToBase64String(photoBytes)}";
+
+        }
     }
 }

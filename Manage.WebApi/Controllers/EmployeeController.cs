@@ -185,7 +185,7 @@ namespace Manage.WebApi.Controllers
             // add async method requires an instance of EmployeePersonalDetailsViewModel
             //map the CreateEmployeePersonalDetailsDto with EmployeePersonalDetailsViewModel
             var mappedEmployeePersonalDetails = _mapper.Map<EmployeePersonalDetailsViewModel>(model);
-            var photoPath = "https://localhost:44330/uploads/img/" + model.Photo.FileName;
+            var photoPath = model.Photo.FileName;
 
             var photoBytes = System.IO.File.ReadAllBytes(photoPath);
 
@@ -268,7 +268,7 @@ namespace Manage.WebApi.Controllers
                     await model.Photo.CopyToAsync(fileStream);
                 }
 
-                modelFromRepo.PhotoPath = "https://localhost:44330/uploads/img/" + fileName;
+                modelFromRepo.PhotoPath = fileName;
 
             }
             else

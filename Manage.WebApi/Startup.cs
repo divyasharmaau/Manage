@@ -78,6 +78,17 @@ namespace Manage.WebApi
             services.AddScoped<IUploadImageHelper, UploadImageHelper>();
             services.AddScoped<IFileUploadHelper, FileUploadHelper>();
 
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader());
+            });
+
+
+
             services.AddDbContextPool<ManageContext>(options => options
                .UseSqlServer(Configuration.GetConnectionString("ManageConnection"),
                x => x.MigrationsAssembly("Manage.WebApi")));

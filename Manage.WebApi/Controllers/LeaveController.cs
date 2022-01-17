@@ -65,7 +65,7 @@ namespace Manage.WebApi.Controllers
                     await model.File.CopyToAsync(fileStream);
                 }
 
-                leaveApplied.FilePath = "https://localhost:44330/uploads/files/" + model.File.FileName;
+                leaveApplied.FilePath = model.File.FileName;
             }
 
           
@@ -132,7 +132,7 @@ namespace Manage.WebApi.Controllers
              _mapper.Map(editMyLeaveDto, leaveToBeEdited);
             leaveToBeEdited.Id = editMyLeaveDto.Id;
             leaveToBeEdited.FilePath = fileName;
-            leaveToBeEdited.FilePath = "https://localhost:44330/uploads/img/" + fileName ?? leaveToBeEdited.FilePath;
+            leaveToBeEdited.FilePath = fileName ?? leaveToBeEdited.FilePath;
             await _leavePageService.Update(leaveToBeEdited);
             return NoContent();
         }
