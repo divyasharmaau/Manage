@@ -3,7 +3,7 @@ for details on configuring this project to bundle and minify static web assets. 
 
 :root {
     --blue-color: #1e4356;
-    --white-color: red;
+    --white-color: #ffff;
     --slateGrey-color: #846a9b;
     --orange-color: #e9801f;
     --lightOrange-color: #f0b176;
@@ -118,8 +118,22 @@ body {
     padding: 0;
 }
 
-
-
+.user-body{
+    padding-right:4px;
+}
+.user-body:focus{
+    box-shadow:none;
+}
+    .user-body .btn {
+        outline: none;
+        background-color: var(--slateGrey-color);
+        color: var(--white-color);
+    }
+    .user-body .btn:hover {
+        outline: none;
+        background-color: var(--slateGrey-color);
+        color: var(--white-color);
+    }
 .image-preview {
     width: 150px;
     height: 150px;
@@ -139,14 +153,10 @@ body {
     object-fit: cover
 }
 
-.tooltipList{
-
-}
 
 .form-text-form {
     color: #b3005c;
-    font-weight:normal;
-    
+    font-weight: normal;
 }
 
 .logInImage{
@@ -174,7 +184,6 @@ a.disabled {
 
 .formSubHeading {
    color: var(--orange-color);
-/*   font-weight:bold;*/
 }
 
 .sidebarUserName {
@@ -190,18 +199,20 @@ a.disabled {
     height: auto;
     width: 3.8rem;
 }
-.user-body .btn:hover {
-    outline: none;
-}
+
 
 [class*=sidebar-light-] .nav-treeview > .nav-item > .nav-link:hover {
     color: var(--slateGrey-color);
-    font-weight: 500;
+    font-weight: 600;
     text-decoration: none;
 }
 
+.nav-sidebar > .nav-item .nav-icon{
+    color:var(--slateGrey-color);
+}
 
-    th a {
+/*========TABLE=================*/
+th a {
     color: var(--blue-color);
 }
     th a:hover {
@@ -217,7 +228,6 @@ td a {
         font-weight: bold;
         color: var(--slateGrey-color);
     }
-
 
 
 .listImg {
@@ -249,11 +259,26 @@ td a {
     font-weight:bold;
 }
 
-/*----------Leave----------*/
-.leaveEmployeeName span{
-    font-size:1.2rem;
-    font-weight:bold;
-    color:var(--slateGrey-color);
+.input-group-append .input-group-text{
+    outline:none;
+    border: 1px solid var(--slateGrey-color);
+}
+/*============*/
+/*============Details Form==========*/
+.detailsForm{
+    border: 1px solid orange;
+    min-height:38px;
+ 
+}
+
+.detailsForm p{
+    margin-left:4px;
+}
+/*============Leave===============*/
+.leaveEmployeeName span {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--slateGrey-color);
 }
 
 .btn.btnSubmitForm {
@@ -269,8 +294,6 @@ td a {
 
 select.form-control {
     border: 1px solid var(--slateGrey-color);
-/*    background: #6ac17a;
-    color: #fff;*/
 }
     select.form-control:hover {
         border: 1px solid var(--lightOrange-color);
@@ -299,16 +322,13 @@ input[type=search], input[type=file] {
         box-shadow: none;
     }
     input[type=text]:focus, input[type=password]:focus, input[type=number]:focus, input[type=date]:focus,
-    input[type=email]:focus, input[type=search]:focus, input[type=file]:hover {
+    input[type=email]:focus, input[type=search]:focus, input[type=file]:focus{
         outline: none;
         box-shadow: none;
         border: 1px solid var(--lightOrange-color);
     }
 
-/*input[type=email].input-group-append.inputSpan{
-    border: 2px solid var(--slateGrey-color);
-    background-color:red;
-}*/
+
 .custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
     background-color: green;
 }
@@ -324,13 +344,8 @@ input[type=search], input[type=file] {
         border: 10px solid black;
     }
 
-    /*.custom-file-input:focus ~ .custom-file-label {
-        border-color:pink;
-        box-shadow: none;
-    }
-*/
 
-/*Page Styles*/
+/*===============Page Styles========================*/
 .pagination .page-item.active .page-link {
     background-color: var(--slateGrey-color);
     border-color: var(--slateGrey-color);

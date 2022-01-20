@@ -8,16 +8,13 @@
 <div class="row">
     <div class="col-12">
         <div class="card shadow-lg p-3 mb-5">
-            <div class="card-title">
-                <h3 class="cardTitle cardTitle">Edit Employee Details</h3>
-            </div>
             <form method="post" asp-action="EditEmployeeOfficialDetails" asp-controller="Employee">
                 <input asp-for="Id" type="hidden" />
                 <div class="card-header border-0">
                     <h3 class="card-title text-cneter">Edit Employee Official Details</h3>
                 </div>
                 <!-- /.card-header -->
-                <div class="row align-items-center mt-3 mb-3">
+                <div class="row align-items-center mt-3 mb-3 ml-3">
                     <div class="col-sm-6 col-md-3">
                         @if (Model.EmployeePersonalDetails == null)
                         {
@@ -28,7 +25,7 @@
                             <img class="imageThumbnail" src="~/dist/img/@Model.EmployeePersonalDetails.PhotoPath" asp-append-version="true" alt="Employee Photograph">
                         }
                     </div>
-                    <div class="col">
+                    <div class="col mt-4">
                         <h4>@Model.FullName</h4>
                         <h5>@Model.Department.Name</h5>
                     </div>
@@ -78,7 +75,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-row mt-3">
+                    @*<div class="form-row mt-3">
                         <div class="form-group col-md-6">
                             <label asp-for="Password" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
@@ -94,7 +91,7 @@
                                 <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
                             </div>
                         </div>
-                    </div>
+                    </div>*@
 
                     <div class="form-row  mt-3">
                         <div class="form-group col-md-6">

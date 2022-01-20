@@ -34,10 +34,12 @@ namespace Manage.WebApi.Controllers
         private readonly IEmployeeRepository _employeeRepository;
         private readonly UserManager<ApplicationUser> _userManager;
 
+
         public EmployeeController(IEmployeePageService employeePageService, IDepartmentPageService departmentPageService
             , IEmployeePersonalDetailsPageService employeePersonalDetailsPageService
             , IMapper mapper, IWebHostEnvironment webHostEnvironment
-            , ILogger<EmployeeController> logger, IUploadImageHelper uploadImageHelper, IEmployeeRepository employeeRepository, UserManager<ApplicationUser> userManager)
+            , ILogger<EmployeeController> logger, IUploadImageHelper uploadImageHelper
+            , IEmployeeRepository employeeRepository, UserManager<ApplicationUser> userManager)
         {
             _employeePageService = employeePageService;
             _departmentPageService = departmentPageService;
@@ -48,6 +50,7 @@ namespace Manage.WebApi.Controllers
             _uploadImageHelper = uploadImageHelper;
             _employeeRepository = employeeRepository;
             _userManager = userManager;
+
         }
 
         //GET api/employee
@@ -62,7 +65,7 @@ namespace Manage.WebApi.Controllers
                 return NotFound();
             }
 
-            foreach(var employee in employeeList)
+            foreach (var employee in employeeList)
             {
                 UpdateEmployeePersonalDetailsPhoto(employee.EmployeePersonalDetails);
             }
@@ -130,6 +133,7 @@ namespace Manage.WebApi.Controllers
         [HttpPost]
         public async Task<ActionResult>CreateEmployee(CreateEmployeeViewModel model)
         {
+            
             if (model == null)
             {
                 return NotFound();
@@ -151,7 +155,7 @@ namespace Manage.WebApi.Controllers
             user.NumberOfHoursWorkedPerDay = model.NumberOfHoursWorkedPerDay;
             user.DepartmentId = model.DepartmentId;
             user.Manager = model.Manager;
-
+           
             var result = await _employeePageService.CreateEmployee(user, model.Password);
             return CreatedAtRoute(nameof(GetEmployeeOfficialDetailsById), new { id = user.Id }, null);
 
@@ -186,10 +190,7 @@ namespace Manage.WebApi.Controllers
             //map the CreateEmployeePersonalDetailsDto with EmployeePersonalDetailsViewModel
             var mappedEmployeePersonalDetails = _mapper.Map<EmployeePersonalDetailsViewModel>(model);
             var photoPath = model.Photo.FileName;
-
-            var photoBytes = System.IO.File.ReadAllBytes(photoPath);
-
-            model.PhotoPath = $"data:image/{model.Photo.ContentType};base64,{Convert.ToBase64String(photoBytes)}";
+            model.ApiPhotoPath = photoPath;
 
             //add using the mapped variable which is an instance of EmployeePersonalDetailsViewModel
             var newEmployeePersonalDetails = await _employeePersonalDetailsPageService.AddAsync(mappedEmployeePersonalDetails);
@@ -268,12 +269,12 @@ namespace Manage.WebApi.Controllers
                     await model.Photo.CopyToAsync(fileStream);
                 }
 
-                modelFromRepo.PhotoPath = fileName;
+                modelFromRepo.ApiPhotoPath = fileName;
 
             }
             else
             {
-                modelFromRepo.PhotoPath = model.ExistingPhotoPath;
+                modelFromRepo.ApiPhotoPath = model.ExistingPhotoPath;
             }
          
             
@@ -334,24 +335,24 @@ namespace Manage.WebApi.Controllers
         private void UpdateEmployeePersonalDetailsPhoto(EmployeePersonalDetailsViewModel model)
         {
             if (model == null ||
-                   string.IsNullOrEmpty(model.PhotoPath))
+                   string.IsNullOrEmpty(model.ApiPhotoPath))
             {
                 return;
             }
 
             var photoPath = Path.Combine(Directory.GetCurrentDirectory(), "Uploads/img",
-             model.PhotoPath);
+             model.ApiPhotoPath);
             if (!System.IO.File.Exists(photoPath))
             {
-                model.PhotoPath = null;
+                model.ApiPhotoPath = null;
                 return;
             }
 
             var photoBytes = System.IO.File.ReadAllBytes(photoPath);
 
-            var fileExtension = model.PhotoPath.Split('.')[1];
+            var fileExtension = model.ApiPhotoPath.Split('.')[1];
 
-            model.PhotoPath =
+            model.ApiPhotoPath =
                 $"data:image/{fileExtension};base64,{Convert.ToBase64String(photoBytes)}";
 
         }

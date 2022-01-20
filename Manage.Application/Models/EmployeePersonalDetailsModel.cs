@@ -12,6 +12,7 @@ namespace Manage.Application.Models
 
         public string Id { get; set; }
         //Personal Details
+        public string ApiPhotoPath { get; set; }
         public string PhotoPath { get; set; }
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
         [Required]

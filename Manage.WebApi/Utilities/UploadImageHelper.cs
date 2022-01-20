@@ -35,24 +35,24 @@ namespace Manage.WebApi.Utilities
         public void UpdateEmployeePersonalDetailsPhoto(EmployeePersonalDetailsViewModel model)
         {
             if (model == null ||
-                   string.IsNullOrEmpty(model.PhotoPath))
+                   string.IsNullOrEmpty(model.ApiPhotoPath))
             {
                 return;
             }
 
             var photoPath = Path.Combine(Directory.GetCurrentDirectory(), "Uploads/img",
-             model.PhotoPath);
+             model.ApiPhotoPath);
             if (!System.IO.File.Exists(photoPath))
             {
-                model.PhotoPath = null;
+                model.ApiPhotoPath = null;
                 return;
             }
 
             var photoBytes = System.IO.File.ReadAllBytes(photoPath);
 
-            var fileExtension = model.PhotoPath.Split('.')[1];
+            var fileExtension = model.ApiPhotoPath.Split('.')[1];
 
-            model.PhotoPath =
+            model.ApiPhotoPath =
                 $"data:image/{fileExtension};base64,{Convert.ToBase64String(photoBytes)}";
 
         }

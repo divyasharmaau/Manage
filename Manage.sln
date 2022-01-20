@@ -5,13 +5,15 @@ VisualStudioVersion = 16.0.31321.278
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Manage.Application", "Manage.Application\Manage.Application.csproj", "{309355FE-D9FE-48AE-AF01-43A88E92CC20}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Manage.Core", "Manage.Core\Manage.Core.csproj", "{36016192-E082-460C-93A9-DB6A3E316523}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Manage.Infrastructure", "Manage.Infrastructure\Manage.Infrastructure.csproj", "{0546315E-8AA8-4EFB-9E15-2645A43FA80F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Manage.Web", "Manage.Web\Manage.Web.csproj", "{D30D1DF2-60DC-48CB-8C10-3B1117D0FDA9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Manage.WebApi", "Manage.WebApi\Manage.WebApi.csproj", "{E664F8FF-13D0-4193-89C7-A364920242BF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B718A370-0816-4704-8131-CEDC7D751A2F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Manage.Core", "..\..\Users\divya\Downloads\Manage.Core\Manage.Core.csproj", "{68870449-F70A-48AD-93FC-17BD41806EBF}"
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "AngManage", "..\AngManage\dist\AngManage\", "{F815202D-AD97-4DC8-A0BA-02D4D45A9FE6}"
 	ProjectSection(WebsiteProperties) = preProject
@@ -44,10 +46,6 @@ Global
 		{309355FE-D9FE-48AE-AF01-43A88E92CC20}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{309355FE-D9FE-48AE-AF01-43A88E92CC20}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{309355FE-D9FE-48AE-AF01-43A88E92CC20}.Release|Any CPU.Build.0 = Release|Any CPU
-		{36016192-E082-460C-93A9-DB6A3E316523}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{36016192-E082-460C-93A9-DB6A3E316523}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{36016192-E082-460C-93A9-DB6A3E316523}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{36016192-E082-460C-93A9-DB6A3E316523}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0546315E-8AA8-4EFB-9E15-2645A43FA80F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0546315E-8AA8-4EFB-9E15-2645A43FA80F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0546315E-8AA8-4EFB-9E15-2645A43FA80F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -60,6 +58,10 @@ Global
 		{E664F8FF-13D0-4193-89C7-A364920242BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E664F8FF-13D0-4193-89C7-A364920242BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E664F8FF-13D0-4193-89C7-A364920242BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68870449-F70A-48AD-93FC-17BD41806EBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68870449-F70A-48AD-93FC-17BD41806EBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68870449-F70A-48AD-93FC-17BD41806EBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68870449-F70A-48AD-93FC-17BD41806EBF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F815202D-AD97-4DC8-A0BA-02D4D45A9FE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F815202D-AD97-4DC8-A0BA-02D4D45A9FE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F815202D-AD97-4DC8-A0BA-02D4D45A9FE6}.Release|Any CPU.ActiveCfg = Debug|Any CPU

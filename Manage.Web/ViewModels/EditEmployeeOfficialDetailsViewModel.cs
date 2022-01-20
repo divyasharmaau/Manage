@@ -45,12 +45,12 @@ namespace Manage.Web.ViewModels
         public double NumberOfHoursWorkedPerDay { get; set; }
         public string Manager { get; set; }
 
-        [Required]
-        public string Password { get; set; }
+        //[Required]
+        //public string Password { get; set; }
    
-        [Required(ErrorMessage = "Confirm Password required")]
-        [Compare("Password", ErrorMessage = "Password and Confirm Password do not match")]
-        public string ConfirmPassword { get; set; }
+        //[Required(ErrorMessage = "Confirm Password required")]
+        //[Compare("Password", ErrorMessage = "Password and Confirm Password do not match")]
+        //public string ConfirmPassword { get; set; }
         [Required]
         public string Email { get; set; }
         public string UserName { get; set; }

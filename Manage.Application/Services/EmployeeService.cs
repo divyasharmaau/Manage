@@ -64,7 +64,6 @@ namespace Manage.Application.Services
         {
             //var emp = _mapper.Map<ApplicationUser>(user);
             var emp = await _manageContext.Users.SingleOrDefaultAsync(x => x.Id == user.Id);
-
             // _mapper.Map<ApplicationUser>(user);
             _mapper.Map(user, emp);
             await _employeeRepository.Update(emp);
