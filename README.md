@@ -2,7 +2,11 @@
 
 An Employee Management application that creates and manages employee profile along with their leaves and Roles
 
+Live Demo of the 'MANAGE' website. It can be accesed using Demo admin/user 
+https://manage2022.azurewebsites.net/
 
+Live Demo of Web API 
+https://manageapi2022.azurewebsites.net/
 ## Features
 - Login as Demo Admin or Demo User
 - Different sections of the menu are visible according to the role of the user logged in
@@ -73,6 +77,7 @@ Employee Leave List with Search Block<br><br>
 
 All Employee Leave List with Search Block<br><br>
 ![Manage AllEmpLeaveList2](https://user-images.githubusercontent.com/37268175/150061707-cf28d246-9e0a-471c-bdcc-c659d1b571e4.png)
+
 Role Management:<br><br>
 Manage Users and their Roles <br><br>
 ![Mange UserRoles](https://user-images.githubusercontent.com/37268175/150062532-702334ae-4abd-46b4-bb4d-c44efbed4224.png)
