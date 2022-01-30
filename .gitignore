@@ -341,4 +341,5 @@ healthchecksdb
 /.vscode
 .vs/
 .vs16/
+Uploads/
 

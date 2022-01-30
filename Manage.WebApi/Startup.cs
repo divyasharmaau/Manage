@@ -142,7 +142,7 @@ namespace Manage.WebApi
             });
 
 
-            services.AddControllers()
+            services.AddControllersWithViews()
                 .AddNewtonsoftJson(options =>
                 {
                     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;

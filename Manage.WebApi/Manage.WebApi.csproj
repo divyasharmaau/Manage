@@ -28,6 +28,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Uploads\files\defaultFile.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Uploads\img\03452e5a-8c83-4a99-a9a1-369415b40a0f_Das Hun.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

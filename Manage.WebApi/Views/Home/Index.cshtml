@@ -1,0 +1,121 @@
+﻿<html>
+<head>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
+    <!--Bootstrap-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" 
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!--StyleSheet-->
+    <link href="~/Uploads/StyleSheet.css" rel="stylesheet" />
+</head>
+<body>
+
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header">
+                MANAGE API
+            </div>
+            <div>
+                <div class="card-body">
+                    <h5 class="card-title">Employee API's'</h5>
+                    <p>Following are the data API that include result in JSON format which can be used for Employee and Leave Management </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="container">
+        <div class="card mt-5">
+            <div class="card-body">
+                <h5 class="card-title">Employee API</h5>
+                <p>
+                    Following are the data API that include result in JSON format which can be used for items in Employee Management
+                    such as Employee List, Employee Profile, edit and update Employee Profile
+                </p>
+                <p>
+                    Get Employee List:
+                    <a href="https://manageapi2022.azurewebsites.net/api/employee">Employee List</a>
+                    <ul>
+                        <li>
+                            Request URL: https://manageapi2022.azurewebsites.net/api/employee/
+                        </li>
+                        <li>
+                            Request Method: GET
+                        </li>
+                    </ul>
+                </p>
+                <p>
+                    Create  Employee Official Details:
+                    <a href="https://manageapi2022.azurewebsites.net/api/employee/0deaf3a5-c5d0-450d-9789-8bed4a188437">Employee Official Details</a>
+                    <ul>
+                        <li>
+                            Request URL: websiteURL + api/employee/
+                        </li>
+                        <li>
+                            Parameters(required) : FormData
+                        </li>
+                        <li>
+                            Request Method: POST
+                        </li>
+                    </ul>
+                </p>
+                <p>
+                    Get Employee Official Details:
+                    <a href="https://manageapi2022.azurewebsites.net/api/employee/0deaf3a5-c5d0-450d-9789-8bed4a188437">Employee Official Details</a>
+                    <ul>
+                        <li>
+                            Request URL: https://manageapi2022.azurewebsites.net/api/employee/id
+                        </li>
+                        <li>
+                            Request Method: GET
+                        </li>
+                    </ul>
+                </p>
+                <p>
+                    Get Employee Personal Details:
+                    <a href="https://manageapi2022.azurewebsites.net/api/employee/GetEmployeePersonalDetails/0deaf3a5-c5d0-450d-9789-8bed4a188437">Employee Personal Details</a>
+                    <ul>
+                        <li>
+                            Request URL: website URL +  /api/employee/GetEmployeePersonalDetails/id
+                        </li>
+                        <li>
+                            Request Method: GET
+                        </li>
+                    </ul>
+                </p>
+                <p>
+                    Update Employee Official Details:
+                    <a href="https://manageapi2022.azurewebsites.net/api/employee/0deaf3a5-c5d0-450d-9789-8bed4a188437">Update Official Details</a>
+                    <ul>
+                        <li>
+                            Request URL: website URL  + /api/employee/id
+                        </li>
+                        <li>
+                            Request Method: PUT
+                        </li>
+                    </ul>
+                </p>
+                <p>
+                    Update Employee Personal Details:
+                    <a href="https://manageapi2022.azurewebsites.net/api/employee/UpdateEmployeePersonalDetails/0deaf3a5-c5d0-450d-9789-8bed4a188437">Update Official Details</a>
+                    <ul>
+                        <li>
+                            Request URL: website URL  + /employee/UpdateEmployeePersonalDetails/
+                        </li>
+                        <li>
+                            Parameters : id <br />
+                            body
+                        </li>
+                        <li>
+                            Request Method: PUT
+                        </li>
+                    </ul>
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
