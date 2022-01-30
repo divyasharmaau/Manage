@@ -10,8 +10,6 @@ using System.Threading.Tasks;
 
 namespace Manage.WebApi.Controllers
 { 
-
-    [Route("")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
