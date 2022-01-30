@@ -182,6 +182,7 @@ namespace Manage.WebApi
             {
                 c.RoutePrefix = "";
                 c.SwaggerEndpoint("swagger/v1/swagger.json", "Manage API");
+                c.DocumentTitle = "Manage API - Swagger UI";
             });
 
             app.UseEndpoints(endpoints =>
