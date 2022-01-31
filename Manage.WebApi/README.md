@@ -1,7 +1,11 @@
 Manage Web API that includes results in a JSON format.
 It is built using Swagger.
 It can be accessed via 
+
 https://manageapi2022.azurewebsites.net/
+
+
+
 
 ![ApiWebsiteIndex4](https://user-images.githubusercontent.com/37268175/151728779-0d8da24a-cc80-44cf-af87-a18b41ff3535.png)
 
