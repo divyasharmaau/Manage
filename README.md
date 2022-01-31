@@ -6,7 +6,7 @@ Live Demo of the 'MANAGE' website. It can be accesed using Demo admin/user
 https://manage2022.azurewebsites.net/
 
 Live Demo of Web API 
-https://manageapi2022.azurewebsites.net/api/employee/
+https://manageapi2022.azurewebsites.net/
 ## Features
 - Login as Demo Admin or Demo User
 - Different sections of the menu are visible according to the role of the user logged in
