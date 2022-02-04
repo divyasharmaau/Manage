@@ -66,7 +66,6 @@ namespace Manage.WebApi.Controllers
                     await model.File.CopyToAsync(fileStream);
                 }
                 leaveApplied.FilePath = fileName;
-                //leaveApplied.FilePath = model.File.FileName;
             }
 
 
@@ -134,28 +133,7 @@ namespace Manage.WebApi.Controllers
             return NoContent();
         }
 
-        //PATCH api/controller/{id}
-        [HttpPatch("{id}")]
-        public async Task<ActionResult> PartialLeaveUpdate(int id, JsonPatchDocument<EditMyLeaveDto> patchDoc)
-        {
-            
-            var leaveToBeEdited = await _leavePageService.GetMyLeaveDetails(id);
-            if (leaveToBeEdited == null)
-            {
-                return NotFound();
-            }
-
-            var modelToPatch = _mapper.Map<EditMyLeaveDto>(leaveToBeEdited);
-            patchDoc.ApplyTo(modelToPatch, ModelState);
-            if (!TryValidateModel(modelToPatch))
-            {
-                return ValidationProblem(ModelState);
-            }
-
-            _mapper.Map(modelToPatch, leaveToBeEdited);
-            await _leavePageService.Update(leaveToBeEdited);
-            return NoContent();
-        }
+      
 
         [HttpGet("GetAllMyLeaves/{id}")]
         public async Task<ActionResult> GetAllMyLeaves(string id, DateTime? fromDate = null )
@@ -250,7 +228,6 @@ namespace Manage.WebApi.Controllers
 
      
         [HttpGet]
-     
         public async Task<ActionResult> GetAllLeaves(DateTime? fromdate = null)
         {
             List<AppUserViewModel> leaves = new List<AppUserViewModel>();
@@ -289,7 +266,6 @@ namespace Manage.WebApi.Controllers
                     }
                 }
                 flag = true;
-                //allLeaves.Where(x => x.FromDate >= fromdate);
             }
            
             if(flag)
@@ -299,6 +275,8 @@ namespace Manage.WebApi.Controllers
             return Ok(allLeaves);
 
         }
+
+
         //DELETE ap/controller/{id}
         [HttpDelete("{leaveId}")]
         public async Task<ActionResult> Delete(int leaveId)
