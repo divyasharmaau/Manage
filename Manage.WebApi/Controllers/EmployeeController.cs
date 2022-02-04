@@ -19,7 +19,6 @@ using System.Threading.Tasks;
 
 namespace Manage.WebApi.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class EmployeeController : ControllerBase
