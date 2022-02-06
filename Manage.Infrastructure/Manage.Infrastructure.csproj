@@ -22,7 +22,5 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Users\divya\Downloads\Manage.Core\Manage.Core.csproj" />
-  </ItemGroup>
-
+    <ProjectReference Include="..\Manage.Core\Manage.Core.csproj" />  </ItemGroup>
 </Project>

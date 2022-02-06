@@ -13,8 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Manage.WebApi", "Manage.Web
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B718A370-0816-4704-8131-CEDC7D751A2F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Manage.Core", "..\..\Users\divya\Downloads\Manage.Core\Manage.Core.csproj", "{68870449-F70A-48AD-93FC-17BD41806EBF}"
-EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "AngManage", "..\AngManage\dist\AngManage\", "{F815202D-AD97-4DC8-A0BA-02D4D45A9FE6}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
@@ -35,6 +33,8 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "AngManage", "..\AngManage\d
 		VWDPort = "63241"
 		SlnRelativePath = "..\AngManage\dist\AngManage\"
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Manage.Core", "Manage.Core\Manage.Core.csproj", "{DFB7885B-F0D1-46E4-BD92-0F4FC153BE8C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,14 +58,14 @@ Global
 		{E664F8FF-13D0-4193-89C7-A364920242BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E664F8FF-13D0-4193-89C7-A364920242BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E664F8FF-13D0-4193-89C7-A364920242BF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{68870449-F70A-48AD-93FC-17BD41806EBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{68870449-F70A-48AD-93FC-17BD41806EBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{68870449-F70A-48AD-93FC-17BD41806EBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{68870449-F70A-48AD-93FC-17BD41806EBF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F815202D-AD97-4DC8-A0BA-02D4D45A9FE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F815202D-AD97-4DC8-A0BA-02D4D45A9FE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F815202D-AD97-4DC8-A0BA-02D4D45A9FE6}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{F815202D-AD97-4DC8-A0BA-02D4D45A9FE6}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{DFB7885B-F0D1-46E4-BD92-0F4FC153BE8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFB7885B-F0D1-46E4-BD92-0F4FC153BE8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFB7885B-F0D1-46E4-BD92-0F4FC153BE8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFB7885B-F0D1-46E4-BD92-0F4FC153BE8C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
