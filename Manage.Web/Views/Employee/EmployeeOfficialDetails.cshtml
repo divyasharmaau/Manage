@@ -5,22 +5,6 @@
 @using Manage.Core.Entities
 @inject UserManager<ApplicationUser> userManager;
 @inject SignInManager<ApplicationUser> signInManager;
-@*@inject IEmployeePersonalDetailsPageService employeePersonalDetailsPageService;*@
-
-@{
-//var photo = "";
-//var user = userManager.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
-//var emp = await employeePersonalDetailsPageService.GetEmployeePersonalDetailsById(user.Id);
-//if (emp == null)
-//{
-//    photo = "/avatar.png";
-//}
-//else
-//{
-//    photo = emp.PhotoPath;
-//}
-
-}
 
 
 
@@ -42,14 +26,10 @@
 <div class="row">
     <div class="col-12">
         <div class="card shadow-lg p-3 mb-5">
-            @*<div class="card-title">
-                <h3 class="card-title cardTitle">Employee Official Details</h3>
-            </div>*@
-            <!-- /.card-header -->
             <div class="card-header border-0">
                 <h3 class="card-title text-center">Employee Official Details</h3>
             </div>
-            <div class="row align-items-center mt-3 mb-3">
+            <div class="row align-items-center mt-3 mb-3 ml-3">
                 <div class="col-sm-6 col-md-3">
                     @if (Model.EmployeePersonalDetails == null)
                     {
@@ -60,7 +40,7 @@
                         <img class="imageThumbnail" src="~/dist/img/@Model.EmployeePersonalDetails.PhotoPath" asp-append-version="true" alt="Employee Photograph">
                     }
                 </div>
-                <div class="col ">
+                <div class="col mt-2">
                     <h4>@Model.FullName</h4>
                     <h5>@Model.Department.Name</h5>
                 </div>
@@ -91,7 +71,7 @@
                     <div class="form-group col-md-4">
                         <label asp-for="FirstName" class="col-auto col-form-label text-sm"></label>
                         <div class="col">
-                            <p asp-for="FirstName" class="form-control">@Model.FirstName</p>
+                            <p  asp-for="FirstName" class="form-control">@Model.FirstName</p>
                         </div>
                     </div>
                     <div class="form-group col-md-4">
@@ -185,7 +165,7 @@
                     </div>
                 </div>
                 <div class="form-row mt-3">
-                    @if (signInManager.IsSignedIn(User) && User.IsInRole("Administartor"))
+                    @if (signInManager.IsSignedIn(User) && User.IsInRole("Administrator"))
                     {
                         <div class="col-md-4">
                             <a type="submit" class="btn btn-outline-info m-5" asp-action="EditEmployeeOfficialDetailsAdmin" asp-controller="Employee" asp-route-id="@Model.Id">Edit</a>

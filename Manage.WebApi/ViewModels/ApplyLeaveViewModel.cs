@@ -27,13 +27,11 @@ namespace Manage.WebApi.ViewModels
 
         [Display(Name = "From Date")]
         [Required]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime FromDate { get; set; }
 
         [Display(Name = "Till Date")]
         [Required]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
-        [DateGreaterThan("FromDate","Till Date should be Greater than or Equal to From Date")]
+       // [DateGreaterThan("FromDate","Till Date should be Greater than or Equal to From Date")]
         public DateTime TillDate { get; set; }
 
 

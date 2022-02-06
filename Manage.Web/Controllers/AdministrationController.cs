@@ -17,7 +17,7 @@ using X.PagedList;
 
 namespace Manage.Web.Controllers
 {
-    [Authorize(Roles = "Administartor")]
+    [Authorize(Roles = "Administrator")]
     public class AdministrationController : Controller
     {
         private readonly IAdministrationPageService _administrationPageService;

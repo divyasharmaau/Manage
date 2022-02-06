@@ -74,7 +74,8 @@ namespace Manage.Web
             services.AddScoped<IFileUploadHelper, FileUploadHelper>();
             services.AddScoped<IEmailService, EmailService>();
 
-            services.AddControllersWithViews().AddRazorRuntimeCompilation();
+            services.AddControllersWithViews();
+                //.AddRazorRuntimeCompilation();
 
             services.AddDbContextPool<ManageContext>(options => options
                 .UseSqlServer(Configuration.GetConnectionString("ManageConnection"),
@@ -94,7 +95,7 @@ namespace Manage.Web
 
                 //signin requirenments
                 options.SignIn.RequireConfirmedAccount = true;
-                
+
             })
 
             .AddRoles<ApplicationRole>()
@@ -103,7 +104,7 @@ namespace Manage.Web
 
             services.ConfigureApplicationCookie(options =>
             {
-               // options.LoginPath = new PathString("/Account/login");
+                // options.LoginPath = new PathString("/Account/login");
                 options.AccessDeniedPath = new PathString("/Administration/AccessDenied");
             });
 
@@ -112,34 +113,35 @@ namespace Manage.Web
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("DeleteRolePolicy",
-                    policy => policy.RequireClaim("Delete Role" ,"true"));
+                    policy => policy.RequireClaim("Delete Role", "true"));
                 options.AddPolicy("EditRolePolicy",
                     policy => policy.RequireClaim("Edit Role", "true"));
-                
+
             });
 
             services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
- 
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
+            app.UseDeveloperExceptionPage();
+            //if (env.IsDevelopment())
+            //{
+                
+            //}
+            //else
+            //{
 
-                //global exception eg 500
-                //app.UseExceptionHandler("/Home/Error"); framework
-                app.UseExceptionHandler("/Error");
-                //used for incorrect url
-                app.UseStatusCodePagesWithReExecute("/Error/{0}");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
+            //    //global exception eg 500
+            //    //app.UseExceptionHandler("/Home/Error"); framework
+            //    app.UseExceptionHandler("/Error");
+            //    //used for incorrect url
+            //    app.UseStatusCodePagesWithReExecute("/Error/{0}");
+            //    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            //    app.UseHsts();
+            //}
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             //app.UseCookieAuthentication(new CookieAuthenticationOptions
@@ -157,15 +159,28 @@ namespace Manage.Web
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-           
+
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                    pattern: "{controller=Account}/{action=LogIn}/{id?}");
-                  //pattern: "{controller=Home}/{action=Index}/{id?}");
+                //pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+        }
+
+        private static async Task SeedDatabaseAsync(IHost host)
+        {
+            using (var scope = host.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var manageContext = services.GetRequiredService<ManageContext>();
+                var roleManager = services.GetRequiredService<RoleManager<ApplicationRole>>();
+                var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+                await IdentitySeeder.SeedAsync(manageContext, roleManager, userManager);
+                //await DataSeeder.SeedAsync(manageContext);
+            }
         }
     }
 }

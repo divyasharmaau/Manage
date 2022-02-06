@@ -34,8 +34,8 @@ namespace Manage.Web
     {
         public static async Task Main(string[] args)
         {
-            var host = CreateHostBuilder(args).Build();
-            await SeedDatabaseAsync(host);
+            var host = CreateHostBuilder(args).Build();       
+            //await SeedDatabaseAsync(host);
             host.Run();
         }
 
@@ -63,7 +63,7 @@ namespace Manage.Web
                 var manageContext = services.GetRequiredService<ManageContext>();
                 var roleManager = services.GetRequiredService<RoleManager<ApplicationRole>>();
                 var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
-                await  IdentitySeeder.SeedAsync(manageContext, roleManager, userManager);
+                await IdentitySeeder.SeedAsync(manageContext, roleManager, userManager);
                 //await DataSeeder.SeedAsync(manageContext);
             }
         }

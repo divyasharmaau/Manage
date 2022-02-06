@@ -35,7 +35,10 @@ namespace Manage.WebApi.ViewModels
         public string Country { get; set; }
         public string ZipCode { get; set; }
         //Personal Details
+        [Obsolete]
         public string PhotoPath { get; set; }
+        public string ApiPhotoPath { get; set; }
+
         public string ExistingPhotoPath { get; set; }
         public IFormFile Photo { get; set; }
 

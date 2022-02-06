@@ -34,18 +34,22 @@ namespace Manage.Infrastructure.Repository
                                     .Include(y => y.EmployeePersonalDetails)
                                     .AsNoTracking()
                                     .ToListAsync();
+
           
             return employeeList;
         }
 
         public async Task<IdentityResult> Create(ApplicationUser user, string password)
         {
-            var emp = await _userManager.CreateAsync(user, password);
-           
-            user.EmailConfirmed = true;
-            user.LockoutEnabled = false;
-            _manageContext.SaveChanges();
-            return emp;
+                var emp = await _userManager.CreateAsync(user, password);
+         
+                user.EmailConfirmed = true;
+                user.LockoutEnabled = false;
+                await _userManager.AddToRoleAsync(user, "Registered User");
+                
+                _manageContext.SaveChanges();
+                return emp;
+         
         }
 
         public async  Task<ApplicationUser> GetEmployeeById(string id)

@@ -50,25 +50,25 @@ namespace Manage.WebApi.Controllers
             {
                 return NotFound();
             }
-
+            string fileName = "";
             var user = await _employeePageService.GetEmployeeById(model.UserId);
             var leaveApplied = _mapper.Map<LeaveViewModel>(model);
             if (model.File != null)
             {
                 var folderName = Path.Combine("Uploads", "files");
                 var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-                var fullPath = Path.Combine(pathToSave, model.File.FileName);
+                fileName = Guid.NewGuid() + "_" + model.File.FileName;
+                var fullPath = Path.Combine(pathToSave, fileName);
                 using (var fileStream = new FileStream(fullPath, FileMode.Create))
 
                 {
 
                     await model.File.CopyToAsync(fileStream);
                 }
-
-                leaveApplied.FilePath = "https://localhost:44330/uploads/files/" + model.File.FileName;
+                leaveApplied.FilePath = fileName;
             }
 
-          
+
 
             var newLeave = await _leavePageService.AddNewLeave(leaveApplied);
 
@@ -109,56 +109,31 @@ namespace Manage.WebApi.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> EditMyLeave(int id, [FromForm] EditMyLeaveDto editMyLeaveDto)
         {
-           
-            string fileName = null;
-            if(editMyLeaveDto.File.Length >0)
+            var leaveToBeEdited = await _leavePageService.GetMyLeaveDetails(id);
+            _mapper.Map(editMyLeaveDto, leaveToBeEdited);
+
+            if (editMyLeaveDto.File != null && editMyLeaveDto.File.Length >0)
             {
                 var folderName = Path.Combine("Uploads", "files");
                 var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-                fileName = Guid.NewGuid() + "_" + editMyLeaveDto.File.FileName;
+                var fileName = Guid.NewGuid() + "_" + editMyLeaveDto.File.FileName;
                 var fullPath = Path.Combine(pathToSave, fileName);
                 FileStream fileStream = new FileStream(fullPath,FileMode.Create);
                 await editMyLeaveDto.File.CopyToAsync(fileStream);
-            }
-            editMyLeaveDto.Id = id;
-            var leaveToBeEdited = await _leavePageService.GetMyLeaveDetails(id);
-            if(leaveToBeEdited == null)
-            {
-                return NotFound();
-            }
+                leaveToBeEdited.FilePath = fileName;
 
-
-            //var mapped = _mapper.Map(editMyLeaveDto, leaveToBeEdited);
-             _mapper.Map(editMyLeaveDto, leaveToBeEdited);
-            leaveToBeEdited.Id = editMyLeaveDto.Id;
-            leaveToBeEdited.FilePath = fileName;
-            leaveToBeEdited.FilePath = "https://localhost:44330/uploads/img/" + fileName ?? leaveToBeEdited.FilePath;
-            await _leavePageService.Update(leaveToBeEdited);
-            return NoContent();
-        }
-
-        //PATCH api/controller/{id}
-        [HttpPatch("{id}")]
-        public async Task<ActionResult> PartialLeaveUpdate(int id, JsonPatchDocument<EditMyLeaveDto> patchDoc)
-        {
-            
-            var leaveToBeEdited = await _leavePageService.GetMyLeaveDetails(id);
             if (leaveToBeEdited == null)
             {
                 return NotFound();
             }
 
-            var modelToPatch = _mapper.Map<EditMyLeaveDto>(leaveToBeEdited);
-            patchDoc.ApplyTo(modelToPatch, ModelState);
-            if (!TryValidateModel(modelToPatch))
-            {
-                return ValidationProblem(ModelState);
             }
 
-            _mapper.Map(modelToPatch, leaveToBeEdited);
             await _leavePageService.Update(leaveToBeEdited);
             return NoContent();
         }
+
+      
 
         [HttpGet("GetAllMyLeaves/{id}")]
         public async Task<ActionResult> GetAllMyLeaves(string id, DateTime? fromDate = null )
@@ -253,7 +228,6 @@ namespace Manage.WebApi.Controllers
 
      
         [HttpGet]
-     
         public async Task<ActionResult> GetAllLeaves(DateTime? fromdate = null)
         {
             List<AppUserViewModel> leaves = new List<AppUserViewModel>();
@@ -292,7 +266,6 @@ namespace Manage.WebApi.Controllers
                     }
                 }
                 flag = true;
-                //allLeaves.Where(x => x.FromDate >= fromdate);
             }
            
             if(flag)
@@ -302,6 +275,8 @@ namespace Manage.WebApi.Controllers
             return Ok(allLeaves);
 
         }
+
+
         //DELETE ap/controller/{id}
         [HttpDelete("{leaveId}")]
         public async Task<ActionResult> Delete(int leaveId)

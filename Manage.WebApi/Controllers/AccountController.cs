@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
@@ -31,7 +32,8 @@ namespace Manage.WebApi.Controllers
         public AccountController( ManageContext manageConetxt ,UserManager<ApplicationUser> userManager 
             ,SignInManager<ApplicationUser> signInManager
             ,RoleManager<ApplicationRole> roleManager
-            ,IConfiguration configuration , IAdministrationPageService administrationPageService) 
+            ,IConfiguration configuration , 
+            IAdministrationPageService administrationPageService) 
         {
             _manageConetxt = manageConetxt;
             _userManager = userManager;
@@ -115,7 +117,7 @@ namespace Manage.WebApi.Controllers
             var user = await _userManager.FindByIdAsync(userId);
      
             var role = await _userManager.GetRolesAsync(user);
-            var rName = "";
+            var rName = roleName;
         
             if (role.Contains(roleName))
             {
@@ -156,7 +158,11 @@ namespace Manage.WebApi.Controllers
                 }
                 else
                 {
-                    profilePicturePath = userPersonalData.PhotoPath;
+
+                    UpdateEmployeePersonalDetailsPhoto(userPersonalData);
+
+                    profilePicturePath = userPersonalData.ApiPhotoPath;
+
                 }
                 return new TokenResponseViewModel()
                 {
@@ -224,6 +230,31 @@ namespace Manage.WebApi.Controllers
             {
                 return new UnauthorizedResult();
             }
+        }
+
+        private void UpdateEmployeePersonalDetailsPhoto(EmployeePersonalDetails model)
+        {
+            if (model == null ||
+                   string.IsNullOrEmpty(model.ApiPhotoPath))
+            {
+                return;
+            }
+
+            var photoPath = Path.Combine(Directory.GetCurrentDirectory(), "Uploads/img",
+             model.ApiPhotoPath);
+            if (!System.IO.File.Exists(photoPath))
+            {
+                model.ApiPhotoPath = null;
+                return;
+            }
+
+            var photoBytes = System.IO.File.ReadAllBytes(photoPath);
+
+            var fileExtension = model.ApiPhotoPath.Split('.')[1];
+
+            model.ApiPhotoPath =
+                $"data:image/{fileExtension};base64,{Convert.ToBase64String(photoBytes)}";
+
         }
 
 

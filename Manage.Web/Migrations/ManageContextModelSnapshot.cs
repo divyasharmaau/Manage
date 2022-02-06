@@ -193,6 +193,9 @@ namespace Manage.Web.Migrations
                     b.Property<int>("AccountNumber")
                         .HasColumnType("int");
 
+                    b.Property<string>("ApiPhotoPath")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("BSB")
                         .HasColumnType("int");
 
@@ -293,7 +296,6 @@ namespace Manage.Web.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Duration")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FilePath")
@@ -309,11 +311,9 @@ namespace Manage.Web.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LeaveType")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Reason")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("TillDate")

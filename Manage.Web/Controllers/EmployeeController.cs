@@ -17,6 +17,7 @@ using X.PagedList;
 
 namespace Manage.Web.Controllers
 { 
+    [Authorize]
     public class EmployeeController : Controller
     {
         private readonly IEmployeePageService _employeePageService;

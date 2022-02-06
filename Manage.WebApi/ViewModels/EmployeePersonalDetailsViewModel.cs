@@ -36,6 +36,7 @@ namespace Manage.WebApi.ViewModels
         public string ZipCode { get; set; }
 
         //Personal Details
+        [Obsolete]
         public string PhotoPath { get; set; }
         public IFormFile Photo { get; set; }
 
@@ -70,7 +71,8 @@ namespace Manage.WebApi.ViewModels
         public string EmergencyContactZipCode { get; set; }
 
         // Navigation Property one to one relationship
-        public int EmployeeId { get; set; }
+        public int EmployeeId { get; set; }        
+        public string ApiPhotoPath { get; set; }
         public ApplicationUserViewModel ApplicationUser { get; set; }
 
     }

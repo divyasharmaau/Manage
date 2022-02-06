@@ -30,6 +30,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.OpenApi.Models;
+
 
 namespace Manage.WebApi
 {
@@ -78,7 +80,7 @@ namespace Manage.WebApi
             services.AddScoped<IUploadImageHelper, UploadImageHelper>();
             services.AddScoped<IFileUploadHelper, FileUploadHelper>();
 
-            services.AddControllersWithViews();
+
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy",
@@ -87,9 +89,11 @@ namespace Manage.WebApi
                     .AllowAnyHeader());
             });
 
+
+
             services.AddDbContextPool<ManageContext>(options => options
-                .UseSqlServer(Configuration.GetConnectionString("ManageConnection"),
-                x => x.MigrationsAssembly("Manage.WebApi")));
+               .UseSqlServer(Configuration.GetConnectionString("ManageConnection"),
+               x => x.MigrationsAssembly("Manage.WebApi")));
 
             services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
             {
@@ -102,11 +106,9 @@ namespace Manage.WebApi
                 options.SignIn.RequireConfirmedAccount = true;
 
             })
-
-          .AddRoles<ApplicationRole>()
-          .AddEntityFrameworkStores<ManageContext>()
-          .AddDefaultTokenProviders();
-
+            .AddRoles<ApplicationRole>()
+            .AddEntityFrameworkStores<ManageContext>()
+            .AddDefaultTokenProviders();
 
             // Add ASP.NET Identity support
 
@@ -142,18 +144,18 @@ namespace Manage.WebApi
             });
 
 
-            services.AddControllers()
+            services.AddControllersWithViews()
                 .AddNewtonsoftJson(options =>
                 {
                     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                     options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 }
-                   
-                    
-            ); 
+            );
 
-
-
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Manage API", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -161,31 +163,37 @@ namespace Manage.WebApi
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
             }
-
             app.UseDeveloperExceptionPage();
+
             app.UseHttpsRedirection();
 
             app.UseStaticFiles();
-            app.UseStaticFiles(new StaticFileOptions()
-            {
-                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Uploads")),
-                RequestPath = new PathString("/Uploads")
-            });
+
             app.UseCors("CorsPolicy");
 
             app.UseRouting();
 
-            app.UseAuthentication();
-
             app.UseAuthorization();
 
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.RoutePrefix = "";
+                c.SwaggerEndpoint("swagger/v1/swagger.json", "Manage API");
+                c.DocumentTitle = "Manage API - Swagger UI";
+            });
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapSwagger();
             });
+
+            
+
+
         }
     }
 }

@@ -3,6 +3,7 @@ using Manage.Core.Entities;
 using Manage.Infrastructure.Data;
 using Manage.Web.Interface;
 using Manage.Web.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -17,6 +18,7 @@ using X.PagedList;
 
 namespace Manage.Web.Controllers
 {
+    [Authorize]
     public class LeaveController : Controller
     {
         private readonly ILeavePageService _leavePageService;
@@ -308,16 +310,16 @@ namespace Manage.Web.Controllers
 
 
             ViewData["CurrentFilterSA"] = obj["searchAll"].ToString() != "" ? true : false;
-            //ViewData["CurrentFilterSA"] = tempValue;
+
 
             ViewData["CurrentFilterA"] = obj["searchAprroved"].ToString() != "" ? true : false;
-            //ViewData["CurrentFilterA"] = tempValueA;
+         
 
             ViewData["CurrentFilterSP"] = obj["searchPending"].ToString() != "" ? true : false;
-            //ViewData["CurrentFilterSP"] = tempValueSP;
+     
 
             ViewData["CurrentFilterSD"] = obj["searchDeclined"].ToString() != "" ? true : false;
-           // ViewData["CurrentFilterSD"] = tempValueSD;
+ 
 
             if (!String.IsNullOrEmpty(employeeName))
             {
@@ -488,19 +490,3 @@ namespace Manage.Web.Controllers
 
 
 
-
-//List<AppUserViewModel> list = new List<AppUserViewModel>();
-//foreach (var item in employeeLeaveList)
-//{
-//    AppUserViewModel model = new AppUserViewModel();
-//    model.BalanceAnnualLeave = item.Leave.BalanceAnnualLeave;
-//    model.BalanceSickLeave = item.Leave.BalanceSickLeave;
-//    list.Add(model);
-//}
-// this was to keep the searched string in the input box , while the results for that are being displayed
-//ViewData["CurrentFilter"] = obj["SearchString"].ToString();
-//ViewData["CurrentFilterE"] = obj["employeeName"].ToString();
-//ViewData["CurrentFilterFD"] = obj["searchFromDate"].ToString();
-//ViewData["CurrentFilterTD"] = obj["searchToDate"].ToString();
-//ViewData["CurrentFilterLT"] = obj["searchLeaveType"].ToString();
-//ViewData["CurrentFilerLS"] = obj["searchLeaveStatus"].ToString();

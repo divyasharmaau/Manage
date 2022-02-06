@@ -114,7 +114,8 @@
             <!--Left navbar links -->
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" data-widget="pushmenu" style="color: #946e9f" href="#" role="button"><i class="fas fa-bars"></i></a>
+                    <a class="nav-link" data-widget="pushmenu" style="color: #946e9f" 
+                       href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 @*<li class="nav-item d-none d-sm-inline-block">
                         <a href="../../index3.html" class="nav-link">Home</a>
@@ -158,7 +159,7 @@
                         <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right" id="collapseExample" style="min-width:6rem;">
                             <!-- Menu Body -->
                             <li class="user-body">
-                                <button class="btn btn-default btn-flat float-right" style="outline:none; background-color:white ">Sign out</button>
+                                <button class="btn btn-default btn-flat float-right">Sign Out</button>
                                 <!-- /.row -->
                             </li>
                         </ul>
@@ -173,7 +174,7 @@
         <!-- Brand Logo background-color: #1e4356" -->
         <div class="brandLogo">
 
-            <a href="/home/index.html" class="brand-link" style="border: none;">
+            <a asp-controller="Home" asp-action="Index" class="brand-link" style="border: none;">
                 <img src="../../dist/img/Logo.png"
                      alt="Manage Logo"
                      class="brand-image img-circle elevation-3"
@@ -194,13 +195,13 @@
                     <a href="#" class="d-block"> @user.FullName</a>
                 </div>
             </div>
-            @if (signInManager.IsSignedIn(User) && User.IsInRole("Administartor"))
+            @if (signInManager.IsSignedIn(User) && User.IsInRole("Administrator"))
             {
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <li class="nav-item has-treeview">
-                            <a class="nav-link" asp-action="index" asp-controller="Home">
+                            <a class="nav-link" asp-action="Index" asp-controller="Home">
                                 <i class="fas fa-home nav-icon"></i>
                                 <p> Home</p>
                             </a>
@@ -237,7 +238,7 @@
                             <a href="#" class="nav-link">
                                 <i class="far fa-address-card nav-icon"></i>
                                 <p>
-                                    Employee Info
+                                    Employee
                                     <i class="fas fa-angle-left right"></i>
                                 </p>
                             </a>
@@ -254,6 +255,12 @@
                                     <a class="nav-link" asp-controller="Employee"
                                        asp-action="CreateEmployee">
                                         <p>Add Employee</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Employee"
+                                       asp-action="EmployeeOfficialDetails" asp-route-id="@user.Id" >
+                                        <p>Employee Profile</p>
                                     </a>
                                 </li>
 
@@ -307,8 +314,7 @@
                             <a asp-action="EmployeeOfficialDetails" asp-route-id="@user.Id" asp-controller="Employee" class="nav-link">
                                 <i class="far fa-address-card nav-icon"></i>
                                 <p>
-                                    Employee Info
-                                    <i class="fas fa-angle-left right"></i>
+                                    Employee Profile
                                 </p>
                             </a>
                         </li>

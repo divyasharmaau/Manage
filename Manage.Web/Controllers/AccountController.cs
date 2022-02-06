@@ -162,63 +162,7 @@ namespace Manage.Web.Controllers
             return View(model);
         }
 
-        //    [HttpPost]
-        //    public async Task<IActionResult> LogIn(LogInViewModel model, string returnUrl)
-        //    {
-        //        if (ModelState.IsValid)
-        //        {
-        //            // This doesn't count login failures towards account lockout
-        //            // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-        //            var user = await _userManager.FindByEmailAsync(model.Email);
-        //            if (user == null)
-        //            {
-        //                ModelState.AddModelError(string.Empty, "Invalid login attempt!!");
-        //                return LogIn();
-        //            }
-
-        //            var claims = new List<Claim>();
-        //            claims.Add(new Claim(ClaimTypes.Name, user.Email));
-        //            claims.Add(new Claim(ClaimTypes.Role, "Registered User"));
-
-
-        //            var identity = new ClaimsIdentity(
-        //        claims, CookieAuthenticationDefaults.AuthenticationScheme);
-        //            //    var principal = new ClaimsPrincipal(identity);
-        //            //    var props = new AuthenticationProperties();
-        //            //    props.IsPersistent = model.RememberMe;
-        //            //    props.ExpiresUtc = DateTime.UtcNow.AddMinutes(20);
-
-        //            await HttpContext.SignInAsync(
-        //CookieAuthenticationDefaults.AuthenticationScheme,
-        //new ClaimsPrincipal(identity),
-        //new AuthenticationProperties
-        //{
-        //    IsPersistent = true,
-        //    ExpiresUtc = DateTime.UtcNow.AddMinutes(20)
-        //});
-
-        //            //int timeout = 525600; // Timeout in minutes,525600 = 365 days
-        //            //var ticket = new FormsAuthenticationTicket(userName, createPersistentCookie, timeout);
-        //            //string encrypted = FormsAuthentication.Encrypt(ticket)
-        //            //;
-        //            //var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encrypted);
-        //            //cookie.Expires = System.DateTime.Now.AddMinutes(timeout);//My Line
-        //            //HttpContext.Current.Response.Cookies.Add(cookie);
-
-        //            //HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-        //            //           principal, props).Wait();
-        //            var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberMe,
-        //                     lockoutOnFailure: true);
-        //            if(result.Succeeded)
-        //            {
-        //                return RedirectToAction("Index", "Home");
-        //            }
-        //          //if  password is incorrect
-        //          ModelState.AddModelError(string.Empty, "Invalid login attempt!!");
-        //           // return RedirectToAction("Index", "Home");
-        //        }
-        //        return View(model);
-        //    }
+    
 
 
 
