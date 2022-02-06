@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using Manage.Core.Entities;
 using Manage.Web.Interface;
 using Manage.Web.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
@@ -11,6 +13,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using X.PagedList;
 
 namespace Manage.Web.Controllers
 { 
@@ -23,11 +26,13 @@ namespace Manage.Web.Controllers
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly ILogger<EmployeeController> _logger;
         private readonly IUploadImageHelper _uploadImageHelper;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public EmployeeController(IEmployeePageService employeePageService , IDepartmentPageService departmentPageService  
             ,IEmployeePersonalDetailsPageService employeePersonalDetailsPageService
             , IMapper mapper , IWebHostEnvironment webHostEnvironment
-            ,ILogger<EmployeeController> logger ,IUploadImageHelper uploadImageHelper)
+            ,ILogger<EmployeeController> logger ,IUploadImageHelper uploadImageHelper
+            ,UserManager<ApplicationUser> userManager)
         {
             _employeePageService = employeePageService;
             _departmentPageService = departmentPageService;
@@ -36,6 +41,7 @@ namespace Manage.Web.Controllers
             _webHostEnvironment = webHostEnvironment;
             _logger = logger;
             _uploadImageHelper = uploadImageHelper;
+            _userManager = userManager;
         }
         public IActionResult Index()
         {
@@ -43,10 +49,14 @@ namespace Manage.Web.Controllers
         }
 
 
-        public async Task<IActionResult> EmployeeList()
+        public async Task<IActionResult> EmployeeList(string sortOrder, int? page, string searchByName, string currentFilter)
         {
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.SortByName = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
 
+           
             _logger.LogInformation($"Employee List Requested");
+
 
             try
             {
@@ -54,42 +64,58 @@ namespace Manage.Web.Controllers
                 List<EmployeeListViewModel> employeeList = new List<EmployeeListViewModel>();
                 foreach (var emp in empList)
                 {
-                    EmployeeListViewModel list = new EmployeeListViewModel();
-                    list.Id = emp.Id;
-                    list.FirstName = emp.FirstName;
-                    list.MiddleName = emp.MiddleName;
-                    list.LastName = emp.LastName;
-                    list.Department = emp.Department;
-                    list.JobTitle = emp.JobTitle;
-                    list.Status = emp.Status;
-                    list.Manager = emp.Manager;
-                    list.Email = emp.Email;
-                    list.EmployeePersonalDetails = emp.EmployeePersonalDetails;
+                    EmployeeListViewModel model = new EmployeeListViewModel();
+                    model.Id = emp.Id;
+                    model.FirstName = emp.FirstName;
+                    model.MiddleName = emp.MiddleName;
+                    model.LastName = emp.LastName;
+                    model.Department = emp.Department;
+                    model.JobTitle = emp.JobTitle;
+                    model.Status = emp.Status;
+                    model.Manager = emp.Manager;
+                    model.Email = emp.Email;
+                    model.EmployeePersonalDetails = emp.EmployeePersonalDetails;
 
-                    employeeList.Add(list);
+                    employeeList.Add(model);
                 }
-                return View(employeeList);
+
+                if (searchByName != null)
+                {
+
+                    employeeList = employeeList.Where(e => e.FullName.ToLower().Contains(searchByName.ToLower())).ToList();
+                }
+                else
+                {
+                    searchByName = currentFilter;
+                }
+                ViewBag.CurrentFilter = searchByName;
+
+                switch (sortOrder)
+                {
+                    case "name_desc":
+                        employeeList = employeeList.OrderByDescending(e => e.FirstName).ToList();
+                        break;
+                    default:
+                        employeeList = employeeList.OrderBy(e => e.FullName).ToList();
+                        break;
+                }
+
+                int pageSize = 5;
+                int pageNumber = (page ?? 1);
+                return View(employeeList.ToPagedList(pageNumber, pageSize));
+               
             }
             catch(Exception ex)
             {
                 _logger.LogError(ex.Message);
                 throw; 
             }
-            //var model = new EditEmployeeOfficialDetailsAdminViewModel
-            //{
-            //    Title = "Blah Blah",
-            //    Id = "a9067a75-b6ee-4c23-a3e2-f19648957347"
-            //};
 
-            //var mapped = _mapper.Map<ApplicationUserViewModel>(model);
-
-            //await _employeePageService.Update(mapped);
-
-            //return null;
+           
+      
         }
 
         [AcceptVerbs("Get", "Post")]
-        [AllowAnonymous]
         public async Task<IActionResult> IsEmailInUse(string email)
         {
             var userEmail = await _employeePageService.FindEmail(email);
@@ -103,6 +129,19 @@ namespace Manage.Web.Controllers
                 return Json($"Email '{email}' is already in use.");
             }
 
+        }
+        [AcceptVerbs("Get", "Post")]
+        public async Task<IActionResult>IsUserNameInUse(string username)
+        {
+            var employee = await _userManager.FindByNameAsync(username);
+            if(employee == null)
+            {
+                return Json(true);
+            }
+            else
+            {
+                return Json($"UserName'{username}' is already in use");
+            }
         }
 
 
@@ -131,45 +170,57 @@ namespace Manage.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateEmployee(CreateEmployeeViewModel model)
         {
-            if(ModelState.IsValid)
+
+            //CreateEmployeeViewModel model = new CreateEmployeeViewModel();
+            if (ModelState.IsValid)
             {
                 ApplicationUserViewModel user = new ApplicationUserViewModel();
                 user.Id = Guid.NewGuid().ToString();
 
-                if (user.Status == "Full-Time")
-                {
-                    user.DaysWorkedInWeek = 5;
-                    user.NumberOfHoursWorkedPerDay = 7.6;
-                }
-                else
-                {
-                    user.DaysWorkedInWeek = model.DaysWorkedInWeek;
-                    user.NumberOfHoursWorkedPerDay = model.NumberOfHoursWorkedPerDay;
-                }
-                
                 user.Title = model.Title;
                 user.FirstName = model.FirstName;
                 user.MiddleName = model.MiddleName;
                 user.LastName = model.LastName;
                 user.Email = model.Email;
                 user.UserName = model.UserName;
-                user.Password = model.Password;
-                user.ConfirmPassword = model.ConfirmPassword;
+                //user.Password = model.Password;
+                //user.ConfirmPassword = model.ConfirmPassword;
                 user.JoiningDate = model.JoiningDate;
                 user.JobTitle = model.JobTitle;
                 user.Status = model.Status;
                 user.DepartmentId = model.DepartmentId;
                 user.Manager = model.Manager;
+                user.DaysWorkedInWeek = model.DaysWorkedInWeek;
+                user.NumberOfHoursWorkedPerDay = model.NumberOfHoursWorkedPerDay;
 
-                var result = await _employeePageService.CreateEmployee(user);
+                var result = await _employeePageService.CreateEmployee(user, model.Password);
                 if (result.Succeeded)
                 {
                    return RedirectToAction("EmployeeList", "Employee");
                 }
+                
                 foreach (var errors in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, errors.Description);
                 }
+            }
+            else
+            {
+                var dList = await _departmentPageService.GetDepartmentList();
+
+                var deptList = dList.Select(dept => new SelectListItem()
+                {
+                    Text = dept.Name,
+                    Value = dept.Id.ToString()
+                }).ToList();
+
+                deptList.Insert(0, new SelectListItem()
+                {
+                    Text = "----Select----",
+                    Value = string.Empty
+                });
+
+                model.departmentList = deptList;
             }
             return View(model);
         }
@@ -264,6 +315,7 @@ namespace Manage.Web.Controllers
             var user = await _employeePageService.GetEmployeeById(id);
             CreateEmployeePersonalDetailsViewModel model = new CreateEmployeePersonalDetailsViewModel();
             model.FullName = user.FullName;
+            model.ApplicationUser = user;
             return View(model);
         }
       
@@ -326,9 +378,10 @@ namespace Manage.Web.Controllers
             {
                 //mapping
                 var empDetails = _mapper.Map<EmployeePersonalDetailsViewModel>(model);
+                //empDetails.PhotoPath = model.ExistingPhotoPath;
                 //upload image
                 //var uniqueFileName = "";
-                if (model.ExistingPhotoPath == null || empDetails.PhotoPath != model.ExistingPhotoPath)
+                if (model.ExistingPhotoPath == null  || model.Photo !=null)
                 {
                     PhotoUploadViewModel photoUploadViewModel = new PhotoUploadViewModel();
                     photoUploadViewModel.Photo = model.Photo;

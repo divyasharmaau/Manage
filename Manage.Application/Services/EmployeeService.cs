@@ -26,10 +26,10 @@ namespace Manage.Application.Services
             _manageContext = manageContext;
         }
 
-        public async Task<IdentityResult> Create(ApplicationUserModel user)
+        public async Task<IdentityResult> Create(ApplicationUserModel user, string password)
         {
                 var emp =   _mapper.Map<ApplicationUser>(user);
-                var employee =   await _employeeRepository.Create(emp);
+                var employee =   await _employeeRepository.Create(emp, password);
                 return employee;
             
         }
@@ -64,6 +64,8 @@ namespace Manage.Application.Services
         {
             //var emp = _mapper.Map<ApplicationUser>(user);
             var emp = await _manageContext.Users.SingleOrDefaultAsync(x => x.Id == user.Id);
+
+            // _mapper.Map<ApplicationUser>(user);
             _mapper.Map(user, emp);
             await _employeeRepository.Update(emp);
 

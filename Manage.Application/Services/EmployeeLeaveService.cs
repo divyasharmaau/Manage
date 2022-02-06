@@ -111,6 +111,8 @@ namespace Manage.Application.Services
                     double numberOfLeaveDays = 0;
                     DateTime end = emp.Leave.TillDate;
                     DateTime start = emp.Leave.FromDate;
+                    model.BalanceAnnualLeave = emp.Leave.BalanceAnnualLeave;
+                    model.BalanceSickLeave = emp.Leave.BalanceSickLeave;
 
 
                     if (emp.Leave.Duration == "First Half Day" || emp.Leave.Duration == "Second Half Day")
@@ -125,8 +127,6 @@ namespace Manage.Application.Services
                     model.NumberOfLeaveDays = numberOfLeaveDays;
                     modelList.Add(model);
                 }
-
-               
             }
             return modelList;
         }

@@ -47,21 +47,37 @@ namespace Manage.Infrastructure.Repository
             var leaveCount = employee.EmployeeLeaves
                 .Where(x => x.Leave.LeaveType == "Annual Leave" && x.Leave.LeaveStatus =="Approved").ToList();
             double sum = 0;
-            double numberOfHoursOfLeave = 0;
+       
 
             foreach (var item in leaveCount)
             {
                 DateTime end = item.Leave.TillDate;
                 DateTime start = item.Leave.FromDate;
 
+                double numberOfHoursOfLeave = 0;
 
-                if (item.Leave.Duration == "First Half Day" || item.Leave.Duration == "Second Half Day")
+                if (item.Employee.Status == "Full-Time" || item.Employee.Status == "Fixed-Term")
                 {
-                    numberOfHoursOfLeave = (end.Subtract(start).Days + 0.5) * 7.6;
+                   
+                    if (item.Leave.Duration == "First Half Day" || item.Leave.Duration == "Second Half Day")
+                    {
+                        numberOfHoursOfLeave = (end.Subtract(start).Days + 0.5) * 7.6;
+                    }
+                    else
+                    {
+                        numberOfHoursOfLeave = ((end - start).Days + 1) * 7.6;
+                    }
                 }
-                else
+                else if(item.Employee.Status == "Part-Time" || item.Employee.Status == "Contract")
                 {
-                    numberOfHoursOfLeave = ((end - start).Days + 1) * 7.6;
+                    if (item.Leave.Duration == "First Half Day" || item.Leave.Duration == "Second Half Day")
+                    {
+                        numberOfHoursOfLeave = (end.Subtract(start).Days + 0.5) * item.Employee.NumberOfHoursWorkedPerDay;
+                    }
+                    else
+                    {
+                        numberOfHoursOfLeave = ((end - start).Days + 1) * item.Employee.NumberOfHoursWorkedPerDay;
+                    }
                 }
 
                 sum += numberOfHoursOfLeave;
@@ -106,8 +122,8 @@ namespace Manage.Infrastructure.Repository
 
         public async Task<double> TotalSickLeaveTaken(string id)
         {
-            double sum = 0;
 
+            double sum = 0;
             var user = await _manageContext.Users
                 .Include(e => e.EmployeeLeaves)
                 .ThenInclude(l => l.Leave)
@@ -120,9 +136,10 @@ namespace Manage.Infrastructure.Repository
             {
                 DateTime end = item.Leave.TillDate;
                 DateTime start = item.Leave.FromDate;
+                
                 double numberOfHoursofLeave = 0;
 
-                if (item.Employee.Status == "Permanent" || item.Employee.Status == "Fixed-Term")
+                if (item.Employee.Status == "Full-Time" || item.Employee.Status == "Fixed-Term")
                 {
                     if (item.Leave.Duration == "First Half Day" || item.Leave.Duration == "Second Half Day")
                     {
@@ -189,6 +206,7 @@ namespace Manage.Infrastructure.Repository
         {
             var employee = await _manageContext.Users
                 .Include(e => e.EmployeeLeaves)
+
                 .ThenInclude(l => l.Leave)
                 .Where(x => x.Id == id)
                 .FirstOrDefaultAsync();

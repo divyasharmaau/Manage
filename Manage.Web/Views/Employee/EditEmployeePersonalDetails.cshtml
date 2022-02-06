@@ -18,19 +18,15 @@
     }
 }
 
-<section class="content">
-    <div class="container-fluid">
-
-        <div class="card card-default">
-            <div class="card-header">
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-lg p-3 mb-5">
+            <div class="card-header border-0">
                 <h3 class="card-title">Edit Employee Personal Details</h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-
                 <form enctype="multipart/form-data" asp-controller="Employee" asp-action="EditEmployeePersonalDetails" method="post">
-
-
                     <div>
                         <input asp-for="Id" type="hidden" />
                         <input hidden asp-for="@Model.ExistingPhotoPath" />
@@ -39,7 +35,7 @@
 
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label asp-for="FullName" class="col-auto col-form-label small form-text">Employee Name</label>
+                            <label asp-for="FullName" class="col-auto col-form-label text-sm">Employee Name</label>
 
                             <div class="col">
                                 <p asp-for="FullName" class="form-control" type="text">@Model.FullName</p>
@@ -51,11 +47,13 @@
                     @* To upload a new photo *@
                     <div class="form-row mt-3">
                         <div class="form-group col-md-6">
-                            <label asp-for="Photo" class="col-auto col-form-label small form-text">Photograph</label>
+                            <label asp-for="Photo" class="col-auto col-form-label text-sm">Photograph</label>
                             <div class="form-group col-md-12">
                                 <div class="col custom-file">
                                     <input asp-for="Photo" id="photo" class="form-control custom-file-input" />
                                     <label class="custom-file-label">Click here to upload or choose a different photo...</label>
+                                    <span asp-validation-for="Photo" class="text-danger small"></span>
+
                                 </div>
                             </div>
                         </div>
@@ -86,26 +84,26 @@
 
                     <div class="form row">
                         <div class="form-group col-md-6">
-                            <label asp-for="DateOfBirth" class="col-auto col-form-label small form-text">Date Of Birth</label>
+                            <label asp-for="DateOfBirth" class="col-auto col-form-label text-sm">Date Of Birth</label>
                             <div class="col">
                                 <input asp-for="DateOfBirth" class="form-control ui-datepicker" type="date" 
                                        placeholder="Date of Birth" value="@Model.DateOfBirth.ToString("yyyy-MM-dd")" />
-                                <span asp-validation-for="DateOfBirth"></span>
+                                <span asp-validation-for="DateOfBirth" class="text-danger small"></span>
                             </div>
                         </div>
 
                         <div class="form-group col-md-6">
-                            <label asp-for="Nationality" class="col-auto col-form-label small form-text"></label>
+                            <label asp-for="Nationality" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <input asp-for="Nationality" class="form-control" placeholder="Nationality" />
-                                <span asp-validation-for="Nationality"></span>
+                                <span asp-validation-for="Nationality" class="text-danger small"></span>
                             </div>
                         </div>
                     </div>
 
                     <div class="form row">
                         <div class="form-group col-md-6">
-                            <label asp-for="MaritalStatus" class="col-auto col-form-label small form-text"></label>
+                            <label asp-for="MaritalStatus" class="col-auto col-form-label text-sm"></label>
 
                             <div class="col">
                                 <select asp-for="MaritalStatus" class="form-control select2bs4" style="width: 100%;">
@@ -114,12 +112,12 @@
                                     <option value="UnMarried">UnMarried</option>
                                     <option value="RatherNotSay">Rather Not say</option>
                                 </select>
-                                <span asp-validation-for="MaritalStatus"></span>
+                                <span asp-validation-for="MaritalStatus" class="text-danger small"></span>
                             </div>
                         </div>
 
                         <div class="form-group col-md-6">
-                            <label asp-for="Gender" class="col-auto col-form-label small form-text"></label>
+                            <label asp-for="Gender" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <select asp-for="Gender" class="form-control select2bs4" style="width: 100%;">
                                     <option value="">---Select---</option>
@@ -128,7 +126,7 @@
                                     <option value="Others">Others</option>
                                     <option value="RatherNotSay">Rather Not say</option>
                                 </select>
-                                <span asp-validation-for="Gender"></span>
+                                <span asp-validation-for="Gender" class="text-danger small"></span>
                             </div>
                         </div>
 
@@ -139,31 +137,31 @@
                         <div class="col">
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label asp-for="HouseNumber" class="col-auto col-form-label small form-text"></label>
+                                    <label asp-for="HouseNumber" class="col-auto col-form-label text-sm"></label>
                                     <div class="col">
                                         <input asp-for="HouseNumber" class="form-control" placeholder="House/Unit Number" />
-                                        <span asp-validation-for="HouseNumber"></span>
+                                        <span asp-validation-for="HouseNumber" class="text-danger small"></span>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label asp-for="Street" class="col-auto col-form-label small form-text"></label>
+                                    <label asp-for="Street" class="col-auto col-form-label text-sm"></label>
                                     <div class="col">
                                         <input asp-for="Street" class="form-control" placeholder="Street Number" />
-
+                                        <span asp-validation-for="Street" class="text-danger small"></span>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label asp-for="City" class="col-auto col-form-label small form-text"></label>
+                                    <label asp-for="City" class="col-auto col-form-label text-sm"></label>
                                     <div class="col">
                                         <input asp-for="City" class="form-control" placeholder="City" />
-                                        <span asp-validation-for="City"> </span>
+                                        <span asp-validation-for="City" class="text-danger small"> </span>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label asp-for="State" class="col-auto col-form-label small form-text"></label>
+                                    <label asp-for="State" class="col-auto col-form-label text-sm"></label>
                                     <div class="col">
                                         <select asp-for="State" class="form-control select2bs4" style="width: 100%;">
                                             <option selected>Choose State</option>
@@ -174,25 +172,25 @@
                                             <option>Western Australia</option>
                                             <option>South Australia</option>
                                         </select>
-                                        <span asp-validation-for="State"></span>
-                                    </div>
+                                        <span asp-validation-for="State" class="text-danger small"></span>
+                                    </div> 
                                 </div>
 
                             </div>
 
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label asp-for="Country" class="col-auto col-form-label small form-text"></label>
+                                    <label asp-for="Country" class="col-auto col-form-label text-sm"></label>
                                     <div class="col">
                                         <input asp-for="Country" class="form-control" placeholder="Country" />
-                                        <span asp-validation-for="Country"></span>
+                                        <span asp-validation-for="Country" class="text-danger small"></span>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label asp-for="ZipCode" class="col-auto col-form-label small form-text"></label>
+                                    <label asp-for="ZipCode" class="col-auto col-form-label text-sm"></label>
                                     <div class="col">
                                         <input asp-for="ZipCode" class="form-control" placeholder="Zip Code" />
-                                        <span asp-validation-for="ZipCode"></span>
+                                        <span asp-validation-for="ZipCode" class="text-danger small"></span>
                                     </div>
                                 </div>
                             </div>
@@ -202,42 +200,42 @@
                     <p>Banking Details</p>
                     <div class="form-row mt-3">
                         <div class="form-group col-md-6">
-                            <label asp-for="BankName" class="col-auto col-form-label small form-text"></label>
+                            <label asp-for="BankName" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
-
                                 <input asp-for="BankName" class="form-control" placeholder="BankName" />
-                                <span asp-validation-for="BankName"></span>
+                                <span asp-validation-for="BankName" class="text-danger small"></span>
                             </div>
                         </div>
 
                         <div class="form-group col-md-6">
-                            <label asp-for="Branch" class="col-auto col-form-label small form-text"></label>
+                            <label asp-for="Branch" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <input asp-for="Branch" class="form-control" placeholder="Branch" />
+                                <span asp-validation-for="Branch" class="text-danger small"></span>
                             </div>
                         </div>
 
 
                         <div class="form-group col-md-12">
-                            <label asp-for="AccountName" class="col-auto col-form-label small form-text"></label>
+                            <label asp-for="AccountName" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <input asp-for="AccountName" class="form-control" placeholder="Account Name" />
-                                <span asp-validation-for="AccountName"></span>
+                                <span asp-validation-for="AccountName" class="text-danger small"></span>
                             </div>
                         </div>
 
                         <div class="form-group col-md-6">
-                            <label asp-for="BSB" class="col-auto col-form-label small form-text"></label>
+                            <label asp-for="BSB" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <input asp-for="BSB" class="form-control" placeholder="BSB" />
-                                <span asp-validation-for="BSB"></span>
+                                <span asp-validation-for="BSB" class="text-danger small"></span>
                             </div>
                         </div>
                         <div class="form-group col-md-6">
-                            <label asp-for="AccountNumber" class="col-auto col-form-label small form-text"></label>
+                            <label asp-for="AccountNumber" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <input asp-for="AccountNumber" class="form-control" placeholder="AccountNumber" />
-                                <span asp-validation-for="AccountNumber"></span>
+                                <span asp-validation-for="AccountNumber" class="text-danger small"></span>
                             </div>
                         </div>
 
@@ -247,56 +245,56 @@
                     <div class="form-group mt-3">
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label asp-for="EmergencyContact" class="col-auto col-form-label small form-text"></label>
+                                <label asp-for="EmergencyContact" class="col-auto col-form-label text-sm"></label>
                                 <div class="col">
                                     <input asp-for="EmergencyContact" class="form-control" placeholder="EmergencyContact" />
-                                    <span asp-validation-for="EmergencyContact"></span>
+                                    <span asp-validation-for="EmergencyContact" class="text-danger small"></span>
                                 </div>
                             </div>
                             <div class="form-group col-md-6">
-                                <label asp-for="Relationship" class="col-auto col-form-label small form-text"></label>
+                                <label asp-for="Relationship" class="col-auto col-form-label text-sm"></label>
                                 <div class="col">
                                     <input asp-for="Relationship" class="form-control" placeholder="Relationship" />
-                                    <span asp-validation-for="Relationship"></span>
+                                    <span asp-validation-for="Relationship" class="text-danger small"></span>
                                 </div>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label asp-for="EmergencyContactPhoneNumber" class="col-auto col-form-label small form-text"></label>
+                                <label asp-for="EmergencyContactPhoneNumber" class="col-auto col-form-label text-sm"></label>
                                 <div class="col">
                                     <input asp-for="EmergencyContactPhoneNumber" class="form-control" placeholder="EmergencyContactPhoneNumber" />
-                                    <span asp-validation-for="EmergencyContactPhoneNumber"></span>
+                                    <span asp-validation-for="EmergencyContactPhoneNumber" class="text-danger small"></span>
                                 </div>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label asp-for="EmergencyContactHouseNumber" class="col-auto col-form-label small form-text"></label>
+                                <label asp-for="EmergencyContactHouseNumber" class="col-auto col-form-label text-sm"></label>
                                 <div class="col">
                                     <input asp-for="EmergencyContactHouseNumber" class="form-control" placeholder="EmergencyContactHouseNumber" />
-                                    <span asp-validation-for="EmergencyContactHouseNumber"></span>
+                                    <span asp-validation-for="EmergencyContactHouseNumber" class="text-danger small"></span>
                                 </div>
                             </div>
                             <div class="form-group col-md-6">
-                                <label asp-for="EmergencyContactStreet" class="col-auto col-form-label small form-text"></label>
+                                <label asp-for="EmergencyContactStreet" class="col-auto col-form-label text-sm"></label>
                                 <div class="col">
                                     <input asp-for="EmergencyContactStreet" class="form-control" placeholder="EmergencyContactStreet" />
-                                    <span asp-validation-for="EmergencyContactStreet"></span>
+                                    <span asp-validation-for="EmergencyContactStreet" class="text-danger small"></span>
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label asp-for="EmergencyContactCity" class="col-auto col-form-label small form-text"></label>
+                                <label asp-for="EmergencyContactCity" class="col-auto col-form-label text-sm"></label>
                                 <div class="col">
                                     <input asp-for="EmergencyContactCity" class="form-control" placeholder="ZipCode" />
-                                    <span asp-validation-for="EmergencyContactCity"> </span>
+                                    <span asp-validation-for="EmergencyContactCity" class="text-danger small"> </span>
                                 </div>
                             </div>
                             <div class="form-group col-md-6">
-                                <label asp-for="EmergencyContactState" class="col-auto col-form-label small form-text"></label>
+                                <label asp-for="EmergencyContactState" class="col-auto col-form-label text-sm"></label>
                                 <div class="col">
                                     <select asp-for="EmergencyContactState" class="form-control select2bs4" style="width: 100%;">
                                         <option selected>Choose State</option>
@@ -307,24 +305,24 @@
                                         <option>Western Australia</option>
                                         <option>South Australia</option>
                                     </select>
-                                    <span asp-validation-for="State"></span>
+                                    <span asp-validation-for="State" class="text-danger small"></span>
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label asp-for="EmergencyContactCountry" class="col-auto col-form-label small form-text"></label>
+                                <label asp-for="EmergencyContactCountry" class="col-auto col-form-label text-sm"></label>
                                 <div class="col">
                                     <input asp-for="EmergencyContactCountry" class="form-control" placeholder="EmergencyContactCountry" />
-                                    <span asp-validation-for=" EmergencyContactCountry"></span>
+                                    <span asp-validation-for=" EmergencyContactCountry" class="text-danger small"></span>
                                 </div>
                             </div>
                             <div class="form-group col-md-6">
-                                <label asp-for="EmergencyContactZipCode" class="col-auto col-form-label small form-text"></label>
+                                <label asp-for="EmergencyContactZipCode" class="col-auto col-form-label text-sm"></label>
                                 <div class="col">
                                     <input asp-for="EmergencyContactZipCode" class="form-control" placeholder="EmergencyContactZipCode" />
-                                    <span asp-validation-for="EmergencyContactZipCode"></span>
+                                    <span asp-validation-for="EmergencyContactZipCode" class="text-danger small"></span>
                                 </div>
                             </div>
                         </div>
@@ -335,10 +333,10 @@
                             <button type="submit" class="btn btn-outline-info m-5 ">Save</button>
                         </div>
                         <div class="col-md-4">
-                            <a asp-action="EmployeePersonalDetail" asp-controller="Employee" class="btn btn-outline-secondary m-5" asp-route-id="@Model.Id">Cancel</a>
+                            <a asp-action="EmployeePersonalDetails" asp-controller="Employee" class="btn btn-outline-secondary m-5" asp-route-id="@Model.Id">Cancel</a>
                         </div>
                         <div class="col-md-4">
-                            <a asp-action="EmployeeOfficialDetails" asp-controller="Employee" asp-route-id="@Model.Id" class="btn btn-outline-success m-5">Back</a>
+                            <a asp-action="EmployeePersonalDetails" asp-controller="Employee" asp-route-id="@Model.Id" class="btn btn-outline-info m-5">Back</a>
                         </div>
                     </div>
                 </form>
@@ -349,7 +347,7 @@
         </div>
         <!-- /.card -->
     </div>
-</section>
+</div>
 
 @section Scripts {
 

@@ -11,7 +11,7 @@ namespace Manage.WebApi.ViewModels
 {
    public class ApplicationUserViewModel
     {
-        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+
         public string Id { get; set; }
         public string Title { get; set; }
         [DisplayName("First Name")]
@@ -31,7 +31,6 @@ namespace Manage.WebApi.ViewModels
         }
 
         [DisplayName("Job Title")]
-
         public string JobTitle { get; set; }
         public string Status { get; set; }
 
@@ -47,7 +46,6 @@ namespace Manage.WebApi.ViewModels
 
         public string Password { get; set; }
         public string ConfirmPassword { get; set; }
-
 
         public string Email { get; set; }
         public string UserName { get; set; }

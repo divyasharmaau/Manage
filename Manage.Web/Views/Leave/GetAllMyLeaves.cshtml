@@ -20,13 +20,13 @@
     bool flag = false;
 }
 
-<section class="content">
-    <div class="container-fluid">
-        <div class="card card-default">
-            <div class="card-header">
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-lg p-3 mb-5">
+            <div class="card-header border-0">
                 <h3 class="card-title">Search</h3>
             </div>
-            <!-- /.card-header -->
+            <!--card-header -->
             <div class="card-body">
                 <form method="get" class="mt-5" asp-controller="Leave" asp-action="GetAllMyLeaves">
                     <div class="form-row">
@@ -51,59 +51,61 @@
                                     <option value="">--Select--</option>
                                     <option value="Annual Leave">Annual Leave</option>
                                     <option value="Sick Leave">Sick Leave</option>
-                                    <option value="Maternity Leave">Maternity Leave</option>
-                                    <option value="Parental Leave">Parental Leave</option>
                                 </select>
                             </div>
                         </div>
 
                     </div>
-                    <div class="form-group row mt-3">
-                        <div class="form row col-md-3">
-                            <div class="col-md-2">
+
+                    <h6 class="mt-3 font-weight-bold">Filters</h6>
+                    <div class="leaveCheckBox row mt-3">
+                        <div class="col-sm-2">
+                            <div class="form-check form-check-inline">
                                 @if (ViewData["CurrentFilterSearchAll"] != null)
                                 {
                                     flag = (bool)ViewData["CurrentFilterSearchAll"];
                                 }
-                                <input id="searchAll" name="searchAll" value="true" type="checkbox" checked="@flag" />
+                                <input class="form-check-input" type="checkbox" name="searchAll" value="true" id="searchAll" checked="@flag">
+                                <label class="form-check-label" for="searchAll">All</label>
+
                             </div>
-                            <label>All</label>
                         </div>
 
-                        <div class="form row col-md-3">
-                            <div class="col-md-2">
-                                @if (ViewData["CurrentFilterApproved"] != null)
+                        <div class="col-sm-2">
+                            <div class="form-check form-check-inline">
+                                @if (ViewData["CurrentFilterA"] != null)
                                 {
-                                    flag = (bool)ViewData["CurrentFilterApproved"];
+                                    flag = (bool)ViewData["CurrentFilterA"];
                                 }
-                                <input id="searchApproved" name="searchAprroved" value="true" type="checkbox" checked="@flag"/>
+                                <input id="searchApproved" name="searchApproved" class="form-check-input" value="true" type="checkbox" checked="@flag" />
+                                <label class="form-check-label" for="searchApproved">Approved</label>
                             </div>
-                            <label>Approved</label>
                         </div>
-                        <div class="form row col-md-3">
-                            <div class="col-md-2">
+
+                        <div class="col-sm-2">
+                            <div class="form-check form-check-inline">
                                 @if (ViewData["CurrentFilterSP"] != null)
                                 {
                                     flag = (bool)ViewData["CurrentFilterSearchPending"];
                                 }
-
-                                <input id="searchPending" name="searchPending" value="true" type="checkbox" checked="@flag" />
+                                <input id="searchPending" name="searchPending" class="form-check-input" value="true" type="checkbox" checked="@flag" />
+                                <label class="form-check-label" for="searchPending">Pending</label>
                             </div>
-                            <label>Pending</label>
                         </div>
 
-                        <div class="form row col-md-3">
-                            <div class="col-md-2">
+                        <div class="col-sm-2">
+                            <div class="form-check form-check-inline">
                                 @if (ViewData["CurrentFilterSearchDeclined"] != null)
                                 {
                                     flag = (bool)ViewData["CurrentFilterSearchDeclined"];
                                 }
-                                <input type="checkbox" name="searchDeclined" id="searchDeclined" checked="@flag" />
+                                <input id="searchDeclined" name="searchDeclined" class="form-check-input" value="true" type="checkbox" checked="@flag" />
+                                <label class="form-check-label" for="searchDeclined">Declined</label>
                             </div>
-                            <label>Declined</label>
                         </div>
                     </div>
-                    <div class="form-group row">
+
+                    <div class="form-group row mt-5">
                         <div class="col-sm-10">
                             <button type="submit" name="search" value="search" class="btn btn-outline-success">Search</button>
                             <button type="reset" class="btn btn-outline-primary">Reset</button>
@@ -113,21 +115,21 @@
             </div>
         </div>
     </div>
-</section>
+</div>
 
 
-<section class="content">
-    <div class="container-fluid">
+<div class="row">
+    <div class="col-12">
 
-        <div class="card card-default">
-            <div class="card-header">
+        <div class="card shadow-lg p-3 mb-5">
+            <div class="card-header border-0">
                 <h3 class="card-title">My Leave List</h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
                 <div class="row data-table">
-                    <div class="card-table table-responsive-lg  ">
-                        <table class="table fitwidth table-hover   table-responsive-lg " style="display:table">
+                    <div class="card-table table-responsive-lg col-12">
+                        <table class="table fitwidth table-hover  table-responsive-lg" style="display:table">
                             <thead>
                                 <tr>
                                     <th>Employee</th>
@@ -167,7 +169,9 @@
 
                                         <td>@numberOfDaysofLeave</td>
                                         <td>@employee.Reason</td>
+                                     
                                         <td>@employee.LeaveStatus</td>
+                                     
                                         <td><a asp-action="MyLeaveDetails" asp-controller="Leave" asp-route-leaveId="@employee.LeaveId">Leave Details</a> </td>
                                         <td><a asp-action="EditMyLeave" class="btn btn-outline-info" asp-controller="Leave" asp-route-leaveid="@employee.LeaveId"><i class="fas fa-edit"></i></a></td>
                                        
@@ -218,6 +222,6 @@
             </div>
         </div>
     </div>
-</section>
+</div>
 
 

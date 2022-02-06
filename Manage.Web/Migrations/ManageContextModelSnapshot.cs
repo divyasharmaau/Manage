@@ -58,9 +58,6 @@ namespace Manage.Web.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ConfirmPassword")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("DaysWorkedInWeek")
                         .HasColumnType("int");
 
@@ -111,9 +108,6 @@ namespace Manage.Web.Migrations
 
                     b.Property<double>("NumberOfHoursWorkedPerDay")
                         .HasColumnType("float");
-
-                    b.Property<string>("Password")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");

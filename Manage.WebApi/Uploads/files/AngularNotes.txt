@@ -1,0 +1,87 @@
+
+Modules: grouping of application pieces, grouping of components, services and various other angular app pieces.
+In Angular, a module is a mechanism to group components, directives, pipes and services that are related, 
+in such a way that can be combined with other modules to create an application. 
+An Angular application can be thought of as a puzzle where each piece (or each module) is needed to be able
+ to see the full picture.
+ export class AppModule{}
+ @NgModule : is a decorater contains all the information needed to group the apllication together. 
+ declaration: list all teh componenets of the apllication
+ imports : modules : browser Module is default
+ providers : [] : servuces
+ bootsrrap : lists which is teh main root componenet . usually app componenet is the main
+ 
+ Service : A place to keep application state and logic
+ 
+ angular provides differentr containters in orfder to store state and logic
+ 
+ 1.CONTAINER
+ * display logic
+* display state
+belongs to single view
+2.SERVICS 
+* application state and logic
+if theoretically  belong to multiple views
+
+A services usually consisits of @Injectable and export class FlopServiec
+@Injectable : decorator : is dealinmg with DI. This allows angular to know where services can be used.
+it has one key called providedIn with string value root
+class  : will have data and functionality (method). coomon ones talk to server
+make http calls to server to retrieve data
+servives are simple building blocks 
+
+HOW TO INJECT SERVICES : 
+1. in AppComponent  add constructor(public flopservice :FlopServiec)  
+ import statement automatically comes at the top for the FlopServiec
+ eg onClick(){
+ this.flopservice.acessvaroiusmethods/functionality
+ 
+ this allows the application to be broken into various pieces 
+ 
+ SERVICES
+ There are a lot of flags that can be used when creating services, but the --skipTests flag is probably the most common. 
+ It's also good to memorize the shorthand ng g s SERVICE_NAME for generating services with minimal keystrokes.
+ 
+ COMPONENTS
+ import
+ @componenet : decorater
+   * selectorset to app-vote 
+   *tempelate : points to html files 
+   * styleURls : apply to the components
+ Export class VoteComponent
+ ngOnInIt() is initialized in teh constructor . So if we want anything to be displayed on the page 
+ when it first loads then we pot in constructor in onInIt(). 
+In app.module.ts
+we have import of vote and cart componenets
+we have @NgModule declaration :[AppComponent 
+								VoteComponent,
+								Cart Component]  
+Components onve created are added to the declarations of the app.component.module 
+So now the angular knows that these components exist and when it encounters in html it know how to load, initialize and render them.
+
+QUESTION WHAT IS THE FLAG FOR NOT INSTALLING THE NODE MODULES IN NEW APP 
+ANSWER : --skipInstall
+								
+   we learn some of the flags we can use when creating components. Some good ones to know are:
+   
+--inlineStyle
+--inlineTemplate
+--skipTests
+
+CHILD COMPONENET
+in html page 
+* h1
+* div
+So , componenets are used to break dowwn the application into more managable pieces
+
+PATRENT TO CHILD COMMUNICATION
+'movie' is in the child component which takes care of the styling and the data is in the app.componenet.ts
+    we use @Input() movie in the child component(movie-tile) which is that it takes the data from the parent component
+    in the parent component html(app) we in the child component selector attribute we use the movie keyword in square bracket
+     and it gets assigned the instance of the data which is to be sent.
+    in the parent temeplate we tell the data which is to be sent to the child. This is done by binding syntax(property binding
+    to child component). 
+    2 step process
+    * child is prepaerd to recieve the data using @Input decorator and a property(movie).
+    The property is then used in the html temeplate of child component to bind to the properties to display data
+    * parent to send the data to the child we bind to that property

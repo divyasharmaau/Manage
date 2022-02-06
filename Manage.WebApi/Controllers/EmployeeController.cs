@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Manage.Core.Entities;
+using Manage.Core.Repository;
 using Manage.WebApi.Dto;
 using Manage.WebApi.Interface;
 using Manage.WebApi.ViewModels;
@@ -29,11 +31,13 @@ namespace Manage.WebApi.Controllers
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly ILogger<EmployeeController> _logger;
         private readonly IUploadImageHelper _uploadImageHelper;
+        private readonly IEmployeeRepository _employeeRepository;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public EmployeeController(IEmployeePageService employeePageService, IDepartmentPageService departmentPageService
             , IEmployeePersonalDetailsPageService employeePersonalDetailsPageService
             , IMapper mapper, IWebHostEnvironment webHostEnvironment
-            , ILogger<EmployeeController> logger, IUploadImageHelper uploadImageHelper)
+            , ILogger<EmployeeController> logger, IUploadImageHelper uploadImageHelper, IEmployeeRepository employeeRepository, UserManager<ApplicationUser> userManager)
         {
             _employeePageService = employeePageService;
             _departmentPageService = departmentPageService;
@@ -42,33 +46,51 @@ namespace Manage.WebApi.Controllers
             _webHostEnvironment = webHostEnvironment;
             _logger = logger;
             _uploadImageHelper = uploadImageHelper;
+            _employeeRepository = employeeRepository;
+            _userManager = userManager;
         }
 
         //GET api/employee
         [HttpGet]
-        //public async Task<ActionResult<IEnumerable<ApplicationViewDto>>> Get()
+       
         public async Task<IActionResult> Get()
         {
             var employeeList = await _employeePageService.GetEmployeeList();
-
+          
             if(employeeList == null)
             {
                 return NotFound();
             }
-            return Ok(employeeList);
-
-            //var employeeListTask = _employeePageService.GetEmployeeList();
-            ////employeeList.Wait();
-            ////Task.WaitAll(employeeListTask)
-            //var result = employeeListTask.Result;
-            //return Ok(result);
+            return Ok(employeeList);          
         }
 
-        //GET api/employee/{id}
+        //GET api/employee
+       // [HttpGet(Name = "SearchByEmail")]
+        [HttpGet("Search/{searchTerm}", Name = "Search")]
+        public async Task<IActionResult> Search( string searchTerm)
+        {
+            var employeeList = await _employeePageService.GetEmployeeList();
+            searchTerm = searchTerm.ToLower();
+            var result = employeeList.Where(
+                                             x => x.Email.ToLower().Contains(searchTerm)
+                                            || x.Department.Name.ToLower().Contains(searchTerm)
+                                            //|| x.Manager.ToLower().Contains(searchTerm)
+                                            || x.FullName.ToLower().Contains(searchTerm)
+                                            //|| x.Status.ToLower().Contains(searchTerm )
+                                            ).ToList();
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return Ok(result);
+        }
+
+   
         [HttpGet("{id}" , Name ="GetEmployeeOfficialDetailsById")]
         public async Task<ActionResult<ApplicationUserViewModel>> GetEmployeeOfficialDetailsById(string id)
         {
             var employee = await _employeePageService.GetEmployeeById(id);
+
             if (employee != null)
             {
                 return employee;
@@ -82,6 +104,8 @@ namespace Manage.WebApi.Controllers
         public async Task<ActionResult<EmployeePersonalDetailsViewModel>> GetEmployeePersonalDetailsById(string id)
         {
             var employeePersonalDetails = await _employeePersonalDetailsPageService.GetEmployeePersonalDetailsById(id);
+            employeePersonalDetails.FullName = employeePersonalDetails.ApplicationUser.FirstName + " " + employeePersonalDetails.ApplicationUser.LastName;
+  
             if (employeePersonalDetails != null)
             {
                 return employeePersonalDetails;
@@ -90,105 +114,104 @@ namespace Manage.WebApi.Controllers
 
         }
 
-        //POST api/employee
-        //[HttpPost]
-        //public CreatedAtRouteResult CreateEmployee(CreateEmployeeViewModel createEmployeeViewModel)
-        //{
-        //    var model = _mapper.Map<ApplicationUserViewModel>(createEmployeeViewModel);
-        //    model.Id = Guid.NewGuid().ToString();
-        //    var employeeTask = _employeePageService.CreateEmployee(model);
-        //    employeeTask.Wait();
-        //    var dto = _mapper.Map<EmployeeOfficialDetailsReadDto>(model);
-        //    return  CreatedAtRoute(nameof(GetEmployeeOfficialDetailsById), new { id = dto.Id }, dto);           
-        //}
-        ///------------------------------------------------------------------------------------------
-        //[HttpPost]
-        //public async Task<ActionResult<EmployeeOfficialDetailsReadDto>> CreateEmployee(CreateEmployeeViewModel model )
-        //{
-        //    if (model == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    var createFromDto = _mapper.Map<ApplicationUserViewModel>(model);
-        //    createFromDto.Id = Guid.NewGuid().ToString();
-        //    var employee = await _employeePageService.CreateEmployee(createFromDto);
-        //    var employeeDetailsReadDto = _mapper.Map<EmployeeOfficialDetailsReadDto>(createFromDto);
-        //    return CreatedAtRoute(nameof(GetEmployeeOfficialDetailsById), new { id = employeeDetailsReadDto.Id }, employeeDetailsReadDto);
-        //}
 
         [HttpPost]
-        public async Task<ActionResult<EmployeeOfficialDetailsReadDto>> CreateEmployee(CreateEmployeeDto model)
+        public async Task<ActionResult>CreateEmployee(CreateEmployeeViewModel model)
         {
             if (model == null)
             {
                 return NotFound();
             }
-            var createFromDto = _mapper.Map<ApplicationUserDto>(model);
-            createFromDto.Id = Guid.NewGuid().ToString();
-            var dtoMapped = _mapper.Map<ApplicationUserViewModel>(createFromDto);
-            var employee = await _employeePageService.CreateEmployee(dtoMapped);
-            return CreatedAtRoute(nameof(GetEmployeeOfficialDetailsById), new { id = createFromDto.Id }, createFromDto);
+            ApplicationUserViewModel user = new ApplicationUserViewModel();
+            user.Id = Guid.NewGuid().ToString();
+            user.Title = model.Title;
+            user.FirstName = model.FirstName;
+            user.MiddleName = model.MiddleName;
+            user.LastName = model.LastName;
+            user.Email = model.Email;
+            user.UserName = model.UserName;
+            user.Password = model.Password;
+            user.ConfirmPassword = model.ConfirmPassword;
+            user.JoiningDate = model.JoiningDate;
+            user.JobTitle = model.JobTitle;
+            user.Status = model.Status;
+            user.DaysWorkedInWeek = model.DaysWorkedInWeek;
+            user.NumberOfHoursWorkedPerDay = model.NumberOfHoursWorkedPerDay;
+            user.DepartmentId = model.DepartmentId;
+            user.Manager = model.Manager;
+
+            var result = await _employeePageService.CreateEmployee(user, model.Password);
+            return CreatedAtRoute(nameof(GetEmployeeOfficialDetailsById), new { id = user.Id }, null);
+
 
         }
 
 
-        [HttpPost("CreateEmployeePersonalDetails/{id}")]
-        public async Task<ActionResult<EmployeePersonalDetailsDto>> CreateEmployeePersonalDetails(CreateEmployeePersonalDetailsDto model ,string id)
+
+
+
+        [HttpPost("CreateEmployeePersonalDetails")]
+        public async Task<ActionResult<EmployeePersonalDetailsViewModel>> CreateEmployeePersonalDetails(
+          [FromForm]CreateEmployeePersonalDetailsViewModel model )
         {
-            model.Id = id;
-            var empOfficialDetails = await _employeePageService.GetEmployeeById(id);
+         
+            if(model.Photo.Length > 0)
+            {
+                var folderName = Path.Combine("Uploads", "img");
+                var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                var fullPath = Path.Combine(pathToSave, model.Photo.FileName);
+                using (var fileStream = new FileStream(fullPath, FileMode.Create))
+                {
+
+                    await model.Photo.CopyToAsync(fileStream);
+                }
+
+            }
+      
+            var empOfficialDetails = await _employeePageService.GetEmployeeById(model.Id);
             model.FullName = empOfficialDetails.FullName;
             // add async method requires an instance of EmployeePersonalDetailsViewModel
             //map the CreateEmployeePersonalDetailsDto with EmployeePersonalDetailsViewModel
             var mappedEmployeePersonalDetails = _mapper.Map<EmployeePersonalDetailsViewModel>(model);
-      
+            mappedEmployeePersonalDetails.PhotoPath = "https://localhost:44330/uploads/img/" + model.Photo.FileName;
+               
             //add using the mapped variable which is an instance of EmployeePersonalDetailsViewModel
             var newEmployeePersonalDetails = await _employeePersonalDetailsPageService.AddAsync(mappedEmployeePersonalDetails);
 
-            var employeePersonalDetailsReadDto = _mapper.Map<EmployeePersonalDetailsDto>(newEmployeePersonalDetails);
+            //var employeePersonalDetailsReadDto = _mapper.Map<EmployeePersonalDetailsDto>(newEmployeePersonalDetails);
+            //return NoContent();
+            return CreatedAtRoute(nameof(GetEmployeePersonalDetailsById), new { id = newEmployeePersonalDetails.Id }, newEmployeePersonalDetails);
 
-            return CreatedAtRoute(nameof(GetEmployeePersonalDetailsById), new { id = employeePersonalDetailsReadDto.Id }, employeePersonalDetailsReadDto);
-
-            //to get the url
-            //return CreatedAtRoute(nameof(GetEmployeePersonalDetailsById), new { id = model.Id }, model);
-
-            // //var modelFromRepo = await _employeePageService.GetEmployeeById(id);
-            // //if (modelFromRepo == null)
-            // //{
-            // //    return NotFound();
-            // //}
-
-            // //create and add to db
-            // var createEmployeePersonalDetails = _mapper.Map<EmployeePersonalDetailsViewModel>(model);
-            // //createEmployeePersonalDetails.Id = modelFromRepo.Id;
-            // //createEmployeePersonalDetails.FullName = modelFromRepo.FullName;
-            // var employee = await _employeePersonalDetailsPageService.AddAsync(createEmployeePersonalDetails);
-
-            // var employeePersonalDetailsReadDto = _mapper.Map<EmployeePersonalDetailsReadDto>(createEmployeePersonalDetails);
-
-            // return CreatedAtRoute(nameof(GetEmployeePersonalDetailsById), new { id = employeePersonalDetailsReadDto.Id }, employeePersonalDetailsReadDto);
-
-            //// return employee;
+        
         }
 
         [HttpPut("{id}")]
-        public  async Task<ActionResult> Update(string id , EditEmployeeOfficialDetailsDto model)
+        public  async Task<ActionResult> Update(string id , EditEmployeeOfficialDetailsViewModel model)
         {
-            model.Id = id;
-            var modelFromRepo = await _employeePageService.GetEmployeeById(id);
-            if(modelFromRepo == null)
-            {
-                return NotFound();
-            }
-            //source(existing) , map to modelFromrepo) 
-            var mapped = _mapper.Map(model, modelFromRepo);
-            await _employeePageService.Update(modelFromRepo);
+
+            ApplicationUser user = await _userManager.FindByIdAsync(id);
+            user.FirstName = model.FirstName;
+            user.MiddleName = model.MiddleName;
+            user.LastName = model.LastName;
+            user.UserName = model.UserName;
+            user.Email = model.Email;
+            user.JoiningDate = model.JoiningDate;
+            user.JobTitle = model.JobTitle;
+            user.Status = model.Status;
+            user.DaysWorkedInWeek = model.DaysWorkedInWeek;
+            user.NumberOfHoursWorkedPerDay = model.NumberOfHoursWorkedPerDay;
+            user.DepartmentId = model.DepartmentId;
+            user.Manager = model.Manager;
+            user.Id = id;
+
+           await _userManager.UpdateAsync(user);
+         
             return NoContent();
         }
 
 
         [HttpPut("UpdateOfficialDetailsByAdmin/{id}")]
-        public async Task<ActionResult> UpdateOfficialDetailsByAdmin(string id, EditEmployeeOfficialDetailsDto model)
+        public async Task<ActionResult> UpdateOfficialDetailsByAdmin(string id, EditEmployeeOfficialDetailsViewModel model)
         {
             model.Id = id;
             var modelFromRepo = await _employeePageService.GetEmployeeById(id);
@@ -204,15 +227,45 @@ namespace Manage.WebApi.Controllers
 
 
         [HttpPut("UpdateEmployeePersonalDetails/{id}")]
-        public async Task<ActionResult> UpdateEmployeePersonalDetails(string id , EditEmployeePersonalDetailsViewModel model)
+        public async Task<ActionResult> UpdateEmployeePersonalDetails(string id, 
+            [FromForm] EditEmployeePersonalDetailsViewModel model)
         {
+
+            string fileName = null;
             model.Id = id;
             var modelFromRepo = await _employeePersonalDetailsPageService.GetEmployeePersonalDetailsById(id);
-            if(modelFromRepo == null)
+
+            if (modelFromRepo == null)
             {
                 return NotFound();
             }
-            var mapped = _mapper.Map(model, modelFromRepo);
+
+             if (model.Photo != null)
+            {
+                var folderName = Path.Combine("Uploads", "img");
+                var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                fileName = Guid.NewGuid() + "_" + model.Photo.FileName;
+                var fullPath = Path.Combine(pathToSave, fileName);
+                using (var fileStream = new FileStream(fullPath, FileMode.Create))
+                {
+
+                    await model.Photo.CopyToAsync(fileStream);
+                }
+
+                modelFromRepo.PhotoPath = "https://localhost:44330/uploads/img/" + fileName;
+
+            }
+            else
+            {
+                modelFromRepo.PhotoPath = model.ExistingPhotoPath;
+            }
+         
+            
+            // Map (source, destination)
+            _mapper.Map(model, modelFromRepo);
+
+
+
             await _employeePersonalDetailsPageService.UpdateAsync(modelFromRepo);
             return NoContent();
 
@@ -262,54 +315,6 @@ namespace Manage.WebApi.Controllers
             await _employeePersonalDetailsPageService.UpdateAsync(modelFromRepo);
             return NoContent();
         }
-
-
-        //public async Task<IActionResult> EmployeeOfficialDetails(string id)
-        //public async Task<IActionResult> EmployeeList()
-        //{
-
-        //    _logger.LogInformation($"Employee List Requested");
-
-        //    try
-        //    {
-        //        var empList = await _employeePageService.GetEmployeeList();
-        //        List<EmployeeListViewModel> employeeList = new List<EmployeeListViewModel>();
-        //        foreach (var emp in empList)
-        //        {
-        //            EmployeeListViewModel list = new EmployeeListViewModel();
-        //            list.Id = emp.Id;
-        //            list.FirstName = emp.FirstName;
-        //            list.MiddleName = emp.MiddleName;
-        //            list.LastName = emp.LastName;
-        //            list.Department = emp.Department;
-        //            list.JobTitle = emp.JobTitle;
-        //            list.Status = emp.Status;
-        //            list.Manager = emp.Manager;
-        //            list.Email = emp.Email;
-        //            list.EmployeePersonalDetails = emp.EmployeePersonalDetails;
-
-        //            employeeList.Add(list);
-        //        }
-        //        return View(employeeList);
-        //    }
-        //    catch(Exception ex)
-        //    {
-        //        _logger.LogError(ex.Message);
-        //        throw; 
-        //    }
-        //    //var model = new EditEmployeeOfficialDetailsAdminViewModel
-        //    //{
-        //    //    Title = "Blah Blah",
-        //    //    Id = "a9067a75-b6ee-4c23-a3e2-f19648957347"
-        //    //};
-
-        //    //var mapped = _mapper.Map<ApplicationUserViewModel>(model);
-
-        //    //await _employeePageService.Update(mapped);
-
-        //    //return null;
-        //}
-
         //[AcceptVerbs("Get", "Post")]
         //[AllowAnonymous]
         //public async Task<IActionResult> IsEmailInUse(string email)
@@ -325,249 +330,6 @@ namespace Manage.WebApi.Controllers
         //        return Json($"Email '{email}' is already in use.");
         //    }
 
-        //}
-
-
-        //[HttpGet]
-        //public async Task<IActionResult> CreateEmployee()
-        //{
-        //    var dList = await _departmentPageService.GetDepartmentList();
-
-        //    var deptList = dList.Select(dept => new SelectListItem()
-        //    {
-        //        Text = dept.Name,
-        //        Value = dept.Id.ToString()
-        //    }).ToList();
-
-        //    deptList.Insert(0, new SelectListItem()
-        //    {
-        //        Text = "----Select----",
-        //        Value = string.Empty
-        //    });
-
-        //    CreateEmployeeViewModel model = new CreateEmployeeViewModel();
-        //    model.departmentList = deptList;
-        //    return View(model);
-        //}
-
-        //[HttpPost]
-        //public async Task<IActionResult> CreateEmployee(CreateEmployeeViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        ApplicationUserViewModel user = new ApplicationUserViewModel();
-        //        user.Id = Guid.NewGuid().ToString();
-
-        //        if (user.Status == "Full-Time")
-        //        {
-        //            user.DaysWorkedInWeek = 5;
-        //            user.NumberOfHoursWorkedPerDay = 7.6;
-        //        }
-        //        else
-        //        {
-        //            user.DaysWorkedInWeek = model.DaysWorkedInWeek;
-        //            user.NumberOfHoursWorkedPerDay = model.NumberOfHoursWorkedPerDay;
-        //        }
-
-        //        user.Title = model.Title;
-        //        user.FirstName = model.FirstName;
-        //        user.MiddleName = model.MiddleName;
-        //        user.LastName = model.LastName;
-        //        user.Email = model.Email;
-        //        user.UserName = model.UserName;
-        //        user.Password = model.Password;
-        //        user.ConfirmPassword = model.ConfirmPassword;
-        //        user.JoiningDate = model.JoiningDate;
-        //        user.JobTitle = model.JobTitle;
-        //        user.Status = model.Status;
-        //        user.DepartmentId = model.DepartmentId;
-        //        user.Manager = model.Manager;
-
-        //        var result = await _employeePageService.CreateEmployee(user);
-        //        if (result.Succeeded)
-        //        {
-        //            return RedirectToAction("EmployeeList", "Employee");
-        //        }
-        //        foreach (var errors in result.Errors)
-        //        {
-        //            ModelState.AddModelError(string.Empty, errors.Description);
-        //        }
-        //    }
-        //    return View(model);
-        //}
-
-        //public async Task<IActionResult>EmployeeOfficialDetails(string id)
-        //{
-
-        //    try
-        //    {
-        //        var employeeDetails = await _employeePageService.GetEmployeeById(id);
-        //        if (employeeDetails != null)
-        //        {
-        //            return View(employeeDetails);
-        //        }
-        //        else
-        //        {
-        //            //Response.StatusCode = 404;
-        //            _logger.LogError($"Employee not found {id}");
-        //            return View("EmployeeNotFound", id);
-        //        }
-
-        //    }
-        //    catch(Exception ex)
-        //    {
-        //        _logger.LogError(ex.Message);
-        //        throw;
-        //    }
-
-
-        //}
-
-        //[HttpGet]
-        //public async Task<IActionResult>EditEmployeeOfficialDetailsAdmin(string id)
-        //{
-        //    var empDetails = await _employeePageService.GetEmployeeById(id);
-        //    var employeeDetails = _mapper.Map<EditEmployeeOfficialDetailsAdminViewModel>(empDetails);
-        //    var dList = await _departmentPageService.GetDepartmentList();
-
-        //    var deptList = dList.Select(dept => new SelectListItem()
-        //    {
-        //        Text = dept.Name,
-        //        Value = dept.Id.ToString()
-        //    }).ToList();
-
-        //    deptList.Insert(0, new SelectListItem()
-        //    {
-        //        Text = "----Select----",
-        //        Value = string.Empty
-        //    });
-        //    employeeDetails.departmentList = deptList;
-
-        //    return View(employeeDetails);
-        //}
-
-        //[HttpPost]
-        //public async Task<IActionResult> EditEmployeeOfficialDetailsAdmin(EditEmployeeOfficialDetailsAdminViewModel model)
-        //{ 
-        //    if(ModelState.IsValid)
-        //    {
-        //        var mapped = _mapper.Map<ApplicationUserViewModel>(model);
-        //        await  _employeePageService.Update(mapped);
-        //        return RedirectToAction("EmployeeOfficialDetails", new { id = mapped.Id });
-        //    }
-        //    return View();
-        //}
-
-        //[HttpGet]
-        //public async Task<IActionResult> EditEmployeeOfficialDetails(string id)
-        //{
-        //    var empDetails =  await _employeePageService.GetEmployeeById(id);
-        //    var employeeDetails = _mapper.Map<EditEmployeeOfficialDetailsViewModel>(empDetails);
-        //    return View(employeeDetails);
-        //}
-
-        //[HttpPost]
-        //public async Task<IActionResult> EditEmployeeOfficialDetails(EditEmployeeOfficialDetailsViewModel model)
-        //{
-        //    if(ModelState.IsValid)
-        //    {
-        //       var mapped =  _mapper.Map<ApplicationUserViewModel>(model);
-        //        await _employeePageService.Update(mapped);
-        //        return RedirectToAction("EmployeeOfficialDetails", new { id = mapped.Id });
-        //    }
-        //    return View();
-
-        //}
-
-
-        //[HttpGet]
-        //public async Task<IActionResult> CreateEmployeePersonalDetails(string id)
-        //{
-        //    var user = await _employeePageService.GetEmployeeById(id);
-        //    CreateEmployeePersonalDetailsViewModel model = new CreateEmployeePersonalDetailsViewModel();
-        //    model.FullName = user.FullName;
-        //    return View(model);
-        //}
-
-        //[HttpPost]
-        //public async Task<IActionResult> CreateEmployeePersonalDetails(CreateEmployeePersonalDetailsViewModel model)
-        //{
-        //    if(ModelState.IsValid)
-        //    {
-        //        PhotoUploadViewModel photoUploadViewModel = new PhotoUploadViewModel();
-        //        photoUploadViewModel.Photo = model.Photo;
-        //        var uploadedImage = _uploadImageHelper.UploadImage(photoUploadViewModel);
-        //        model.PhotoPath = uploadedImage.uniqueFileName;
-
-        //        //mapping
-        //        var empDetails = _mapper.Map<EmployeePersonalDetailsViewModel>(model);
-        //        var employeePersonalDetails = await _employeePersonalDetailsPageService.AddAsync(empDetails);
-        //        return RedirectToAction("EmployeePersonalDetails", new { id = empDetails.Id });
-        //    }
-        //    else
-        //    {
-        //        return View();
-        //    }  
-        //}
-
-        //public async Task<IActionResult> EmployeePersonalDetails(string id)
-        //{
-        //    var emp = await _employeePageService.GetEmployeeById(id);
-        //    if(emp.EmployeePersonalDetails == null)
-        //    {
-        //        return RedirectToAction("CreateEmployeePersonalDetails", new { id = emp.Id });
-        //    }
-        //    else
-        //    {
-        //        var employee = await _employeePersonalDetailsPageService.GetEmployeePersonalDetailsById(id);
-        //        employee.FullName = emp.FullName;
-        //        employee.PhotoPath = emp.EmployeePersonalDetails.PhotoPath;
-        //        return View(employee);
-        //    }
-
-        //}
-
-        //[HttpGet]
-        //public async Task<IActionResult> EditEmployeePersonalDetails(string id)
-        //{
-        //    var emp = await _employeePageService.GetEmployeeById(id);
-        //    var empDetails = await _employeePersonalDetailsPageService.GetEmployeePersonalDetailsById(id);
-
-        //        var employeePersonalDetails = _mapper.Map<EditEmployeePersonalDetailsViewModel>(empDetails);
-        //        employeePersonalDetails.FullName = emp.FullName;
-        //        employeePersonalDetails.ExistingPhotoPath = empDetails.PhotoPath;
-        //        return View(employeePersonalDetails);
-
-
-        //}
-
-        //[HttpPost]
-        //public async Task<IActionResult> EditEmployeePersonalDetails(EditEmployeePersonalDetailsViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        //mapping
-        //        var empDetails = _mapper.Map<EmployeePersonalDetailsViewModel>(model);
-        //        //upload image
-        //        //var uniqueFileName = "";
-        //        if (model.ExistingPhotoPath == null || empDetails.PhotoPath != model.ExistingPhotoPath)
-        //        {
-        //            PhotoUploadViewModel photoUploadViewModel = new PhotoUploadViewModel();
-        //            photoUploadViewModel.Photo = model.Photo;
-        //            var uploadedImage = _uploadImageHelper.UploadImage(photoUploadViewModel);
-        //            empDetails.PhotoPath = uploadedImage.uniqueFileName;
-        //        }
-        //        else
-        //        {
-        //            empDetails.PhotoPath = model.ExistingPhotoPath;
-        //        }
-        //        var employeePersonalDetails = await _employeePersonalDetailsPageService.UpdateAsync(empDetails);
-        //        return RedirectToAction("EmployeePersonalDetails" , new { id = empDetails.Id });
-        //    }
-        //    else
-        //    {
-        //        return View();
-        //    }
         //}
 
     }

@@ -29,6 +29,8 @@ namespace Manage.Web.ViewModels
         public double BalanceAnnualLeave { get; set; }
         [DisplayName("Sick Leave")]
         public double BalanceSickLeave { get; set; }
+        public LeaveViewModel Leave { get; set; }
+        //public ApplicationUserViewModel Emp {get;set;}
 
     }
 }

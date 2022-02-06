@@ -21,17 +21,16 @@ namespace Manage.Application.Models
         }
 
         [DisplayName("Leave Type")]
-        [Required]
         public string LeaveType { get; set; }
+
         public string LeaveStatus { get; set; }
         [Required]
         public DateTime FromDate { get; set; }
         [Required]
-        //[TillDateMustBeEqualOrGreaterThanFromDate]
         public DateTime TillDate { get; set; }
-        [Required]
+
         public string Duration { get; set; }
-        [Required]
+
         public string Reason { get; set; }
         public string Comment { get; set; }
 

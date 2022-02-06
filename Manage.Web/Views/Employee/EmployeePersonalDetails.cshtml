@@ -20,17 +20,17 @@
 }
 
 
-<section class="content">
-    <div class="container-fluid">
-        <div class="card card-default">
-            <div class="card-header">
-                <h3 class="card-title">Employee Personal Details</h3>
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-lg p-3 mb-5">
+            <div class="card-header border-0">
+                <h3 class="card-title cardTitle">Employee Personal Details</h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <label asp-for="FullName" class="col-auto col-form-label small form-text">Employee Name</label>
+                        <label asp-for="FullName" class="col-auto col-form-label text-sm">Employee Name</label>
                         <div class="col">
                             <p asp-for="FullName" class="form-control" type="text">@Model.FullName</p>
                         </div>
@@ -41,47 +41,50 @@
                         </div>
                     </div>
                 </div>
-                <div class="form row">
-                    <div class="form-group col-md-6">
-                        <label asp-for="DateOfBirth" class="col-auto col-form-label small form-text">Date Of Birth</label>
-                        <div class="col">
-                            <p asp-for="DateOfBirth" class="form-control" type="date" placeholder="Date of Birth">@Model.DateOfBirth.ToShortDateString()</p>
+                <p class="formSubHeading">Employee Profile</p>
+                <div class="form-group">
+                    <div class="form row">
+                        <div class="form-group col-md-6">
+                            <label asp-for="DateOfBirth" class="col-auto col-form-label text-sm">Date Of Birth</label>
+                            <div class="col">
+                                <p asp-for="DateOfBirth" class="form-control" type="date" placeholder="Date of Birth">@Model.DateOfBirth.ToShortDateString()</p>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="Nationality" class="col-auto col-form-label text-sm"></label>
+                            <div class="col">
+                                <p asp-for="Nationality" class="form-control" placeholder="Nationality">@Model.Nationality</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group col-md-6">
-                        <label asp-for="Nationality" class="col-auto col-form-label small form-text"></label>
-                        <div class="col">
-                            <p asp-for="Nationality" class="form-control" placeholder="Nationality">@Model.Nationality</p>
+                    <div class="form row">
+                        <div class="form-group col-md-6">
+                            <label asp-for="MaritalStatus" class="col-auto col-form-label text-sm">Marital Status</label>
+                            <div class="col">
+                                <p asp-for="MaritalStatus" class="form-control" placeholder="MaritalStatus">@Model.MaritalStatus</p>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="Gender" class="col-auto col-form-label text-sm"></label>
+                            <div class="=col">
+                                <p asp-for="Gender" class="form-control" placeholder="Gender">@Model.Gender</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="form row">
-                    <div class="form-group col-md-6">
-                        <label asp-for="MaritalStatus" class="col-auto col-form-label small form-text">Marital Status</label>
-                        <div class="col">
-                            <p asp-for="MaritalStatus" class="form-control" placeholder="MaritalStatus">@Model.MaritalStatus</p>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label asp-for="Gender" class="col-auto col-form-label small form-text"></label>
-                        <div class="=col">
-                            <p asp-for="Gender" class="form-control" placeholder="Gender">@Model.Gender</p>
-                        </div>
-                    </div>
-                </div>
+             
 
-                <p>Employee Addresss</p>
+                <p class="formSubHeading">Employee Addresss</p>
                 <div class="form-group mt-3">
-                    <div class="col">
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label asp-for="HouseNumber" class="col-auto col-form-label small form-text"></label>
+                                <label asp-for="HouseNumber" class="col-auto col-form-label text-sm"></label>
                                 <div class="col">
                                     <p asp-for="HouseNumber" class="form-control" placeholder="Gender">@Model.HouseNumber</p>
                                 </div>
                             </div>
                             <div class="form-group col-md-6">
-                                <label asp-for="Street" class="col-auto col-form-label small form-text"></label>
+                                <label asp-for="Street" class="col-auto col-form-label text-sm"></label>
                                 <div class="col">
                                     <p asp-for="Street" class="form-control" placeholder="Street">@Model.Street</p>
                                 </div>
@@ -89,13 +92,13 @@
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label asp-for="City" class="col-auto col-form-label small form-text"></label>
+                                <label asp-for="City" class="col-auto col-form-label text-sm"></label>
                                 <div class="col">
                                     <p asp-for="City" class="form-control" placeholder="City">@Model.City</p>
                                 </div>
                             </div>
                             <div class="form-group col-md-6">
-                                <label asp-for="State" class="col-auto col-form-label small form-text"></label>
+                                <label asp-for="State" class="col-auto col-form-label text-sm"></label>
                                 <div class="col">
                                     <p asp-for="State" class="form-control" placeholder="State">@Model.State</p>
                                 </div>
@@ -103,60 +106,63 @@
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label asp-for="Country" class="col-auto col-form-label small form-text"></label>
+                                <label asp-for="Country" class="col-auto col-form-label text-sm"></label>
                                 <div class="col">
                                     <p asp-for="Country" class="form-control" placeholder="Country">@Model.Country</p>
                                 </div>
                             </div>
                             <div class="form-group col-md-6">
-                                <label asp-for="ZipCode" class="col-auto col-form-label small form-text"></label>
+                                <label asp-for="ZipCode" class="col-auto col-form-label text-sm"></label>
                                 <div class="col">
                                     <p asp-for="ZipCode" class="form-control" placeholder="ZipCode">@Model.ZipCode</p>
                                 </div>
                             </div>
                         </div>
-                    </div>
                 </div>
 
-                <p>Banking Details</p>
-                <div class="form-row mt-3">
-                    <div class="form-group col-md-6">
-                        <label asp-for="BankName" class="col-auto col-form-label small form-text"></label>
+                <p class="formSubHeading">Banking Details</p>
+               <div class="form-group mt-3">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                        <label asp-for="BankName" class="col-auto col-form-label text-sm"></label>
                         <div class="col">
                             <p asp-for="BankName" class="form-control" placeholder="BankName">@Model.BankName</p>
                         </div>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label asp-for="Branch" class="col-auto col-form-label small form-text"></label>
+                        </div>
+                        <div class="form-group col-md-6">
+                        <label asp-for="Branch" class="col-auto col-form-label text-sm"></label>
                         <div class="col">
                             <p asp-for="Branch" class="form-control" placeholder="Branch">@Model.Branch</p>
                         </div>
                     </div>
-                    <div class="form-group col-md-6">
-                        <label asp-for="AccountName" class="col-auto col-form-label small form-text"></label>
-                        <div class="col">
-                            <p asp-for="AccountName" class="form-control" placeholder="AccountName">@Model.AccountName</p>
-                        </div>
                     </div>
-                    <div class="form-group col-md-6">
-                        <label asp-for="AccountNumber" class="col-auto col-form-label small form-text"></label>
-                        <div class="col">
-                            <p asp-for="AccountNumber" class="form-control" placeholder="AccountNumber">@Model.AccountNumber</p>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label asp-for="AccountName" class="col-auto col-form-label text-sm"></label>
+                            <div class="col">
+                                <p asp-for="AccountName" class="form-control" placeholder="AccountName">@Model.AccountName</p>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="AccountNumber" class="col-auto col-form-label text-sm"></label>
+                            <div class="col">
+                                <p asp-for="AccountNumber" class="form-control" placeholder="AccountNumber">@Model.AccountNumber</p>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <p>Employee Emergency Contact Details</p>
+                <p  class="formSubHeading">Employee Emergency Contact Details</p>
                 <div class="form-group mt-3">
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label asp-for="EmergencyContact" class="col-auto col-form-label small form-text"></label>
+                            <label asp-for="EmergencyContact" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <p asp-for="EmergencyContact" class="form-control" placeholder="EmergencyContact">@Model.EmergencyContact</p>
                             </div>
                         </div>
                         <div class="form-group col-md-6">
-                            <label asp-for="Relationship" class="col-auto col-form-label small form-text"></label>
+                            <label asp-for="Relationship" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <p asp-for="Relationship" class="form-control" placeholder="Relationship">@Model.Relationship</p>
                             </div>
@@ -164,7 +170,7 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label asp-for="EmergencyContactPhoneNumber" class="col-auto col-form-label small form-text"></label>
+                            <label asp-for="EmergencyContactPhoneNumber" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <p asp-for="EmergencyContactPhoneNumber" class="form-control" placeholder="EmergencyContactPhoneNumber">@Model.EmergencyContactPhoneNumber</p>
                             </div>
@@ -172,13 +178,13 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label asp-for="EmergencyContactHouseNumber" class="col-auto col-form-label small form-text"></label>
+                            <label asp-for="EmergencyContactHouseNumber" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <p asp-for="EmergencyContactHouseNumber" class="form-control" placeholder="EmergencyContactHouseNumber">@Model.EmergencyContactHouseNumber</p>
                             </div>
                         </div>
                         <div class="form-group col-md-6">
-                            <label asp-for="EmergencyContactStreet" class="col-auto col-form-label small form-text"></label>
+                            <label asp-for="EmergencyContactStreet" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <p asp-for="EmergencyContactStreet" class="form-control" placeholder="EmergencyContactStreet">@Model.EmergencyContactStreet</p>
                             </div>
@@ -186,13 +192,13 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label asp-for="EmergencyContactCity" class="col-auto col-form-label small form-text"></label>
+                            <label asp-for="EmergencyContactCity" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <p asp-for="EmergencyContactCity" class="form-control" placeholder="EmergencyContactCity">@Model.EmergencyContactCity</p>
                             </div>
                         </div>
                         <div class="form-group col-md-6">
-                            <label asp-for="EmergencyContactState" class="col-auto col-form-label small form-text"></label>
+                            <label asp-for="EmergencyContactState" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <p asp-for="EmergencyContactState" class="form-control" placeholder="EmergencyContactState">@Model.EmergencyContactState</p>
                             </div>
@@ -200,13 +206,13 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label asp-for="EmergencyContactCountry" class="col-auto col-form-label small form-text"></label>
+                            <label asp-for="EmergencyContactCountry" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <p asp-for="EmergencyContactCountry" class="form-control" placeholder="EmergencyContactCountry">@Model.EmergencyContactCountry</p>
                             </div>
                         </div>
                         <div class="form-group col-md-6">
-                            <label asp-for="EmergencyContactZipCode" class="col-auto col-form-label small form-text"></label>
+                            <label asp-for="EmergencyContactZipCode" class="col-auto col-form-label text-sm"></label>
                             <div class="col">
                                 <p asp-for="EmergencyContactZipCode" class="form-control" placeholder="EmergencyContactZipCode">@Model.EmergencyContactZipCode</p>
                             </div>
@@ -215,7 +221,7 @@
                 </div>
                 <div class="form-row mt-3 text-center">
                     <div class="col-md-6">
-                        <a asp-action="EditEmployeePersonalDetails" asp-controller="Employee" asp-route-id="@Model.Id" class="btn btn-outline-success m-5 ">Edit</a>
+                        <a asp-action="EditEmployeePersonalDetails" asp-controller="Employee" asp-route-id="@Model.Id" class="btn btn-outline-info m-5 ">Edit</a>
                     </div>
                     <div class="col-md-6">
                         <a asp-action="EmployeeOfficialDetails" asp-controller="Employee" asp-route-id="@Model.Id" class="btn btn-outline-secondary m-5 ">Back</a>
@@ -226,4 +232,4 @@
         </div>
         <!--/.card-->
     </div>
-</section>
+</div>

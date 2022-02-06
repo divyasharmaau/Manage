@@ -11,7 +11,7 @@ namespace Manage.Core.Repository
    public interface IEmployeeRepository 
     {
         Task<IEnumerable<ApplicationUser>> GetAllEmployeeList();
-        Task<IdentityResult> Create(ApplicationUser user);
+        Task<IdentityResult> Create(ApplicationUser user, string password);
         Task<ApplicationUser> GetEmployeeById(string id);
         //Task<IdentityResult> Update(ApplicationUser user);
         Task Update(ApplicationUser user);

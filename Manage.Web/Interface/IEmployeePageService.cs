@@ -9,7 +9,7 @@ namespace Manage.Web.Interface
 {
    public interface IEmployeePageService
     {
-        Task<IdentityResult> CreateEmployee(ApplicationUserViewModel user);
+        Task<IdentityResult> CreateEmployee(ApplicationUserViewModel user, string password);
         Task<IEnumerable<ApplicationUserViewModel>> GetEmployeeList();
         Task<ApplicationUserViewModel> GetEmployeeById(string empId);
         //Task<IdentityResult> Update(ApplicationUserViewModel model);
