@@ -10,7 +10,7 @@ https://manageapi2022.azurewebsites.net/
 ## Features
 - Login as Demo Admin or Demo User
 - Different sections of the menu are visible according to the role of the user logged in
-- Forget Password using Gmail
+- Forget Password via Google SMTP services
 
 The Application has following sections. Each section consists of features which are accessible according to the user's role:
 
@@ -18,7 +18,7 @@ The Application has following sections. Each section consists of features which 
 
  Administrator
  - Employee List with pagination and sorting
-- Create and Edit Official Profile of the employee 
+- Create and Edit Profile of the employee 
 
 Registered User/Employee
 - Create and Edit Official and Personal Profile of the employee
