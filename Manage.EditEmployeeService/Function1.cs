@@ -16,8 +16,9 @@ namespace Manage.EditEmployeeService
         public static void Run([ServiceBusTrigger("employee", "EditEmployee", Connection = "manageConnection")]
         string mySbMsg, ILogger log)
         {
+            string connectionString = GetSqlAzureConnectionString("manageDbConnection");
             var optionsBuilder = new DbContextOptionsBuilder<ManageContext>();
-            optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["manageDbConnection"].ConnectionString);
+            optionsBuilder.UseSqlServer(connectionString);
 
             log.LogInformation($"C# ServiceBus topic trigger function received message: {mySbMsg}");
 
@@ -38,10 +39,12 @@ namespace Manage.EditEmployeeService
             }
         }
 
-        private static string GetEnvironmentVariable(string name)
+        public static string GetSqlAzureConnectionString(string name)
         {
-            return name + ": " +
-                System.Environment.GetEnvironmentVariable(name, EnvironmentVariableTarget.Process);
+            string conStr = System.Environment.GetEnvironmentVariable($"ConnectionStrings:{name}", EnvironmentVariableTarget.Process);
+            if (string.IsNullOrEmpty(conStr)) // Azure Functions App Service naming convention
+                conStr = System.Environment.GetEnvironmentVariable($"SQLAZURECONNSTR_{name}", EnvironmentVariableTarget.Process);
+            return conStr;
         }
     }
 }
