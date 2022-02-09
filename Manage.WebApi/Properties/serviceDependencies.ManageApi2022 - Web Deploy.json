@@ -4,7 +4,7 @@
       "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/managewebdbserver/databases/Manage.WebApi_db",
       "type": "mssql.azure",
       "connectionId": "ConnectionStrings:ManageConnection",
-      "secretStore": null
+      "secretStore": "AzureAppSettings"
     }
   }
 }

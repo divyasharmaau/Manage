@@ -14,6 +14,8 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using X.PagedList;
+using Azure.Messaging.ServiceBus;
+using Newtonsoft.Json;
 
 namespace Manage.Web.Controllers
 { 
@@ -28,6 +30,7 @@ namespace Manage.Web.Controllers
         private readonly ILogger<EmployeeController> _logger;
         private readonly IUploadImageHelper _uploadImageHelper;
         private readonly UserManager<ApplicationUser> _userManager;
+       
 
         public EmployeeController(IEmployeePageService employeePageService , IDepartmentPageService departmentPageService  
             ,IEmployeePersonalDetailsPageService employeePersonalDetailsPageService
@@ -110,9 +113,7 @@ namespace Manage.Web.Controllers
             {
                 _logger.LogError(ex.Message);
                 throw; 
-            }
-
-           
+            }          
       
         }
 
@@ -248,8 +249,7 @@ namespace Manage.Web.Controllers
             {
                 _logger.LogError(ex.Message);
                 throw;
-            }
-           
+            }         
 
         }
 
@@ -283,6 +283,7 @@ namespace Manage.Web.Controllers
             {
                 var mapped = _mapper.Map<ApplicationUserViewModel>(model);
                 await  _employeePageService.Update(mapped);
+
                 return RedirectToAction("EmployeeOfficialDetails", new { id = mapped.Id });
             }
             return View();

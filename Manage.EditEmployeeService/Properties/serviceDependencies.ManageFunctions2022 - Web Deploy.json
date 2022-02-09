@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "storage1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Storage/storageAccounts/manageeditemployeeservic",
+      "type": "storage.azure",
+      "connectionId": "AzureWebJobsStorage"
+    },
+    "mssql1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/managewebdbserver/databases/Manage.WebApi_db",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:manageDbConnection",
+      "secretStore": "AzureAppSettings"
+    }
+  }
+}
