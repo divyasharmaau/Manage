@@ -30,7 +30,21 @@ namespace Manage.Web.Controllers
         private readonly ILogger<EmployeeController> _logger;
         private readonly IUploadImageHelper _uploadImageHelper;
         private readonly UserManager<ApplicationUser> _userManager;
-       
+
+        static string connectionString = "Endpoint=sb://manage.servicebus.windows.net/;SharedAccessKeyName=Send;SharedAccessKey=qH4+BW3uqkCQ5LZQeOe5MiFDOKgNznJmHuMmTbavebM=;EntityPath=employee";
+
+        // name of your Service Bus topic
+        static string topicName = "employee";
+
+        // the client that owns the connection and can be used to create senders and receivers
+        static ServiceBusClient client;
+
+        // the sender used to publish messages to the topic
+        static ServiceBusSender sender;
+
+        // number of messages to be sent to the topic
+        private const int numOfMessages = 3;
+
 
         public EmployeeController(IEmployeePageService employeePageService , IDepartmentPageService departmentPageService  
             ,IEmployeePersonalDetailsPageService employeePersonalDetailsPageService
@@ -284,6 +298,9 @@ namespace Manage.Web.Controllers
                 var mapped = _mapper.Map<ApplicationUserViewModel>(model);
                 await  _employeePageService.Update(mapped);
 
+                await PublishApplicationUser(mapped);
+
+
                 return RedirectToAction("EmployeeOfficialDetails", new { id = mapped.Id });
             }
             return View();
@@ -304,10 +321,42 @@ namespace Manage.Web.Controllers
             {
                var mapped =  _mapper.Map<ApplicationUserViewModel>(model);
                 await _employeePageService.Update(mapped);
+
                 return RedirectToAction("EmployeeOfficialDetails", new { id = mapped.Id });
             }
             return View();
 
+        }
+
+        private static async Task PublishApplicationUser(ApplicationUserViewModel emp)
+        {
+            // Publish a message to service bus
+
+            client = new ServiceBusClient(connectionString);
+            sender = client.CreateSender(topicName);
+
+            try
+            {
+                var svbm = JsonConvert.SerializeObject(emp);
+
+                var message = new ServiceBusMessage(svbm);
+                message.To = "EditEmployee";
+
+                // Use the producer client to send the batch of messages to the Service Bus topic
+                await sender.SendMessageAsync(message);
+
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                // Calling DisposeAsync on client types is required to ensure that network
+                // resources and other unmanaged objects are properly cleaned up.
+                await sender.DisposeAsync();
+                await client.DisposeAsync();
+            }
         }
 
 
